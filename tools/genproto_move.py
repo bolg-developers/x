@@ -22,7 +22,8 @@ if len(sys.argv) != 2:
 PROJ_NAME = sys.argv[1]
 
 GENPROTO_DIR = "genproto/"+PROJ_NAME
-if not os.path.exists(GENPROTO_DIR):
+if os.path.exists(GENPROTO_DIR):
+  shutil.rmtree(GENPROTO_DIR)
   os.mkdir(GENPROTO_DIR)
 
 BASE_DIR = './bazel-bin/api/{}/chat_go_grpc/api'.format(PROJ_NAME)

@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 
 proto_library(
-    name = "chat_proto",
+    name = "bolgchat_proto",
     srcs = [
         "chat.proto",
         "room.proto",
@@ -16,7 +16,7 @@ go_proto_library(
     name = "chat_go_proto",
     compilers = ["@io_bazel_rules_go//proto:go_grpc"],
     importpath = "github.com/bolg-developers/x/genproto/bolgchat/v1",
-    proto = ":chat_proto",
+    proto = ":bolgchat_proto",
     visibility = ["//visibility:public"],
 )
 
@@ -33,6 +33,6 @@ load("@build_stack_rules_proto//go:go_grpc_compile.bzl", "go_grpc_compile")
 
 go_grpc_compile(
     name = "chat_go_grpc",
-    deps = [":chat_proto"],
+    deps = [":bolgchat_proto"],
 )
 # ** [END] COPY FROM https://github.com/stackb/rules_proto/tree/master/go#go_grpc_compile **
