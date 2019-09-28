@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package bolgchat;
+
+option go_package = "github.com/bolg-developers/x/genproto/bolgchat/v1;bolgchat";
+option java_multiple_files = true;
+option java_outer_classname = "RoomProto";
+option java_package = "org.bolg_developers.bolgchat.v1";
+
+service RoomService {
+  rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse);
+  rpc JoinRoom(JoinRoomRequest) returns (JoinRoomResponse);
+}
+
+message CreateRoomRequest {}
+
+message CreateRoomResponse {
+  Room room = 1;
+
+  // このルームの誰であるかということを認可するためのJWT。
+  string token = 2;
+}
+
+message JoinRoomRequest {
+  int64 room_id = 1;
+  Person person = 2;
+}
+
+message JoinRoomResponse {
+  Room room = 1;
+
+  // このルームの誰であるかということを認可するためのJWT。
+  string token = 2;
+}
+
+message Person {
+  // this field is output only.
+  int64 id = 1;
+
+  string display_name = 2;
+}
+
+message Room {
+  // this field is output only.
+  int64 id = 1;
+
+  repeated Person person = 2;
+}
