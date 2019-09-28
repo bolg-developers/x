@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BoLG Developers Documentation</title>
+    <link>https://bolg-developers.github.io/x/</link>
+    <description>Recent content on BoLG Developers Documentation</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 29 Sep 2019 02:31:31 +0900</lastBuildDate>
+    
+	<atom:link href="https://bolg-developers.github.io/x/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>label</title>
+      <link>https://bolg-developers.github.io/x/githubinfo/label/</link>
+      <pubDate>Sun, 29 Sep 2019 02:31:31 +0900</pubDate>
+      
+      <guid>https://bolg-developers.github.io/x/githubinfo/label/</guid>
+      <description>ラベルには全体で利用されるGlobal Labelとプロジェクトごとに利用されるLocal Labelの2種類があります。Global Labelは勝手に定義してはいけませんが、Local Labelは自由に定義できます。ただし、以下の構文に準拠する必要があります。
+Local Labelの構文 x/[プロジェクト名]/[任意の文字列]  注意  プロジェクト名は、projectsディレクトリで定義されているプロジェクトのトップディレクトリ名である必要があります。  例 x/orlaya/area/calandar  Global Label Global Labelには以下のような種類があります。種類は順次増える可能性があります。
+kindラベル kindラベルはissue/PullRequestの種類を表すラベルです。
+priorityラベル priorityラベルは優先度を表すラベルです。</description>
+    </item>
+    
+  </channel>
+</rss>
