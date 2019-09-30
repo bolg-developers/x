@@ -1,3 +1,15 @@
-/projects/bolg/apiserver @0g3
-/projects/bolg/android @hsgw-yuta
-/projects/bolg/micon @ZhanU-bmp
+# root
+/.github/ @0g3
+/api/ @0g3
+/docs/ @0g3
+/genproto/ @0g3
+/hack/ @0g3
+/.gitignore @0g3
+/BUILD @0g3
+/Makefile @0g3
+/WORKSPACE @0g3
+
+# bolg
+/projects/bolg/apiserver/ @0g3
+/projects/bolg/android/ @hsgw-yuta
+/projects/bolg/micon/ @ZhanU-bmp
