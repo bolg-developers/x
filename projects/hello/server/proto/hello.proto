@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package hello;
+
+option go_package = "github.com/bolg-developers/x/projects/hello/server/proto;pb";
+option java_multiple_files = true;
+option java_outer_classname = "HelloProto";
+option java_package = "org.bolg_developers.hello";
+
+service Hello {
+  rpc SayHello(HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+  // your name.
+  string name = 1;
+}
+
+message HelloResponse {
+  // example: "Hello, {your_name} :)"
+  string body = 1;
+}
