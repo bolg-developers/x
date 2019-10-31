@@ -6,10 +6,10 @@
 ### Sprint
 月〜金をスプリントとして開発を行います。月曜と金曜にはメンバー全員でMTGを行います。
 
-### Monday Meeting
+### Check in Meeting
 スプリントでやるTODOを決めます(優先度をつけてもらいます)。
 
-### Friday Metting
+### Check out Meeting
 月曜にきめたTODOの達成具合を分析します。
 
 ## Release Plan
