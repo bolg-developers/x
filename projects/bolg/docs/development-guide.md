@@ -7,7 +7,7 @@
 
 ## Development Flow
 以下の図で示されるフローは、開発において複数回繰り返されることに注意してください。
-<img width="476" alt="スクリーンショット 2019-11-03 22 59 52" src="https://user-images.githubusercontent.com/39144121/68086349-6122ea00-fe8e-11e9-8975-22f545b1b388.png">
+<img width="465" alt="スクリーンショット 2019-11-03 23 08 46" src="https://user-images.githubusercontent.com/39144121/68086402-f7efa680-fe8e-11e9-8bcc-82ad9bf2e7f8.png">
 
 ### Idea
 プロダクトに対するアイデアからどれを実装するのか決めるフェーズです。
