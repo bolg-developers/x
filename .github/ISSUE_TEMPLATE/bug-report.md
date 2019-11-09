@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: kind/bugのissueを出すときのテンプレ
+about: バグレポートのテンプレ
 labels: kind/bug
 
 ---

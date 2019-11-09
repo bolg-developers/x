@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: kind/featureのissueを出すときのテンプレ
+about: フューチャーリクエストのテンプレ
 labels: kind/feature
 
 ---
