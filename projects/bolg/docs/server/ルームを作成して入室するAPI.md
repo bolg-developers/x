@@ -7,7 +7,18 @@ service RoomService {
 }
 ```
 
+## RoomMessage
+```
+message RoomMessage {
+  oneof data {
+    CreateAndJoinRoomRequest create_and_join_room_req = 1;
+    CreateAndJoinRoomResponse create_and_join_room_resp = 2;
+  }
+}
+```
+
 ## Request
+`RoomMessage`の`data`に以下を埋め込んでリクエストを送ります。
 ```proto
 message CreateAndJoinRoomRequest {
   GameRule game_rule = 1;
@@ -15,6 +26,7 @@ message CreateAndJoinRoomRequest {
 ```
 
 ## Response
+`RoomMessage`の`data`に以下が埋め込みまれてレスポンスがきます。
 ```proto
 message CreateAndJoinRoomResponse {
   Room room = 1;
