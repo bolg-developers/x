@@ -51,6 +51,7 @@ func (r *RoomService) handleRoomMessage(stream Stream) error {
   }
 }
 ```
+
 ## MessageのBroadcast
 今の所、再送のロジックは考えていません。あまりにもメッセージエラーが発生するようなら考えます。
 ```go
@@ -66,3 +67,6 @@ func (r *RoomService) broadcast(roomID int64, msg *pb.RoomMessage) {
   }
 }
 ```
+
+## MessageのQueuing
+今回つくるのはあくまでもプロトタイプなので、大規模なアクセスは想定していません。そのため、MessageのQueuingも実装する予定はありません。
