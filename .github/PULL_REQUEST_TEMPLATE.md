@@ -19,8 +19,8 @@ design docなどを書いているならばそのURLを書いてください。
 以下の項目を終えているかチェックしてください。
 * Reviewerを指定する
 * Assigneeを指定する
+* xラベルをつける
 * kindラベルをつける
 * teamラベルをつける
-* Milestoneを指定する
 -->
 
