@@ -1,4 +1,4 @@
 # In Anywhere, Survival Game.
 
-![](https://github.com/bolg-developers/x/blob/master/projects/bolg/logos/logo.png)
+<img src="https://github.com/bolg-developers/x/blob/master/projects/bolg/logos/logo.png" width="400" height="400">
 
