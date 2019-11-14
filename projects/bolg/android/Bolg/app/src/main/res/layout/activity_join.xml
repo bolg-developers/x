@@ -12,17 +12,20 @@
         android:layout_height="wrap_content"
         android:text="参加"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/create_btn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/joinid_edit"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <Button
-        android:id="@+id/create_btn"
+    <EditText
+        android:id="@+id/joinid_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="作成"
-        app:layout_constraintStart_toEndOf="@id/join_btn"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="ルームIDの入力"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/join_btn"
+        android:autofillHints="" />
 </androidx.constraintlayout.widget.ConstraintLayout>
