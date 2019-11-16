@@ -1,4 +1,4 @@
-package com.example.bolg.view.fragment
+package com.example.bolg.main
 
 import android.os.Bundle
 import android.view.LayoutInflater

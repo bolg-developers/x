@@ -1,4 +1,4 @@
-package com.example.bolg.view.activity
+package com.example.bolg.gameplay
 
 import androidx.appcompat.app.AppCompatActivity
 

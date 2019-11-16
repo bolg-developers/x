@@ -8,9 +8,10 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.MainActivity"
+        <activity android:name=".main.MainActivity"
                   android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +21,11 @@
         </activity>
 
         <activity
-            android:name=".view.activity.GamePlayActivity"
+            android:name=".gameplay.GamePlayActivity"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".view.activity.HostStandbyActivity"
+            android:name=".standby.HostStandbyActivity"
             android:screenOrientation="landscape">
         </activity>
         <activity
@@ -32,7 +33,7 @@
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".view.activity.PlayerStandbyActivity"
+            android:name=".standby.PlayerStandbyActivity"
             android:screenOrientation="landscape">
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.example.bolg.view.activity
+package com.example.bolg.standby
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
