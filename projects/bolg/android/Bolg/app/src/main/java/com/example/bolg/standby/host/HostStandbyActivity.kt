@@ -1,4 +1,4 @@
-package com.example.bolg.standby
+package com.example.bolg.standby.host
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
+import com.example.bolg.data.ListData
 
-
-class PlayerStandbyActivity : AppCompatActivity(){
+class HostStandbyActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player_standby)
+        setContentView(R.layout.activity_host_standby)
 
         val  rv = findViewById<RecyclerView>(R.id.standby_recycler_view)
         // LayoutManagerの設定
@@ -21,9 +21,9 @@ class PlayerStandbyActivity : AppCompatActivity(){
         rv.layoutManager = layoutManager
 
         // Adapterの設定
-        var sampleList = mutableListOf<String>()
+        var sampleList = mutableListOf<ListData>()
         for (i in 0..10) {
-            sampleList.add(i,"長谷川")
+            sampleList.add(i, ListData("hasegawa"))
         }
         val adapter = StandbyRecyclerAdapter(sampleList)
         rv.adapter = adapter
@@ -31,4 +31,5 @@ class PlayerStandbyActivity : AppCompatActivity(){
         // 区切り線の表示
         rv.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
+
 }

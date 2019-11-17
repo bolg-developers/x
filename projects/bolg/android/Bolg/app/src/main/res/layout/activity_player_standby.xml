@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".standby.PlayerStandbyActivity">
+    tools:context=".standby.player.PlayerStandbyActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/standby_recycler_view"

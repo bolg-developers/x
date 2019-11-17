@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.adapter.Holder.StandbyRecyclerViewHolder
 import com.example.bolg.R
+import com.example.bolg.data.ListData
 
 // Clicl処理がある場合は引数にListnerをいれるかも
-class StandbyRecyclerAdapter(var itemList: List<String>) : RecyclerView.Adapter<StandbyRecyclerViewHolder>(){
+class StandbyRecyclerAdapter(var itemList: List<ListData>) : RecyclerView.Adapter<StandbyRecyclerViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StandbyRecyclerViewHolder {
         val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false)
@@ -16,7 +17,7 @@ class StandbyRecyclerAdapter(var itemList: List<String>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: StandbyRecyclerViewHolder, position: Int) {
         holder.let {
-            it.uname.text = itemList.get(position)
+            it.uname.text = itemList.get(position).uname
         }
     }
 

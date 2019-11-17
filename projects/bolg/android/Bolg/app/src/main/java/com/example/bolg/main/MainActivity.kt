@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         val application: Application = requireNotNull(this).application
 
         val viewModelFactory: MainViewModelFactory = MainViewModelFactory(application,supportFragmentManager)

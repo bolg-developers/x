@@ -1,4 +1,4 @@
-package com.example.bolg.main
+package com.example.bolg.main.title
 
 import android.os.Bundle
 import android.view.LayoutInflater
