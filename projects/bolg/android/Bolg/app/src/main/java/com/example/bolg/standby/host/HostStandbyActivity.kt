@@ -23,7 +23,7 @@ class HostStandbyActivity : AppCompatActivity(){
         // Adapterの設定
         var sampleList = mutableListOf<ListData>()
         for (i in 0..10) {
-            sampleList.add(i, ListData("hasegawa"))
+            sampleList.add(i, ListData("hasegawa${i}"))
         }
         val adapter = StandbyRecyclerAdapter(sampleList)
         rv.adapter = adapter
