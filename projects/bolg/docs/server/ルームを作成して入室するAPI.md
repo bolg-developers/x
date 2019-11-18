@@ -20,9 +20,7 @@ message RoomMessage {
 ## Request
 `RoomMessage`の`data`に以下を埋め込んでリクエストを送ります。
 ```proto
-message CreateAndJoinRoomRequest {
-  GameRule game_rule = 1;
-}
+message CreateAndJoinRoomRequest {}
 ```
 
 ## Response
