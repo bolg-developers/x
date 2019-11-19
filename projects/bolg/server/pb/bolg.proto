@@ -6,16 +6,21 @@ option go_package = "github.com/bolg-developers/x/projects/bolg/server/pb;pb";
 option java_multiple_files = true;
 option java_outer_classname = "BolgProto";
 option java_package = "org.bolg_developers.bolg";
-import "google/protobuf/timestamp.proto";
 
 service BolgService {
-  rpc CreateAndJoinRoom(stream RoomMessage) returns (stream RoomMessage) {}
+  // ConnectはRoom Messagingを行うためのRPCです。
+  rpc Connect(stream RoomMessage) returns (stream RoomMessage) {}
 }
 
 message RoomMessage {
   oneof data {
     CreateAndJoinRoomRequest create_and_join_room_req = 1;
     CreateAndJoinRoomResponse create_and_join_room_resp = 2;
+    JoinRoomRequest join_room_req = 3;
+    JoinRoomResponse join_room_resp = 4;
+    JoinRoomMessage join_room_msg = 5;
+    NotifyReceivingRequest notify_receiving_req = 6;
+    NotifyReceivingMessage notify_receiving_msg = 7;
   }
 }
 
@@ -26,6 +31,47 @@ message CreateAndJoinRoomRequest {
 
 message CreateAndJoinRoomResponse {
   Room room = 1;
+
+  // tokenはクライアントがどのルームの誰なのかを表します。
+  string token = 2;
+}
+
+message JoinRoomRequest {
+  int64 room_id = 1;
+
+  // 注意！: このフィールドは認証処理が実装され次第消えます。
+  string player_name = 2;
+}
+
+message JoinRoomResponse {
+  Room room = 1;
+
+  // tokenはクライアントがどのルームの誰なのかを表します。
+  string token = 2;
+}
+
+// JoinRoomMessageは実際にJoinRoomRequestをリクエストしたプレイヤー以外に送信されるメッセージです。
+message JoinRoomMessage {
+  // playerは入室してきたプレイヤーです。
+  Player player = 1;
+}
+
+message NotifyReceivingRequest {
+  // player_idは受信したプレイヤーIDです。
+  int64 player_id = 1;
+
+  // tokenはクライアントがどのルームの誰なのかを表します。
+  // ルームを入室したときに生成されたtokenをセットしてください。
+  string token = 2;
+}
+
+message NotifyReceivingMessage {
+  // playerはダメージを受けたプレイヤーです。
+  Player player = 1;
+
+  // killerNameはダメージを受けたプレイヤーを殺したプレイヤーの名前です。
+  // ダメージを受けたプレイヤーが死亡していない場合、このフィールドは空文字となります。
+  string killerName = 2;
 }
 
 message Room {
@@ -96,7 +142,7 @@ message Player {
 // message Stamina {
 //   int64 idx = 1;
 //   bool valid = 2;
-//   google.protobuf.Timestamp use_time = 3;
+//   int64 last_use_time = 3;
 // }
 
 // enum Item {

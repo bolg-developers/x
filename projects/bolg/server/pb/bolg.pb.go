@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	_ "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	math "math"
 )
@@ -52,6 +51,11 @@ type RoomMessage struct {
 	// Types that are valid to be assigned to Data:
 	//	*RoomMessage_CreateAndJoinRoomReq
 	//	*RoomMessage_CreateAndJoinRoomResp
+	//	*RoomMessage_JoinRoomReq
+	//	*RoomMessage_JoinRoomResp
+	//	*RoomMessage_JoinRoomMsg
+	//	*RoomMessage_NotifyReceivingReq
+	//	*RoomMessage_NotifyReceivingMsg
 	Data                 isRoomMessage_Data `protobuf_oneof:"data"`
 	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
 	XXX_unrecognized     []byte             `json:"-"`
@@ -95,9 +99,39 @@ type RoomMessage_CreateAndJoinRoomResp struct {
 	CreateAndJoinRoomResp *CreateAndJoinRoomResponse `protobuf:"bytes,2,opt,name=create_and_join_room_resp,json=createAndJoinRoomResp,proto3,oneof"`
 }
 
+type RoomMessage_JoinRoomReq struct {
+	JoinRoomReq *JoinRoomRequest `protobuf:"bytes,3,opt,name=join_room_req,json=joinRoomReq,proto3,oneof"`
+}
+
+type RoomMessage_JoinRoomResp struct {
+	JoinRoomResp *JoinRoomResponse `protobuf:"bytes,4,opt,name=join_room_resp,json=joinRoomResp,proto3,oneof"`
+}
+
+type RoomMessage_JoinRoomMsg struct {
+	JoinRoomMsg *JoinRoomMessage `protobuf:"bytes,5,opt,name=join_room_msg,json=joinRoomMsg,proto3,oneof"`
+}
+
+type RoomMessage_NotifyReceivingReq struct {
+	NotifyReceivingReq *NotifyReceivingRequest `protobuf:"bytes,6,opt,name=notify_receiving_req,json=notifyReceivingReq,proto3,oneof"`
+}
+
+type RoomMessage_NotifyReceivingMsg struct {
+	NotifyReceivingMsg *NotifyReceivingMessage `protobuf:"bytes,7,opt,name=notify_receiving_msg,json=notifyReceivingMsg,proto3,oneof"`
+}
+
 func (*RoomMessage_CreateAndJoinRoomReq) isRoomMessage_Data() {}
 
 func (*RoomMessage_CreateAndJoinRoomResp) isRoomMessage_Data() {}
+
+func (*RoomMessage_JoinRoomReq) isRoomMessage_Data() {}
+
+func (*RoomMessage_JoinRoomResp) isRoomMessage_Data() {}
+
+func (*RoomMessage_JoinRoomMsg) isRoomMessage_Data() {}
+
+func (*RoomMessage_NotifyReceivingReq) isRoomMessage_Data() {}
+
+func (*RoomMessage_NotifyReceivingMsg) isRoomMessage_Data() {}
 
 func (m *RoomMessage) GetData() isRoomMessage_Data {
 	if m != nil {
@@ -120,11 +154,51 @@ func (m *RoomMessage) GetCreateAndJoinRoomResp() *CreateAndJoinRoomResponse {
 	return nil
 }
 
+func (m *RoomMessage) GetJoinRoomReq() *JoinRoomRequest {
+	if x, ok := m.GetData().(*RoomMessage_JoinRoomReq); ok {
+		return x.JoinRoomReq
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetJoinRoomResp() *JoinRoomResponse {
+	if x, ok := m.GetData().(*RoomMessage_JoinRoomResp); ok {
+		return x.JoinRoomResp
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetJoinRoomMsg() *JoinRoomMessage {
+	if x, ok := m.GetData().(*RoomMessage_JoinRoomMsg); ok {
+		return x.JoinRoomMsg
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetNotifyReceivingReq() *NotifyReceivingRequest {
+	if x, ok := m.GetData().(*RoomMessage_NotifyReceivingReq); ok {
+		return x.NotifyReceivingReq
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetNotifyReceivingMsg() *NotifyReceivingMessage {
+	if x, ok := m.GetData().(*RoomMessage_NotifyReceivingMsg); ok {
+		return x.NotifyReceivingMsg
+	}
+	return nil
+}
+
 // XXX_OneofWrappers is for the internal use of the proto package.
 func (*RoomMessage) XXX_OneofWrappers() []interface{} {
 	return []interface{}{
 		(*RoomMessage_CreateAndJoinRoomReq)(nil),
 		(*RoomMessage_CreateAndJoinRoomResp)(nil),
+		(*RoomMessage_JoinRoomReq)(nil),
+		(*RoomMessage_JoinRoomResp)(nil),
+		(*RoomMessage_JoinRoomMsg)(nil),
+		(*RoomMessage_NotifyReceivingReq)(nil),
+		(*RoomMessage_NotifyReceivingMsg)(nil),
 	}
 }
 
@@ -169,7 +243,9 @@ func (m *CreateAndJoinRoomRequest) GetPlayerName() string {
 }
 
 type CreateAndJoinRoomResponse struct {
-	Room                 *Room    `protobuf:"bytes,1,opt,name=room,proto3" json:"room,omitempty"`
+	Room *Room `protobuf:"bytes,1,opt,name=room,proto3" json:"room,omitempty"`
+	// tokenはクライアントがどのルームの誰なのかを表します。
+	Token                string   `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -207,6 +283,250 @@ func (m *CreateAndJoinRoomResponse) GetRoom() *Room {
 	return nil
 }
 
+func (m *CreateAndJoinRoomResponse) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type JoinRoomRequest struct {
+	RoomId int64 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
+	// 注意！: このフィールドは認証処理が実装され次第消えます。
+	PlayerName           string   `protobuf:"bytes,2,opt,name=player_name,json=playerName,proto3" json:"player_name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *JoinRoomRequest) Reset()         { *m = JoinRoomRequest{} }
+func (m *JoinRoomRequest) String() string { return proto.CompactTextString(m) }
+func (*JoinRoomRequest) ProtoMessage()    {}
+func (*JoinRoomRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{3}
+}
+
+func (m *JoinRoomRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_JoinRoomRequest.Unmarshal(m, b)
+}
+func (m *JoinRoomRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_JoinRoomRequest.Marshal(b, m, deterministic)
+}
+func (m *JoinRoomRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_JoinRoomRequest.Merge(m, src)
+}
+func (m *JoinRoomRequest) XXX_Size() int {
+	return xxx_messageInfo_JoinRoomRequest.Size(m)
+}
+func (m *JoinRoomRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_JoinRoomRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_JoinRoomRequest proto.InternalMessageInfo
+
+func (m *JoinRoomRequest) GetRoomId() int64 {
+	if m != nil {
+		return m.RoomId
+	}
+	return 0
+}
+
+func (m *JoinRoomRequest) GetPlayerName() string {
+	if m != nil {
+		return m.PlayerName
+	}
+	return ""
+}
+
+type JoinRoomResponse struct {
+	Room *Room `protobuf:"bytes,1,opt,name=room,proto3" json:"room,omitempty"`
+	// tokenはクライアントがどのルームの誰なのかを表します。
+	Token                string   `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *JoinRoomResponse) Reset()         { *m = JoinRoomResponse{} }
+func (m *JoinRoomResponse) String() string { return proto.CompactTextString(m) }
+func (*JoinRoomResponse) ProtoMessage()    {}
+func (*JoinRoomResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{4}
+}
+
+func (m *JoinRoomResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_JoinRoomResponse.Unmarshal(m, b)
+}
+func (m *JoinRoomResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_JoinRoomResponse.Marshal(b, m, deterministic)
+}
+func (m *JoinRoomResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_JoinRoomResponse.Merge(m, src)
+}
+func (m *JoinRoomResponse) XXX_Size() int {
+	return xxx_messageInfo_JoinRoomResponse.Size(m)
+}
+func (m *JoinRoomResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_JoinRoomResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_JoinRoomResponse proto.InternalMessageInfo
+
+func (m *JoinRoomResponse) GetRoom() *Room {
+	if m != nil {
+		return m.Room
+	}
+	return nil
+}
+
+func (m *JoinRoomResponse) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+// JoinRoomMessageは実際にJoinRoomRequestをリクエストしたプレイヤー以外に送信されるメッセージです。
+type JoinRoomMessage struct {
+	// playerは入室してきたプレイヤーです。
+	Player               *Player  `protobuf:"bytes,1,opt,name=player,proto3" json:"player,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *JoinRoomMessage) Reset()         { *m = JoinRoomMessage{} }
+func (m *JoinRoomMessage) String() string { return proto.CompactTextString(m) }
+func (*JoinRoomMessage) ProtoMessage()    {}
+func (*JoinRoomMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{5}
+}
+
+func (m *JoinRoomMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_JoinRoomMessage.Unmarshal(m, b)
+}
+func (m *JoinRoomMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_JoinRoomMessage.Marshal(b, m, deterministic)
+}
+func (m *JoinRoomMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_JoinRoomMessage.Merge(m, src)
+}
+func (m *JoinRoomMessage) XXX_Size() int {
+	return xxx_messageInfo_JoinRoomMessage.Size(m)
+}
+func (m *JoinRoomMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_JoinRoomMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_JoinRoomMessage proto.InternalMessageInfo
+
+func (m *JoinRoomMessage) GetPlayer() *Player {
+	if m != nil {
+		return m.Player
+	}
+	return nil
+}
+
+type NotifyReceivingRequest struct {
+	// player_idは受信したプレイヤーIDです。
+	PlayerId int64 `protobuf:"varint,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	// tokenはクライアントがどのルームの誰なのかを表します。
+	// ルームを入室したときに生成されたtokenをセットしてください。
+	Token                string   `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *NotifyReceivingRequest) Reset()         { *m = NotifyReceivingRequest{} }
+func (m *NotifyReceivingRequest) String() string { return proto.CompactTextString(m) }
+func (*NotifyReceivingRequest) ProtoMessage()    {}
+func (*NotifyReceivingRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{6}
+}
+
+func (m *NotifyReceivingRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NotifyReceivingRequest.Unmarshal(m, b)
+}
+func (m *NotifyReceivingRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NotifyReceivingRequest.Marshal(b, m, deterministic)
+}
+func (m *NotifyReceivingRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NotifyReceivingRequest.Merge(m, src)
+}
+func (m *NotifyReceivingRequest) XXX_Size() int {
+	return xxx_messageInfo_NotifyReceivingRequest.Size(m)
+}
+func (m *NotifyReceivingRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_NotifyReceivingRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NotifyReceivingRequest proto.InternalMessageInfo
+
+func (m *NotifyReceivingRequest) GetPlayerId() int64 {
+	if m != nil {
+		return m.PlayerId
+	}
+	return 0
+}
+
+func (m *NotifyReceivingRequest) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type NotifyReceivingMessage struct {
+	// playerはダメージを受けたプレイヤーです。
+	Player *Player `protobuf:"bytes,1,opt,name=player,proto3" json:"player,omitempty"`
+	// killerNameはダメージを受けたプレイヤーを殺したプレイヤーの名前です。
+	// ダメージを受けたプレイヤーが死亡していない場合、このフィールドは空文字となります。
+	KillerName           string   `protobuf:"bytes,2,opt,name=killerName,proto3" json:"killerName,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *NotifyReceivingMessage) Reset()         { *m = NotifyReceivingMessage{} }
+func (m *NotifyReceivingMessage) String() string { return proto.CompactTextString(m) }
+func (*NotifyReceivingMessage) ProtoMessage()    {}
+func (*NotifyReceivingMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{7}
+}
+
+func (m *NotifyReceivingMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NotifyReceivingMessage.Unmarshal(m, b)
+}
+func (m *NotifyReceivingMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NotifyReceivingMessage.Marshal(b, m, deterministic)
+}
+func (m *NotifyReceivingMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NotifyReceivingMessage.Merge(m, src)
+}
+func (m *NotifyReceivingMessage) XXX_Size() int {
+	return xxx_messageInfo_NotifyReceivingMessage.Size(m)
+}
+func (m *NotifyReceivingMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_NotifyReceivingMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NotifyReceivingMessage proto.InternalMessageInfo
+
+func (m *NotifyReceivingMessage) GetPlayer() *Player {
+	if m != nil {
+		return m.Player
+	}
+	return nil
+}
+
+func (m *NotifyReceivingMessage) GetKillerName() string {
+	if m != nil {
+		return m.KillerName
+	}
+	return ""
+}
+
 type Room struct {
 	// output only
 	// idはルーム番号にも利用されます。
@@ -230,7 +550,7 @@ func (m *Room) Reset()         { *m = Room{} }
 func (m *Room) String() string { return proto.CompactTextString(m) }
 func (*Room) ProtoMessage()    {}
 func (*Room) Descriptor() ([]byte, []int) {
-	return fileDescriptor_598f3ef7b8dd4d09, []int{3}
+	return fileDescriptor_598f3ef7b8dd4d09, []int{8}
 }
 
 func (m *Room) XXX_Unmarshal(b []byte) error {
@@ -308,7 +628,7 @@ func (m *Player) Reset()         { *m = Player{} }
 func (m *Player) String() string { return proto.CompactTextString(m) }
 func (*Player) ProtoMessage()    {}
 func (*Player) Descriptor() ([]byte, []int) {
-	return fileDescriptor_598f3ef7b8dd4d09, []int{4}
+	return fileDescriptor_598f3ef7b8dd4d09, []int{9}
 }
 
 func (m *Player) XXX_Unmarshal(b []byte) error {
@@ -362,6 +682,11 @@ func init() {
 	proto.RegisterType((*RoomMessage)(nil), "bolg.RoomMessage")
 	proto.RegisterType((*CreateAndJoinRoomRequest)(nil), "bolg.CreateAndJoinRoomRequest")
 	proto.RegisterType((*CreateAndJoinRoomResponse)(nil), "bolg.CreateAndJoinRoomResponse")
+	proto.RegisterType((*JoinRoomRequest)(nil), "bolg.JoinRoomRequest")
+	proto.RegisterType((*JoinRoomResponse)(nil), "bolg.JoinRoomResponse")
+	proto.RegisterType((*JoinRoomMessage)(nil), "bolg.JoinRoomMessage")
+	proto.RegisterType((*NotifyReceivingRequest)(nil), "bolg.NotifyReceivingRequest")
+	proto.RegisterType((*NotifyReceivingMessage)(nil), "bolg.NotifyReceivingMessage")
 	proto.RegisterType((*Room)(nil), "bolg.Room")
 	proto.RegisterType((*Player)(nil), "bolg.Player")
 }
@@ -369,39 +694,49 @@ func init() {
 func init() { proto.RegisterFile("server/pb/bolg.proto", fileDescriptor_598f3ef7b8dd4d09) }
 
 var fileDescriptor_598f3ef7b8dd4d09 = []byte{
-	// 502 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x53, 0xc1, 0x6e, 0xd3, 0x40,
-	0x10, 0x8d, 0x13, 0x27, 0x4d, 0x26, 0x55, 0xd4, 0xae, 0x82, 0xe4, 0x54, 0xa2, 0x89, 0x8c, 0x84,
-	0x22, 0x10, 0x31, 0x0a, 0x07, 0x0e, 0x39, 0xa0, 0x06, 0x21, 0x5a, 0x04, 0x51, 0xb4, 0xa1, 0x15,
-	0x82, 0x83, 0x59, 0xdb, 0x83, 0xe3, 0xca, 0xf6, 0xba, 0xbb, 0x76, 0xa0, 0x1f, 0xc4, 0xdf, 0xf0,
-	0x51, 0xc8, 0xe3, 0xb4, 0x3d, 0xa4, 0xb9, 0xcd, 0xbc, 0x79, 0xfb, 0xe6, 0xcd, 0x68, 0x07, 0xfa,
-	0x1a, 0xd5, 0x06, 0x95, 0x93, 0x79, 0x8e, 0x27, 0xe3, 0x70, 0x92, 0x29, 0x99, 0x4b, 0x66, 0x96,
-	0xf1, 0xc9, 0x30, 0x94, 0x32, 0x8c, 0xd1, 0x21, 0xcc, 0x2b, 0x7e, 0x39, 0x79, 0x94, 0xa0, 0xce,
-	0x45, 0x92, 0x55, 0x34, 0xfb, 0x9f, 0x01, 0x5d, 0x2e, 0x65, 0xf2, 0x05, 0xb5, 0x16, 0x21, 0xb2,
-	0x6f, 0x60, 0xf9, 0x0a, 0x45, 0x8e, 0xae, 0x48, 0x03, 0xf7, 0x5a, 0x46, 0xa9, 0xab, 0xa4, 0x4c,
-	0x5c, 0x85, 0x37, 0x96, 0x31, 0x32, 0xc6, 0xdd, 0xe9, 0xe9, 0x84, 0xba, 0xbc, 0x27, 0xd6, 0x59,
-	0x1a, 0x7c, 0x92, 0x51, 0x5a, 0x2a, 0x70, 0xbc, 0x29, 0x50, 0xe7, 0xe7, 0x35, 0xde, 0xf7, 0x1f,
-	0xa9, 0xb1, 0x1f, 0x30, 0xd8, 0xa3, 0xac, 0x33, 0xab, 0x4e, 0xd2, 0xc3, 0xbd, 0xd2, 0x3a, 0x93,
-	0xa9, 0xc6, 0xf3, 0x1a, 0x7f, 0xe2, 0x3f, 0x56, 0x9c, 0xb7, 0xc0, 0x0c, 0x44, 0x2e, 0xec, 0x19,
-	0x58, 0xfb, 0x8c, 0xb1, 0x21, 0x74, 0xb3, 0x58, 0xdc, 0xa2, 0x72, 0x53, 0x91, 0x20, 0x4d, 0xd3,
-	0xe1, 0x50, 0x41, 0x0b, 0x91, 0xa0, 0x3d, 0x83, 0xc1, 0xde, 0xd6, 0xec, 0x14, 0xcc, 0xd2, 0xee,
-	0x76, 0x09, 0x50, 0x39, 0x25, 0x06, 0xe1, 0xf6, 0x5f, 0x03, 0xcc, 0x32, 0x65, 0x3d, 0xa8, 0x47,
-	0x01, 0xd1, 0x1a, 0xbc, 0x1e, 0x05, 0xec, 0x25, 0x74, 0x42, 0x91, 0xa0, 0xab, 0x8a, 0x18, 0x69,
-	0xce, 0xde, 0xb4, 0x57, 0xbd, 0xfe, 0x28, 0x12, 0xe4, 0x45, 0x8c, 0xbc, 0x1d, 0x6e, 0x23, 0xf6,
-	0x1c, 0x0e, 0x2a, 0x43, 0xda, 0x6a, 0x8c, 0x1a, 0xe3, 0xee, 0xf4, 0xb0, 0xa2, 0x2e, 0x09, 0xe4,
-	0x77, 0x45, 0xf6, 0x14, 0x80, 0x44, 0x75, 0x2e, 0x54, 0x6e, 0x99, 0x23, 0x63, 0xdc, 0xe6, 0xd4,
-	0x66, 0x55, 0x02, 0x6c, 0x00, 0x6d, 0xf9, 0x3b, 0x45, 0xe5, 0x46, 0x81, 0xd5, 0x24, 0x27, 0x07,
-	0x94, 0x5f, 0x04, 0x36, 0x87, 0x56, 0x25, 0xb6, 0x63, 0x94, 0x81, 0x49, 0x8b, 0xa9, 0xd3, 0x62,
-	0x28, 0x2e, 0x39, 0xeb, 0xcc, 0x6a, 0x54, 0x9c, 0x75, 0xc6, 0xfa, 0xd0, 0x54, 0x28, 0x82, 0xdb,
-	0x6d, 0xcb, 0x2a, 0x79, 0xf1, 0x0c, 0xda, 0x77, 0xb3, 0xb0, 0x0e, 0x34, 0x2f, 0x17, 0xab, 0x0f,
-	0x5f, 0x8f, 0x6a, 0xec, 0x10, 0xda, 0xab, 0x4b, 0x7e, 0x75, 0x71, 0x75, 0xf6, 0xf9, 0xc8, 0x98,
-	0x2e, 0xa0, 0x3b, 0x97, 0x71, 0xb8, 0x42, 0xb5, 0x89, 0x7c, 0x64, 0xef, 0xe0, 0x78, 0x67, 0xd9,
-	0xec, 0xf8, 0x61, 0xad, 0xdb, 0x0f, 0x79, 0xb2, 0x0b, 0xd9, 0xb5, 0xb1, 0xf1, 0xda, 0x98, 0xff,
-	0x04, 0x4b, 0xaa, 0x90, 0xaa, 0x6e, 0x80, 0x1b, 0x8c, 0x65, 0x86, 0x4a, 0x53, 0x3e, 0xef, 0x94,
-	0x9d, 0x96, 0xe5, 0x07, 0x5f, 0x1a, 0xdf, 0xdf, 0x86, 0x51, 0xbe, 0x2e, 0xbc, 0x89, 0x2f, 0x13,
-	0x3a, 0x90, 0x57, 0x0f, 0x6c, 0xe7, 0x4f, 0x79, 0x19, 0xd7, 0xe8, 0xe7, 0x9a, 0x4a, 0xce, 0xfd,
-	0x29, 0xcd, 0x32, 0xcf, 0x6b, 0xd1, 0x89, 0xbc, 0xf9, 0x1f, 0x00, 0x00, 0xff, 0xff, 0x58, 0x57,
-	0xc9, 0x2d, 0x61, 0x03, 0x00, 0x00,
+	// 671 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x95, 0x6d, 0x6f, 0xd3, 0x30,
+	0x10, 0xc7, 0xfb, 0x90, 0x3e, 0x5d, 0x47, 0x19, 0x56, 0x37, 0x32, 0x1e, 0xb6, 0x29, 0x20, 0x34,
+	0x81, 0x58, 0xd1, 0x10, 0xda, 0x8b, 0x49, 0x48, 0xeb, 0x40, 0xac, 0x8c, 0x4d, 0xc5, 0x65, 0x13,
+	0x02, 0x89, 0x90, 0x26, 0x26, 0x4b, 0x97, 0xc4, 0x99, 0x9d, 0x16, 0xf6, 0x81, 0x78, 0xc3, 0xa7,
+	0x44, 0x39, 0xa7, 0xed, 0x68, 0x5a, 0x24, 0x24, 0xde, 0xd9, 0x77, 0xe7, 0xff, 0xfd, 0x7c, 0x77,
+	0x71, 0xa0, 0x29, 0x99, 0x18, 0x31, 0xd1, 0x8a, 0xfa, 0xad, 0x3e, 0xf7, 0xdd, 0xed, 0x48, 0xf0,
+	0x98, 0x13, 0x2d, 0x59, 0x1b, 0xbf, 0x34, 0xa8, 0x53, 0xce, 0x83, 0x63, 0x26, 0xa5, 0xe5, 0x32,
+	0xf2, 0x11, 0x74, 0x5b, 0x30, 0x2b, 0x66, 0xa6, 0x15, 0x3a, 0xe6, 0x80, 0x7b, 0xa1, 0x29, 0x38,
+	0x0f, 0x4c, 0xc1, 0x2e, 0xf5, 0xfc, 0x66, 0x7e, 0xab, 0xbe, 0xb3, 0xbe, 0x8d, 0x22, 0x07, 0x18,
+	0xb5, 0x1f, 0x3a, 0x6f, 0xb9, 0x17, 0x26, 0x0a, 0x94, 0x5d, 0x0e, 0x99, 0x8c, 0x0f, 0x73, 0xb4,
+	0x69, 0xcf, 0xf1, 0x91, 0xcf, 0xb0, 0xb6, 0x40, 0x59, 0x46, 0x7a, 0x01, 0xa5, 0x37, 0x16, 0x4a,
+	0xcb, 0x88, 0x87, 0x92, 0x1d, 0xe6, 0xe8, 0x8a, 0x3d, 0xcf, 0x49, 0xf6, 0xe0, 0xc6, 0x9f, 0xac,
+	0x45, 0x14, 0x5c, 0x51, 0x82, 0x59, 0xc4, 0xfa, 0xe0, 0x1a, 0xd9, 0x4b, 0x68, 0xcc, 0xe0, 0x68,
+	0x78, 0x7a, 0x75, 0xf6, 0xf4, 0x84, 0x62, 0x69, 0xb0, 0x30, 0x79, 0x20, 0x5d, 0xbd, 0x34, 0x2f,
+	0x79, 0x5a, 0xe1, 0xeb, 0xc9, 0x8f, 0xa5, 0x4b, 0xba, 0xd0, 0x0c, 0x79, 0xec, 0x7d, 0xbb, 0x32,
+	0x05, 0xb3, 0x99, 0x37, 0xf2, 0x42, 0x17, 0x2f, 0x50, 0x46, 0x8d, 0x7b, 0x4a, 0xe3, 0x04, 0x23,
+	0xe8, 0x38, 0x60, 0x7a, 0x0f, 0x12, 0x66, 0x3c, 0x73, 0x15, 0x13, 0xaa, 0xca, 0x5f, 0x14, 0xa7,
+	0x70, 0xb3, 0x8a, 0xc7, 0xd2, 0x6d, 0x97, 0x41, 0x73, 0xac, 0xd8, 0x32, 0xf6, 0x40, 0x5f, 0xd4,
+	0x76, 0xb2, 0x01, 0xf5, 0xc8, 0xb7, 0xae, 0x98, 0x30, 0x43, 0x2b, 0x60, 0x38, 0x2b, 0x35, 0x0a,
+	0xca, 0x74, 0x62, 0x05, 0xcc, 0x78, 0x0f, 0x6b, 0x0b, 0x1b, 0x4b, 0xd6, 0x41, 0x4b, 0xaa, 0x97,
+	0x8e, 0x18, 0x28, 0x46, 0x8c, 0x40, 0x3b, 0x69, 0x42, 0x29, 0xe6, 0x17, 0x2c, 0xc4, 0x41, 0xa9,
+	0x51, 0xb5, 0x31, 0x8e, 0xe0, 0xe6, 0x2c, 0xc6, 0x6d, 0xa8, 0x60, 0x1b, 0x3c, 0x07, 0xb5, 0x8a,
+	0xb4, 0x9c, 0x6c, 0x3b, 0xce, 0x2c, 0x5f, 0x21, 0xc3, 0x77, 0x08, 0xcb, 0xff, 0x09, 0x6b, 0x77,
+	0x8a, 0x35, 0xfe, 0xac, 0x1e, 0x42, 0x59, 0xa5, 0x4a, 0xa5, 0x96, 0x94, 0x54, 0x17, 0x6d, 0x34,
+	0xf5, 0x19, 0x47, 0xb0, 0x3a, 0xbf, 0xd3, 0xe4, 0x2e, 0xd4, 0x52, 0xfa, 0xc9, 0xc5, 0xaa, 0xca,
+	0xd0, 0x71, 0x16, 0x50, 0x7c, 0xc9, 0x88, 0xfd, 0x13, 0x0c, 0x59, 0x07, 0xb8, 0xf0, 0x7c, 0x5f,
+	0x55, 0x67, 0x5c, 0xaf, 0xa9, 0xc5, 0xf8, 0x99, 0x07, 0x2d, 0xb9, 0x22, 0x69, 0x40, 0x61, 0x02,
+	0x55, 0xf0, 0x1c, 0xf2, 0x04, 0x6a, 0xae, 0x15, 0x30, 0x53, 0x0c, 0x7d, 0x75, 0xae, 0xb1, 0xd3,
+	0x50, 0x19, 0xde, 0x58, 0x01, 0xa3, 0x43, 0x9f, 0xd1, 0xaa, 0x9b, 0xae, 0xc8, 0x23, 0xa8, 0xa8,
+	0x7c, 0x52, 0x2f, 0x6e, 0x16, 0x33, 0x30, 0x63, 0x27, 0xb9, 0x0f, 0x80, 0xa2, 0x32, 0xb6, 0x44,
+	0x8c, 0xdf, 0x67, 0x95, 0x62, 0x9a, 0x5e, 0x62, 0x20, 0x6b, 0x50, 0xe5, 0xdf, 0x43, 0x55, 0x9e,
+	0x12, 0x92, 0x54, 0x70, 0xdf, 0x71, 0x0c, 0x0a, 0x65, 0x25, 0x96, 0x01, 0x25, 0xa0, 0x5d, 0x9b,
+	0x05, 0x5c, 0x27, 0x31, 0xe7, 0x11, 0xbe, 0x1e, 0x45, 0x5a, 0x38, 0x8f, 0x92, 0xda, 0x0a, 0x66,
+	0x39, 0x57, 0x69, 0x4a, 0xb5, 0x79, 0xfc, 0x00, 0xaa, 0xe3, 0xbb, 0x90, 0x1a, 0x94, 0x4e, 0x4f,
+	0x7a, 0xaf, 0x3f, 0x2c, 0xe7, 0xc8, 0x12, 0x54, 0x7b, 0xa7, 0xf4, 0xac, 0x73, 0xb6, 0xff, 0x6e,
+	0x39, 0xbf, 0xf3, 0x0a, 0xea, 0x6d, 0xee, 0xbb, 0x3d, 0x26, 0x46, 0x9e, 0xcd, 0xc8, 0x0b, 0xa8,
+	0x1c, 0xf0, 0x30, 0x64, 0x76, 0x4c, 0x6e, 0x4d, 0x07, 0x29, 0xed, 0xc9, 0x9d, 0xac, 0xc9, 0xc8,
+	0x6d, 0xe5, 0x9f, 0xe5, 0xdb, 0x5f, 0x41, 0xe7, 0xc2, 0x45, 0xaf, 0xe9, 0xb0, 0x11, 0xf3, 0x79,
+	0xc4, 0x84, 0xc4, 0x7d, 0xbb, 0x96, 0xe8, 0x77, 0x93, 0xd7, 0xbc, 0x9b, 0xff, 0xb4, 0xeb, 0x7a,
+	0xf1, 0xf9, 0xb0, 0xbf, 0x6d, 0xf3, 0x00, 0x9f, 0xf9, 0xa7, 0xd3, 0xe8, 0xd6, 0x8f, 0x56, 0x24,
+	0xf8, 0x80, 0xd9, 0xb1, 0x44, 0x57, 0x6b, 0xf2, 0x43, 0xd8, 0x8b, 0xfa, 0xfd, 0x32, 0xfe, 0x0f,
+	0x9e, 0xff, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x18, 0x64, 0xfc, 0x46, 0x27, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -416,7 +751,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BolgServiceClient interface {
-	CreateAndJoinRoom(ctx context.Context, opts ...grpc.CallOption) (BolgService_CreateAndJoinRoomClient, error)
+	// ConnectはRoom Messagingを行うためのRPCです。
+	Connect(ctx context.Context, opts ...grpc.CallOption) (BolgService_ConnectClient, error)
 }
 
 type bolgServiceClient struct {
@@ -427,30 +763,30 @@ func NewBolgServiceClient(cc *grpc.ClientConn) BolgServiceClient {
 	return &bolgServiceClient{cc}
 }
 
-func (c *bolgServiceClient) CreateAndJoinRoom(ctx context.Context, opts ...grpc.CallOption) (BolgService_CreateAndJoinRoomClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_BolgService_serviceDesc.Streams[0], "/bolg.BolgService/CreateAndJoinRoom", opts...)
+func (c *bolgServiceClient) Connect(ctx context.Context, opts ...grpc.CallOption) (BolgService_ConnectClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_BolgService_serviceDesc.Streams[0], "/bolg.BolgService/Connect", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &bolgServiceCreateAndJoinRoomClient{stream}
+	x := &bolgServiceConnectClient{stream}
 	return x, nil
 }
 
-type BolgService_CreateAndJoinRoomClient interface {
+type BolgService_ConnectClient interface {
 	Send(*RoomMessage) error
 	Recv() (*RoomMessage, error)
 	grpc.ClientStream
 }
 
-type bolgServiceCreateAndJoinRoomClient struct {
+type bolgServiceConnectClient struct {
 	grpc.ClientStream
 }
 
-func (x *bolgServiceCreateAndJoinRoomClient) Send(m *RoomMessage) error {
+func (x *bolgServiceConnectClient) Send(m *RoomMessage) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *bolgServiceCreateAndJoinRoomClient) Recv() (*RoomMessage, error) {
+func (x *bolgServiceConnectClient) Recv() (*RoomMessage, error) {
 	m := new(RoomMessage)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -460,32 +796,33 @@ func (x *bolgServiceCreateAndJoinRoomClient) Recv() (*RoomMessage, error) {
 
 // BolgServiceServer is the server API for BolgService service.
 type BolgServiceServer interface {
-	CreateAndJoinRoom(BolgService_CreateAndJoinRoomServer) error
+	// ConnectはRoom Messagingを行うためのRPCです。
+	Connect(BolgService_ConnectServer) error
 }
 
 func RegisterBolgServiceServer(s *grpc.Server, srv BolgServiceServer) {
 	s.RegisterService(&_BolgService_serviceDesc, srv)
 }
 
-func _BolgService_CreateAndJoinRoom_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(BolgServiceServer).CreateAndJoinRoom(&bolgServiceCreateAndJoinRoomServer{stream})
+func _BolgService_Connect_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(BolgServiceServer).Connect(&bolgServiceConnectServer{stream})
 }
 
-type BolgService_CreateAndJoinRoomServer interface {
+type BolgService_ConnectServer interface {
 	Send(*RoomMessage) error
 	Recv() (*RoomMessage, error)
 	grpc.ServerStream
 }
 
-type bolgServiceCreateAndJoinRoomServer struct {
+type bolgServiceConnectServer struct {
 	grpc.ServerStream
 }
 
-func (x *bolgServiceCreateAndJoinRoomServer) Send(m *RoomMessage) error {
+func (x *bolgServiceConnectServer) Send(m *RoomMessage) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *bolgServiceCreateAndJoinRoomServer) Recv() (*RoomMessage, error) {
+func (x *bolgServiceConnectServer) Recv() (*RoomMessage, error) {
 	m := new(RoomMessage)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -499,8 +836,8 @@ var _BolgService_serviceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "CreateAndJoinRoom",
-			Handler:       _BolgService_CreateAndJoinRoom_Handler,
+			StreamName:    "Connect",
+			Handler:       _BolgService_Connect_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

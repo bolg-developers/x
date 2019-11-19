@@ -4,18 +4,18 @@
 package org.bolg_developers.bolg;
 
 /**
- * Protobuf type {@code bolg.CreateAndJoinRoomResponse}
+ * Protobuf type {@code bolg.JoinRoomResponse}
  */
-public  final class CreateAndJoinRoomResponse extends
+public  final class JoinRoomResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:bolg.CreateAndJoinRoomResponse)
-    CreateAndJoinRoomResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:bolg.JoinRoomResponse)
+    JoinRoomResponseOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use CreateAndJoinRoomResponse.newBuilder() to construct.
-  private CreateAndJoinRoomResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use JoinRoomResponse.newBuilder() to construct.
+  private JoinRoomResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private CreateAndJoinRoomResponse() {
+  private JoinRoomResponse() {
     token_ = "";
   }
 
@@ -24,7 +24,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private CreateAndJoinRoomResponse(
+  private JoinRoomResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -83,14 +83,14 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_CreateAndJoinRoomResponse_descriptor;
+    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_CreateAndJoinRoomResponse_fieldAccessorTable
+    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            org.bolg_developers.bolg.CreateAndJoinRoomResponse.class, org.bolg_developers.bolg.CreateAndJoinRoomResponse.Builder.class);
+            org.bolg_developers.bolg.JoinRoomResponse.class, org.bolg_developers.bolg.JoinRoomResponse.Builder.class);
   }
 
   public static final int ROOM_FIELD_NUMBER = 1;
@@ -199,10 +199,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof org.bolg_developers.bolg.CreateAndJoinRoomResponse)) {
+    if (!(obj instanceof org.bolg_developers.bolg.JoinRoomResponse)) {
       return super.equals(obj);
     }
-    org.bolg_developers.bolg.CreateAndJoinRoomResponse other = (org.bolg_developers.bolg.CreateAndJoinRoomResponse) obj;
+    org.bolg_developers.bolg.JoinRoomResponse other = (org.bolg_developers.bolg.JoinRoomResponse) obj;
 
     boolean result = true;
     result = result && (hasRoom() == other.hasRoom());
@@ -234,69 +234,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(byte[] data)
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(java.io.InputStream input)
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseDelimitedFrom(java.io.InputStream input)
+  public static org.bolg_developers.bolg.JoinRoomResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseDelimitedFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -308,7 +308,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(org.bolg_developers.bolg.CreateAndJoinRoomResponse prototype) {
+  public static Builder newBuilder(org.bolg_developers.bolg.JoinRoomResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -323,25 +323,25 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code bolg.CreateAndJoinRoomResponse}
+   * Protobuf type {@code bolg.JoinRoomResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:bolg.CreateAndJoinRoomResponse)
-      org.bolg_developers.bolg.CreateAndJoinRoomResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:bolg.JoinRoomResponse)
+      org.bolg_developers.bolg.JoinRoomResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_CreateAndJoinRoomResponse_descriptor;
+      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_CreateAndJoinRoomResponse_fieldAccessorTable
+      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.bolg_developers.bolg.CreateAndJoinRoomResponse.class, org.bolg_developers.bolg.CreateAndJoinRoomResponse.Builder.class);
+              org.bolg_developers.bolg.JoinRoomResponse.class, org.bolg_developers.bolg.JoinRoomResponse.Builder.class);
     }
 
-    // Construct using org.bolg_developers.bolg.CreateAndJoinRoomResponse.newBuilder()
+    // Construct using org.bolg_developers.bolg.JoinRoomResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -371,23 +371,23 @@ private static final long serialVersionUID = 0L;
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_CreateAndJoinRoomResponse_descriptor;
+      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_descriptor;
     }
 
-    public org.bolg_developers.bolg.CreateAndJoinRoomResponse getDefaultInstanceForType() {
-      return org.bolg_developers.bolg.CreateAndJoinRoomResponse.getDefaultInstance();
+    public org.bolg_developers.bolg.JoinRoomResponse getDefaultInstanceForType() {
+      return org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
     }
 
-    public org.bolg_developers.bolg.CreateAndJoinRoomResponse build() {
-      org.bolg_developers.bolg.CreateAndJoinRoomResponse result = buildPartial();
+    public org.bolg_developers.bolg.JoinRoomResponse build() {
+      org.bolg_developers.bolg.JoinRoomResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public org.bolg_developers.bolg.CreateAndJoinRoomResponse buildPartial() {
-      org.bolg_developers.bolg.CreateAndJoinRoomResponse result = new org.bolg_developers.bolg.CreateAndJoinRoomResponse(this);
+    public org.bolg_developers.bolg.JoinRoomResponse buildPartial() {
+      org.bolg_developers.bolg.JoinRoomResponse result = new org.bolg_developers.bolg.JoinRoomResponse(this);
       if (roomBuilder_ == null) {
         result.room_ = room_;
       } else {
@@ -425,16 +425,16 @@ private static final long serialVersionUID = 0L;
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof org.bolg_developers.bolg.CreateAndJoinRoomResponse) {
-        return mergeFrom((org.bolg_developers.bolg.CreateAndJoinRoomResponse)other);
+      if (other instanceof org.bolg_developers.bolg.JoinRoomResponse) {
+        return mergeFrom((org.bolg_developers.bolg.JoinRoomResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(org.bolg_developers.bolg.CreateAndJoinRoomResponse other) {
-      if (other == org.bolg_developers.bolg.CreateAndJoinRoomResponse.getDefaultInstance()) return this;
+    public Builder mergeFrom(org.bolg_developers.bolg.JoinRoomResponse other) {
+      if (other == org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance()) return this;
       if (other.hasRoom()) {
         mergeRoom(other.getRoom());
       }
@@ -455,11 +455,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      org.bolg_developers.bolg.CreateAndJoinRoomResponse parsedMessage = null;
+      org.bolg_developers.bolg.JoinRoomResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (org.bolg_developers.bolg.CreateAndJoinRoomResponse) e.getUnfinishedMessage();
+        parsedMessage = (org.bolg_developers.bolg.JoinRoomResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -685,39 +685,39 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:bolg.CreateAndJoinRoomResponse)
+    // @@protoc_insertion_point(builder_scope:bolg.JoinRoomResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:bolg.CreateAndJoinRoomResponse)
-  private static final org.bolg_developers.bolg.CreateAndJoinRoomResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:bolg.JoinRoomResponse)
+  private static final org.bolg_developers.bolg.JoinRoomResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new org.bolg_developers.bolg.CreateAndJoinRoomResponse();
+    DEFAULT_INSTANCE = new org.bolg_developers.bolg.JoinRoomResponse();
   }
 
-  public static org.bolg_developers.bolg.CreateAndJoinRoomResponse getDefaultInstance() {
+  public static org.bolg_developers.bolg.JoinRoomResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<CreateAndJoinRoomResponse>
-      PARSER = new com.google.protobuf.AbstractParser<CreateAndJoinRoomResponse>() {
-    public CreateAndJoinRoomResponse parsePartialFrom(
+  private static final com.google.protobuf.Parser<JoinRoomResponse>
+      PARSER = new com.google.protobuf.AbstractParser<JoinRoomResponse>() {
+    public JoinRoomResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new CreateAndJoinRoomResponse(input, extensionRegistry);
+      return new JoinRoomResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<CreateAndJoinRoomResponse> parser() {
+  public static com.google.protobuf.Parser<JoinRoomResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<CreateAndJoinRoomResponse> getParserForType() {
+  public com.google.protobuf.Parser<JoinRoomResponse> getParserForType() {
     return PARSER;
   }
 
-  public org.bolg_developers.bolg.CreateAndJoinRoomResponse getDefaultInstanceForType() {
+  public org.bolg_developers.bolg.JoinRoomResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

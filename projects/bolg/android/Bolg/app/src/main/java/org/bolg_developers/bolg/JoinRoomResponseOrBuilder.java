@@ -3,8 +3,8 @@
 
 package org.bolg_developers.bolg;
 
-public interface CreateAndJoinRoomResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:bolg.CreateAndJoinRoomResponse)
+public interface JoinRoomResponseOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:bolg.JoinRoomResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
