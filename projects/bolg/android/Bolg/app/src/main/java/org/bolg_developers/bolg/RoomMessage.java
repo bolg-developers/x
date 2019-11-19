@@ -77,6 +77,48 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 2;
             break;
           }
+          case 26: {
+            org.bolg_developers.bolg.JoinRoomRequest.Builder subBuilder = null;
+            if (dataCase_ == 3) {
+              subBuilder = ((org.bolg_developers.bolg.JoinRoomRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.JoinRoomRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.JoinRoomRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 3;
+            break;
+          }
+          case 34: {
+            org.bolg_developers.bolg.JoinRoomResponse.Builder subBuilder = null;
+            if (dataCase_ == 4) {
+              subBuilder = ((org.bolg_developers.bolg.JoinRoomResponse) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.JoinRoomResponse.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.JoinRoomResponse) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 4;
+            break;
+          }
+          case 42: {
+            org.bolg_developers.bolg.JoinRoomMessage.Builder subBuilder = null;
+            if (dataCase_ == 5) {
+              subBuilder = ((org.bolg_developers.bolg.JoinRoomMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.JoinRoomMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.JoinRoomMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 5;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -107,6 +149,9 @@ private static final long serialVersionUID = 0L;
       implements com.google.protobuf.Internal.EnumLite {
     CREATE_AND_JOIN_ROOM_REQ(1),
     CREATE_AND_JOIN_ROOM_RESP(2),
+    JOIN_ROOM_REQ(3),
+    JOIN_ROOM_RESP(4),
+    JOIN_ROOM_MSG(5),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -124,6 +169,9 @@ private static final long serialVersionUID = 0L;
       switch (value) {
         case 1: return CREATE_AND_JOIN_ROOM_REQ;
         case 2: return CREATE_AND_JOIN_ROOM_RESP;
+        case 3: return JOIN_ROOM_REQ;
+        case 4: return JOIN_ROOM_RESP;
+        case 5: return JOIN_ROOM_MSG;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -191,6 +239,84 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.CreateAndJoinRoomResponse.getDefaultInstance();
   }
 
+  public static final int JOIN_ROOM_REQ_FIELD_NUMBER = 3;
+  /**
+   * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+   */
+  public boolean hasJoinRoomReq() {
+    return dataCase_ == 3;
+  }
+  /**
+   * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+   */
+  public org.bolg_developers.bolg.JoinRoomRequest getJoinRoomReq() {
+    if (dataCase_ == 3) {
+       return (org.bolg_developers.bolg.JoinRoomRequest) data_;
+    }
+    return org.bolg_developers.bolg.JoinRoomRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+   */
+  public org.bolg_developers.bolg.JoinRoomRequestOrBuilder getJoinRoomReqOrBuilder() {
+    if (dataCase_ == 3) {
+       return (org.bolg_developers.bolg.JoinRoomRequest) data_;
+    }
+    return org.bolg_developers.bolg.JoinRoomRequest.getDefaultInstance();
+  }
+
+  public static final int JOIN_ROOM_RESP_FIELD_NUMBER = 4;
+  /**
+   * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+   */
+  public boolean hasJoinRoomResp() {
+    return dataCase_ == 4;
+  }
+  /**
+   * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+   */
+  public org.bolg_developers.bolg.JoinRoomResponse getJoinRoomResp() {
+    if (dataCase_ == 4) {
+       return (org.bolg_developers.bolg.JoinRoomResponse) data_;
+    }
+    return org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+   */
+  public org.bolg_developers.bolg.JoinRoomResponseOrBuilder getJoinRoomRespOrBuilder() {
+    if (dataCase_ == 4) {
+       return (org.bolg_developers.bolg.JoinRoomResponse) data_;
+    }
+    return org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
+  }
+
+  public static final int JOIN_ROOM_MSG_FIELD_NUMBER = 5;
+  /**
+   * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+   */
+  public boolean hasJoinRoomMsg() {
+    return dataCase_ == 5;
+  }
+  /**
+   * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+   */
+  public org.bolg_developers.bolg.JoinRoomMessage getJoinRoomMsg() {
+    if (dataCase_ == 5) {
+       return (org.bolg_developers.bolg.JoinRoomMessage) data_;
+    }
+    return org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+   */
+  public org.bolg_developers.bolg.JoinRoomMessageOrBuilder getJoinRoomMsgOrBuilder() {
+    if (dataCase_ == 5) {
+       return (org.bolg_developers.bolg.JoinRoomMessage) data_;
+    }
+    return org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -209,6 +335,15 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 2) {
       output.writeMessage(2, (org.bolg_developers.bolg.CreateAndJoinRoomResponse) data_);
     }
+    if (dataCase_ == 3) {
+      output.writeMessage(3, (org.bolg_developers.bolg.JoinRoomRequest) data_);
+    }
+    if (dataCase_ == 4) {
+      output.writeMessage(4, (org.bolg_developers.bolg.JoinRoomResponse) data_);
+    }
+    if (dataCase_ == 5) {
+      output.writeMessage(5, (org.bolg_developers.bolg.JoinRoomMessage) data_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -224,6 +359,18 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 2) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(2, (org.bolg_developers.bolg.CreateAndJoinRoomResponse) data_);
+    }
+    if (dataCase_ == 3) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(3, (org.bolg_developers.bolg.JoinRoomRequest) data_);
+    }
+    if (dataCase_ == 4) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, (org.bolg_developers.bolg.JoinRoomResponse) data_);
+    }
+    if (dataCase_ == 5) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, (org.bolg_developers.bolg.JoinRoomMessage) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -253,6 +400,18 @@ private static final long serialVersionUID = 0L;
         result = result && getCreateAndJoinRoomResp()
             .equals(other.getCreateAndJoinRoomResp());
         break;
+      case 3:
+        result = result && getJoinRoomReq()
+            .equals(other.getJoinRoomReq());
+        break;
+      case 4:
+        result = result && getJoinRoomResp()
+            .equals(other.getJoinRoomResp());
+        break;
+      case 5:
+        result = result && getJoinRoomMsg()
+            .equals(other.getJoinRoomMsg());
+        break;
       case 0:
       default:
     }
@@ -275,6 +434,18 @@ private static final long serialVersionUID = 0L;
       case 2:
         hash = (37 * hash) + CREATE_AND_JOIN_ROOM_RESP_FIELD_NUMBER;
         hash = (53 * hash) + getCreateAndJoinRoomResp().hashCode();
+        break;
+      case 3:
+        hash = (37 * hash) + JOIN_ROOM_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getJoinRoomReq().hashCode();
+        break;
+      case 4:
+        hash = (37 * hash) + JOIN_ROOM_RESP_FIELD_NUMBER;
+        hash = (53 * hash) + getJoinRoomResp().hashCode();
+        break;
+      case 5:
+        hash = (37 * hash) + JOIN_ROOM_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getJoinRoomMsg().hashCode();
         break;
       case 0:
       default:
@@ -446,6 +617,27 @@ private static final long serialVersionUID = 0L;
           result.data_ = createAndJoinRoomRespBuilder_.build();
         }
       }
+      if (dataCase_ == 3) {
+        if (joinRoomReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = joinRoomReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 4) {
+        if (joinRoomRespBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = joinRoomRespBuilder_.build();
+        }
+      }
+      if (dataCase_ == 5) {
+        if (joinRoomMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = joinRoomMsgBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -495,6 +687,18 @@ private static final long serialVersionUID = 0L;
         }
         case CREATE_AND_JOIN_ROOM_RESP: {
           mergeCreateAndJoinRoomResp(other.getCreateAndJoinRoomResp());
+          break;
+        }
+        case JOIN_ROOM_REQ: {
+          mergeJoinRoomReq(other.getJoinRoomReq());
+          break;
+        }
+        case JOIN_ROOM_RESP: {
+          mergeJoinRoomResp(other.getJoinRoomResp());
+          break;
+        }
+        case JOIN_ROOM_MSG: {
+          mergeJoinRoomMsg(other.getJoinRoomMsg());
           break;
         }
         case DATA_NOT_SET: {
@@ -813,6 +1017,414 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 2;
       onChanged();;
       return createAndJoinRoomRespBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.JoinRoomRequest, org.bolg_developers.bolg.JoinRoomRequest.Builder, org.bolg_developers.bolg.JoinRoomRequestOrBuilder> joinRoomReqBuilder_;
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public boolean hasJoinRoomReq() {
+      return dataCase_ == 3;
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomRequest getJoinRoomReq() {
+      if (joinRoomReqBuilder_ == null) {
+        if (dataCase_ == 3) {
+          return (org.bolg_developers.bolg.JoinRoomRequest) data_;
+        }
+        return org.bolg_developers.bolg.JoinRoomRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 3) {
+          return joinRoomReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.JoinRoomRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public Builder setJoinRoomReq(org.bolg_developers.bolg.JoinRoomRequest value) {
+      if (joinRoomReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        joinRoomReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 3;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public Builder setJoinRoomReq(
+        org.bolg_developers.bolg.JoinRoomRequest.Builder builderForValue) {
+      if (joinRoomReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        joinRoomReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 3;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public Builder mergeJoinRoomReq(org.bolg_developers.bolg.JoinRoomRequest value) {
+      if (joinRoomReqBuilder_ == null) {
+        if (dataCase_ == 3 &&
+            data_ != org.bolg_developers.bolg.JoinRoomRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.JoinRoomRequest.newBuilder((org.bolg_developers.bolg.JoinRoomRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 3) {
+          joinRoomReqBuilder_.mergeFrom(value);
+        }
+        joinRoomReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 3;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public Builder clearJoinRoomReq() {
+      if (joinRoomReqBuilder_ == null) {
+        if (dataCase_ == 3) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 3) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        joinRoomReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomRequest.Builder getJoinRoomReqBuilder() {
+      return getJoinRoomReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomRequestOrBuilder getJoinRoomReqOrBuilder() {
+      if ((dataCase_ == 3) && (joinRoomReqBuilder_ != null)) {
+        return joinRoomReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 3) {
+          return (org.bolg_developers.bolg.JoinRoomRequest) data_;
+        }
+        return org.bolg_developers.bolg.JoinRoomRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.JoinRoomRequest join_room_req = 3;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.JoinRoomRequest, org.bolg_developers.bolg.JoinRoomRequest.Builder, org.bolg_developers.bolg.JoinRoomRequestOrBuilder> 
+        getJoinRoomReqFieldBuilder() {
+      if (joinRoomReqBuilder_ == null) {
+        if (!(dataCase_ == 3)) {
+          data_ = org.bolg_developers.bolg.JoinRoomRequest.getDefaultInstance();
+        }
+        joinRoomReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.JoinRoomRequest, org.bolg_developers.bolg.JoinRoomRequest.Builder, org.bolg_developers.bolg.JoinRoomRequestOrBuilder>(
+                (org.bolg_developers.bolg.JoinRoomRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 3;
+      onChanged();;
+      return joinRoomReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.JoinRoomResponse, org.bolg_developers.bolg.JoinRoomResponse.Builder, org.bolg_developers.bolg.JoinRoomResponseOrBuilder> joinRoomRespBuilder_;
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public boolean hasJoinRoomResp() {
+      return dataCase_ == 4;
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomResponse getJoinRoomResp() {
+      if (joinRoomRespBuilder_ == null) {
+        if (dataCase_ == 4) {
+          return (org.bolg_developers.bolg.JoinRoomResponse) data_;
+        }
+        return org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
+      } else {
+        if (dataCase_ == 4) {
+          return joinRoomRespBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public Builder setJoinRoomResp(org.bolg_developers.bolg.JoinRoomResponse value) {
+      if (joinRoomRespBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        joinRoomRespBuilder_.setMessage(value);
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public Builder setJoinRoomResp(
+        org.bolg_developers.bolg.JoinRoomResponse.Builder builderForValue) {
+      if (joinRoomRespBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        joinRoomRespBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public Builder mergeJoinRoomResp(org.bolg_developers.bolg.JoinRoomResponse value) {
+      if (joinRoomRespBuilder_ == null) {
+        if (dataCase_ == 4 &&
+            data_ != org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.JoinRoomResponse.newBuilder((org.bolg_developers.bolg.JoinRoomResponse) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 4) {
+          joinRoomRespBuilder_.mergeFrom(value);
+        }
+        joinRoomRespBuilder_.setMessage(value);
+      }
+      dataCase_ = 4;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public Builder clearJoinRoomResp() {
+      if (joinRoomRespBuilder_ == null) {
+        if (dataCase_ == 4) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 4) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        joinRoomRespBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomResponse.Builder getJoinRoomRespBuilder() {
+      return getJoinRoomRespFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomResponseOrBuilder getJoinRoomRespOrBuilder() {
+      if ((dataCase_ == 4) && (joinRoomRespBuilder_ != null)) {
+        return joinRoomRespBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 4) {
+          return (org.bolg_developers.bolg.JoinRoomResponse) data_;
+        }
+        return org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.JoinRoomResponse join_room_resp = 4;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.JoinRoomResponse, org.bolg_developers.bolg.JoinRoomResponse.Builder, org.bolg_developers.bolg.JoinRoomResponseOrBuilder> 
+        getJoinRoomRespFieldBuilder() {
+      if (joinRoomRespBuilder_ == null) {
+        if (!(dataCase_ == 4)) {
+          data_ = org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
+        }
+        joinRoomRespBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.JoinRoomResponse, org.bolg_developers.bolg.JoinRoomResponse.Builder, org.bolg_developers.bolg.JoinRoomResponseOrBuilder>(
+                (org.bolg_developers.bolg.JoinRoomResponse) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 4;
+      onChanged();;
+      return joinRoomRespBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.JoinRoomMessage, org.bolg_developers.bolg.JoinRoomMessage.Builder, org.bolg_developers.bolg.JoinRoomMessageOrBuilder> joinRoomMsgBuilder_;
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public boolean hasJoinRoomMsg() {
+      return dataCase_ == 5;
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomMessage getJoinRoomMsg() {
+      if (joinRoomMsgBuilder_ == null) {
+        if (dataCase_ == 5) {
+          return (org.bolg_developers.bolg.JoinRoomMessage) data_;
+        }
+        return org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 5) {
+          return joinRoomMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public Builder setJoinRoomMsg(org.bolg_developers.bolg.JoinRoomMessage value) {
+      if (joinRoomMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        joinRoomMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public Builder setJoinRoomMsg(
+        org.bolg_developers.bolg.JoinRoomMessage.Builder builderForValue) {
+      if (joinRoomMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        joinRoomMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public Builder mergeJoinRoomMsg(org.bolg_developers.bolg.JoinRoomMessage value) {
+      if (joinRoomMsgBuilder_ == null) {
+        if (dataCase_ == 5 &&
+            data_ != org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.JoinRoomMessage.newBuilder((org.bolg_developers.bolg.JoinRoomMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 5) {
+          joinRoomMsgBuilder_.mergeFrom(value);
+        }
+        joinRoomMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 5;
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public Builder clearJoinRoomMsg() {
+      if (joinRoomMsgBuilder_ == null) {
+        if (dataCase_ == 5) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 5) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        joinRoomMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomMessage.Builder getJoinRoomMsgBuilder() {
+      return getJoinRoomMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    public org.bolg_developers.bolg.JoinRoomMessageOrBuilder getJoinRoomMsgOrBuilder() {
+      if ((dataCase_ == 5) && (joinRoomMsgBuilder_ != null)) {
+        return joinRoomMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 5) {
+          return (org.bolg_developers.bolg.JoinRoomMessage) data_;
+        }
+        return org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.JoinRoomMessage join_room_msg = 5;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.JoinRoomMessage, org.bolg_developers.bolg.JoinRoomMessage.Builder, org.bolg_developers.bolg.JoinRoomMessageOrBuilder> 
+        getJoinRoomMsgFieldBuilder() {
+      if (joinRoomMsgBuilder_ == null) {
+        if (!(dataCase_ == 5)) {
+          data_ = org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance();
+        }
+        joinRoomMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.JoinRoomMessage, org.bolg_developers.bolg.JoinRoomMessage.Builder, org.bolg_developers.bolg.JoinRoomMessageOrBuilder>(
+                (org.bolg_developers.bolg.JoinRoomMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 5;
+      onChanged();;
+      return joinRoomMsgBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

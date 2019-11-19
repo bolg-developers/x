@@ -28,24 +28,24 @@ public final class BolgServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<org.bolg_developers.bolg.RoomMessage,
-      org.bolg_developers.bolg.RoomMessage> getCreateAndJoinRoomMethod;
+      org.bolg_developers.bolg.RoomMessage> getConnectMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CreateAndJoinRoom",
+      fullMethodName = SERVICE_NAME + '/' + "Connect",
       requestType = org.bolg_developers.bolg.RoomMessage.class,
       responseType = org.bolg_developers.bolg.RoomMessage.class,
       methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
   public static io.grpc.MethodDescriptor<org.bolg_developers.bolg.RoomMessage,
-      org.bolg_developers.bolg.RoomMessage> getCreateAndJoinRoomMethod() {
-    io.grpc.MethodDescriptor<org.bolg_developers.bolg.RoomMessage, org.bolg_developers.bolg.RoomMessage> getCreateAndJoinRoomMethod;
-    if ((getCreateAndJoinRoomMethod = BolgServiceGrpc.getCreateAndJoinRoomMethod) == null) {
+      org.bolg_developers.bolg.RoomMessage> getConnectMethod() {
+    io.grpc.MethodDescriptor<org.bolg_developers.bolg.RoomMessage, org.bolg_developers.bolg.RoomMessage> getConnectMethod;
+    if ((getConnectMethod = BolgServiceGrpc.getConnectMethod) == null) {
       synchronized (BolgServiceGrpc.class) {
-        if ((getCreateAndJoinRoomMethod = BolgServiceGrpc.getCreateAndJoinRoomMethod) == null) {
-          BolgServiceGrpc.getCreateAndJoinRoomMethod = getCreateAndJoinRoomMethod = 
+        if ((getConnectMethod = BolgServiceGrpc.getConnectMethod) == null) {
+          BolgServiceGrpc.getConnectMethod = getConnectMethod = 
               io.grpc.MethodDescriptor.<org.bolg_developers.bolg.RoomMessage, org.bolg_developers.bolg.RoomMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
               .setFullMethodName(generateFullMethodName(
-                  "bolg.BolgService", "CreateAndJoinRoom"))
+                  "bolg.BolgService", "Connect"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.lite.ProtoLiteUtils.marshaller(
                   org.bolg_developers.bolg.RoomMessage.getDefaultInstance()))
@@ -55,7 +55,7 @@ public final class BolgServiceGrpc {
           }
         }
      }
-     return getCreateAndJoinRoomMethod;
+     return getConnectMethod;
   }
 
   /**
@@ -86,21 +86,24 @@ public final class BolgServiceGrpc {
   public static abstract class BolgServiceImplBase implements io.grpc.BindableService {
 
     /**
+     * <pre>
+     * ConnectはRoom Messagingを行うためのRPCです。
+     * </pre>
      */
-    public io.grpc.stub.StreamObserver<org.bolg_developers.bolg.RoomMessage> createAndJoinRoom(
+    public io.grpc.stub.StreamObserver<org.bolg_developers.bolg.RoomMessage> connect(
         io.grpc.stub.StreamObserver<org.bolg_developers.bolg.RoomMessage> responseObserver) {
-      return asyncUnimplementedStreamingCall(getCreateAndJoinRoomMethod(), responseObserver);
+      return asyncUnimplementedStreamingCall(getConnectMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getCreateAndJoinRoomMethod(),
+            getConnectMethod(),
             asyncBidiStreamingCall(
               new MethodHandlers<
                 org.bolg_developers.bolg.RoomMessage,
                 org.bolg_developers.bolg.RoomMessage>(
-                  this, METHODID_CREATE_AND_JOIN_ROOM)))
+                  this, METHODID_CONNECT)))
           .build();
     }
   }
@@ -124,11 +127,14 @@ public final class BolgServiceGrpc {
     }
 
     /**
+     * <pre>
+     * ConnectはRoom Messagingを行うためのRPCです。
+     * </pre>
      */
-    public io.grpc.stub.StreamObserver<org.bolg_developers.bolg.RoomMessage> createAndJoinRoom(
+    public io.grpc.stub.StreamObserver<org.bolg_developers.bolg.RoomMessage> connect(
         io.grpc.stub.StreamObserver<org.bolg_developers.bolg.RoomMessage> responseObserver) {
       return asyncBidiStreamingCall(
-          getChannel().newCall(getCreateAndJoinRoomMethod(), getCallOptions()), responseObserver);
+          getChannel().newCall(getConnectMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -170,7 +176,7 @@ public final class BolgServiceGrpc {
     }
   }
 
-  private static final int METHODID_CREATE_AND_JOIN_ROOM = 0;
+  private static final int METHODID_CONNECT = 0;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -199,8 +205,8 @@ public final class BolgServiceGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_CREATE_AND_JOIN_ROOM:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.createAndJoinRoom(
+        case METHODID_CONNECT:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.connect(
               (io.grpc.stub.StreamObserver<org.bolg_developers.bolg.RoomMessage>) responseObserver);
         default:
           throw new AssertionError();
@@ -217,7 +223,7 @@ public final class BolgServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .addMethod(getCreateAndJoinRoomMethod())
+              .addMethod(getConnectMethod())
               .build();
         }
       }
