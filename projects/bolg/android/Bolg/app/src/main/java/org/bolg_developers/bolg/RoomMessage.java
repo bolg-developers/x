@@ -119,6 +119,34 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 5;
             break;
           }
+          case 50: {
+            org.bolg_developers.bolg.NotifyReceivingRequest.Builder subBuilder = null;
+            if (dataCase_ == 6) {
+              subBuilder = ((org.bolg_developers.bolg.NotifyReceivingRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.NotifyReceivingRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.NotifyReceivingRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 6;
+            break;
+          }
+          case 58: {
+            org.bolg_developers.bolg.NotifyReceivingMessage.Builder subBuilder = null;
+            if (dataCase_ == 7) {
+              subBuilder = ((org.bolg_developers.bolg.NotifyReceivingMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.NotifyReceivingMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.NotifyReceivingMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 7;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -152,6 +180,8 @@ private static final long serialVersionUID = 0L;
     JOIN_ROOM_REQ(3),
     JOIN_ROOM_RESP(4),
     JOIN_ROOM_MSG(5),
+    NOTIFY_RECEIVING_REQ(6),
+    NOTIFY_RECEIVING_MSG(7),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -172,6 +202,8 @@ private static final long serialVersionUID = 0L;
         case 3: return JOIN_ROOM_REQ;
         case 4: return JOIN_ROOM_RESP;
         case 5: return JOIN_ROOM_MSG;
+        case 6: return NOTIFY_RECEIVING_REQ;
+        case 7: return NOTIFY_RECEIVING_MSG;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -317,6 +349,58 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.JoinRoomMessage.getDefaultInstance();
   }
 
+  public static final int NOTIFY_RECEIVING_REQ_FIELD_NUMBER = 6;
+  /**
+   * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+   */
+  public boolean hasNotifyReceivingReq() {
+    return dataCase_ == 6;
+  }
+  /**
+   * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+   */
+  public org.bolg_developers.bolg.NotifyReceivingRequest getNotifyReceivingReq() {
+    if (dataCase_ == 6) {
+       return (org.bolg_developers.bolg.NotifyReceivingRequest) data_;
+    }
+    return org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+   */
+  public org.bolg_developers.bolg.NotifyReceivingRequestOrBuilder getNotifyReceivingReqOrBuilder() {
+    if (dataCase_ == 6) {
+       return (org.bolg_developers.bolg.NotifyReceivingRequest) data_;
+    }
+    return org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance();
+  }
+
+  public static final int NOTIFY_RECEIVING_MSG_FIELD_NUMBER = 7;
+  /**
+   * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+   */
+  public boolean hasNotifyReceivingMsg() {
+    return dataCase_ == 7;
+  }
+  /**
+   * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+   */
+  public org.bolg_developers.bolg.NotifyReceivingMessage getNotifyReceivingMsg() {
+    if (dataCase_ == 7) {
+       return (org.bolg_developers.bolg.NotifyReceivingMessage) data_;
+    }
+    return org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+   */
+  public org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder getNotifyReceivingMsgOrBuilder() {
+    if (dataCase_ == 7) {
+       return (org.bolg_developers.bolg.NotifyReceivingMessage) data_;
+    }
+    return org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -343,6 +427,12 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 5) {
       output.writeMessage(5, (org.bolg_developers.bolg.JoinRoomMessage) data_);
+    }
+    if (dataCase_ == 6) {
+      output.writeMessage(6, (org.bolg_developers.bolg.NotifyReceivingRequest) data_);
+    }
+    if (dataCase_ == 7) {
+      output.writeMessage(7, (org.bolg_developers.bolg.NotifyReceivingMessage) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -371,6 +461,14 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 5) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(5, (org.bolg_developers.bolg.JoinRoomMessage) data_);
+    }
+    if (dataCase_ == 6) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, (org.bolg_developers.bolg.NotifyReceivingRequest) data_);
+    }
+    if (dataCase_ == 7) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(7, (org.bolg_developers.bolg.NotifyReceivingMessage) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -412,6 +510,14 @@ private static final long serialVersionUID = 0L;
         result = result && getJoinRoomMsg()
             .equals(other.getJoinRoomMsg());
         break;
+      case 6:
+        result = result && getNotifyReceivingReq()
+            .equals(other.getNotifyReceivingReq());
+        break;
+      case 7:
+        result = result && getNotifyReceivingMsg()
+            .equals(other.getNotifyReceivingMsg());
+        break;
       case 0:
       default:
     }
@@ -446,6 +552,14 @@ private static final long serialVersionUID = 0L;
       case 5:
         hash = (37 * hash) + JOIN_ROOM_MSG_FIELD_NUMBER;
         hash = (53 * hash) + getJoinRoomMsg().hashCode();
+        break;
+      case 6:
+        hash = (37 * hash) + NOTIFY_RECEIVING_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getNotifyReceivingReq().hashCode();
+        break;
+      case 7:
+        hash = (37 * hash) + NOTIFY_RECEIVING_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getNotifyReceivingMsg().hashCode();
         break;
       case 0:
       default:
@@ -638,6 +752,20 @@ private static final long serialVersionUID = 0L;
           result.data_ = joinRoomMsgBuilder_.build();
         }
       }
+      if (dataCase_ == 6) {
+        if (notifyReceivingReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = notifyReceivingReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 7) {
+        if (notifyReceivingMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = notifyReceivingMsgBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -699,6 +827,14 @@ private static final long serialVersionUID = 0L;
         }
         case JOIN_ROOM_MSG: {
           mergeJoinRoomMsg(other.getJoinRoomMsg());
+          break;
+        }
+        case NOTIFY_RECEIVING_REQ: {
+          mergeNotifyReceivingReq(other.getNotifyReceivingReq());
+          break;
+        }
+        case NOTIFY_RECEIVING_MSG: {
+          mergeNotifyReceivingMsg(other.getNotifyReceivingMsg());
           break;
         }
         case DATA_NOT_SET: {
@@ -1425,6 +1561,278 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 5;
       onChanged();;
       return joinRoomMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.NotifyReceivingRequest, org.bolg_developers.bolg.NotifyReceivingRequest.Builder, org.bolg_developers.bolg.NotifyReceivingRequestOrBuilder> notifyReceivingReqBuilder_;
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public boolean hasNotifyReceivingReq() {
+      return dataCase_ == 6;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public org.bolg_developers.bolg.NotifyReceivingRequest getNotifyReceivingReq() {
+      if (notifyReceivingReqBuilder_ == null) {
+        if (dataCase_ == 6) {
+          return (org.bolg_developers.bolg.NotifyReceivingRequest) data_;
+        }
+        return org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 6) {
+          return notifyReceivingReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public Builder setNotifyReceivingReq(org.bolg_developers.bolg.NotifyReceivingRequest value) {
+      if (notifyReceivingReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        notifyReceivingReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 6;
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public Builder setNotifyReceivingReq(
+        org.bolg_developers.bolg.NotifyReceivingRequest.Builder builderForValue) {
+      if (notifyReceivingReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        notifyReceivingReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 6;
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public Builder mergeNotifyReceivingReq(org.bolg_developers.bolg.NotifyReceivingRequest value) {
+      if (notifyReceivingReqBuilder_ == null) {
+        if (dataCase_ == 6 &&
+            data_ != org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.NotifyReceivingRequest.newBuilder((org.bolg_developers.bolg.NotifyReceivingRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 6) {
+          notifyReceivingReqBuilder_.mergeFrom(value);
+        }
+        notifyReceivingReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 6;
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public Builder clearNotifyReceivingReq() {
+      if (notifyReceivingReqBuilder_ == null) {
+        if (dataCase_ == 6) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 6) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        notifyReceivingReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public org.bolg_developers.bolg.NotifyReceivingRequest.Builder getNotifyReceivingReqBuilder() {
+      return getNotifyReceivingReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    public org.bolg_developers.bolg.NotifyReceivingRequestOrBuilder getNotifyReceivingReqOrBuilder() {
+      if ((dataCase_ == 6) && (notifyReceivingReqBuilder_ != null)) {
+        return notifyReceivingReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 6) {
+          return (org.bolg_developers.bolg.NotifyReceivingRequest) data_;
+        }
+        return org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.NotifyReceivingRequest, org.bolg_developers.bolg.NotifyReceivingRequest.Builder, org.bolg_developers.bolg.NotifyReceivingRequestOrBuilder> 
+        getNotifyReceivingReqFieldBuilder() {
+      if (notifyReceivingReqBuilder_ == null) {
+        if (!(dataCase_ == 6)) {
+          data_ = org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance();
+        }
+        notifyReceivingReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.NotifyReceivingRequest, org.bolg_developers.bolg.NotifyReceivingRequest.Builder, org.bolg_developers.bolg.NotifyReceivingRequestOrBuilder>(
+                (org.bolg_developers.bolg.NotifyReceivingRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 6;
+      onChanged();;
+      return notifyReceivingReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.NotifyReceivingMessage, org.bolg_developers.bolg.NotifyReceivingMessage.Builder, org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder> notifyReceivingMsgBuilder_;
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public boolean hasNotifyReceivingMsg() {
+      return dataCase_ == 7;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public org.bolg_developers.bolg.NotifyReceivingMessage getNotifyReceivingMsg() {
+      if (notifyReceivingMsgBuilder_ == null) {
+        if (dataCase_ == 7) {
+          return (org.bolg_developers.bolg.NotifyReceivingMessage) data_;
+        }
+        return org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 7) {
+          return notifyReceivingMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public Builder setNotifyReceivingMsg(org.bolg_developers.bolg.NotifyReceivingMessage value) {
+      if (notifyReceivingMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        notifyReceivingMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 7;
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public Builder setNotifyReceivingMsg(
+        org.bolg_developers.bolg.NotifyReceivingMessage.Builder builderForValue) {
+      if (notifyReceivingMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        notifyReceivingMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 7;
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public Builder mergeNotifyReceivingMsg(org.bolg_developers.bolg.NotifyReceivingMessage value) {
+      if (notifyReceivingMsgBuilder_ == null) {
+        if (dataCase_ == 7 &&
+            data_ != org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.NotifyReceivingMessage.newBuilder((org.bolg_developers.bolg.NotifyReceivingMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 7) {
+          notifyReceivingMsgBuilder_.mergeFrom(value);
+        }
+        notifyReceivingMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 7;
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public Builder clearNotifyReceivingMsg() {
+      if (notifyReceivingMsgBuilder_ == null) {
+        if (dataCase_ == 7) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 7) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        notifyReceivingMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public org.bolg_developers.bolg.NotifyReceivingMessage.Builder getNotifyReceivingMsgBuilder() {
+      return getNotifyReceivingMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    public org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder getNotifyReceivingMsgOrBuilder() {
+      if ((dataCase_ == 7) && (notifyReceivingMsgBuilder_ != null)) {
+        return notifyReceivingMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 7) {
+          return (org.bolg_developers.bolg.NotifyReceivingMessage) data_;
+        }
+        return org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.NotifyReceivingMessage, org.bolg_developers.bolg.NotifyReceivingMessage.Builder, org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder> 
+        getNotifyReceivingMsgFieldBuilder() {
+      if (notifyReceivingMsgBuilder_ == null) {
+        if (!(dataCase_ == 7)) {
+          data_ = org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
+        }
+        notifyReceivingMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.NotifyReceivingMessage, org.bolg_developers.bolg.NotifyReceivingMessage.Builder, org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder>(
+                (org.bolg_developers.bolg.NotifyReceivingMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 7;
+      onChanged();;
+      return notifyReceivingMsgBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

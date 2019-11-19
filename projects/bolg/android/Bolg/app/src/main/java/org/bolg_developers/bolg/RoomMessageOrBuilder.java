@@ -72,5 +72,31 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.JoinRoomMessageOrBuilder getJoinRoomMsgOrBuilder();
 
+  /**
+   * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+   */
+  boolean hasNotifyReceivingReq();
+  /**
+   * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+   */
+  org.bolg_developers.bolg.NotifyReceivingRequest getNotifyReceivingReq();
+  /**
+   * <code>.bolg.NotifyReceivingRequest notify_receiving_req = 6;</code>
+   */
+  org.bolg_developers.bolg.NotifyReceivingRequestOrBuilder getNotifyReceivingReqOrBuilder();
+
+  /**
+   * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+   */
+  boolean hasNotifyReceivingMsg();
+  /**
+   * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+   */
+  org.bolg_developers.bolg.NotifyReceivingMessage getNotifyReceivingMsg();
+  /**
+   * <code>.bolg.NotifyReceivingMessage notify_receiving_msg = 7;</code>
+   */
+  org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder getNotifyReceivingMsgOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }

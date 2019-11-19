@@ -19,4 +19,22 @@ public interface JoinRoomResponseOrBuilder extends
    * <code>.bolg.Room room = 1;</code>
    */
   org.bolg_developers.bolg.RoomOrBuilder getRoomOrBuilder();
+
+  /**
+   * <pre>
+   * tokenはクライアントがどのルームの誰なのかを表します。
+   * </pre>
+   *
+   * <code>string token = 2;</code>
+   */
+  java.lang.String getToken();
+  /**
+   * <pre>
+   * tokenはクライアントがどのルームの誰なのかを表します。
+   * </pre>
+   *
+   * <code>string token = 2;</code>
+   */
+  com.google.protobuf.ByteString
+      getTokenBytes();
 }

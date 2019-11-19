@@ -3,26 +3,23 @@
 
 package org.bolg_developers.bolg;
 
-public interface CreateAndJoinRoomResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:bolg.CreateAndJoinRoomResponse)
+public interface NotifyReceivingRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:bolg.NotifyReceivingRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.bolg.Room room = 1;</code>
+   * <pre>
+   * player_idは受信したプレイヤーIDです。
+   * </pre>
+   *
+   * <code>int64 player_id = 1;</code>
    */
-  boolean hasRoom();
-  /**
-   * <code>.bolg.Room room = 1;</code>
-   */
-  org.bolg_developers.bolg.Room getRoom();
-  /**
-   * <code>.bolg.Room room = 1;</code>
-   */
-  org.bolg_developers.bolg.RoomOrBuilder getRoomOrBuilder();
+  long getPlayerId();
 
   /**
    * <pre>
    * tokenはクライアントがどのルームの誰なのかを表します。
+   * ルームを入室したときに生成されたtokenをセットしてください。
    * </pre>
    *
    * <code>string token = 2;</code>
@@ -31,6 +28,7 @@ public interface CreateAndJoinRoomResponseOrBuilder extends
   /**
    * <pre>
    * tokenはクライアントがどのルームの誰なのかを表します。
+   * ルームを入室したときに生成されたtokenをセットしてください。
    * </pre>
    *
    * <code>string token = 2;</code>
