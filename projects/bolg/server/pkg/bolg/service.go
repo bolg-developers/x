@@ -47,6 +47,11 @@ func (svc *Service) Connect(stream pb.BolgService_ConnectServer) error {
 			if err := svc.handleJoinRoomReq(stream, msg); err != nil {
 				return err
 			}
+		case *pb.RoomMessage_NotifyReceivingReq:
+			log.Println("Recieve NotifyReceivingReq")
+			if err := svc.handleNotifyReceivingReq(stream, msg); err != nil {
+				return err
+			}
 		default:
 			return status.Error(codes.InvalidArgument, "invalid room message")
 		}
@@ -101,7 +106,8 @@ func (svc *Service) handleCreateAndJoinRoomReq(stream pb.BolgService_ConnectServ
 	out := &pb.RoomMessage{
 		Data: &pb.RoomMessage_CreateAndJoinRoomResp{
 			CreateAndJoinRoomResp: &pb.CreateAndJoinRoomResponse{
-				Room: &r.Room,
+				Room:  &r.Room,
+				Token: createToken(rid, pid),
 			},
 		},
 	}
@@ -135,7 +141,8 @@ func (svc *Service) handleJoinRoomReq(stream pb.BolgService_ConnectServer, in *p
 	out := &pb.RoomMessage{
 		Data: &pb.RoomMessage_JoinRoomResp{
 			JoinRoomResp: &pb.JoinRoomResponse{
-				Room: &r.Room,
+				Room:  &r.Room,
+				Token: createToken(rid, pid),
 			},
 		},
 	}
@@ -161,6 +168,48 @@ func (svc *Service) handleJoinRoomReq(stream pb.BolgService_ConnectServer, in *p
 	return nil
 }
 
+func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer, in *pb.RoomMessage_NotifyReceivingReq) error {
+	rid, pid, err := parseFromToken(in.NotifyReceivingReq.Token)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	receiver, err := svc.roomDB.GetPlayer(rid, pid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	sender, err := svc.roomDB.GetPlayer(rid, in.NotifyReceivingReq.PlayerId)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	kill, err := damage(receiver, sender)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if err := svc.roomDB.UpdatePlayer(rid, receiver); err != nil {
+		return toGRPCError(err)
+	}
+	if err := svc.roomDB.UpdatePlayer(rid, sender); err != nil {
+		return toGRPCError(err)
+	}
+	var killerName string
+	if kill {
+		killerName = sender.Name
+	}
+	out := &pb.RoomMessage{
+		Data: &pb.RoomMessage_NotifyReceivingMsg{
+			NotifyReceivingMsg: &pb.NotifyReceivingMessage{
+				Player:     &receiver.Player,
+				KillerName: killerName,
+			},
+		},
+	}
+	if streams := svc.sm.Broadcasts(rid, stream, out); len(streams) != 0 {
+		log.Println("Failed to broadcast")
+	}
+	log.Println("Sent message others")
+	return nil
+}
+
 func toGRPCError(err error) error {
 	if err == nil {
 		return err
@@ -170,6 +219,10 @@ func toGRPCError(err error) error {
 		return status.Error(codes.NotFound, err.Error())
 	case ErrAlreadyExists:
 		return status.Error(codes.AlreadyExists, err.Error())
+	case ErrInvalidToken:
+		return status.Error(codes.Unauthenticated, err.Error())
+	case ErrHPisZero:
+		return status.Error(codes.FailedPrecondition, err.Error())
 	default:
 		return status.Error(codes.Internal, err.Error())
 	}

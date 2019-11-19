@@ -4,18 +4,19 @@
 package org.bolg_developers.bolg;
 
 /**
- * Protobuf type {@code bolg.JoinRoomResponse}
+ * Protobuf type {@code bolg.NotifyReceivingRequest}
  */
-public  final class JoinRoomResponse extends
+public  final class NotifyReceivingRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:bolg.JoinRoomResponse)
-    JoinRoomResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:bolg.NotifyReceivingRequest)
+    NotifyReceivingRequestOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use JoinRoomResponse.newBuilder() to construct.
-  private JoinRoomResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use NotifyReceivingRequest.newBuilder() to construct.
+  private NotifyReceivingRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private JoinRoomResponse() {
+  private NotifyReceivingRequest() {
+    playerId_ = 0L;
     token_ = "";
   }
 
@@ -24,7 +25,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private JoinRoomResponse(
+  private NotifyReceivingRequest(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -50,17 +51,9 @@ private static final long serialVersionUID = 0L;
             }
             break;
           }
-          case 10: {
-            org.bolg_developers.bolg.Room.Builder subBuilder = null;
-            if (room_ != null) {
-              subBuilder = room_.toBuilder();
-            }
-            room_ = input.readMessage(org.bolg_developers.bolg.Room.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(room_);
-              room_ = subBuilder.buildPartial();
-            }
+          case 8: {
 
+            playerId_ = input.readInt64();
             break;
           }
           case 18: {
@@ -83,35 +76,27 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_descriptor;
+    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_NotifyReceivingRequest_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_fieldAccessorTable
+    return org.bolg_developers.bolg.BolgProto.internal_static_bolg_NotifyReceivingRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            org.bolg_developers.bolg.JoinRoomResponse.class, org.bolg_developers.bolg.JoinRoomResponse.Builder.class);
+            org.bolg_developers.bolg.NotifyReceivingRequest.class, org.bolg_developers.bolg.NotifyReceivingRequest.Builder.class);
   }
 
-  public static final int ROOM_FIELD_NUMBER = 1;
-  private org.bolg_developers.bolg.Room room_;
+  public static final int PLAYER_ID_FIELD_NUMBER = 1;
+  private long playerId_;
   /**
-   * <code>.bolg.Room room = 1;</code>
+   * <pre>
+   * player_idは受信したプレイヤーIDです。
+   * </pre>
+   *
+   * <code>int64 player_id = 1;</code>
    */
-  public boolean hasRoom() {
-    return room_ != null;
-  }
-  /**
-   * <code>.bolg.Room room = 1;</code>
-   */
-  public org.bolg_developers.bolg.Room getRoom() {
-    return room_ == null ? org.bolg_developers.bolg.Room.getDefaultInstance() : room_;
-  }
-  /**
-   * <code>.bolg.Room room = 1;</code>
-   */
-  public org.bolg_developers.bolg.RoomOrBuilder getRoomOrBuilder() {
-    return getRoom();
+  public long getPlayerId() {
+    return playerId_;
   }
 
   public static final int TOKEN_FIELD_NUMBER = 2;
@@ -119,6 +104,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    * tokenはクライアントがどのルームの誰なのかを表します。
+   * ルームを入室したときに生成されたtokenをセットしてください。
    * </pre>
    *
    * <code>string token = 2;</code>
@@ -138,6 +124,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    * tokenはクライアントがどのルームの誰なのかを表します。
+   * ルームを入室したときに生成されたtokenをセットしてください。
    * </pre>
    *
    * <code>string token = 2;</code>
@@ -168,8 +155,8 @@ private static final long serialVersionUID = 0L;
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (room_ != null) {
-      output.writeMessage(1, getRoom());
+    if (playerId_ != 0L) {
+      output.writeInt64(1, playerId_);
     }
     if (!getTokenBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
@@ -182,9 +169,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (room_ != null) {
+    if (playerId_ != 0L) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getRoom());
+        .computeInt64Size(1, playerId_);
     }
     if (!getTokenBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
@@ -199,17 +186,14 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof org.bolg_developers.bolg.JoinRoomResponse)) {
+    if (!(obj instanceof org.bolg_developers.bolg.NotifyReceivingRequest)) {
       return super.equals(obj);
     }
-    org.bolg_developers.bolg.JoinRoomResponse other = (org.bolg_developers.bolg.JoinRoomResponse) obj;
+    org.bolg_developers.bolg.NotifyReceivingRequest other = (org.bolg_developers.bolg.NotifyReceivingRequest) obj;
 
     boolean result = true;
-    result = result && (hasRoom() == other.hasRoom());
-    if (hasRoom()) {
-      result = result && getRoom()
-          .equals(other.getRoom());
-    }
+    result = result && (getPlayerId()
+        == other.getPlayerId());
     result = result && getToken()
         .equals(other.getToken());
     result = result && unknownFields.equals(other.unknownFields);
@@ -223,10 +207,9 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (hasRoom()) {
-      hash = (37 * hash) + ROOM_FIELD_NUMBER;
-      hash = (53 * hash) + getRoom().hashCode();
-    }
+    hash = (37 * hash) + PLAYER_ID_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        getPlayerId());
     hash = (37 * hash) + TOKEN_FIELD_NUMBER;
     hash = (53 * hash) + getToken().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -234,69 +217,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(byte[] data)
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(java.io.InputStream input)
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseDelimitedFrom(java.io.InputStream input)
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseDelimitedFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.bolg_developers.bolg.JoinRoomResponse parseFrom(
+  public static org.bolg_developers.bolg.NotifyReceivingRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -308,7 +291,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(org.bolg_developers.bolg.JoinRoomResponse prototype) {
+  public static Builder newBuilder(org.bolg_developers.bolg.NotifyReceivingRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -323,25 +306,25 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code bolg.JoinRoomResponse}
+   * Protobuf type {@code bolg.NotifyReceivingRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:bolg.JoinRoomResponse)
-      org.bolg_developers.bolg.JoinRoomResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:bolg.NotifyReceivingRequest)
+      org.bolg_developers.bolg.NotifyReceivingRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_descriptor;
+      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_NotifyReceivingRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_fieldAccessorTable
+      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_NotifyReceivingRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.bolg_developers.bolg.JoinRoomResponse.class, org.bolg_developers.bolg.JoinRoomResponse.Builder.class);
+              org.bolg_developers.bolg.NotifyReceivingRequest.class, org.bolg_developers.bolg.NotifyReceivingRequest.Builder.class);
     }
 
-    // Construct using org.bolg_developers.bolg.JoinRoomResponse.newBuilder()
+    // Construct using org.bolg_developers.bolg.NotifyReceivingRequest.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -358,12 +341,8 @@ private static final long serialVersionUID = 0L;
     }
     public Builder clear() {
       super.clear();
-      if (roomBuilder_ == null) {
-        room_ = null;
-      } else {
-        room_ = null;
-        roomBuilder_ = null;
-      }
+      playerId_ = 0L;
+
       token_ = "";
 
       return this;
@@ -371,28 +350,24 @@ private static final long serialVersionUID = 0L;
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_JoinRoomResponse_descriptor;
+      return org.bolg_developers.bolg.BolgProto.internal_static_bolg_NotifyReceivingRequest_descriptor;
     }
 
-    public org.bolg_developers.bolg.JoinRoomResponse getDefaultInstanceForType() {
-      return org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance();
+    public org.bolg_developers.bolg.NotifyReceivingRequest getDefaultInstanceForType() {
+      return org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance();
     }
 
-    public org.bolg_developers.bolg.JoinRoomResponse build() {
-      org.bolg_developers.bolg.JoinRoomResponse result = buildPartial();
+    public org.bolg_developers.bolg.NotifyReceivingRequest build() {
+      org.bolg_developers.bolg.NotifyReceivingRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public org.bolg_developers.bolg.JoinRoomResponse buildPartial() {
-      org.bolg_developers.bolg.JoinRoomResponse result = new org.bolg_developers.bolg.JoinRoomResponse(this);
-      if (roomBuilder_ == null) {
-        result.room_ = room_;
-      } else {
-        result.room_ = roomBuilder_.build();
-      }
+    public org.bolg_developers.bolg.NotifyReceivingRequest buildPartial() {
+      org.bolg_developers.bolg.NotifyReceivingRequest result = new org.bolg_developers.bolg.NotifyReceivingRequest(this);
+      result.playerId_ = playerId_;
       result.token_ = token_;
       onBuilt();
       return result;
@@ -425,18 +400,18 @@ private static final long serialVersionUID = 0L;
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof org.bolg_developers.bolg.JoinRoomResponse) {
-        return mergeFrom((org.bolg_developers.bolg.JoinRoomResponse)other);
+      if (other instanceof org.bolg_developers.bolg.NotifyReceivingRequest) {
+        return mergeFrom((org.bolg_developers.bolg.NotifyReceivingRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(org.bolg_developers.bolg.JoinRoomResponse other) {
-      if (other == org.bolg_developers.bolg.JoinRoomResponse.getDefaultInstance()) return this;
-      if (other.hasRoom()) {
-        mergeRoom(other.getRoom());
+    public Builder mergeFrom(org.bolg_developers.bolg.NotifyReceivingRequest other) {
+      if (other == org.bolg_developers.bolg.NotifyReceivingRequest.getDefaultInstance()) return this;
+      if (other.getPlayerId() != 0L) {
+        setPlayerId(other.getPlayerId());
       }
       if (!other.getToken().isEmpty()) {
         token_ = other.token_;
@@ -455,11 +430,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      org.bolg_developers.bolg.JoinRoomResponse parsedMessage = null;
+      org.bolg_developers.bolg.NotifyReceivingRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (org.bolg_developers.bolg.JoinRoomResponse) e.getUnfinishedMessage();
+        parsedMessage = (org.bolg_developers.bolg.NotifyReceivingRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -469,127 +444,49 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private org.bolg_developers.bolg.Room room_ = null;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        org.bolg_developers.bolg.Room, org.bolg_developers.bolg.Room.Builder, org.bolg_developers.bolg.RoomOrBuilder> roomBuilder_;
+    private long playerId_ ;
     /**
-     * <code>.bolg.Room room = 1;</code>
+     * <pre>
+     * player_idは受信したプレイヤーIDです。
+     * </pre>
+     *
+     * <code>int64 player_id = 1;</code>
      */
-    public boolean hasRoom() {
-      return roomBuilder_ != null || room_ != null;
+    public long getPlayerId() {
+      return playerId_;
     }
     /**
-     * <code>.bolg.Room room = 1;</code>
+     * <pre>
+     * player_idは受信したプレイヤーIDです。
+     * </pre>
+     *
+     * <code>int64 player_id = 1;</code>
      */
-    public org.bolg_developers.bolg.Room getRoom() {
-      if (roomBuilder_ == null) {
-        return room_ == null ? org.bolg_developers.bolg.Room.getDefaultInstance() : room_;
-      } else {
-        return roomBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>.bolg.Room room = 1;</code>
-     */
-    public Builder setRoom(org.bolg_developers.bolg.Room value) {
-      if (roomBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        room_ = value;
-        onChanged();
-      } else {
-        roomBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.bolg.Room room = 1;</code>
-     */
-    public Builder setRoom(
-        org.bolg_developers.bolg.Room.Builder builderForValue) {
-      if (roomBuilder_ == null) {
-        room_ = builderForValue.build();
-        onChanged();
-      } else {
-        roomBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <code>.bolg.Room room = 1;</code>
-     */
-    public Builder mergeRoom(org.bolg_developers.bolg.Room value) {
-      if (roomBuilder_ == null) {
-        if (room_ != null) {
-          room_ =
-            org.bolg_developers.bolg.Room.newBuilder(room_).mergeFrom(value).buildPartial();
-        } else {
-          room_ = value;
-        }
-        onChanged();
-      } else {
-        roomBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.bolg.Room room = 1;</code>
-     */
-    public Builder clearRoom() {
-      if (roomBuilder_ == null) {
-        room_ = null;
-        onChanged();
-      } else {
-        room_ = null;
-        roomBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <code>.bolg.Room room = 1;</code>
-     */
-    public org.bolg_developers.bolg.Room.Builder getRoomBuilder() {
+    public Builder setPlayerId(long value) {
       
+      playerId_ = value;
       onChanged();
-      return getRoomFieldBuilder().getBuilder();
+      return this;
     }
     /**
-     * <code>.bolg.Room room = 1;</code>
+     * <pre>
+     * player_idは受信したプレイヤーIDです。
+     * </pre>
+     *
+     * <code>int64 player_id = 1;</code>
      */
-    public org.bolg_developers.bolg.RoomOrBuilder getRoomOrBuilder() {
-      if (roomBuilder_ != null) {
-        return roomBuilder_.getMessageOrBuilder();
-      } else {
-        return room_ == null ?
-            org.bolg_developers.bolg.Room.getDefaultInstance() : room_;
-      }
-    }
-    /**
-     * <code>.bolg.Room room = 1;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        org.bolg_developers.bolg.Room, org.bolg_developers.bolg.Room.Builder, org.bolg_developers.bolg.RoomOrBuilder> 
-        getRoomFieldBuilder() {
-      if (roomBuilder_ == null) {
-        roomBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            org.bolg_developers.bolg.Room, org.bolg_developers.bolg.Room.Builder, org.bolg_developers.bolg.RoomOrBuilder>(
-                getRoom(),
-                getParentForChildren(),
-                isClean());
-        room_ = null;
-      }
-      return roomBuilder_;
+    public Builder clearPlayerId() {
+      
+      playerId_ = 0L;
+      onChanged();
+      return this;
     }
 
     private java.lang.Object token_ = "";
     /**
      * <pre>
      * tokenはクライアントがどのルームの誰なのかを表します。
+     * ルームを入室したときに生成されたtokenをセットしてください。
      * </pre>
      *
      * <code>string token = 2;</code>
@@ -609,6 +506,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * tokenはクライアントがどのルームの誰なのかを表します。
+     * ルームを入室したときに生成されたtokenをセットしてください。
      * </pre>
      *
      * <code>string token = 2;</code>
@@ -629,6 +527,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * tokenはクライアントがどのルームの誰なのかを表します。
+     * ルームを入室したときに生成されたtokenをセットしてください。
      * </pre>
      *
      * <code>string token = 2;</code>
@@ -646,6 +545,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * tokenはクライアントがどのルームの誰なのかを表します。
+     * ルームを入室したときに生成されたtokenをセットしてください。
      * </pre>
      *
      * <code>string token = 2;</code>
@@ -659,6 +559,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <pre>
      * tokenはクライアントがどのルームの誰なのかを表します。
+     * ルームを入室したときに生成されたtokenをセットしてください。
      * </pre>
      *
      * <code>string token = 2;</code>
@@ -685,39 +586,39 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:bolg.JoinRoomResponse)
+    // @@protoc_insertion_point(builder_scope:bolg.NotifyReceivingRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:bolg.JoinRoomResponse)
-  private static final org.bolg_developers.bolg.JoinRoomResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:bolg.NotifyReceivingRequest)
+  private static final org.bolg_developers.bolg.NotifyReceivingRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new org.bolg_developers.bolg.JoinRoomResponse();
+    DEFAULT_INSTANCE = new org.bolg_developers.bolg.NotifyReceivingRequest();
   }
 
-  public static org.bolg_developers.bolg.JoinRoomResponse getDefaultInstance() {
+  public static org.bolg_developers.bolg.NotifyReceivingRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<JoinRoomResponse>
-      PARSER = new com.google.protobuf.AbstractParser<JoinRoomResponse>() {
-    public JoinRoomResponse parsePartialFrom(
+  private static final com.google.protobuf.Parser<NotifyReceivingRequest>
+      PARSER = new com.google.protobuf.AbstractParser<NotifyReceivingRequest>() {
+    public NotifyReceivingRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new JoinRoomResponse(input, extensionRegistry);
+      return new NotifyReceivingRequest(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<JoinRoomResponse> parser() {
+  public static com.google.protobuf.Parser<NotifyReceivingRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<JoinRoomResponse> getParserForType() {
+  public com.google.protobuf.Parser<NotifyReceivingRequest> getParserForType() {
     return PARSER;
   }
 
-  public org.bolg_developers.bolg.JoinRoomResponse getDefaultInstanceForType() {
+  public org.bolg_developers.bolg.NotifyReceivingRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

@@ -16,6 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private CreateAndJoinRoomResponse() {
+    token_ = "";
   }
 
   @java.lang.Override
@@ -60,6 +61,12 @@ private static final long serialVersionUID = 0L;
               room_ = subBuilder.buildPartial();
             }
 
+            break;
+          }
+          case 18: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            token_ = s;
             break;
           }
         }
@@ -107,6 +114,48 @@ private static final long serialVersionUID = 0L;
     return getRoom();
   }
 
+  public static final int TOKEN_FIELD_NUMBER = 2;
+  private volatile java.lang.Object token_;
+  /**
+   * <pre>
+   * tokenはクライアントがどのルームの誰なのかを表します。
+   * </pre>
+   *
+   * <code>string token = 2;</code>
+   */
+  public java.lang.String getToken() {
+    java.lang.Object ref = token_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      token_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * tokenはクライアントがどのルームの誰なのかを表します。
+   * </pre>
+   *
+   * <code>string token = 2;</code>
+   */
+  public com.google.protobuf.ByteString
+      getTokenBytes() {
+    java.lang.Object ref = token_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      token_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -122,6 +171,9 @@ private static final long serialVersionUID = 0L;
     if (room_ != null) {
       output.writeMessage(1, getRoom());
     }
+    if (!getTokenBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -133,6 +185,9 @@ private static final long serialVersionUID = 0L;
     if (room_ != null) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(1, getRoom());
+    }
+    if (!getTokenBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -155,6 +210,8 @@ private static final long serialVersionUID = 0L;
       result = result && getRoom()
           .equals(other.getRoom());
     }
+    result = result && getToken()
+        .equals(other.getToken());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -170,6 +227,8 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + ROOM_FIELD_NUMBER;
       hash = (53 * hash) + getRoom().hashCode();
     }
+    hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+    hash = (53 * hash) + getToken().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -305,6 +364,8 @@ private static final long serialVersionUID = 0L;
         room_ = null;
         roomBuilder_ = null;
       }
+      token_ = "";
+
       return this;
     }
 
@@ -332,6 +393,7 @@ private static final long serialVersionUID = 0L;
       } else {
         result.room_ = roomBuilder_.build();
       }
+      result.token_ = token_;
       onBuilt();
       return result;
     }
@@ -375,6 +437,10 @@ private static final long serialVersionUID = 0L;
       if (other == org.bolg_developers.bolg.CreateAndJoinRoomResponse.getDefaultInstance()) return this;
       if (other.hasRoom()) {
         mergeRoom(other.getRoom());
+      }
+      if (!other.getToken().isEmpty()) {
+        token_ = other.token_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -518,6 +584,95 @@ private static final long serialVersionUID = 0L;
         room_ = null;
       }
       return roomBuilder_;
+    }
+
+    private java.lang.Object token_ = "";
+    /**
+     * <pre>
+     * tokenはクライアントがどのルームの誰なのかを表します。
+     * </pre>
+     *
+     * <code>string token = 2;</code>
+     */
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        token_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     * tokenはクライアントがどのルームの誰なのかを表します。
+     * </pre>
+     *
+     * <code>string token = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * tokenはクライアントがどのルームの誰なのかを表します。
+     * </pre>
+     *
+     * <code>string token = 2;</code>
+     */
+    public Builder setToken(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      token_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * tokenはクライアントがどのルームの誰なのかを表します。
+     * </pre>
+     *
+     * <code>string token = 2;</code>
+     */
+    public Builder clearToken() {
+      
+      token_ = getDefaultInstance().getToken();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * tokenはクライアントがどのルームの誰なのかを表します。
+     * </pre>
+     *
+     * <code>string token = 2;</code>
+     */
+    public Builder setTokenBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      token_ = value;
+      onChanged();
+      return this;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

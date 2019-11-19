@@ -25,6 +25,7 @@ func NewRoom(id int64) *Room {
 type Player struct {
 	pb.Player
 	Attack int64
+	Kill   int64
 }
 
 func NewPlayer(id int64, name string) *Player {

@@ -72,10 +72,16 @@ func (db *memoryRoomDatabase) CreatePlayer(roomID int64, p *Player) error {
 	return nil
 }
 
+func (db *memoryRoomDatabase) GetPlayer(roomID, playerID int64) (*Player, error) {
+	db.Lock()
+	defer db.Unlock()
+	return db.getPlayer(roomID, playerID)
+}
+
 func (db *memoryRoomDatabase) getPlayer(roomID, playerID int64) (*Player, error) {
 	players, ok := db.playersMap[roomID]
 	if !ok {
-		return nil, errors.New(fmt.Sprintf("playersMap[%d] is not created", roomID))
+		return nil, fmt.Errorf("playersMap[%d] is not created", roomID)
 	}
 	for _, p := range players {
 		if p.Id == playerID {
@@ -83,4 +89,20 @@ func (db *memoryRoomDatabase) getPlayer(roomID, playerID int64) (*Player, error)
 		}
 	}
 	return nil, ErrNotFound
+}
+
+func (db *memoryRoomDatabase) UpdatePlayer(roomID int64, player *Player) error {
+	db.Lock()
+	defer db.Unlock()
+	players, ok := db.playersMap[roomID]
+	if !ok {
+		return fmt.Errorf("playersMap[%d] is not created", roomID)
+	}
+	for i, p := range players {
+		if p.Id == player.Id {
+			players[i] = player
+			return nil
+		}
+	}
+	return fmt.Errorf("not found: (roomID, playerID)=(%d, %d)", roomID, player.Id)
 }
