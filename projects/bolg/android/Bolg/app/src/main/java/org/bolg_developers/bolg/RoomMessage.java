@@ -147,6 +147,20 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 7;
             break;
           }
+          case 66: {
+            org.bolg_developers.bolg.SurvivalResultMessage.Builder subBuilder = null;
+            if (dataCase_ == 8) {
+              subBuilder = ((org.bolg_developers.bolg.SurvivalResultMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.SurvivalResultMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.SurvivalResultMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 8;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -182,6 +196,7 @@ private static final long serialVersionUID = 0L;
     JOIN_ROOM_MSG(5),
     NOTIFY_RECEIVING_REQ(6),
     NOTIFY_RECEIVING_MSG(7),
+    SURVIVAL_RESULT_MSG(8),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -204,6 +219,7 @@ private static final long serialVersionUID = 0L;
         case 5: return JOIN_ROOM_MSG;
         case 6: return NOTIFY_RECEIVING_REQ;
         case 7: return NOTIFY_RECEIVING_MSG;
+        case 8: return SURVIVAL_RESULT_MSG;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -401,6 +417,32 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
   }
 
+  public static final int SURVIVAL_RESULT_MSG_FIELD_NUMBER = 8;
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  public boolean hasSurvivalResultMsg() {
+    return dataCase_ == 8;
+  }
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  public org.bolg_developers.bolg.SurvivalResultMessage getSurvivalResultMsg() {
+    if (dataCase_ == 8) {
+       return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+    }
+    return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  public org.bolg_developers.bolg.SurvivalResultMessageOrBuilder getSurvivalResultMsgOrBuilder() {
+    if (dataCase_ == 8) {
+       return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+    }
+    return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -433,6 +475,9 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 7) {
       output.writeMessage(7, (org.bolg_developers.bolg.NotifyReceivingMessage) data_);
+    }
+    if (dataCase_ == 8) {
+      output.writeMessage(8, (org.bolg_developers.bolg.SurvivalResultMessage) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -469,6 +514,10 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 7) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(7, (org.bolg_developers.bolg.NotifyReceivingMessage) data_);
+    }
+    if (dataCase_ == 8) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(8, (org.bolg_developers.bolg.SurvivalResultMessage) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -518,6 +567,10 @@ private static final long serialVersionUID = 0L;
         result = result && getNotifyReceivingMsg()
             .equals(other.getNotifyReceivingMsg());
         break;
+      case 8:
+        result = result && getSurvivalResultMsg()
+            .equals(other.getSurvivalResultMsg());
+        break;
       case 0:
       default:
     }
@@ -560,6 +613,10 @@ private static final long serialVersionUID = 0L;
       case 7:
         hash = (37 * hash) + NOTIFY_RECEIVING_MSG_FIELD_NUMBER;
         hash = (53 * hash) + getNotifyReceivingMsg().hashCode();
+        break;
+      case 8:
+        hash = (37 * hash) + SURVIVAL_RESULT_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getSurvivalResultMsg().hashCode();
         break;
       case 0:
       default:
@@ -766,6 +823,13 @@ private static final long serialVersionUID = 0L;
           result.data_ = notifyReceivingMsgBuilder_.build();
         }
       }
+      if (dataCase_ == 8) {
+        if (survivalResultMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = survivalResultMsgBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -835,6 +899,10 @@ private static final long serialVersionUID = 0L;
         }
         case NOTIFY_RECEIVING_MSG: {
           mergeNotifyReceivingMsg(other.getNotifyReceivingMsg());
+          break;
+        }
+        case SURVIVAL_RESULT_MSG: {
+          mergeSurvivalResultMsg(other.getSurvivalResultMsg());
           break;
         }
         case DATA_NOT_SET: {
@@ -1833,6 +1901,142 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 7;
       onChanged();;
       return notifyReceivingMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.SurvivalResultMessage, org.bolg_developers.bolg.SurvivalResultMessage.Builder, org.bolg_developers.bolg.SurvivalResultMessageOrBuilder> survivalResultMsgBuilder_;
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public boolean hasSurvivalResultMsg() {
+      return dataCase_ == 8;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public org.bolg_developers.bolg.SurvivalResultMessage getSurvivalResultMsg() {
+      if (survivalResultMsgBuilder_ == null) {
+        if (dataCase_ == 8) {
+          return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+        }
+        return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 8) {
+          return survivalResultMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder setSurvivalResultMsg(org.bolg_developers.bolg.SurvivalResultMessage value) {
+      if (survivalResultMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        survivalResultMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 8;
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder setSurvivalResultMsg(
+        org.bolg_developers.bolg.SurvivalResultMessage.Builder builderForValue) {
+      if (survivalResultMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        survivalResultMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 8;
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder mergeSurvivalResultMsg(org.bolg_developers.bolg.SurvivalResultMessage value) {
+      if (survivalResultMsgBuilder_ == null) {
+        if (dataCase_ == 8 &&
+            data_ != org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.SurvivalResultMessage.newBuilder((org.bolg_developers.bolg.SurvivalResultMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 8) {
+          survivalResultMsgBuilder_.mergeFrom(value);
+        }
+        survivalResultMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 8;
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder clearSurvivalResultMsg() {
+      if (survivalResultMsgBuilder_ == null) {
+        if (dataCase_ == 8) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 8) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        survivalResultMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public org.bolg_developers.bolg.SurvivalResultMessage.Builder getSurvivalResultMsgBuilder() {
+      return getSurvivalResultMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public org.bolg_developers.bolg.SurvivalResultMessageOrBuilder getSurvivalResultMsgOrBuilder() {
+      if ((dataCase_ == 8) && (survivalResultMsgBuilder_ != null)) {
+        return survivalResultMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 8) {
+          return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+        }
+        return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.SurvivalResultMessage, org.bolg_developers.bolg.SurvivalResultMessage.Builder, org.bolg_developers.bolg.SurvivalResultMessageOrBuilder> 
+        getSurvivalResultMsgFieldBuilder() {
+      if (survivalResultMsgBuilder_ == null) {
+        if (!(dataCase_ == 8)) {
+          data_ = org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+        }
+        survivalResultMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.SurvivalResultMessage, org.bolg_developers.bolg.SurvivalResultMessage.Builder, org.bolg_developers.bolg.SurvivalResultMessageOrBuilder>(
+                (org.bolg_developers.bolg.SurvivalResultMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 8;
+      onChanged();;
+      return survivalResultMsgBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

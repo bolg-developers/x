@@ -53,3 +53,14 @@ func (players Players) ToPBPlayers() []*pb.Player {
 	}
 	return ret
 }
+
+func (players Players) ToSurivalPersonalResults() []*pb.SurvivalPersonalResult {
+	results := make([]*pb.SurvivalPersonalResult, len(players))
+	for i, p := range players {
+		results[i] = &pb.SurvivalPersonalResult{
+			PlayerName: p.Name,
+			KillCount:  p.Kill,
+		}
+	}
+	return results
+}
