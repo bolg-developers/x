@@ -59,6 +59,11 @@ func (svc *Service) Connect(stream pb.BolgService_ConnectServer) error {
 			if err := svc.handleStartGameReq(stream, msg); err != nil {
 				return err
 			}
+		case *pb.RoomMessage_UpdateWeaponReq:
+			log.Println("Recieve UpdateWeaponReq")
+			if err := svc.handleUpdateWeaponReq(stream, msg); err != nil {
+				return err
+			}
 		default:
 			return status.Error(codes.InvalidArgument, "invalid room message")
 		}
@@ -78,12 +83,9 @@ func (svc *Service) handleCreateAndJoinRoomReq(stream pb.BolgService_ConnectServ
 		return status.Error(codes.ResourceExhausted, "room is full")
 	}
 	log.Println("Created room number:", rid)
-
-	// TODO: ゲームをスタートさせるハンドラーで生成するようにする
 	if err := svc.jm.create(rid, newSurivalJudgement()); err != nil {
 		return toGRPCError(err)
 	}
-
 	if err := svc.idpm.create(rid); err != nil {
 		return toGRPCError(err)
 	}
@@ -186,6 +188,13 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 	if err != nil {
 		return toGRPCError(err)
 	}
+	room, err := svc.roomDB.Get(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if !room.GameStart {
+		return status.Error(codes.FailedPrecondition, "game is not starting")
+	}
 	receiver, err := svc.roomDB.GetPlayer(rid, pid)
 	if err != nil {
 		return toGRPCError(err)
@@ -243,7 +252,7 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 		log.Println("Failed to broadcast")
 	}
 	log.Println("Sent message")
-	room, err := svc.roomDB.Get(rid)
+	room, err = svc.roomDB.Get(rid)
 	if err != nil {
 		return toGRPCError(err)
 	}
@@ -264,11 +273,9 @@ func (svc *Service) handleStartGameReq(stream pb.BolgService_ConnectServer, in *
 		return toGRPCError(err)
 	}
 	if pid != room.OwnerId {
-		log.Println("your are not room owner")
 		return status.Error(codes.PermissionDenied, "your are not room owner")
 	}
 	if room.GameStart {
-		log.Println("game is already starting")
 		return status.Error(codes.FailedPrecondition, "game is already starting")
 	}
 	room.GameStart = true
@@ -286,6 +293,30 @@ func (svc *Service) handleStartGameReq(stream pb.BolgService_ConnectServer, in *
 		log.Println("Failed to broadcast")
 	}
 	log.Println("Sent message")
+	return nil
+}
+
+func (svc *Service) handleUpdateWeaponReq(stream pb.BolgService_ConnectServer, in *pb.RoomMessage_UpdateWeaponReq) error {
+	rid, pid, err := parseFromToken(in.UpdateWeaponReq.Token)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	player, err := svc.roomDB.GetPlayer(rid, pid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	player.Attack = in.UpdateWeaponReq.Attack
+	if err := svc.roomDB.UpdatePlayer(rid, player); err != nil {
+		return toGRPCError(err)
+	}
+	out := &pb.RoomMessage{
+		Data: &pb.RoomMessage_UpdateWeaponResp{
+			UpdateWeaponResp: &pb.UpdateWeaponResponse{},
+		},
+	}
+	if err := stream.Send(out); err != nil {
+		return err
+	}
 	return nil
 }
 

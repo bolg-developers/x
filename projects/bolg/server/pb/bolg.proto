@@ -24,6 +24,8 @@ message RoomMessage {
     SurvivalResultMessage survival_result_msg = 8;
     StartGameRequest start_game_req = 9;
     StartGameMessage start_game_msg = 10;
+    UpdateWeaponRequest update_weapon_req = 11;
+    UpdateWeaponResponse update_weapon_resp = 12;
   }
 }
 
@@ -97,6 +99,13 @@ message StartGameRequest {
 message StartGameMessage {
   Room room = 1;
 }
+
+message UpdateWeaponRequest {
+  int64 attack = 1;
+  string token = 2;
+}
+
+message UpdateWeaponResponse {}
 
 message Room {
   // output only
