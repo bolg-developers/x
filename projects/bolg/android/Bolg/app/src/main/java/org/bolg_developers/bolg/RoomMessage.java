@@ -217,6 +217,34 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 12;
             break;
           }
+          case 106: {
+            org.bolg_developers.bolg.ReadyRequest.Builder subBuilder = null;
+            if (dataCase_ == 13) {
+              subBuilder = ((org.bolg_developers.bolg.ReadyRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.ReadyRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.ReadyRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 13;
+            break;
+          }
+          case 114: {
+            org.bolg_developers.bolg.ReadyMessage.Builder subBuilder = null;
+            if (dataCase_ == 14) {
+              subBuilder = ((org.bolg_developers.bolg.ReadyMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.ReadyMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.ReadyMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 14;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -257,6 +285,8 @@ private static final long serialVersionUID = 0L;
     START_GAME_MSG(10),
     UPDATE_WEAPON_REQ(11),
     UPDATE_WEAPON_RESP(12),
+    READY_REQ(13),
+    READY_MSG(14),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -284,6 +314,8 @@ private static final long serialVersionUID = 0L;
         case 10: return START_GAME_MSG;
         case 11: return UPDATE_WEAPON_REQ;
         case 12: return UPDATE_WEAPON_RESP;
+        case 13: return READY_REQ;
+        case 14: return READY_MSG;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -611,6 +643,58 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
   }
 
+  public static final int READY_REQ_FIELD_NUMBER = 13;
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  public boolean hasReadyReq() {
+    return dataCase_ == 13;
+  }
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  public org.bolg_developers.bolg.ReadyRequest getReadyReq() {
+    if (dataCase_ == 13) {
+       return (org.bolg_developers.bolg.ReadyRequest) data_;
+    }
+    return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  public org.bolg_developers.bolg.ReadyRequestOrBuilder getReadyReqOrBuilder() {
+    if (dataCase_ == 13) {
+       return (org.bolg_developers.bolg.ReadyRequest) data_;
+    }
+    return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+  }
+
+  public static final int READY_MSG_FIELD_NUMBER = 14;
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  public boolean hasReadyMsg() {
+    return dataCase_ == 14;
+  }
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  public org.bolg_developers.bolg.ReadyMessage getReadyMsg() {
+    if (dataCase_ == 14) {
+       return (org.bolg_developers.bolg.ReadyMessage) data_;
+    }
+    return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  public org.bolg_developers.bolg.ReadyMessageOrBuilder getReadyMsgOrBuilder() {
+    if (dataCase_ == 14) {
+       return (org.bolg_developers.bolg.ReadyMessage) data_;
+    }
+    return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -658,6 +742,12 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 12) {
       output.writeMessage(12, (org.bolg_developers.bolg.UpdateWeaponResponse) data_);
+    }
+    if (dataCase_ == 13) {
+      output.writeMessage(13, (org.bolg_developers.bolg.ReadyRequest) data_);
+    }
+    if (dataCase_ == 14) {
+      output.writeMessage(14, (org.bolg_developers.bolg.ReadyMessage) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -714,6 +804,14 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 12) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(12, (org.bolg_developers.bolg.UpdateWeaponResponse) data_);
+    }
+    if (dataCase_ == 13) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(13, (org.bolg_developers.bolg.ReadyRequest) data_);
+    }
+    if (dataCase_ == 14) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(14, (org.bolg_developers.bolg.ReadyMessage) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -783,6 +881,14 @@ private static final long serialVersionUID = 0L;
         result = result && getUpdateWeaponResp()
             .equals(other.getUpdateWeaponResp());
         break;
+      case 13:
+        result = result && getReadyReq()
+            .equals(other.getReadyReq());
+        break;
+      case 14:
+        result = result && getReadyMsg()
+            .equals(other.getReadyMsg());
+        break;
       case 0:
       default:
     }
@@ -845,6 +951,14 @@ private static final long serialVersionUID = 0L;
       case 12:
         hash = (37 * hash) + UPDATE_WEAPON_RESP_FIELD_NUMBER;
         hash = (53 * hash) + getUpdateWeaponResp().hashCode();
+        break;
+      case 13:
+        hash = (37 * hash) + READY_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getReadyReq().hashCode();
+        break;
+      case 14:
+        hash = (37 * hash) + READY_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getReadyMsg().hashCode();
         break;
       case 0:
       default:
@@ -1086,6 +1200,20 @@ private static final long serialVersionUID = 0L;
           result.data_ = updateWeaponRespBuilder_.build();
         }
       }
+      if (dataCase_ == 13) {
+        if (readyReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = readyReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 14) {
+        if (readyMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = readyMsgBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -1175,6 +1303,14 @@ private static final long serialVersionUID = 0L;
         }
         case UPDATE_WEAPON_RESP: {
           mergeUpdateWeaponResp(other.getUpdateWeaponResp());
+          break;
+        }
+        case READY_REQ: {
+          mergeReadyReq(other.getReadyReq());
+          break;
+        }
+        case READY_MSG: {
+          mergeReadyMsg(other.getReadyMsg());
           break;
         }
         case DATA_NOT_SET: {
@@ -2853,6 +2989,278 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 12;
       onChanged();;
       return updateWeaponRespBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyRequest, org.bolg_developers.bolg.ReadyRequest.Builder, org.bolg_developers.bolg.ReadyRequestOrBuilder> readyReqBuilder_;
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public boolean hasReadyReq() {
+      return dataCase_ == 13;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public org.bolg_developers.bolg.ReadyRequest getReadyReq() {
+      if (readyReqBuilder_ == null) {
+        if (dataCase_ == 13) {
+          return (org.bolg_developers.bolg.ReadyRequest) data_;
+        }
+        return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 13) {
+          return readyReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder setReadyReq(org.bolg_developers.bolg.ReadyRequest value) {
+      if (readyReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        readyReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 13;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder setReadyReq(
+        org.bolg_developers.bolg.ReadyRequest.Builder builderForValue) {
+      if (readyReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        readyReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 13;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder mergeReadyReq(org.bolg_developers.bolg.ReadyRequest value) {
+      if (readyReqBuilder_ == null) {
+        if (dataCase_ == 13 &&
+            data_ != org.bolg_developers.bolg.ReadyRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.ReadyRequest.newBuilder((org.bolg_developers.bolg.ReadyRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 13) {
+          readyReqBuilder_.mergeFrom(value);
+        }
+        readyReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 13;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder clearReadyReq() {
+      if (readyReqBuilder_ == null) {
+        if (dataCase_ == 13) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 13) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        readyReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public org.bolg_developers.bolg.ReadyRequest.Builder getReadyReqBuilder() {
+      return getReadyReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public org.bolg_developers.bolg.ReadyRequestOrBuilder getReadyReqOrBuilder() {
+      if ((dataCase_ == 13) && (readyReqBuilder_ != null)) {
+        return readyReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 13) {
+          return (org.bolg_developers.bolg.ReadyRequest) data_;
+        }
+        return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyRequest, org.bolg_developers.bolg.ReadyRequest.Builder, org.bolg_developers.bolg.ReadyRequestOrBuilder> 
+        getReadyReqFieldBuilder() {
+      if (readyReqBuilder_ == null) {
+        if (!(dataCase_ == 13)) {
+          data_ = org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+        }
+        readyReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.ReadyRequest, org.bolg_developers.bolg.ReadyRequest.Builder, org.bolg_developers.bolg.ReadyRequestOrBuilder>(
+                (org.bolg_developers.bolg.ReadyRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 13;
+      onChanged();;
+      return readyReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyMessage, org.bolg_developers.bolg.ReadyMessage.Builder, org.bolg_developers.bolg.ReadyMessageOrBuilder> readyMsgBuilder_;
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public boolean hasReadyMsg() {
+      return dataCase_ == 14;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public org.bolg_developers.bolg.ReadyMessage getReadyMsg() {
+      if (readyMsgBuilder_ == null) {
+        if (dataCase_ == 14) {
+          return (org.bolg_developers.bolg.ReadyMessage) data_;
+        }
+        return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 14) {
+          return readyMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder setReadyMsg(org.bolg_developers.bolg.ReadyMessage value) {
+      if (readyMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        readyMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 14;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder setReadyMsg(
+        org.bolg_developers.bolg.ReadyMessage.Builder builderForValue) {
+      if (readyMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        readyMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 14;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder mergeReadyMsg(org.bolg_developers.bolg.ReadyMessage value) {
+      if (readyMsgBuilder_ == null) {
+        if (dataCase_ == 14 &&
+            data_ != org.bolg_developers.bolg.ReadyMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.ReadyMessage.newBuilder((org.bolg_developers.bolg.ReadyMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 14) {
+          readyMsgBuilder_.mergeFrom(value);
+        }
+        readyMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 14;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder clearReadyMsg() {
+      if (readyMsgBuilder_ == null) {
+        if (dataCase_ == 14) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 14) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        readyMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public org.bolg_developers.bolg.ReadyMessage.Builder getReadyMsgBuilder() {
+      return getReadyMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public org.bolg_developers.bolg.ReadyMessageOrBuilder getReadyMsgOrBuilder() {
+      if ((dataCase_ == 14) && (readyMsgBuilder_ != null)) {
+        return readyMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 14) {
+          return (org.bolg_developers.bolg.ReadyMessage) data_;
+        }
+        return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyMessage, org.bolg_developers.bolg.ReadyMessage.Builder, org.bolg_developers.bolg.ReadyMessageOrBuilder> 
+        getReadyMsgFieldBuilder() {
+      if (readyMsgBuilder_ == null) {
+        if (!(dataCase_ == 14)) {
+          data_ = org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+        }
+        readyMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.ReadyMessage, org.bolg_developers.bolg.ReadyMessage.Builder, org.bolg_developers.bolg.ReadyMessageOrBuilder>(
+                (org.bolg_developers.bolg.ReadyMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 14;
+      onChanged();;
+      return readyMsgBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

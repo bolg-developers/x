@@ -163,5 +163,31 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder getUpdateWeaponRespOrBuilder();
 
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  boolean hasReadyReq();
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  org.bolg_developers.bolg.ReadyRequest getReadyReq();
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  org.bolg_developers.bolg.ReadyRequestOrBuilder getReadyReqOrBuilder();
+
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  boolean hasReadyMsg();
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  org.bolg_developers.bolg.ReadyMessage getReadyMsg();
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  org.bolg_developers.bolg.ReadyMessageOrBuilder getReadyMsgOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }
