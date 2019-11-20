@@ -65,3 +65,19 @@ func (players Players) ToSurivalPersonalResults() []*pb.SurvivalPersonalResult {
 	}
 	return results
 }
+
+func (players Players) NotReadyPlayers() Players {
+	ret := make(Players, 0, len(players))
+	for _, p := range players {
+		if !p.Ready {
+			ret = append(ret, p)
+		}
+	}
+	return ret
+}
+
+func changeReadyFalse(players Players) {
+	for _, p := range players {
+		p.Ready = false
+	}
+}

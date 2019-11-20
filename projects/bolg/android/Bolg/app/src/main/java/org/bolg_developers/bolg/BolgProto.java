@@ -85,6 +85,16 @@ public final class BolgProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_bolg_UpdateWeaponResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_ReadyRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_ReadyRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_ReadyMessage_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_ReadyMessage_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_bolg_Room_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -103,7 +113,7 @@ public final class BolgProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024server/pb/bolg.proto\022\004bolg\"\277\005\n\013RoomMes" +
+      "\n\024server/pb/bolg.proto\022\004bolg\"\221\006\n\013RoomMes" +
       "sage\022B\n\030create_and_join_room_req\030\001 \001(\0132\036" +
       ".bolg.CreateAndJoinRoomRequestH\000\022D\n\031crea" +
       "te_and_join_room_resp\030\002 \001(\0132\037.bolg.Creat" +
@@ -121,36 +131,39 @@ public final class BolgProto {
       "ameMessageH\000\0226\n\021update_weapon_req\030\013 \001(\0132" +
       "\031.bolg.UpdateWeaponRequestH\000\0228\n\022update_w" +
       "eapon_resp\030\014 \001(\0132\032.bolg.UpdateWeaponResp" +
-      "onseH\000B\006\n\004data\"/\n\030CreateAndJoinRoomReque" +
-      "st\022\023\n\013player_name\030\001 \001(\t\"D\n\031CreateAndJoin" +
+      "onseH\000\022\'\n\tready_req\030\r \001(\0132\022.bolg.ReadyRe" +
+      "questH\000\022\'\n\tready_msg\030\016 \001(\0132\022.bolg.ReadyM" +
+      "essageH\000B\006\n\004data\"/\n\030CreateAndJoinRoomReq" +
+      "uest\022\023\n\013player_name\030\001 \001(\t\"D\n\031CreateAndJo" +
+      "inRoomResponse\022\030\n\004room\030\001 \001(\0132\n.bolg.Room" +
+      "\022\r\n\005token\030\002 \001(\t\"7\n\017JoinRoomRequest\022\017\n\007ro" +
+      "om_id\030\001 \001(\003\022\023\n\013player_name\030\002 \001(\t\";\n\020Join" +
       "RoomResponse\022\030\n\004room\030\001 \001(\0132\n.bolg.Room\022\r" +
-      "\n\005token\030\002 \001(\t\"7\n\017JoinRoomRequest\022\017\n\007room" +
-      "_id\030\001 \001(\003\022\023\n\013player_name\030\002 \001(\t\";\n\020JoinRo" +
-      "omResponse\022\030\n\004room\030\001 \001(\0132\n.bolg.Room\022\r\n\005" +
-      "token\030\002 \001(\t\"/\n\017JoinRoomMessage\022\034\n\006player" +
-      "\030\001 \001(\0132\014.bolg.Player\":\n\026NotifyReceivingR" +
-      "equest\022\021\n\tplayer_id\030\001 \001(\003\022\r\n\005token\030\002 \001(\t" +
-      "\"J\n\026NotifyReceivingMessage\022\034\n\006player\030\001 \001" +
-      "(\0132\014.bolg.Player\022\022\n\nkillerName\030\002 \001(\t\"f\n\025" +
-      "SurvivalResultMessage\022\034\n\006winner\030\001 \001(\0132\014." +
-      "bolg.Player\022/\n\tpersonals\030\002 \003(\0132\034.bolg.Su" +
-      "rvivalPersonalResult\"A\n\026SurvivalPersonal" +
-      "Result\022\023\n\013player_name\030\001 \001(\t\022\022\n\nkill_coun" +
-      "t\030\002 \001(\003\"!\n\020StartGameRequest\022\r\n\005token\030\001 \001" +
-      "(\t\",\n\020StartGameMessage\022\030\n\004room\030\001 \001(\0132\n.b" +
-      "olg.Room\"4\n\023UpdateWeaponRequest\022\016\n\006attac" +
-      "k\030\001 \001(\003\022\r\n\005token\030\002 \001(\t\"\026\n\024UpdateWeaponRe" +
-      "sponse\"z\n\004Room\022\n\n\002id\030\001 \001(\003\022!\n\tgame_rule\030" +
-      "\002 \001(\0162\016.bolg.GameRule\022\035\n\007players\030\003 \003(\0132\014" +
-      ".bolg.Player\022\022\n\ngame_start\030\004 \001(\010\022\020\n\010owne" +
-      "r_id\030\005 \001(\003\"=\n\006Player\022\n\n\002id\030\001 \001(\003\022\014\n\004name" +
-      "\030\002 \001(\t\022\n\n\002hp\030\003 \001(\003\022\r\n\005ready\030\004 \001(\010*#\n\010Gam" +
-      "eRule\022\t\n\005UNSET\020\000\022\014\n\010SURVIVAL\020\0012D\n\013BolgSe" +
-      "rvice\0225\n\007Connect\022\021.bolg.RoomMessage\032\021.bo" +
-      "lg.RoomMessage\"\000(\0010\001B`\n\030org.bolg_develop" +
-      "ers.bolgB\tBolgProtoP\001Z7github.com/bolg-d" +
-      "evelopers/x/projects/bolg/server/pb;pbb\006" +
-      "proto3"
+      "\n\005token\030\002 \001(\t\"/\n\017JoinRoomMessage\022\034\n\006play" +
+      "er\030\001 \001(\0132\014.bolg.Player\":\n\026NotifyReceivin" +
+      "gRequest\022\021\n\tplayer_id\030\001 \001(\003\022\r\n\005token\030\002 \001" +
+      "(\t\"J\n\026NotifyReceivingMessage\022\034\n\006player\030\001" +
+      " \001(\0132\014.bolg.Player\022\022\n\nkillerName\030\002 \001(\t\"f" +
+      "\n\025SurvivalResultMessage\022\034\n\006winner\030\001 \001(\0132" +
+      "\014.bolg.Player\022/\n\tpersonals\030\002 \003(\0132\034.bolg." +
+      "SurvivalPersonalResult\"A\n\026SurvivalPerson" +
+      "alResult\022\023\n\013player_name\030\001 \001(\t\022\022\n\nkill_co" +
+      "unt\030\002 \001(\003\"!\n\020StartGameRequest\022\r\n\005token\030\001" +
+      " \001(\t\",\n\020StartGameMessage\022\030\n\004room\030\001 \001(\0132\n" +
+      ".bolg.Room\"4\n\023UpdateWeaponRequest\022\016\n\006att" +
+      "ack\030\001 \001(\003\022\r\n\005token\030\002 \001(\t\"\026\n\024UpdateWeapon" +
+      "Response\"\035\n\014ReadyRequest\022\r\n\005token\030\001 \001(\t\"" +
+      "!\n\014ReadyMessage\022\021\n\tplayer_id\030\001 \001(\003\"z\n\004Ro" +
+      "om\022\n\n\002id\030\001 \001(\003\022!\n\tgame_rule\030\002 \001(\0162\016.bolg" +
+      ".GameRule\022\035\n\007players\030\003 \003(\0132\014.bolg.Player" +
+      "\022\022\n\ngame_start\030\004 \001(\010\022\020\n\010owner_id\030\005 \001(\003\"=" +
+      "\n\006Player\022\n\n\002id\030\001 \001(\003\022\014\n\004name\030\002 \001(\t\022\n\n\002hp" +
+      "\030\003 \001(\003\022\r\n\005ready\030\004 \001(\010*#\n\010GameRule\022\t\n\005UNS" +
+      "ET\020\000\022\014\n\010SURVIVAL\020\0012D\n\013BolgService\0225\n\007Con" +
+      "nect\022\021.bolg.RoomMessage\032\021.bolg.RoomMessa" +
+      "ge\"\000(\0010\001B`\n\030org.bolg_developers.bolgB\tBo" +
+      "lgProtoP\001Z7github.com/bolg-developers/x/" +
+      "projects/bolg/server/pb;pbb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -169,7 +182,7 @@ public final class BolgProto {
     internal_static_bolg_RoomMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_RoomMessage_descriptor,
-        new java.lang.String[] { "CreateAndJoinRoomReq", "CreateAndJoinRoomResp", "JoinRoomReq", "JoinRoomResp", "JoinRoomMsg", "NotifyReceivingReq", "NotifyReceivingMsg", "SurvivalResultMsg", "StartGameReq", "StartGameMsg", "UpdateWeaponReq", "UpdateWeaponResp", "Data", });
+        new java.lang.String[] { "CreateAndJoinRoomReq", "CreateAndJoinRoomResp", "JoinRoomReq", "JoinRoomResp", "JoinRoomMsg", "NotifyReceivingReq", "NotifyReceivingMsg", "SurvivalResultMsg", "StartGameReq", "StartGameMsg", "UpdateWeaponReq", "UpdateWeaponResp", "ReadyReq", "ReadyMsg", "Data", });
     internal_static_bolg_CreateAndJoinRoomRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_bolg_CreateAndJoinRoomRequest_fieldAccessorTable = new
@@ -248,14 +261,26 @@ public final class BolgProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_UpdateWeaponResponse_descriptor,
         new java.lang.String[] { });
-    internal_static_bolg_Room_descriptor =
+    internal_static_bolg_ReadyRequest_descriptor =
       getDescriptor().getMessageTypes().get(14);
+    internal_static_bolg_ReadyRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_ReadyRequest_descriptor,
+        new java.lang.String[] { "Token", });
+    internal_static_bolg_ReadyMessage_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_bolg_ReadyMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_ReadyMessage_descriptor,
+        new java.lang.String[] { "PlayerId", });
+    internal_static_bolg_Room_descriptor =
+      getDescriptor().getMessageTypes().get(16);
     internal_static_bolg_Room_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_Room_descriptor,
         new java.lang.String[] { "Id", "GameRule", "Players", "GameStart", "OwnerId", });
     internal_static_bolg_Player_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_bolg_Player_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_Player_descriptor,

@@ -26,6 +26,8 @@ message RoomMessage {
     StartGameMessage start_game_msg = 10;
     UpdateWeaponRequest update_weapon_req = 11;
     UpdateWeaponResponse update_weapon_resp = 12;
+    ReadyRequest ready_req = 13;
+    ReadyMessage ready_msg = 14;
   }
 }
 
@@ -96,9 +98,7 @@ message StartGameRequest {
   string token = 1;
 }
 
-message StartGameMessage {
-  Room room = 1;
-}
+message StartGameMessage { Room room = 1; }
 
 message UpdateWeaponRequest {
   int64 attack = 1;
@@ -106,6 +106,15 @@ message UpdateWeaponRequest {
 }
 
 message UpdateWeaponResponse {}
+
+message ReadyRequest {
+  string token = 1;
+}
+
+message ReadyMessage {
+  // player_idは準備完了したプレイヤーのIDです。
+  int64 player_id = 1;
+}
 
 message Room {
   // output only

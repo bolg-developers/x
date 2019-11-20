@@ -64,6 +64,11 @@ func (svc *Service) Connect(stream pb.BolgService_ConnectServer) error {
 			if err := svc.handleUpdateWeaponReq(stream, msg); err != nil {
 				return err
 			}
+		case *pb.RoomMessage_ReadyReq:
+			log.Println("Recieve ReadyReq")
+			if err := svc.handleReadyReq(stream, msg); err != nil {
+				return err
+			}
 		default:
 			return status.Error(codes.InvalidArgument, "invalid room message")
 		}
@@ -260,6 +265,16 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 	if err := svc.roomDB.Update(room); err != nil {
 		return toGRPCError(err)
 	}
+	players, err = svc.roomDB.ListPlayers(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	changeReadyFalse(players)
+	for _, p := range players {
+		if err := svc.roomDB.UpdatePlayer(rid, p); err != nil {
+			return toGRPCError(err)
+		}
+	}
 	return nil
 }
 
@@ -274,6 +289,13 @@ func (svc *Service) handleStartGameReq(stream pb.BolgService_ConnectServer, in *
 	}
 	if pid != room.OwnerId {
 		return status.Error(codes.PermissionDenied, "your are not room owner")
+	}
+	players, err := svc.roomDB.ListPlayers(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if len(players.NotReadyPlayers()) > 0 {
+		return status.Error(codes.FailedPrecondition, "some players are not ready yet")
 	}
 	if room.GameStart {
 		return status.Error(codes.FailedPrecondition, "game is already starting")
@@ -317,6 +339,36 @@ func (svc *Service) handleUpdateWeaponReq(stream pb.BolgService_ConnectServer, i
 	if err := stream.Send(out); err != nil {
 		return err
 	}
+	return nil
+}
+
+func (svc *Service) handleReadyReq(stream pb.BolgService_ConnectServer, in *pb.RoomMessage_ReadyReq) error {
+	rid, pid, err := parseFromToken(in.ReadyReq.Token)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	player, err := svc.roomDB.GetPlayer(rid, pid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if player.Ready {
+		return status.Error(codes.FailedPrecondition, "you are already ready")
+	}
+	player.Ready = true
+	if err := svc.roomDB.UpdatePlayer(rid, player); err != nil {
+		return toGRPCError(err)
+	}
+	out := &pb.RoomMessage{
+		Data: &pb.RoomMessage_ReadyMsg{
+			ReadyMsg: &pb.ReadyMessage{
+				PlayerId: player.Id,
+			},
+		},
+	}
+	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
+		log.Println("Failed to broadcast")
+	}
+	log.Println("Sent message")
 	return nil
 }
 
