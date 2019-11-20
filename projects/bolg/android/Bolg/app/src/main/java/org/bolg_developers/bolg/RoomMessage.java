@@ -189,6 +189,34 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 10;
             break;
           }
+          case 90: {
+            org.bolg_developers.bolg.UpdateWeaponRequest.Builder subBuilder = null;
+            if (dataCase_ == 11) {
+              subBuilder = ((org.bolg_developers.bolg.UpdateWeaponRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.UpdateWeaponRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.UpdateWeaponRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 11;
+            break;
+          }
+          case 98: {
+            org.bolg_developers.bolg.UpdateWeaponResponse.Builder subBuilder = null;
+            if (dataCase_ == 12) {
+              subBuilder = ((org.bolg_developers.bolg.UpdateWeaponResponse) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.UpdateWeaponResponse.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.UpdateWeaponResponse) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 12;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -227,6 +255,8 @@ private static final long serialVersionUID = 0L;
     SURVIVAL_RESULT_MSG(8),
     START_GAME_REQ(9),
     START_GAME_MSG(10),
+    UPDATE_WEAPON_REQ(11),
+    UPDATE_WEAPON_RESP(12),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -252,6 +282,8 @@ private static final long serialVersionUID = 0L;
         case 8: return SURVIVAL_RESULT_MSG;
         case 9: return START_GAME_REQ;
         case 10: return START_GAME_MSG;
+        case 11: return UPDATE_WEAPON_REQ;
+        case 12: return UPDATE_WEAPON_RESP;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -527,6 +559,58 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
   }
 
+  public static final int UPDATE_WEAPON_REQ_FIELD_NUMBER = 11;
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  public boolean hasUpdateWeaponReq() {
+    return dataCase_ == 11;
+  }
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponRequest getUpdateWeaponReq() {
+    if (dataCase_ == 11) {
+       return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder getUpdateWeaponReqOrBuilder() {
+    if (dataCase_ == 11) {
+       return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+  }
+
+  public static final int UPDATE_WEAPON_RESP_FIELD_NUMBER = 12;
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  public boolean hasUpdateWeaponResp() {
+    return dataCase_ == 12;
+  }
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponResponse getUpdateWeaponResp() {
+    if (dataCase_ == 12) {
+       return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder getUpdateWeaponRespOrBuilder() {
+    if (dataCase_ == 12) {
+       return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -568,6 +652,12 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 10) {
       output.writeMessage(10, (org.bolg_developers.bolg.StartGameMessage) data_);
+    }
+    if (dataCase_ == 11) {
+      output.writeMessage(11, (org.bolg_developers.bolg.UpdateWeaponRequest) data_);
+    }
+    if (dataCase_ == 12) {
+      output.writeMessage(12, (org.bolg_developers.bolg.UpdateWeaponResponse) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -616,6 +706,14 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 10) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(10, (org.bolg_developers.bolg.StartGameMessage) data_);
+    }
+    if (dataCase_ == 11) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(11, (org.bolg_developers.bolg.UpdateWeaponRequest) data_);
+    }
+    if (dataCase_ == 12) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(12, (org.bolg_developers.bolg.UpdateWeaponResponse) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -677,6 +775,14 @@ private static final long serialVersionUID = 0L;
         result = result && getStartGameMsg()
             .equals(other.getStartGameMsg());
         break;
+      case 11:
+        result = result && getUpdateWeaponReq()
+            .equals(other.getUpdateWeaponReq());
+        break;
+      case 12:
+        result = result && getUpdateWeaponResp()
+            .equals(other.getUpdateWeaponResp());
+        break;
       case 0:
       default:
     }
@@ -731,6 +837,14 @@ private static final long serialVersionUID = 0L;
       case 10:
         hash = (37 * hash) + START_GAME_MSG_FIELD_NUMBER;
         hash = (53 * hash) + getStartGameMsg().hashCode();
+        break;
+      case 11:
+        hash = (37 * hash) + UPDATE_WEAPON_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getUpdateWeaponReq().hashCode();
+        break;
+      case 12:
+        hash = (37 * hash) + UPDATE_WEAPON_RESP_FIELD_NUMBER;
+        hash = (53 * hash) + getUpdateWeaponResp().hashCode();
         break;
       case 0:
       default:
@@ -958,6 +1072,20 @@ private static final long serialVersionUID = 0L;
           result.data_ = startGameMsgBuilder_.build();
         }
       }
+      if (dataCase_ == 11) {
+        if (updateWeaponReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = updateWeaponReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 12) {
+        if (updateWeaponRespBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = updateWeaponRespBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -1039,6 +1167,14 @@ private static final long serialVersionUID = 0L;
         }
         case START_GAME_MSG: {
           mergeStartGameMsg(other.getStartGameMsg());
+          break;
+        }
+        case UPDATE_WEAPON_REQ: {
+          mergeUpdateWeaponReq(other.getUpdateWeaponReq());
+          break;
+        }
+        case UPDATE_WEAPON_RESP: {
+          mergeUpdateWeaponResp(other.getUpdateWeaponResp());
           break;
         }
         case DATA_NOT_SET: {
@@ -2445,6 +2581,278 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 10;
       onChanged();;
       return startGameMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponRequest, org.bolg_developers.bolg.UpdateWeaponRequest.Builder, org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder> updateWeaponReqBuilder_;
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public boolean hasUpdateWeaponReq() {
+      return dataCase_ == 11;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponRequest getUpdateWeaponReq() {
+      if (updateWeaponReqBuilder_ == null) {
+        if (dataCase_ == 11) {
+          return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 11) {
+          return updateWeaponReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder setUpdateWeaponReq(org.bolg_developers.bolg.UpdateWeaponRequest value) {
+      if (updateWeaponReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        updateWeaponReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 11;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder setUpdateWeaponReq(
+        org.bolg_developers.bolg.UpdateWeaponRequest.Builder builderForValue) {
+      if (updateWeaponReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        updateWeaponReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 11;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder mergeUpdateWeaponReq(org.bolg_developers.bolg.UpdateWeaponRequest value) {
+      if (updateWeaponReqBuilder_ == null) {
+        if (dataCase_ == 11 &&
+            data_ != org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponRequest.newBuilder((org.bolg_developers.bolg.UpdateWeaponRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 11) {
+          updateWeaponReqBuilder_.mergeFrom(value);
+        }
+        updateWeaponReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 11;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder clearUpdateWeaponReq() {
+      if (updateWeaponReqBuilder_ == null) {
+        if (dataCase_ == 11) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 11) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        updateWeaponReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponRequest.Builder getUpdateWeaponReqBuilder() {
+      return getUpdateWeaponReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder getUpdateWeaponReqOrBuilder() {
+      if ((dataCase_ == 11) && (updateWeaponReqBuilder_ != null)) {
+        return updateWeaponReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 11) {
+          return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponRequest, org.bolg_developers.bolg.UpdateWeaponRequest.Builder, org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder> 
+        getUpdateWeaponReqFieldBuilder() {
+      if (updateWeaponReqBuilder_ == null) {
+        if (!(dataCase_ == 11)) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+        }
+        updateWeaponReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.UpdateWeaponRequest, org.bolg_developers.bolg.UpdateWeaponRequest.Builder, org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder>(
+                (org.bolg_developers.bolg.UpdateWeaponRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 11;
+      onChanged();;
+      return updateWeaponReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponResponse, org.bolg_developers.bolg.UpdateWeaponResponse.Builder, org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder> updateWeaponRespBuilder_;
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public boolean hasUpdateWeaponResp() {
+      return dataCase_ == 12;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponResponse getUpdateWeaponResp() {
+      if (updateWeaponRespBuilder_ == null) {
+        if (dataCase_ == 12) {
+          return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+      } else {
+        if (dataCase_ == 12) {
+          return updateWeaponRespBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder setUpdateWeaponResp(org.bolg_developers.bolg.UpdateWeaponResponse value) {
+      if (updateWeaponRespBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        updateWeaponRespBuilder_.setMessage(value);
+      }
+      dataCase_ = 12;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder setUpdateWeaponResp(
+        org.bolg_developers.bolg.UpdateWeaponResponse.Builder builderForValue) {
+      if (updateWeaponRespBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        updateWeaponRespBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 12;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder mergeUpdateWeaponResp(org.bolg_developers.bolg.UpdateWeaponResponse value) {
+      if (updateWeaponRespBuilder_ == null) {
+        if (dataCase_ == 12 &&
+            data_ != org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponResponse.newBuilder((org.bolg_developers.bolg.UpdateWeaponResponse) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 12) {
+          updateWeaponRespBuilder_.mergeFrom(value);
+        }
+        updateWeaponRespBuilder_.setMessage(value);
+      }
+      dataCase_ = 12;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder clearUpdateWeaponResp() {
+      if (updateWeaponRespBuilder_ == null) {
+        if (dataCase_ == 12) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 12) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        updateWeaponRespBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponResponse.Builder getUpdateWeaponRespBuilder() {
+      return getUpdateWeaponRespFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder getUpdateWeaponRespOrBuilder() {
+      if ((dataCase_ == 12) && (updateWeaponRespBuilder_ != null)) {
+        return updateWeaponRespBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 12) {
+          return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponResponse, org.bolg_developers.bolg.UpdateWeaponResponse.Builder, org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder> 
+        getUpdateWeaponRespFieldBuilder() {
+      if (updateWeaponRespBuilder_ == null) {
+        if (!(dataCase_ == 12)) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+        }
+        updateWeaponRespBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.UpdateWeaponResponse, org.bolg_developers.bolg.UpdateWeaponResponse.Builder, org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder>(
+                (org.bolg_developers.bolg.UpdateWeaponResponse) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 12;
+      onChanged();;
+      return updateWeaponRespBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

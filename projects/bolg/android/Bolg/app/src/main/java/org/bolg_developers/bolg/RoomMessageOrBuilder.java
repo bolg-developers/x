@@ -137,5 +137,31 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.StartGameMessageOrBuilder getStartGameMsgOrBuilder();
 
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  boolean hasUpdateWeaponReq();
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponRequest getUpdateWeaponReq();
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder getUpdateWeaponReqOrBuilder();
+
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  boolean hasUpdateWeaponResp();
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponResponse getUpdateWeaponResp();
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder getUpdateWeaponRespOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }
