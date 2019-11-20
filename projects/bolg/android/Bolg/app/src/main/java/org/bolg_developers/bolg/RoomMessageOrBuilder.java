@@ -98,5 +98,18 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder getNotifyReceivingMsgOrBuilder();
 
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  boolean hasSurvivalResultMsg();
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  org.bolg_developers.bolg.SurvivalResultMessage getSurvivalResultMsg();
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  org.bolg_developers.bolg.SurvivalResultMessageOrBuilder getSurvivalResultMsgOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }

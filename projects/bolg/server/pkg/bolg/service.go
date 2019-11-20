@@ -17,6 +17,7 @@ type Service struct {
 	nm     *numberManager
 	sm     *streamsManager
 	idpm   *idPoolManager
+	jm     *judgementManager
 }
 
 func NewService() pb.BolgServiceServer {
@@ -25,6 +26,7 @@ func NewService() pb.BolgServiceServer {
 		nm:     newNumberManager(),
 		sm:     newStreamsManager(),
 		idpm:   newIDPoolManager(),
+		jm:     newJudgementManager(),
 	}
 }
 func (svc *Service) Connect(stream pb.BolgService_ConnectServer) error {
@@ -71,6 +73,12 @@ func (svc *Service) handleCreateAndJoinRoomReq(stream pb.BolgService_ConnectServ
 		return status.Error(codes.ResourceExhausted, "room is full")
 	}
 	log.Println("Created room number:", rid)
+
+	// TODO: ゲームをスタートさせるハンドラーで生成するようにする
+	if err := svc.jm.create(rid, newSurivalJudgement()); err != nil {
+		return toGRPCError(err)
+	}
+
 	if err := svc.idpm.create(rid); err != nil {
 		return toGRPCError(err)
 	}
@@ -203,10 +211,36 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 			},
 		},
 	}
-	if streams := svc.sm.Broadcasts(rid, stream, out); len(streams) != 0 {
+	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
 		log.Println("Failed to broadcast")
 	}
-	log.Println("Sent message others")
+	log.Println("Sent message")
+	players, err := svc.roomDB.ListPlayers(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	log.Println("a")
+	winners, done, err := svc.jm.judge(rid, players)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	log.Println("b")
+	if !done {
+		return nil
+	}
+	log.Println("c")
+	out = &pb.RoomMessage{
+		Data: &pb.RoomMessage_SurvivalResultMsg{
+			SurvivalResultMsg: &pb.SurvivalResultMessage{
+				Winner:    &winners[0].Player,
+				Personals: players.ToSurivalPersonalResults(),
+			},
+		},
+	}
+	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
+		log.Println("Failed to broadcast")
+	}
+	log.Println("Sent message")
 	return nil
 }
 

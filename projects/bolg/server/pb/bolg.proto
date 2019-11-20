@@ -21,6 +21,7 @@ message RoomMessage {
     JoinRoomMessage join_room_msg = 5;
     NotifyReceivingRequest notify_receiving_req = 6;
     NotifyReceivingMessage notify_receiving_msg = 7;
+    SurvivalResultMessage survival_result_msg = 8;
   }
 }
 
@@ -65,6 +66,7 @@ message NotifyReceivingRequest {
   string token = 2;
 }
 
+// NotifyReceivingMessageはNotifyReceivingRequestリクエストされたときに、すべてのプレイヤーに送信されるメッセージです。
 message NotifyReceivingMessage {
   // playerはダメージを受けたプレイヤーです。
   Player player = 1;
@@ -72,6 +74,16 @@ message NotifyReceivingMessage {
   // killerNameはダメージを受けたプレイヤーを殺したプレイヤーの名前です。
   // ダメージを受けたプレイヤーが死亡していない場合、このフィールドは空文字となります。
   string killerName = 2;
+}
+
+message SurvivalResultMessage {
+  Player winner = 1;
+  repeated SurvivalPersonalResult personals = 2;
+}
+
+message SurvivalPersonalResult {
+  string player_name = 1;
+  int64 kill_count = 2;
 }
 
 message Room {
@@ -120,17 +132,6 @@ message Player {
 // THESE WILL BE USED:
 // message Inventory {
 //   repeated Item items = 1;
-// }
-
-// message GameResult {
-//   repeated Player winners = 1;
-//   repeated PersonalResult personal_results = 2;
-// }
-
-// message PersonalResult {
-//   string player_name = 1;
-//   int64 kill_count = 2;
-//   int64 death_count = 3;
 // }
 
 // message User {
