@@ -17,7 +17,8 @@ type Room struct {
 func NewRoom(id int64) *Room {
 	return &Room{
 		Room: pb.Room{
-			Id: id,
+			Id:       id,
+			GameRule: pb.GameRule_SURVIVAL,
 		},
 	}
 }
