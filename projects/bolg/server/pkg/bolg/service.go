@@ -54,6 +54,11 @@ func (svc *Service) Connect(stream pb.BolgService_ConnectServer) error {
 			if err := svc.handleNotifyReceivingReq(stream, msg); err != nil {
 				return err
 			}
+		case *pb.RoomMessage_StartGameReq:
+			log.Println("Recieve StartGameReq")
+			if err := svc.handleStartGameReq(stream, msg); err != nil {
+				return err
+			}
 		default:
 			return status.Error(codes.InvalidArgument, "invalid room message")
 		}
@@ -219,21 +224,61 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 	if err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("a")
 	winners, done, err := svc.jm.judge(rid, players)
 	if err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("b")
 	if !done {
 		return nil
 	}
-	log.Println("c")
 	out = &pb.RoomMessage{
 		Data: &pb.RoomMessage_SurvivalResultMsg{
 			SurvivalResultMsg: &pb.SurvivalResultMessage{
 				Winner:    &winners[0].Player,
 				Personals: players.ToSurivalPersonalResults(),
+			},
+		},
+	}
+	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
+		log.Println("Failed to broadcast")
+	}
+	log.Println("Sent message")
+	room, err := svc.roomDB.Get(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	room.GameStart = false
+	if err := svc.roomDB.Update(room); err != nil {
+		return toGRPCError(err)
+	}
+	return nil
+}
+
+func (svc *Service) handleStartGameReq(stream pb.BolgService_ConnectServer, in *pb.RoomMessage_StartGameReq) error {
+	rid, pid, err := parseFromToken(in.StartGameReq.Token)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	room, err := svc.roomDB.Get(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if pid != room.OwnerId {
+		log.Println("your are not room owner")
+		return status.Error(codes.PermissionDenied, "your are not room owner")
+	}
+	if room.GameStart {
+		log.Println("game is already starting")
+		return status.Error(codes.FailedPrecondition, "game is already starting")
+	}
+	room.GameStart = true
+	if err := svc.roomDB.Update(room); err != nil {
+		return toGRPCError(err)
+	}
+	out := &pb.RoomMessage{
+		Data: &pb.RoomMessage_StartGameMsg{
+			StartGameMsg: &pb.StartGameMessage{
+				Room: &room.Room,
 			},
 		},
 	}

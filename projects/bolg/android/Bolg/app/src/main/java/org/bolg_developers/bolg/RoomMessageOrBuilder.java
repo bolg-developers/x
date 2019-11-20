@@ -111,5 +111,31 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.SurvivalResultMessageOrBuilder getSurvivalResultMsgOrBuilder();
 
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  boolean hasStartGameReq();
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  org.bolg_developers.bolg.StartGameRequest getStartGameReq();
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  org.bolg_developers.bolg.StartGameRequestOrBuilder getStartGameReqOrBuilder();
+
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  boolean hasStartGameMsg();
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  org.bolg_developers.bolg.StartGameMessage getStartGameMsg();
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  org.bolg_developers.bolg.StartGameMessageOrBuilder getStartGameMsgOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }

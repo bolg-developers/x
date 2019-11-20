@@ -161,6 +161,34 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 8;
             break;
           }
+          case 74: {
+            org.bolg_developers.bolg.StartGameRequest.Builder subBuilder = null;
+            if (dataCase_ == 9) {
+              subBuilder = ((org.bolg_developers.bolg.StartGameRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.StartGameRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.StartGameRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 9;
+            break;
+          }
+          case 82: {
+            org.bolg_developers.bolg.StartGameMessage.Builder subBuilder = null;
+            if (dataCase_ == 10) {
+              subBuilder = ((org.bolg_developers.bolg.StartGameMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.StartGameMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.StartGameMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 10;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -197,6 +225,8 @@ private static final long serialVersionUID = 0L;
     NOTIFY_RECEIVING_REQ(6),
     NOTIFY_RECEIVING_MSG(7),
     SURVIVAL_RESULT_MSG(8),
+    START_GAME_REQ(9),
+    START_GAME_MSG(10),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -220,6 +250,8 @@ private static final long serialVersionUID = 0L;
         case 6: return NOTIFY_RECEIVING_REQ;
         case 7: return NOTIFY_RECEIVING_MSG;
         case 8: return SURVIVAL_RESULT_MSG;
+        case 9: return START_GAME_REQ;
+        case 10: return START_GAME_MSG;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -443,6 +475,58 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
   }
 
+  public static final int START_GAME_REQ_FIELD_NUMBER = 9;
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  public boolean hasStartGameReq() {
+    return dataCase_ == 9;
+  }
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  public org.bolg_developers.bolg.StartGameRequest getStartGameReq() {
+    if (dataCase_ == 9) {
+       return (org.bolg_developers.bolg.StartGameRequest) data_;
+    }
+    return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  public org.bolg_developers.bolg.StartGameRequestOrBuilder getStartGameReqOrBuilder() {
+    if (dataCase_ == 9) {
+       return (org.bolg_developers.bolg.StartGameRequest) data_;
+    }
+    return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+  }
+
+  public static final int START_GAME_MSG_FIELD_NUMBER = 10;
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  public boolean hasStartGameMsg() {
+    return dataCase_ == 10;
+  }
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  public org.bolg_developers.bolg.StartGameMessage getStartGameMsg() {
+    if (dataCase_ == 10) {
+       return (org.bolg_developers.bolg.StartGameMessage) data_;
+    }
+    return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  public org.bolg_developers.bolg.StartGameMessageOrBuilder getStartGameMsgOrBuilder() {
+    if (dataCase_ == 10) {
+       return (org.bolg_developers.bolg.StartGameMessage) data_;
+    }
+    return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -478,6 +562,12 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 8) {
       output.writeMessage(8, (org.bolg_developers.bolg.SurvivalResultMessage) data_);
+    }
+    if (dataCase_ == 9) {
+      output.writeMessage(9, (org.bolg_developers.bolg.StartGameRequest) data_);
+    }
+    if (dataCase_ == 10) {
+      output.writeMessage(10, (org.bolg_developers.bolg.StartGameMessage) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -518,6 +608,14 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 8) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(8, (org.bolg_developers.bolg.SurvivalResultMessage) data_);
+    }
+    if (dataCase_ == 9) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(9, (org.bolg_developers.bolg.StartGameRequest) data_);
+    }
+    if (dataCase_ == 10) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(10, (org.bolg_developers.bolg.StartGameMessage) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -571,6 +669,14 @@ private static final long serialVersionUID = 0L;
         result = result && getSurvivalResultMsg()
             .equals(other.getSurvivalResultMsg());
         break;
+      case 9:
+        result = result && getStartGameReq()
+            .equals(other.getStartGameReq());
+        break;
+      case 10:
+        result = result && getStartGameMsg()
+            .equals(other.getStartGameMsg());
+        break;
       case 0:
       default:
     }
@@ -617,6 +723,14 @@ private static final long serialVersionUID = 0L;
       case 8:
         hash = (37 * hash) + SURVIVAL_RESULT_MSG_FIELD_NUMBER;
         hash = (53 * hash) + getSurvivalResultMsg().hashCode();
+        break;
+      case 9:
+        hash = (37 * hash) + START_GAME_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getStartGameReq().hashCode();
+        break;
+      case 10:
+        hash = (37 * hash) + START_GAME_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getStartGameMsg().hashCode();
         break;
       case 0:
       default:
@@ -830,6 +944,20 @@ private static final long serialVersionUID = 0L;
           result.data_ = survivalResultMsgBuilder_.build();
         }
       }
+      if (dataCase_ == 9) {
+        if (startGameReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = startGameReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 10) {
+        if (startGameMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = startGameMsgBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -903,6 +1031,14 @@ private static final long serialVersionUID = 0L;
         }
         case SURVIVAL_RESULT_MSG: {
           mergeSurvivalResultMsg(other.getSurvivalResultMsg());
+          break;
+        }
+        case START_GAME_REQ: {
+          mergeStartGameReq(other.getStartGameReq());
+          break;
+        }
+        case START_GAME_MSG: {
+          mergeStartGameMsg(other.getStartGameMsg());
           break;
         }
         case DATA_NOT_SET: {
@@ -2037,6 +2173,278 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 8;
       onChanged();;
       return survivalResultMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameRequest, org.bolg_developers.bolg.StartGameRequest.Builder, org.bolg_developers.bolg.StartGameRequestOrBuilder> startGameReqBuilder_;
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public boolean hasStartGameReq() {
+      return dataCase_ == 9;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public org.bolg_developers.bolg.StartGameRequest getStartGameReq() {
+      if (startGameReqBuilder_ == null) {
+        if (dataCase_ == 9) {
+          return (org.bolg_developers.bolg.StartGameRequest) data_;
+        }
+        return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 9) {
+          return startGameReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder setStartGameReq(org.bolg_developers.bolg.StartGameRequest value) {
+      if (startGameReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        startGameReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 9;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder setStartGameReq(
+        org.bolg_developers.bolg.StartGameRequest.Builder builderForValue) {
+      if (startGameReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        startGameReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 9;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder mergeStartGameReq(org.bolg_developers.bolg.StartGameRequest value) {
+      if (startGameReqBuilder_ == null) {
+        if (dataCase_ == 9 &&
+            data_ != org.bolg_developers.bolg.StartGameRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.StartGameRequest.newBuilder((org.bolg_developers.bolg.StartGameRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 9) {
+          startGameReqBuilder_.mergeFrom(value);
+        }
+        startGameReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 9;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder clearStartGameReq() {
+      if (startGameReqBuilder_ == null) {
+        if (dataCase_ == 9) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 9) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        startGameReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public org.bolg_developers.bolg.StartGameRequest.Builder getStartGameReqBuilder() {
+      return getStartGameReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public org.bolg_developers.bolg.StartGameRequestOrBuilder getStartGameReqOrBuilder() {
+      if ((dataCase_ == 9) && (startGameReqBuilder_ != null)) {
+        return startGameReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 9) {
+          return (org.bolg_developers.bolg.StartGameRequest) data_;
+        }
+        return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameRequest, org.bolg_developers.bolg.StartGameRequest.Builder, org.bolg_developers.bolg.StartGameRequestOrBuilder> 
+        getStartGameReqFieldBuilder() {
+      if (startGameReqBuilder_ == null) {
+        if (!(dataCase_ == 9)) {
+          data_ = org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+        }
+        startGameReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.StartGameRequest, org.bolg_developers.bolg.StartGameRequest.Builder, org.bolg_developers.bolg.StartGameRequestOrBuilder>(
+                (org.bolg_developers.bolg.StartGameRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 9;
+      onChanged();;
+      return startGameReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameMessage, org.bolg_developers.bolg.StartGameMessage.Builder, org.bolg_developers.bolg.StartGameMessageOrBuilder> startGameMsgBuilder_;
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public boolean hasStartGameMsg() {
+      return dataCase_ == 10;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public org.bolg_developers.bolg.StartGameMessage getStartGameMsg() {
+      if (startGameMsgBuilder_ == null) {
+        if (dataCase_ == 10) {
+          return (org.bolg_developers.bolg.StartGameMessage) data_;
+        }
+        return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 10) {
+          return startGameMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder setStartGameMsg(org.bolg_developers.bolg.StartGameMessage value) {
+      if (startGameMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        startGameMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 10;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder setStartGameMsg(
+        org.bolg_developers.bolg.StartGameMessage.Builder builderForValue) {
+      if (startGameMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        startGameMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 10;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder mergeStartGameMsg(org.bolg_developers.bolg.StartGameMessage value) {
+      if (startGameMsgBuilder_ == null) {
+        if (dataCase_ == 10 &&
+            data_ != org.bolg_developers.bolg.StartGameMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.StartGameMessage.newBuilder((org.bolg_developers.bolg.StartGameMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 10) {
+          startGameMsgBuilder_.mergeFrom(value);
+        }
+        startGameMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 10;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder clearStartGameMsg() {
+      if (startGameMsgBuilder_ == null) {
+        if (dataCase_ == 10) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 10) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        startGameMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public org.bolg_developers.bolg.StartGameMessage.Builder getStartGameMsgBuilder() {
+      return getStartGameMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public org.bolg_developers.bolg.StartGameMessageOrBuilder getStartGameMsgOrBuilder() {
+      if ((dataCase_ == 10) && (startGameMsgBuilder_ != null)) {
+        return startGameMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 10) {
+          return (org.bolg_developers.bolg.StartGameMessage) data_;
+        }
+        return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameMessage, org.bolg_developers.bolg.StartGameMessage.Builder, org.bolg_developers.bolg.StartGameMessageOrBuilder> 
+        getStartGameMsgFieldBuilder() {
+      if (startGameMsgBuilder_ == null) {
+        if (!(dataCase_ == 10)) {
+          data_ = org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+        }
+        startGameMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.StartGameMessage, org.bolg_developers.bolg.StartGameMessage.Builder, org.bolg_developers.bolg.StartGameMessageOrBuilder>(
+                (org.bolg_developers.bolg.StartGameMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 10;
+      onChanged();;
+      return startGameMsgBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
