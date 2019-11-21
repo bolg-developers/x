@@ -10,6 +10,7 @@ option java_package = "org.bolg_developers.bolg";
 service BolgService {
   // ConnectはRoom Messagingを行うためのRPCです。
   rpc Connect(stream RoomMessage) returns (stream RoomMessage) {}
+  rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse) {}
 }
 
 message RoomMessage {
@@ -120,6 +121,14 @@ message ReadyMessage {
 message Error {
   int32 code = 1;
   string message = 2;
+}
+
+message CheckHealthRequest {
+  string name = 1;
+}
+
+message CheckHealthResponse {
+  string message = 1;
 }
 
 message Room {
