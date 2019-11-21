@@ -26,6 +26,7 @@ for file in `\find $GENPROTO_DIR -name '*.pb.go'`; do
 done
 
 # 生成されたJavaのコードをコピー
+rm -rf $JAVA_GENPROTO_DIR/$JAVA_PACKAGE_TOP
 cp -r $GENPROTO_DIR/$JAVA_PACKAGE_TOP $JAVA_GENPROTO_DIR
 
 rm -rf $GENPROTO_DIR
