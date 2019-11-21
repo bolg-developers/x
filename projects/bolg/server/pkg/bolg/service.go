@@ -138,6 +138,13 @@ func (svc *Service) handleJoinRoomReq(stream pb.BolgService_ConnectServer, in *p
 		return sendRoomMessageError(stream, codes.InvalidArgument, "player name is empty")
 	}
 	rid := in.JoinRoomReq.RoomId
+	r, err := svc.roomDB.Get(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if r.GameStart {
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "game is already starting")
+	}
 	pid, err := svc.idpm.getID(rid)
 	if err != nil {
 		return toGRPCError(err)
@@ -146,7 +153,7 @@ func (svc *Service) handleJoinRoomReq(stream pb.BolgService_ConnectServer, in *p
 	if err := svc.roomDB.CreatePlayer(rid, p); err != nil {
 		return toGRPCError(err)
 	}
-	r, err := svc.roomDB.Get(rid)
+	r, err = svc.roomDB.Get(rid)
 	if err != nil {
 		return toGRPCError(err)
 	}
@@ -309,6 +316,13 @@ func (svc *Service) handleUpdateWeaponReq(stream pb.BolgService_ConnectServer, i
 	if err != nil {
 		return toGRPCError(err)
 	}
+	room, err := svc.roomDB.Get(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if room.GameStart {
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "game is already starting")
+	}
 	player, err := svc.roomDB.GetPlayer(rid, pid)
 	if err != nil {
 		return toGRPCError(err)
@@ -332,6 +346,13 @@ func (svc *Service) handleReadyReq(stream pb.BolgService_ConnectServer, in *pb.R
 	rid, pid, err := parseFromToken(in.ReadyReq.Token)
 	if err != nil {
 		return toGRPCError(err)
+	}
+	room, err := svc.roomDB.Get(rid)
+	if err != nil {
+		return toGRPCError(err)
+	}
+	if room.GameStart {
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "game is already starting")
 	}
 	player, err := svc.roomDB.GetPlayer(rid, pid)
 	if err != nil {
