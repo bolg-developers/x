@@ -100,6 +100,16 @@ public final class BolgProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_bolg_Error_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_CheckHealthRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_CheckHealthRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_CheckHealthResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_CheckHealthResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_bolg_Room_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -160,17 +170,21 @@ public final class BolgProto {
       "\r\n\005token\030\002 \001(\t\"\026\n\024UpdateWeaponResponse\"\035" +
       "\n\014ReadyRequest\022\r\n\005token\030\001 \001(\t\"!\n\014ReadyMe" +
       "ssage\022\021\n\tplayer_id\030\001 \001(\003\"&\n\005Error\022\014\n\004cod" +
-      "e\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"z\n\004Room\022\n\n\002id\030\001" +
-      " \001(\003\022!\n\tgame_rule\030\002 \001(\0162\016.bolg.GameRule\022" +
-      "\035\n\007players\030\003 \003(\0132\014.bolg.Player\022\022\n\ngame_s" +
-      "tart\030\004 \001(\010\022\020\n\010owner_id\030\005 \001(\003\"=\n\006Player\022\n" +
-      "\n\002id\030\001 \001(\003\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\003\022\r\n\005" +
-      "ready\030\004 \001(\010*#\n\010GameRule\022\t\n\005UNSET\020\000\022\014\n\010SU" +
-      "RVIVAL\020\0012D\n\013BolgService\0225\n\007Connect\022\021.bol" +
-      "g.RoomMessage\032\021.bolg.RoomMessage\"\000(\0010\001B`" +
-      "\n\030org.bolg_developers.bolgB\tBolgProtoP\001Z" +
-      "7github.com/bolg-developers/x/projects/b" +
-      "olg/server/pb;pbb\006proto3"
+      "e\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\"\n\022CheckHealthR" +
+      "equest\022\014\n\004name\030\001 \001(\t\"&\n\023CheckHealthRespo" +
+      "nse\022\017\n\007message\030\001 \001(\t\"z\n\004Room\022\n\n\002id\030\001 \001(\003" +
+      "\022!\n\tgame_rule\030\002 \001(\0162\016.bolg.GameRule\022\035\n\007p" +
+      "layers\030\003 \003(\0132\014.bolg.Player\022\022\n\ngame_start" +
+      "\030\004 \001(\010\022\020\n\010owner_id\030\005 \001(\003\"=\n\006Player\022\n\n\002id" +
+      "\030\001 \001(\003\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\003\022\r\n\005read" +
+      "y\030\004 \001(\010*#\n\010GameRule\022\t\n\005UNSET\020\000\022\014\n\010SURVIV" +
+      "AL\020\0012\212\001\n\013BolgService\0225\n\007Connect\022\021.bolg.R" +
+      "oomMessage\032\021.bolg.RoomMessage\"\000(\0010\001\022D\n\013C" +
+      "heckHealth\022\030.bolg.CheckHealthRequest\032\031.b" +
+      "olg.CheckHealthResponse\"\000B`\n\030org.bolg_de" +
+      "velopers.bolgB\tBolgProtoP\001Z7github.com/b" +
+      "olg-developers/x/projects/bolg/server/pb" +
+      ";pbb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -286,14 +300,26 @@ public final class BolgProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_Error_descriptor,
         new java.lang.String[] { "Code", "Message", });
-    internal_static_bolg_Room_descriptor =
+    internal_static_bolg_CheckHealthRequest_descriptor =
       getDescriptor().getMessageTypes().get(17);
+    internal_static_bolg_CheckHealthRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_CheckHealthRequest_descriptor,
+        new java.lang.String[] { "Name", });
+    internal_static_bolg_CheckHealthResponse_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_bolg_CheckHealthResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_CheckHealthResponse_descriptor,
+        new java.lang.String[] { "Message", });
+    internal_static_bolg_Room_descriptor =
+      getDescriptor().getMessageTypes().get(19);
     internal_static_bolg_Room_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_Room_descriptor,
         new java.lang.String[] { "Id", "GameRule", "Players", "GameStart", "OwnerId", });
     internal_static_bolg_Player_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_bolg_Player_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_Player_descriptor,

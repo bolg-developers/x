@@ -1,6 +1,8 @@
 package bolg
 
 import (
+	"context"
+	"fmt"
 	"io"
 	"log"
 
@@ -353,6 +355,11 @@ func (svc *Service) handleReadyReq(stream pb.BolgService_ConnectServer, in *pb.R
 		return toGRPCError(err)
 	}
 	return nil
+}
+
+func (svc *Service) CheckHealth(_ context.Context, in *pb.CheckHealthRequest) (*pb.CheckHealthResponse, error) {
+	out := &pb.CheckHealthResponse{Message: fmt.Sprintf("Hello, %s! I'm fine :)", in.Name)}
+	return out, nil
 }
 
 func toGRPCError(err error) error {
