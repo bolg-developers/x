@@ -30,7 +30,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         /** widget init **/
         val progress    : ProgressBar =  findViewById(R.id.pairing_progress)
-        val hostpairing : Button = findViewById(R.id.host_pairing)
+        val hostpairing : ImageButton = findViewById(R.id.host_pairing)
         val kakinbullet : Button = findViewById(R.id.host_kakin_bullet)
         val item        : Button = findViewById(R.id.host_item_btn)
         val inventory   : Button = findViewById(R.id.host_inventory_btn)

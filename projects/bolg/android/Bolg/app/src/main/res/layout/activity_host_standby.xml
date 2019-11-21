@@ -44,11 +44,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <ImageButton
                 android:id="@+id/host_pairing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
+                android:src="@drawable/ic_settings_bluetooth_black_24dp"
                 android:text="@string/pairing" />
 
             <TextView
