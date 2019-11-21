@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/standby_recycler_view"
@@ -43,18 +45,20 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/pairing"
+                android:id="@+id/host_pairing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="ペアリング" />
+                android:text="@string/pairing" />
 
-            <Button
-                android:id="@+id/user_id"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/host_user_id"
+                android:layout_width="176dp"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="ユーザーID" />
+                android:gravity="center"
+                android:text="UserID"
+                android:textSize="25sp" />
         </TableRow>
 
         <TableRow
@@ -62,12 +66,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/AC_btn"
+            <Spinner
+                android:id="@+id/host_game_rule_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_span="4"
-                android:text="ゲームRule" />
+                android:background="@drawable/frame_black"
+                android:layout_margin="2dp"
+                android:layout_span="4"/>
         </TableRow>
 
         <TableRow
@@ -76,18 +81,18 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/btn_7"
+                android:id="@+id/host_kakin_bullet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="課金弾" />
+                android:text="@string/billing_bullet" />
 
             <Button
-                android:id="@+id/btn_8"
+                android:id="@+id/host_item_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="アイテム" />
+                android:text="@string/item" />
         </TableRow>
 
         <TableRow
@@ -95,19 +100,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <TextView
                 android:id="@+id/btn_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="使用アイテム１" />
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="アイテム(インベントリ)" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="使用アイテム２" />
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="アイテム(インベントリ)" />
         </TableRow>
 
         <TableRow
@@ -115,18 +128,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/btn_d"
+            <TextView
+                android:id="@+id/host_kakin_bullet_count"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="課金弾数" />
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="@string/billing_bullet_count" />
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="準備完了：2/10"
-                android:textSize="24sp"
+                android:textSize="20sp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
                 android:layout_span="2" />
         </TableRow>
 
@@ -136,22 +155,22 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/btn_"
+                android:id="@+id/host_inventory_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="インベントリ" />
+                android:text="@string/inventory" />
 
             <Button
-                android:id="@+id/btn_kjb"
+                android:id="@+id/host_ready_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="スタート" />
+                android:text="@string/start" />
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow4"
+            android:id="@+id/dummyTableRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -160,26 +179,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
             <Button
                 android:id="@+id/btn_tt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
             <Button
                 android:id="@+id/btn_ttt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
             <Button
                 android:id="@+id/btn_tttt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
         </TableRow>
 
     </TableLayout>
+    <ProgressBar
+        android:id="@+id/pairing_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

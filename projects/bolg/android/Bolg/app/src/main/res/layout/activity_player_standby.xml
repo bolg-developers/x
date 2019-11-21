@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2/10"
+        android:textSize="20sp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/standby_recycler_view"
@@ -45,18 +46,20 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/pairing"
+                android:id="@+id/pairing_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="ペアリング" />
+                android:text="@string/pairing" />
 
-            <Button
+            <TextView
                 android:id="@+id/user_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="ユーザーID" />
+                android:textSize="20sp"
+                android:gravity="center"
+                android:text="@string/user_id" />
         </TableRow>
 
         <TableRow
@@ -64,12 +67,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/AC_btn"
+            <TextView
+                android:id="@+id/rule"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="4"
-                android:text="ゲームRule" />
+                android:gravity="center"
+                android:textSize="20sp"
+                android:background="@drawable/frame_black"
+                android:text="ルール(HOST選択反映)" />
         </TableRow>
 
         <TableRow
@@ -77,19 +83,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/btn_7"
+            <TextView
+                android:id="@+id/player_kakin_bullet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="課金弾" />
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="課金弾(HOST選択反映)" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="アイテム" />
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="Item(HOST選択反映)" />
         </TableRow>
 
         <TableRow
@@ -97,19 +111,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <TextView
                 android:id="@+id/btn_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="使用アイテム１" />
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="アイテム(インベントリ)" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="使用アイテム２" />
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="アイテム(インベントリ)" />
         </TableRow>
 
         <TableRow
@@ -117,18 +139,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/btn_d"
+            <TextView
+                android:id="@+id/player_kakin_bullet_count"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="課金弾数" />
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:text="@string/billing_bullet_count" />
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="準備完了：2/10"
-                android:textSize="24sp"
+                android:textSize="15sp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
                 android:layout_span="2" />
         </TableRow>
 
@@ -138,50 +166,62 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/btn_"
+                android:id="@+id/player_inventory_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="インベントリ" />
+                android:text="@string/inventory" />
 
             <Button
-                android:id="@+id/btn_kjb"
+                android:id="@+id/player_ready_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:text="準備完了" />
+                android:text="@string/standby_ok" />
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow4"
+            android:id="@+id/dummyTableRow4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn_t"
+                android:id="@+id/dummy1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
             <Button
-                android:id="@+id/btn_tt"
+                android:id="@+id/dummy2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
             <Button
-                android:id="@+id/btn_ttt"
+                android:id="@+id/dummy3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
             <Button
-                android:id="@+id/btn_tttt"
+                android:id="@+id/dummy4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="5" />
+                android:text="@string/dummy" />
         </TableRow>
 
     </TableLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
