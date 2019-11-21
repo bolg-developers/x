@@ -11,6 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.bolg.R
 
 
+/** ----------------------------------------------------------------------
+ * CreateJoinFragment
+ * 部屋への参加/作成
+ * ---------------------------------------------------------------------- */
 class CreateJoinFragment : Fragment(){
 
     // Fragmentが初めてUIを描画する時にシステムが呼び出す
