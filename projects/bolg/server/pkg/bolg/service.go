@@ -80,37 +80,31 @@ func (svc *Service) handleCreateAndJoinRoomReq(stream pb.BolgService_ConnectServ
 	// TODO: 認証機構を実装してtokenからUser情報を取得するようにする
 	pname := in.CreateAndJoinRoomReq.PlayerName
 	if pname == "" {
-		pname = "名無しの桝井隆治(仮)"
+		return sendRoomMessageError(stream, codes.InvalidArgument, "player name is empty")
 	}
-	log.Println("Recieve CreateAndJoinRoomReq")
 	rid, ok := svc.nm.createNum()
 	if !ok {
-		return status.Error(codes.ResourceExhausted, "room is full")
+		return status.Error(codes.ResourceExhausted, "no room")
 	}
-	log.Println("Created room number:", rid)
 	if err := svc.jm.create(rid, newSurivalJudgement()); err != nil {
 		return toGRPCError(err)
 	}
 	if err := svc.idpm.create(rid); err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Created id pool")
 	pid, err := svc.idpm.getID(rid)
 	if err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Got plyaer id:", pid)
 	p := NewPlayer(pid, pname)
 	r := NewRoom(rid)
 	r.OwnerId = pid
 	if err := svc.roomDB.Create(r); err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Created room")
 	if err := svc.roomDB.CreatePlayer(rid, p); err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Created player")
 	r, err = svc.roomDB.Get(rid)
 	if err != nil {
 		return toGRPCError(err)
@@ -118,11 +112,9 @@ func (svc *Service) handleCreateAndJoinRoomReq(stream pb.BolgService_ConnectServ
 	if err := svc.sm.createStreams(rid); err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Created streams")
 	if err := svc.sm.appendStream(rid, stream); err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Appended stream")
 	out := &pb.RoomMessage{
 		Data: &pb.RoomMessage_CreateAndJoinRoomResp{
 			CreateAndJoinRoomResp: &pb.CreateAndJoinRoomResponse{
@@ -134,7 +126,6 @@ func (svc *Service) handleCreateAndJoinRoomReq(stream pb.BolgService_ConnectServ
 	if err := stream.Send(out); err != nil {
 		return err
 	}
-	log.Println("Sent message")
 	return nil
 }
 
@@ -142,14 +133,13 @@ func (svc *Service) handleJoinRoomReq(stream pb.BolgService_ConnectServer, in *p
 	// TODO: 認証機構を実装してtokenからUser情報を取得するようにする
 	pname := in.JoinRoomReq.PlayerName
 	if pname == "" {
-		pname = "名無しの桝井隆治(仮)"
+		return sendRoomMessageError(stream, codes.InvalidArgument, "player name is empty")
 	}
 	rid := in.JoinRoomReq.RoomId
 	pid, err := svc.idpm.getID(rid)
 	if err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Got plyaer id:", pid)
 	p := NewPlayer(pid, pname)
 	if err := svc.roomDB.CreatePlayer(rid, p); err != nil {
 		return toGRPCError(err)
@@ -169,11 +159,9 @@ func (svc *Service) handleJoinRoomReq(stream pb.BolgService_ConnectServer, in *p
 	if err := stream.Send(out); err != nil {
 		return err
 	}
-	log.Println("Sent message")
 	if err := svc.sm.appendStream(rid, stream); err != nil {
 		return toGRPCError(err)
 	}
-	log.Println("Appended stream")
 	out = &pb.RoomMessage{
 		Data: &pb.RoomMessage_JoinRoomMsg{
 			JoinRoomMsg: &pb.JoinRoomMessage{
@@ -181,10 +169,9 @@ func (svc *Service) handleJoinRoomReq(stream pb.BolgService_ConnectServer, in *p
 			},
 		},
 	}
-	if streams := svc.sm.Broadcasts(rid, stream, out); len(streams) != 0 {
-		log.Println("Failed to broadcast")
+	if _, err := svc.sm.Broadcasts(rid, stream, out); err != nil {
+		return toGRPCError(err)
 	}
-	log.Println("Sent message others")
 	return nil
 }
 
@@ -198,7 +185,7 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 		return toGRPCError(err)
 	}
 	if !room.GameStart {
-		return status.Error(codes.FailedPrecondition, "game is not starting")
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "game is not starting")
 	}
 	receiver, err := svc.roomDB.GetPlayer(rid, pid)
 	if err != nil {
@@ -210,7 +197,7 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 	}
 	kill, err := damage(receiver, sender)
 	if err != nil {
-		return toGRPCError(err)
+		return sendRoomMessageError(stream, codes.FailedPrecondition, err.Error())
 	}
 	if err := svc.roomDB.UpdatePlayer(rid, receiver); err != nil {
 		return toGRPCError(err)
@@ -230,10 +217,9 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 			},
 		},
 	}
-	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
-		log.Println("Failed to broadcast")
+	if _, err := svc.sm.Broadcasts(rid, stream, out); err != nil {
+		return toGRPCError(err)
 	}
-	log.Println("Sent message")
 	players, err := svc.roomDB.ListPlayers(rid)
 	if err != nil {
 		return toGRPCError(err)
@@ -253,10 +239,9 @@ func (svc *Service) handleNotifyReceivingReq(stream pb.BolgService_ConnectServer
 			},
 		},
 	}
-	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
-		log.Println("Failed to broadcast")
+	if _, err := svc.sm.Broadcasts(rid, nil, out); err != nil {
+		return toGRPCError(err)
 	}
-	log.Println("Sent message")
 	room, err = svc.roomDB.Get(rid)
 	if err != nil {
 		return toGRPCError(err)
@@ -288,17 +273,17 @@ func (svc *Service) handleStartGameReq(stream pb.BolgService_ConnectServer, in *
 		return toGRPCError(err)
 	}
 	if pid != room.OwnerId {
-		return status.Error(codes.PermissionDenied, "your are not room owner")
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "your are not room owner")
 	}
 	players, err := svc.roomDB.ListPlayers(rid)
 	if err != nil {
 		return toGRPCError(err)
 	}
 	if len(players.NotReadyPlayers()) > 0 {
-		return status.Error(codes.FailedPrecondition, "some players are not ready yet")
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "some players are not ready yet")
 	}
 	if room.GameStart {
-		return status.Error(codes.FailedPrecondition, "game is already starting")
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "game is already starting")
 	}
 	room.GameStart = true
 	if err := svc.roomDB.Update(room); err != nil {
@@ -311,10 +296,9 @@ func (svc *Service) handleStartGameReq(stream pb.BolgService_ConnectServer, in *
 			},
 		},
 	}
-	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
-		log.Println("Failed to broadcast")
+	if _, err := svc.sm.Broadcasts(rid, nil, out); err != nil {
+		return toGRPCError(err)
 	}
-	log.Println("Sent message")
 	return nil
 }
 
@@ -352,7 +336,7 @@ func (svc *Service) handleReadyReq(stream pb.BolgService_ConnectServer, in *pb.R
 		return toGRPCError(err)
 	}
 	if player.Ready {
-		return status.Error(codes.FailedPrecondition, "you are already ready")
+		return sendRoomMessageError(stream, codes.FailedPrecondition, "you are already ready")
 	}
 	player.Ready = true
 	if err := svc.roomDB.UpdatePlayer(rid, player); err != nil {
@@ -365,10 +349,9 @@ func (svc *Service) handleReadyReq(stream pb.BolgService_ConnectServer, in *pb.R
 			},
 		},
 	}
-	if streams := svc.sm.Broadcasts(rid, nil, out); len(streams) != 0 {
-		log.Println("Failed to broadcast")
+	if _, err := svc.sm.Broadcasts(rid, nil, out); err != nil {
+		return toGRPCError(err)
 	}
-	log.Println("Sent message")
 	return nil
 }
 
@@ -388,4 +371,16 @@ func toGRPCError(err error) error {
 	default:
 		return status.Error(codes.Internal, err.Error())
 	}
+}
+
+func sendRoomMessageError(stream pb.BolgService_ConnectServer, code codes.Code, msg string) error {
+	out := &pb.RoomMessage{
+		Data: &pb.RoomMessage_Error{
+			Error: &pb.Error{
+				Code:    int32(code),
+				Message: msg,
+			},
+		},
+	}
+	return stream.Send(out)
 }
