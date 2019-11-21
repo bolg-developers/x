@@ -27,9 +27,7 @@ class CreateJoinFragment : Fragment(){
         var view = inflater.inflate(R.layout.fragment_main,container,false)
 
         val application: Application = requireNotNull(this.activity).application
-
         val viewModelFactory = CreateJoinViewModelFactory(application)
-
         val createJoinViewModel = ViewModelProviders.of(this,viewModelFactory).get(CreateJoinViewModel::class.java)
 
         // Button widget Setting

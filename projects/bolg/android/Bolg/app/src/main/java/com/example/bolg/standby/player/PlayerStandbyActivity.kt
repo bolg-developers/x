@@ -27,18 +27,18 @@ class PlayerStandbyActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_standby)
 
-        // widget init
+        /** widget init **/
         val progress  : ProgressBar =  findViewById(R.id.progress)
         val joinuser  : RecyclerView = findViewById(R.id.standby_recycler_view)
         val ready     : Button = findViewById(R.id.player_ready_btn)
         val rule      : TextView = findViewById(R.id.rule)
 
-        // viewModelインスタンス
+        /** viewModel類 **/
         val application: Application = requireNotNull(this).application
         val viewModelFactoryplayer: PlayerStandbyViewModelFactory = PlayerStandbyViewModelFactory(application)
         val playerstandbyViewModel = ViewModelProviders.of(this,viewModelFactoryplayer).get(PlayerStandbyViewModel::class.java)
 
-        // LayoutManagerの設定
+        /** RecyclerView init **/
         val layoutManager = LinearLayoutManager(this)
         joinuser.layoutManager = layoutManager
         // Adapterの設定
@@ -51,11 +51,14 @@ class PlayerStandbyActivity : AppCompatActivity(){
         // 区切り線の表示
         joinuser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        // Observe類
+
+        /** Observe類 **/
+        // ゲームルール
         playerstandbyViewModel.gameRule.observe(this, Observer { mrule->
             rule.text = mrule
         })
 
+        // アイテムON/OFF
         playerstandbyViewModel.itemState.observe(this, Observer { item->
             if(item){
                 // 青色に変化（ONっぽい表示）
@@ -64,6 +67,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
             }
         })
 
+        // 課金弾ON/OFF
         playerstandbyViewModel.kakinBulletState.observe(this, Observer { kakinbullet->
             if(kakinbullet){
                 // 青色に変化（ONっぽい表示）
@@ -72,8 +76,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
             }
         })
 
-
-        // Click処理
+        /** onClick **/
         ready.setOnClickListener { progress.visibility = ProgressBar.VISIBLE }
 
 

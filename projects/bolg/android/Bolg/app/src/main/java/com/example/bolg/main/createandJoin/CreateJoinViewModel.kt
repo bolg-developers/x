@@ -85,6 +85,11 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
         context?.startActivity(intent)
     }
 
+    /** **********************************************************************
+     * create
+     * @param roomid 入力数値
+     * 入力された部屋IDに対応する部屋は存在するのかチェック
+     * ********************************************************************** */
     private fun roomIdCheck(roomid: String): Boolean{
 
         Log.d("room",roomid.toString())

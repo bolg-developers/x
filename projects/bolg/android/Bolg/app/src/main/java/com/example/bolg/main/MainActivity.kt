@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val application: Application = requireNotNull(this).application
-
         val viewModelFactory: MainViewModelFactory = MainViewModelFactory(application,supportFragmentManager)
-
         val mainViewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
 
         mainViewModel.setTitle()

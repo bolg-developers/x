@@ -28,7 +28,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host_standby)
 
-        // widgets init
+        /** widget init **/
         val progress    : ProgressBar =  findViewById(R.id.pairing_progress)
         val hostpairing : Button = findViewById(R.id.host_pairing)
         val kakinbullet : Button = findViewById(R.id.host_kakin_bullet)
@@ -38,6 +38,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         val rulespinner : Spinner = findViewById(R.id.host_game_rule_spinner)
         val joinuser    : RecyclerView = findViewById(R.id.standby_recycler_view)
 
+        /** spinner init **/
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             this,
@@ -49,14 +50,12 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             // Apply the adapter to the spinner
             rulespinner.adapter = adapter
         }
-
         rulespinner.onItemSelectedListener = this
 
+        /** viewModel init **/
         val application: Application = requireNotNull(this).application
-
         val viewModelFactoryHost: HostStandbyViewModelFactory =
             HostStandbyViewModelFactory(application)
-
         hostStandbyViewModel = ViewModelProviders.of(this,viewModelFactoryHost).get(HostStandbyViewModel::class.java)
 
         /**************************ViewModelに分割したい*********************************************************/
@@ -76,6 +75,8 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         joinuser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         /******************************************************************************************************/
 
+
+        /** onClick **/
         // 課金ボタンON/OFF
         kakinbullet.setOnClickListener {
             if (hostStandbyViewModel.kakinBulletState){ Log.d("button","kakinbullet:OFF") }
@@ -92,9 +93,6 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             hostStandbyViewModel.itemState = !hostStandbyViewModel.itemState
         }
 
-        // ゲームスタート
-        start.setOnClickListener { hostStandbyViewModel.startGame(this) }
-
         // ペアリング
         hostpairing.setOnClickListener {
             progress.visibility = ProgressBar.VISIBLE
@@ -104,10 +102,22 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 Log.d("button", "progress:OFF")
             }
         }
+
+        // ゲームスタート
+        start.setOnClickListener { hostStandbyViewModel.startGame(this) }
+
         // インベントリ
         inventory.setOnClickListener { Toast.makeText(applicationContext, "未実装", Toast.LENGTH_LONG).show() }
     }
 
+    /** **********************************************************************
+     * onItemSelected
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     * 選択ItemをViewに反映させる
+     * ********************************************************************** */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val spinnerParent = parent as Spinner
         val item = spinnerParent.selectedItem as String
@@ -115,6 +125,11 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         hostStandbyViewModel.updateGameRule(item)
 
     }
+
+    /** **********************************************************************
+     * onNothingSelected
+     * @param parent
+     * ********************************************************************** */
     override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 }
