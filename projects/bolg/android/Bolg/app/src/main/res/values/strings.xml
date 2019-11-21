@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">Bolg</string>
+    <string name="game_play">GamePlay</string>
+    <string name="game_rule">GameRule</string>
+    <string name="billing_bullet">課金弾(ON/OFF)</string>
+    <string name="billing_bullet_count">課金弾数：１０</string>
+    <string name="create_room">部屋作成</string>
+    <string name="join_room">部屋参加</string>
+    <string name="input_room_id">ルームIDの入力</string>
+    <string name="join">参加</string>
+    <string name="create">作成</string>
+    <string name="item">アイテム(ON/OFF)</string>
+    <string name="inventory">インベントリ</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="dummy">ダミー</string>
+    <string name="user_id">ユーザーID</string>
+    <string name="pairing">ペアリング</string>
+    <string name="standby_ok">準備完了</string>
+    <string name="user">ユーザー</string>
+
+    <string-array name="planets_array">
+        <item>殲滅戦</item>
+        <item>チーム戦</item>
+        <item>○○戦</item>
+    </string-array>
+
 </resources>
