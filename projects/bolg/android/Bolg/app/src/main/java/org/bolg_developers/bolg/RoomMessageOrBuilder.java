@@ -189,5 +189,18 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.ReadyMessageOrBuilder getReadyMsgOrBuilder();
 
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  boolean hasError();
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  org.bolg_developers.bolg.Error getError();
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  org.bolg_developers.bolg.ErrorOrBuilder getErrorOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }

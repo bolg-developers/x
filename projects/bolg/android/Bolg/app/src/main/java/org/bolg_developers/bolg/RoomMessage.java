@@ -245,6 +245,20 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 14;
             break;
           }
+          case 122: {
+            org.bolg_developers.bolg.Error.Builder subBuilder = null;
+            if (dataCase_ == 15) {
+              subBuilder = ((org.bolg_developers.bolg.Error) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.Error.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.Error) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 15;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -287,6 +301,7 @@ private static final long serialVersionUID = 0L;
     UPDATE_WEAPON_RESP(12),
     READY_REQ(13),
     READY_MSG(14),
+    ERROR(15),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -316,6 +331,7 @@ private static final long serialVersionUID = 0L;
         case 12: return UPDATE_WEAPON_RESP;
         case 13: return READY_REQ;
         case 14: return READY_MSG;
+        case 15: return ERROR;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -695,6 +711,32 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
   }
 
+  public static final int ERROR_FIELD_NUMBER = 15;
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  public boolean hasError() {
+    return dataCase_ == 15;
+  }
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  public org.bolg_developers.bolg.Error getError() {
+    if (dataCase_ == 15) {
+       return (org.bolg_developers.bolg.Error) data_;
+    }
+    return org.bolg_developers.bolg.Error.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  public org.bolg_developers.bolg.ErrorOrBuilder getErrorOrBuilder() {
+    if (dataCase_ == 15) {
+       return (org.bolg_developers.bolg.Error) data_;
+    }
+    return org.bolg_developers.bolg.Error.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -748,6 +790,9 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 14) {
       output.writeMessage(14, (org.bolg_developers.bolg.ReadyMessage) data_);
+    }
+    if (dataCase_ == 15) {
+      output.writeMessage(15, (org.bolg_developers.bolg.Error) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -812,6 +857,10 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 14) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(14, (org.bolg_developers.bolg.ReadyMessage) data_);
+    }
+    if (dataCase_ == 15) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(15, (org.bolg_developers.bolg.Error) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -889,6 +938,10 @@ private static final long serialVersionUID = 0L;
         result = result && getReadyMsg()
             .equals(other.getReadyMsg());
         break;
+      case 15:
+        result = result && getError()
+            .equals(other.getError());
+        break;
       case 0:
       default:
     }
@@ -959,6 +1012,10 @@ private static final long serialVersionUID = 0L;
       case 14:
         hash = (37 * hash) + READY_MSG_FIELD_NUMBER;
         hash = (53 * hash) + getReadyMsg().hashCode();
+        break;
+      case 15:
+        hash = (37 * hash) + ERROR_FIELD_NUMBER;
+        hash = (53 * hash) + getError().hashCode();
         break;
       case 0:
       default:
@@ -1214,6 +1271,13 @@ private static final long serialVersionUID = 0L;
           result.data_ = readyMsgBuilder_.build();
         }
       }
+      if (dataCase_ == 15) {
+        if (errorBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = errorBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -1311,6 +1375,10 @@ private static final long serialVersionUID = 0L;
         }
         case READY_MSG: {
           mergeReadyMsg(other.getReadyMsg());
+          break;
+        }
+        case ERROR: {
+          mergeError(other.getError());
           break;
         }
         case DATA_NOT_SET: {
@@ -3261,6 +3329,142 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 14;
       onChanged();;
       return readyMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.Error, org.bolg_developers.bolg.Error.Builder, org.bolg_developers.bolg.ErrorOrBuilder> errorBuilder_;
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public boolean hasError() {
+      return dataCase_ == 15;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public org.bolg_developers.bolg.Error getError() {
+      if (errorBuilder_ == null) {
+        if (dataCase_ == 15) {
+          return (org.bolg_developers.bolg.Error) data_;
+        }
+        return org.bolg_developers.bolg.Error.getDefaultInstance();
+      } else {
+        if (dataCase_ == 15) {
+          return errorBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.Error.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder setError(org.bolg_developers.bolg.Error value) {
+      if (errorBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        errorBuilder_.setMessage(value);
+      }
+      dataCase_ = 15;
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder setError(
+        org.bolg_developers.bolg.Error.Builder builderForValue) {
+      if (errorBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        errorBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 15;
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder mergeError(org.bolg_developers.bolg.Error value) {
+      if (errorBuilder_ == null) {
+        if (dataCase_ == 15 &&
+            data_ != org.bolg_developers.bolg.Error.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.Error.newBuilder((org.bolg_developers.bolg.Error) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 15) {
+          errorBuilder_.mergeFrom(value);
+        }
+        errorBuilder_.setMessage(value);
+      }
+      dataCase_ = 15;
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder clearError() {
+      if (errorBuilder_ == null) {
+        if (dataCase_ == 15) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 15) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        errorBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public org.bolg_developers.bolg.Error.Builder getErrorBuilder() {
+      return getErrorFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public org.bolg_developers.bolg.ErrorOrBuilder getErrorOrBuilder() {
+      if ((dataCase_ == 15) && (errorBuilder_ != null)) {
+        return errorBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 15) {
+          return (org.bolg_developers.bolg.Error) data_;
+        }
+        return org.bolg_developers.bolg.Error.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.Error, org.bolg_developers.bolg.Error.Builder, org.bolg_developers.bolg.ErrorOrBuilder> 
+        getErrorFieldBuilder() {
+      if (errorBuilder_ == null) {
+        if (!(dataCase_ == 15)) {
+          data_ = org.bolg_developers.bolg.Error.getDefaultInstance();
+        }
+        errorBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.Error, org.bolg_developers.bolg.Error.Builder, org.bolg_developers.bolg.ErrorOrBuilder>(
+                (org.bolg_developers.bolg.Error) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 15;
+      onChanged();;
+      return errorBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

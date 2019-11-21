@@ -1,6 +1,7 @@
 package bolg
 
 import (
+	"errors"
 	"fmt"
 	"sync"
 
@@ -40,7 +41,7 @@ func (sm *streamsManager) appendStream(roomID int64, stream pb.BolgService_Conne
 	return nil
 }
 
-func (sm *streamsManager) Broadcasts(roomId int64, ignore pb.BolgService_ConnectServer, msg *pb.RoomMessage) streams {
+func (sm *streamsManager) Broadcasts(roomId int64, ignore pb.BolgService_ConnectServer, msg *pb.RoomMessage) (streams, error) {
 	sm.Lock()
 	defer sm.Unlock()
 	streams := make(streams, 0, len(sm.streamsMap[roomId]))
@@ -52,7 +53,11 @@ func (sm *streamsManager) Broadcasts(roomId int64, ignore pb.BolgService_Connect
 			streams = append(streams, s)
 		}
 	}
-	return streams
+	var err error
+	if len(streams) != 0 {
+		err = errors.New("failed to broadcast")
+	}
+	return streams, err
 }
 
 type streams []pb.BolgService_ConnectServer

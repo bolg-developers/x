@@ -28,6 +28,7 @@ message RoomMessage {
     UpdateWeaponResponse update_weapon_resp = 12;
     ReadyRequest ready_req = 13;
     ReadyMessage ready_msg = 14;
+    Error error = 15;
   }
 }
 
@@ -114,6 +115,11 @@ message ReadyRequest {
 message ReadyMessage {
   // player_idは準備完了したプレイヤーのIDです。
   int64 player_id = 1;
+}
+
+message Error {
+  int32 code = 1;
+  string message = 2;
 }
 
 message Room {
