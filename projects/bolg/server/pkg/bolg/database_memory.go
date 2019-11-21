@@ -50,6 +50,17 @@ func (db *memoryRoomDatabase) get(id int64) (*Room, error) {
 	return r, nil
 }
 
+func (db *memoryRoomDatabase) Update(r *Room) error {
+	db.Lock()
+	defer db.Unlock()
+	_, ok := db.roomMap[r.Id]
+	if !ok {
+		return fmt.Errorf("roomMap[%d] is not created", r.Id)
+	}
+	db.roomMap[r.Id] = r
+	return nil
+}
+
 func (db *memoryRoomDatabase) CreatePlayer(roomID int64, p *Player) error {
 	db.Lock()
 	defer db.Unlock()
@@ -70,6 +81,16 @@ func (db *memoryRoomDatabase) CreatePlayer(roomID int64, p *Player) error {
 	}
 	db.playersMap[roomID] = append(db.playersMap[roomID], p)
 	return nil
+}
+
+func (db *memoryRoomDatabase) ListPlayers(roomID int64) (Players, error) {
+	db.Lock()
+	defer db.Unlock()
+	players, ok := db.playersMap[roomID]
+	if !ok {
+		return nil, fmt.Errorf("playersMap[%d] is not created", roomID)
+	}
+	return players, nil
 }
 
 func (db *memoryRoomDatabase) GetPlayer(roomID, playerID int64) (*Player, error) {

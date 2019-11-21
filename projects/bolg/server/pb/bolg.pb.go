@@ -56,6 +56,14 @@ type RoomMessage struct {
 	//	*RoomMessage_JoinRoomMsg
 	//	*RoomMessage_NotifyReceivingReq
 	//	*RoomMessage_NotifyReceivingMsg
+	//	*RoomMessage_SurvivalResultMsg
+	//	*RoomMessage_StartGameReq
+	//	*RoomMessage_StartGameMsg
+	//	*RoomMessage_UpdateWeaponReq
+	//	*RoomMessage_UpdateWeaponResp
+	//	*RoomMessage_ReadyReq
+	//	*RoomMessage_ReadyMsg
+	//	*RoomMessage_Error
 	Data                 isRoomMessage_Data `protobuf_oneof:"data"`
 	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
 	XXX_unrecognized     []byte             `json:"-"`
@@ -119,6 +127,38 @@ type RoomMessage_NotifyReceivingMsg struct {
 	NotifyReceivingMsg *NotifyReceivingMessage `protobuf:"bytes,7,opt,name=notify_receiving_msg,json=notifyReceivingMsg,proto3,oneof"`
 }
 
+type RoomMessage_SurvivalResultMsg struct {
+	SurvivalResultMsg *SurvivalResultMessage `protobuf:"bytes,8,opt,name=survival_result_msg,json=survivalResultMsg,proto3,oneof"`
+}
+
+type RoomMessage_StartGameReq struct {
+	StartGameReq *StartGameRequest `protobuf:"bytes,9,opt,name=start_game_req,json=startGameReq,proto3,oneof"`
+}
+
+type RoomMessage_StartGameMsg struct {
+	StartGameMsg *StartGameMessage `protobuf:"bytes,10,opt,name=start_game_msg,json=startGameMsg,proto3,oneof"`
+}
+
+type RoomMessage_UpdateWeaponReq struct {
+	UpdateWeaponReq *UpdateWeaponRequest `protobuf:"bytes,11,opt,name=update_weapon_req,json=updateWeaponReq,proto3,oneof"`
+}
+
+type RoomMessage_UpdateWeaponResp struct {
+	UpdateWeaponResp *UpdateWeaponResponse `protobuf:"bytes,12,opt,name=update_weapon_resp,json=updateWeaponResp,proto3,oneof"`
+}
+
+type RoomMessage_ReadyReq struct {
+	ReadyReq *ReadyRequest `protobuf:"bytes,13,opt,name=ready_req,json=readyReq,proto3,oneof"`
+}
+
+type RoomMessage_ReadyMsg struct {
+	ReadyMsg *ReadyMessage `protobuf:"bytes,14,opt,name=ready_msg,json=readyMsg,proto3,oneof"`
+}
+
+type RoomMessage_Error struct {
+	Error *Error `protobuf:"bytes,15,opt,name=error,proto3,oneof"`
+}
+
 func (*RoomMessage_CreateAndJoinRoomReq) isRoomMessage_Data() {}
 
 func (*RoomMessage_CreateAndJoinRoomResp) isRoomMessage_Data() {}
@@ -132,6 +172,22 @@ func (*RoomMessage_JoinRoomMsg) isRoomMessage_Data() {}
 func (*RoomMessage_NotifyReceivingReq) isRoomMessage_Data() {}
 
 func (*RoomMessage_NotifyReceivingMsg) isRoomMessage_Data() {}
+
+func (*RoomMessage_SurvivalResultMsg) isRoomMessage_Data() {}
+
+func (*RoomMessage_StartGameReq) isRoomMessage_Data() {}
+
+func (*RoomMessage_StartGameMsg) isRoomMessage_Data() {}
+
+func (*RoomMessage_UpdateWeaponReq) isRoomMessage_Data() {}
+
+func (*RoomMessage_UpdateWeaponResp) isRoomMessage_Data() {}
+
+func (*RoomMessage_ReadyReq) isRoomMessage_Data() {}
+
+func (*RoomMessage_ReadyMsg) isRoomMessage_Data() {}
+
+func (*RoomMessage_Error) isRoomMessage_Data() {}
 
 func (m *RoomMessage) GetData() isRoomMessage_Data {
 	if m != nil {
@@ -189,6 +245,62 @@ func (m *RoomMessage) GetNotifyReceivingMsg() *NotifyReceivingMessage {
 	return nil
 }
 
+func (m *RoomMessage) GetSurvivalResultMsg() *SurvivalResultMessage {
+	if x, ok := m.GetData().(*RoomMessage_SurvivalResultMsg); ok {
+		return x.SurvivalResultMsg
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetStartGameReq() *StartGameRequest {
+	if x, ok := m.GetData().(*RoomMessage_StartGameReq); ok {
+		return x.StartGameReq
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetStartGameMsg() *StartGameMessage {
+	if x, ok := m.GetData().(*RoomMessage_StartGameMsg); ok {
+		return x.StartGameMsg
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetUpdateWeaponReq() *UpdateWeaponRequest {
+	if x, ok := m.GetData().(*RoomMessage_UpdateWeaponReq); ok {
+		return x.UpdateWeaponReq
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetUpdateWeaponResp() *UpdateWeaponResponse {
+	if x, ok := m.GetData().(*RoomMessage_UpdateWeaponResp); ok {
+		return x.UpdateWeaponResp
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetReadyReq() *ReadyRequest {
+	if x, ok := m.GetData().(*RoomMessage_ReadyReq); ok {
+		return x.ReadyReq
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetReadyMsg() *ReadyMessage {
+	if x, ok := m.GetData().(*RoomMessage_ReadyMsg); ok {
+		return x.ReadyMsg
+	}
+	return nil
+}
+
+func (m *RoomMessage) GetError() *Error {
+	if x, ok := m.GetData().(*RoomMessage_Error); ok {
+		return x.Error
+	}
+	return nil
+}
+
 // XXX_OneofWrappers is for the internal use of the proto package.
 func (*RoomMessage) XXX_OneofWrappers() []interface{} {
 	return []interface{}{
@@ -199,6 +311,14 @@ func (*RoomMessage) XXX_OneofWrappers() []interface{} {
 		(*RoomMessage_JoinRoomMsg)(nil),
 		(*RoomMessage_NotifyReceivingReq)(nil),
 		(*RoomMessage_NotifyReceivingMsg)(nil),
+		(*RoomMessage_SurvivalResultMsg)(nil),
+		(*RoomMessage_StartGameReq)(nil),
+		(*RoomMessage_StartGameMsg)(nil),
+		(*RoomMessage_UpdateWeaponReq)(nil),
+		(*RoomMessage_UpdateWeaponResp)(nil),
+		(*RoomMessage_ReadyReq)(nil),
+		(*RoomMessage_ReadyMsg)(nil),
+		(*RoomMessage_Error)(nil),
 	}
 }
 
@@ -477,6 +597,7 @@ func (m *NotifyReceivingRequest) GetToken() string {
 	return ""
 }
 
+// NotifyReceivingMessageはNotifyReceivingRequestリクエストされたときに、すべてのプレイヤーに送信されるメッセージです。
 type NotifyReceivingMessage struct {
 	// playerはダメージを受けたプレイヤーです。
 	Player *Player `protobuf:"bytes,1,opt,name=player,proto3" json:"player,omitempty"`
@@ -527,6 +648,462 @@ func (m *NotifyReceivingMessage) GetKillerName() string {
 	return ""
 }
 
+type SurvivalResultMessage struct {
+	Winner               *Player                   `protobuf:"bytes,1,opt,name=winner,proto3" json:"winner,omitempty"`
+	Personals            []*SurvivalPersonalResult `protobuf:"bytes,2,rep,name=personals,proto3" json:"personals,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                  `json:"-"`
+	XXX_unrecognized     []byte                    `json:"-"`
+	XXX_sizecache        int32                     `json:"-"`
+}
+
+func (m *SurvivalResultMessage) Reset()         { *m = SurvivalResultMessage{} }
+func (m *SurvivalResultMessage) String() string { return proto.CompactTextString(m) }
+func (*SurvivalResultMessage) ProtoMessage()    {}
+func (*SurvivalResultMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{8}
+}
+
+func (m *SurvivalResultMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SurvivalResultMessage.Unmarshal(m, b)
+}
+func (m *SurvivalResultMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SurvivalResultMessage.Marshal(b, m, deterministic)
+}
+func (m *SurvivalResultMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SurvivalResultMessage.Merge(m, src)
+}
+func (m *SurvivalResultMessage) XXX_Size() int {
+	return xxx_messageInfo_SurvivalResultMessage.Size(m)
+}
+func (m *SurvivalResultMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_SurvivalResultMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SurvivalResultMessage proto.InternalMessageInfo
+
+func (m *SurvivalResultMessage) GetWinner() *Player {
+	if m != nil {
+		return m.Winner
+	}
+	return nil
+}
+
+func (m *SurvivalResultMessage) GetPersonals() []*SurvivalPersonalResult {
+	if m != nil {
+		return m.Personals
+	}
+	return nil
+}
+
+type SurvivalPersonalResult struct {
+	PlayerName           string   `protobuf:"bytes,1,opt,name=player_name,json=playerName,proto3" json:"player_name,omitempty"`
+	KillCount            int64    `protobuf:"varint,2,opt,name=kill_count,json=killCount,proto3" json:"kill_count,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SurvivalPersonalResult) Reset()         { *m = SurvivalPersonalResult{} }
+func (m *SurvivalPersonalResult) String() string { return proto.CompactTextString(m) }
+func (*SurvivalPersonalResult) ProtoMessage()    {}
+func (*SurvivalPersonalResult) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{9}
+}
+
+func (m *SurvivalPersonalResult) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SurvivalPersonalResult.Unmarshal(m, b)
+}
+func (m *SurvivalPersonalResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SurvivalPersonalResult.Marshal(b, m, deterministic)
+}
+func (m *SurvivalPersonalResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SurvivalPersonalResult.Merge(m, src)
+}
+func (m *SurvivalPersonalResult) XXX_Size() int {
+	return xxx_messageInfo_SurvivalPersonalResult.Size(m)
+}
+func (m *SurvivalPersonalResult) XXX_DiscardUnknown() {
+	xxx_messageInfo_SurvivalPersonalResult.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SurvivalPersonalResult proto.InternalMessageInfo
+
+func (m *SurvivalPersonalResult) GetPlayerName() string {
+	if m != nil {
+		return m.PlayerName
+	}
+	return ""
+}
+
+func (m *SurvivalPersonalResult) GetKillCount() int64 {
+	if m != nil {
+		return m.KillCount
+	}
+	return 0
+}
+
+type StartGameRequest struct {
+	// tokenから得られるプレイヤーIDがルームのオーナーIDと一致しない場合、
+	// このリクエストは失敗します。
+	Token                string   `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *StartGameRequest) Reset()         { *m = StartGameRequest{} }
+func (m *StartGameRequest) String() string { return proto.CompactTextString(m) }
+func (*StartGameRequest) ProtoMessage()    {}
+func (*StartGameRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{10}
+}
+
+func (m *StartGameRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StartGameRequest.Unmarshal(m, b)
+}
+func (m *StartGameRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StartGameRequest.Marshal(b, m, deterministic)
+}
+func (m *StartGameRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StartGameRequest.Merge(m, src)
+}
+func (m *StartGameRequest) XXX_Size() int {
+	return xxx_messageInfo_StartGameRequest.Size(m)
+}
+func (m *StartGameRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_StartGameRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StartGameRequest proto.InternalMessageInfo
+
+func (m *StartGameRequest) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type StartGameMessage struct {
+	Room                 *Room    `protobuf:"bytes,1,opt,name=room,proto3" json:"room,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *StartGameMessage) Reset()         { *m = StartGameMessage{} }
+func (m *StartGameMessage) String() string { return proto.CompactTextString(m) }
+func (*StartGameMessage) ProtoMessage()    {}
+func (*StartGameMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{11}
+}
+
+func (m *StartGameMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StartGameMessage.Unmarshal(m, b)
+}
+func (m *StartGameMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StartGameMessage.Marshal(b, m, deterministic)
+}
+func (m *StartGameMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StartGameMessage.Merge(m, src)
+}
+func (m *StartGameMessage) XXX_Size() int {
+	return xxx_messageInfo_StartGameMessage.Size(m)
+}
+func (m *StartGameMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_StartGameMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StartGameMessage proto.InternalMessageInfo
+
+func (m *StartGameMessage) GetRoom() *Room {
+	if m != nil {
+		return m.Room
+	}
+	return nil
+}
+
+type UpdateWeaponRequest struct {
+	Attack               int64    `protobuf:"varint,1,opt,name=attack,proto3" json:"attack,omitempty"`
+	Token                string   `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UpdateWeaponRequest) Reset()         { *m = UpdateWeaponRequest{} }
+func (m *UpdateWeaponRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateWeaponRequest) ProtoMessage()    {}
+func (*UpdateWeaponRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{12}
+}
+
+func (m *UpdateWeaponRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateWeaponRequest.Unmarshal(m, b)
+}
+func (m *UpdateWeaponRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateWeaponRequest.Marshal(b, m, deterministic)
+}
+func (m *UpdateWeaponRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateWeaponRequest.Merge(m, src)
+}
+func (m *UpdateWeaponRequest) XXX_Size() int {
+	return xxx_messageInfo_UpdateWeaponRequest.Size(m)
+}
+func (m *UpdateWeaponRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateWeaponRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateWeaponRequest proto.InternalMessageInfo
+
+func (m *UpdateWeaponRequest) GetAttack() int64 {
+	if m != nil {
+		return m.Attack
+	}
+	return 0
+}
+
+func (m *UpdateWeaponRequest) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type UpdateWeaponResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UpdateWeaponResponse) Reset()         { *m = UpdateWeaponResponse{} }
+func (m *UpdateWeaponResponse) String() string { return proto.CompactTextString(m) }
+func (*UpdateWeaponResponse) ProtoMessage()    {}
+func (*UpdateWeaponResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{13}
+}
+
+func (m *UpdateWeaponResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateWeaponResponse.Unmarshal(m, b)
+}
+func (m *UpdateWeaponResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateWeaponResponse.Marshal(b, m, deterministic)
+}
+func (m *UpdateWeaponResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateWeaponResponse.Merge(m, src)
+}
+func (m *UpdateWeaponResponse) XXX_Size() int {
+	return xxx_messageInfo_UpdateWeaponResponse.Size(m)
+}
+func (m *UpdateWeaponResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateWeaponResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateWeaponResponse proto.InternalMessageInfo
+
+type ReadyRequest struct {
+	Token                string   `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ReadyRequest) Reset()         { *m = ReadyRequest{} }
+func (m *ReadyRequest) String() string { return proto.CompactTextString(m) }
+func (*ReadyRequest) ProtoMessage()    {}
+func (*ReadyRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{14}
+}
+
+func (m *ReadyRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadyRequest.Unmarshal(m, b)
+}
+func (m *ReadyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadyRequest.Marshal(b, m, deterministic)
+}
+func (m *ReadyRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadyRequest.Merge(m, src)
+}
+func (m *ReadyRequest) XXX_Size() int {
+	return xxx_messageInfo_ReadyRequest.Size(m)
+}
+func (m *ReadyRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadyRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadyRequest proto.InternalMessageInfo
+
+func (m *ReadyRequest) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type ReadyMessage struct {
+	// player_idは準備完了したプレイヤーのIDです。
+	PlayerId             int64    `protobuf:"varint,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ReadyMessage) Reset()         { *m = ReadyMessage{} }
+func (m *ReadyMessage) String() string { return proto.CompactTextString(m) }
+func (*ReadyMessage) ProtoMessage()    {}
+func (*ReadyMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{15}
+}
+
+func (m *ReadyMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadyMessage.Unmarshal(m, b)
+}
+func (m *ReadyMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadyMessage.Marshal(b, m, deterministic)
+}
+func (m *ReadyMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadyMessage.Merge(m, src)
+}
+func (m *ReadyMessage) XXX_Size() int {
+	return xxx_messageInfo_ReadyMessage.Size(m)
+}
+func (m *ReadyMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadyMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadyMessage proto.InternalMessageInfo
+
+func (m *ReadyMessage) GetPlayerId() int64 {
+	if m != nil {
+		return m.PlayerId
+	}
+	return 0
+}
+
+type Error struct {
+	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Error) Reset()         { *m = Error{} }
+func (m *Error) String() string { return proto.CompactTextString(m) }
+func (*Error) ProtoMessage()    {}
+func (*Error) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{16}
+}
+
+func (m *Error) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Error.Unmarshal(m, b)
+}
+func (m *Error) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Error.Marshal(b, m, deterministic)
+}
+func (m *Error) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Error.Merge(m, src)
+}
+func (m *Error) XXX_Size() int {
+	return xxx_messageInfo_Error.Size(m)
+}
+func (m *Error) XXX_DiscardUnknown() {
+	xxx_messageInfo_Error.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Error proto.InternalMessageInfo
+
+func (m *Error) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *Error) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+type CheckHealthRequest struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CheckHealthRequest) Reset()         { *m = CheckHealthRequest{} }
+func (m *CheckHealthRequest) String() string { return proto.CompactTextString(m) }
+func (*CheckHealthRequest) ProtoMessage()    {}
+func (*CheckHealthRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{17}
+}
+
+func (m *CheckHealthRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CheckHealthRequest.Unmarshal(m, b)
+}
+func (m *CheckHealthRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CheckHealthRequest.Marshal(b, m, deterministic)
+}
+func (m *CheckHealthRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CheckHealthRequest.Merge(m, src)
+}
+func (m *CheckHealthRequest) XXX_Size() int {
+	return xxx_messageInfo_CheckHealthRequest.Size(m)
+}
+func (m *CheckHealthRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CheckHealthRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CheckHealthRequest proto.InternalMessageInfo
+
+func (m *CheckHealthRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type CheckHealthResponse struct {
+	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CheckHealthResponse) Reset()         { *m = CheckHealthResponse{} }
+func (m *CheckHealthResponse) String() string { return proto.CompactTextString(m) }
+func (*CheckHealthResponse) ProtoMessage()    {}
+func (*CheckHealthResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_598f3ef7b8dd4d09, []int{18}
+}
+
+func (m *CheckHealthResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CheckHealthResponse.Unmarshal(m, b)
+}
+func (m *CheckHealthResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CheckHealthResponse.Marshal(b, m, deterministic)
+}
+func (m *CheckHealthResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CheckHealthResponse.Merge(m, src)
+}
+func (m *CheckHealthResponse) XXX_Size() int {
+	return xxx_messageInfo_CheckHealthResponse.Size(m)
+}
+func (m *CheckHealthResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CheckHealthResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CheckHealthResponse proto.InternalMessageInfo
+
+func (m *CheckHealthResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
 type Room struct {
 	// output only
 	// idはルーム番号にも利用されます。
@@ -550,7 +1127,7 @@ func (m *Room) Reset()         { *m = Room{} }
 func (m *Room) String() string { return proto.CompactTextString(m) }
 func (*Room) ProtoMessage()    {}
 func (*Room) Descriptor() ([]byte, []int) {
-	return fileDescriptor_598f3ef7b8dd4d09, []int{8}
+	return fileDescriptor_598f3ef7b8dd4d09, []int{19}
 }
 
 func (m *Room) XXX_Unmarshal(b []byte) error {
@@ -628,7 +1205,7 @@ func (m *Player) Reset()         { *m = Player{} }
 func (m *Player) String() string { return proto.CompactTextString(m) }
 func (*Player) ProtoMessage()    {}
 func (*Player) Descriptor() ([]byte, []int) {
-	return fileDescriptor_598f3ef7b8dd4d09, []int{9}
+	return fileDescriptor_598f3ef7b8dd4d09, []int{20}
 }
 
 func (m *Player) XXX_Unmarshal(b []byte) error {
@@ -687,6 +1264,17 @@ func init() {
 	proto.RegisterType((*JoinRoomMessage)(nil), "bolg.JoinRoomMessage")
 	proto.RegisterType((*NotifyReceivingRequest)(nil), "bolg.NotifyReceivingRequest")
 	proto.RegisterType((*NotifyReceivingMessage)(nil), "bolg.NotifyReceivingMessage")
+	proto.RegisterType((*SurvivalResultMessage)(nil), "bolg.SurvivalResultMessage")
+	proto.RegisterType((*SurvivalPersonalResult)(nil), "bolg.SurvivalPersonalResult")
+	proto.RegisterType((*StartGameRequest)(nil), "bolg.StartGameRequest")
+	proto.RegisterType((*StartGameMessage)(nil), "bolg.StartGameMessage")
+	proto.RegisterType((*UpdateWeaponRequest)(nil), "bolg.UpdateWeaponRequest")
+	proto.RegisterType((*UpdateWeaponResponse)(nil), "bolg.UpdateWeaponResponse")
+	proto.RegisterType((*ReadyRequest)(nil), "bolg.ReadyRequest")
+	proto.RegisterType((*ReadyMessage)(nil), "bolg.ReadyMessage")
+	proto.RegisterType((*Error)(nil), "bolg.Error")
+	proto.RegisterType((*CheckHealthRequest)(nil), "bolg.CheckHealthRequest")
+	proto.RegisterType((*CheckHealthResponse)(nil), "bolg.CheckHealthResponse")
 	proto.RegisterType((*Room)(nil), "bolg.Room")
 	proto.RegisterType((*Player)(nil), "bolg.Player")
 }
@@ -694,49 +1282,72 @@ func init() {
 func init() { proto.RegisterFile("server/pb/bolg.proto", fileDescriptor_598f3ef7b8dd4d09) }
 
 var fileDescriptor_598f3ef7b8dd4d09 = []byte{
-	// 671 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x95, 0x6d, 0x6f, 0xd3, 0x30,
-	0x10, 0xc7, 0xfb, 0x90, 0x3e, 0x5d, 0x47, 0x19, 0x56, 0x37, 0x32, 0x1e, 0xb6, 0x29, 0x20, 0x34,
-	0x81, 0x58, 0xd1, 0x10, 0xda, 0x8b, 0x49, 0x48, 0xeb, 0x40, 0xac, 0x8c, 0x4d, 0xc5, 0x65, 0x13,
-	0x02, 0x89, 0x90, 0x26, 0x26, 0x4b, 0x97, 0xc4, 0x99, 0x9d, 0x16, 0xf6, 0x81, 0x78, 0xc3, 0xa7,
-	0x44, 0x39, 0xa7, 0xed, 0x68, 0x5a, 0x24, 0x24, 0xde, 0xd9, 0x77, 0xe7, 0xff, 0xfd, 0x7c, 0x77,
-	0x71, 0xa0, 0x29, 0x99, 0x18, 0x31, 0xd1, 0x8a, 0xfa, 0xad, 0x3e, 0xf7, 0xdd, 0xed, 0x48, 0xf0,
-	0x98, 0x13, 0x2d, 0x59, 0x1b, 0xbf, 0x34, 0xa8, 0x53, 0xce, 0x83, 0x63, 0x26, 0xa5, 0xe5, 0x32,
-	0xf2, 0x11, 0x74, 0x5b, 0x30, 0x2b, 0x66, 0xa6, 0x15, 0x3a, 0xe6, 0x80, 0x7b, 0xa1, 0x29, 0x38,
-	0x0f, 0x4c, 0xc1, 0x2e, 0xf5, 0xfc, 0x66, 0x7e, 0xab, 0xbe, 0xb3, 0xbe, 0x8d, 0x22, 0x07, 0x18,
-	0xb5, 0x1f, 0x3a, 0x6f, 0xb9, 0x17, 0x26, 0x0a, 0x94, 0x5d, 0x0e, 0x99, 0x8c, 0x0f, 0x73, 0xb4,
-	0x69, 0xcf, 0xf1, 0x91, 0xcf, 0xb0, 0xb6, 0x40, 0x59, 0x46, 0x7a, 0x01, 0xa5, 0x37, 0x16, 0x4a,
-	0xcb, 0x88, 0x87, 0x92, 0x1d, 0xe6, 0xe8, 0x8a, 0x3d, 0xcf, 0x49, 0xf6, 0xe0, 0xc6, 0x9f, 0xac,
-	0x45, 0x14, 0x5c, 0x51, 0x82, 0x59, 0xc4, 0xfa, 0xe0, 0x1a, 0xd9, 0x4b, 0x68, 0xcc, 0xe0, 0x68,
-	0x78, 0x7a, 0x75, 0xf6, 0xf4, 0x84, 0x62, 0x69, 0xb0, 0x30, 0x79, 0x20, 0x5d, 0xbd, 0x34, 0x2f,
-	0x79, 0x5a, 0xe1, 0xeb, 0xc9, 0x8f, 0xa5, 0x4b, 0xba, 0xd0, 0x0c, 0x79, 0xec, 0x7d, 0xbb, 0x32,
-	0x05, 0xb3, 0x99, 0x37, 0xf2, 0x42, 0x17, 0x2f, 0x50, 0x46, 0x8d, 0x7b, 0x4a, 0xe3, 0x04, 0x23,
-	0xe8, 0x38, 0x60, 0x7a, 0x0f, 0x12, 0x66, 0x3c, 0x73, 0x15, 0x13, 0xaa, 0xca, 0x5f, 0x14, 0xa7,
-	0x70, 0xb3, 0x8a, 0xc7, 0xd2, 0x6d, 0x97, 0x41, 0x73, 0xac, 0xd8, 0x32, 0xf6, 0x40, 0x5f, 0xd4,
-	0x76, 0xb2, 0x01, 0xf5, 0xc8, 0xb7, 0xae, 0x98, 0x30, 0x43, 0x2b, 0x60, 0x38, 0x2b, 0x35, 0x0a,
-	0xca, 0x74, 0x62, 0x05, 0xcc, 0x78, 0x0f, 0x6b, 0x0b, 0x1b, 0x4b, 0xd6, 0x41, 0x4b, 0xaa, 0x97,
-	0x8e, 0x18, 0x28, 0x46, 0x8c, 0x40, 0x3b, 0x69, 0x42, 0x29, 0xe6, 0x17, 0x2c, 0xc4, 0x41, 0xa9,
-	0x51, 0xb5, 0x31, 0x8e, 0xe0, 0xe6, 0x2c, 0xc6, 0x6d, 0xa8, 0x60, 0x1b, 0x3c, 0x07, 0xb5, 0x8a,
-	0xb4, 0x9c, 0x6c, 0x3b, 0xce, 0x2c, 0x5f, 0x21, 0xc3, 0x77, 0x08, 0xcb, 0xff, 0x09, 0x6b, 0x77,
-	0x8a, 0x35, 0xfe, 0xac, 0x1e, 0x42, 0x59, 0xa5, 0x4a, 0xa5, 0x96, 0x94, 0x54, 0x17, 0x6d, 0x34,
-	0xf5, 0x19, 0x47, 0xb0, 0x3a, 0xbf, 0xd3, 0xe4, 0x2e, 0xd4, 0x52, 0xfa, 0xc9, 0xc5, 0xaa, 0xca,
-	0xd0, 0x71, 0x16, 0x50, 0x7c, 0xc9, 0x88, 0xfd, 0x13, 0x0c, 0x59, 0x07, 0xb8, 0xf0, 0x7c, 0x5f,
-	0x55, 0x67, 0x5c, 0xaf, 0xa9, 0xc5, 0xf8, 0x99, 0x07, 0x2d, 0xb9, 0x22, 0x69, 0x40, 0x61, 0x02,
-	0x55, 0xf0, 0x1c, 0xf2, 0x04, 0x6a, 0xae, 0x15, 0x30, 0x53, 0x0c, 0x7d, 0x75, 0xae, 0xb1, 0xd3,
-	0x50, 0x19, 0xde, 0x58, 0x01, 0xa3, 0x43, 0x9f, 0xd1, 0xaa, 0x9b, 0xae, 0xc8, 0x23, 0xa8, 0xa8,
-	0x7c, 0x52, 0x2f, 0x6e, 0x16, 0x33, 0x30, 0x63, 0x27, 0xb9, 0x0f, 0x80, 0xa2, 0x32, 0xb6, 0x44,
-	0x8c, 0xdf, 0x67, 0x95, 0x62, 0x9a, 0x5e, 0x62, 0x20, 0x6b, 0x50, 0xe5, 0xdf, 0x43, 0x55, 0x9e,
-	0x12, 0x92, 0x54, 0x70, 0xdf, 0x71, 0x0c, 0x0a, 0x65, 0x25, 0x96, 0x01, 0x25, 0xa0, 0x5d, 0x9b,
-	0x05, 0x5c, 0x27, 0x31, 0xe7, 0x11, 0xbe, 0x1e, 0x45, 0x5a, 0x38, 0x8f, 0x92, 0xda, 0x0a, 0x66,
-	0x39, 0x57, 0x69, 0x4a, 0xb5, 0x79, 0xfc, 0x00, 0xaa, 0xe3, 0xbb, 0x90, 0x1a, 0x94, 0x4e, 0x4f,
-	0x7a, 0xaf, 0x3f, 0x2c, 0xe7, 0xc8, 0x12, 0x54, 0x7b, 0xa7, 0xf4, 0xac, 0x73, 0xb6, 0xff, 0x6e,
-	0x39, 0xbf, 0xf3, 0x0a, 0xea, 0x6d, 0xee, 0xbb, 0x3d, 0x26, 0x46, 0x9e, 0xcd, 0xc8, 0x0b, 0xa8,
-	0x1c, 0xf0, 0x30, 0x64, 0x76, 0x4c, 0x6e, 0x4d, 0x07, 0x29, 0xed, 0xc9, 0x9d, 0xac, 0xc9, 0xc8,
-	0x6d, 0xe5, 0x9f, 0xe5, 0xdb, 0x5f, 0x41, 0xe7, 0xc2, 0x45, 0xaf, 0xe9, 0xb0, 0x11, 0xf3, 0x79,
-	0xc4, 0x84, 0xc4, 0x7d, 0xbb, 0x96, 0xe8, 0x77, 0x93, 0xd7, 0xbc, 0x9b, 0xff, 0xb4, 0xeb, 0x7a,
-	0xf1, 0xf9, 0xb0, 0xbf, 0x6d, 0xf3, 0x00, 0x9f, 0xf9, 0xa7, 0xd3, 0xe8, 0xd6, 0x8f, 0x56, 0x24,
-	0xf8, 0x80, 0xd9, 0xb1, 0x44, 0x57, 0x6b, 0xf2, 0x43, 0xd8, 0x8b, 0xfa, 0xfd, 0x32, 0xfe, 0x0f,
-	0x9e, 0xff, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x18, 0x64, 0xfc, 0x46, 0x27, 0x06, 0x00, 0x00,
+	// 1040 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x96, 0xff, 0x6e, 0xdb, 0x36,
+	0x10, 0xc7, 0x2d, 0xff, 0xd6, 0xd9, 0x4d, 0x13, 0x26, 0xf1, 0xe4, 0x74, 0x4b, 0x0b, 0xb5, 0x18,
+	0x82, 0x15, 0x8b, 0xb7, 0x0c, 0x45, 0x81, 0x05, 0x18, 0xd0, 0x78, 0x45, 0x9d, 0x76, 0x09, 0x3c,
+	0x7a, 0xe9, 0x8a, 0x0d, 0x98, 0x27, 0x4b, 0x9c, 0xac, 0x44, 0x16, 0x55, 0xfd, 0x70, 0x96, 0x57,
+	0xd8, 0x1b, 0xec, 0x01, 0xf6, 0x9e, 0x03, 0x8f, 0x92, 0x25, 0xdb, 0x72, 0x8b, 0x01, 0xfb, 0x4f,
+	0xbc, 0x3b, 0x7e, 0xf8, 0xbd, 0x23, 0x79, 0x22, 0xec, 0x85, 0x2c, 0x98, 0xb3, 0xa0, 0xe7, 0x4f,
+	0x7a, 0x13, 0xee, 0xda, 0xc7, 0x7e, 0xc0, 0x23, 0x4e, 0xaa, 0xe2, 0x5b, 0xff, 0xbb, 0x09, 0x2d,
+	0xca, 0xf9, 0xec, 0x82, 0x85, 0xa1, 0x61, 0x33, 0xf2, 0x0e, 0x34, 0x33, 0x60, 0x46, 0xc4, 0xc6,
+	0x86, 0x67, 0x8d, 0xaf, 0xb9, 0xe3, 0x8d, 0x03, 0xce, 0x67, 0xe3, 0x80, 0xbd, 0xd7, 0x94, 0x47,
+	0xca, 0x51, 0xeb, 0xe4, 0xf0, 0x18, 0x21, 0x7d, 0x8c, 0x7a, 0xe1, 0x59, 0xaf, 0xb9, 0xe3, 0x09,
+	0x02, 0x65, 0xef, 0x63, 0x16, 0x46, 0x83, 0x12, 0xdd, 0x33, 0x0b, 0x7c, 0xe4, 0x57, 0xe8, 0x6e,
+	0x20, 0x87, 0xbe, 0x56, 0x46, 0xf4, 0xc3, 0x8d, 0xe8, 0xd0, 0xe7, 0x5e, 0xc8, 0x06, 0x25, 0xba,
+	0x6f, 0x16, 0x39, 0xc9, 0x29, 0xdc, 0x5b, 0xd6, 0x5a, 0x41, 0xe0, 0xbe, 0x04, 0xae, 0x4b, 0x6c,
+	0x5d, 0xe7, 0x94, 0x7d, 0x07, 0x5b, 0x2b, 0x72, 0xaa, 0x38, 0xbb, 0xb3, 0x3a, 0x7b, 0xa1, 0xa2,
+	0x7d, 0xbd, 0x71, 0xf1, 0x59, 0x68, 0x6b, 0xb5, 0xa2, 0xc5, 0x93, 0x0a, 0xe7, 0x17, 0xbf, 0x08,
+	0x6d, 0x32, 0x84, 0x3d, 0x8f, 0x47, 0xce, 0x1f, 0x77, 0xe3, 0x80, 0x99, 0xcc, 0x99, 0x3b, 0x9e,
+	0x8d, 0x09, 0xd4, 0x91, 0xf1, 0xa9, 0x64, 0x5c, 0x62, 0x04, 0x4d, 0x03, 0xb2, 0x3c, 0x88, 0xb7,
+	0xe6, 0x29, 0x24, 0x0a, 0x55, 0x8d, 0x0f, 0x10, 0x33, 0x71, 0xab, 0x44, 0xa1, 0xf1, 0x02, 0x76,
+	0xc3, 0x38, 0x98, 0x3b, 0x73, 0xc3, 0x15, 0xf5, 0x89, 0xdd, 0x08, 0x81, 0x4d, 0x04, 0x3e, 0x90,
+	0xc0, 0x51, 0x12, 0x40, 0xd1, 0x9f, 0xf1, 0x76, 0xc2, 0x65, 0x47, 0x68, 0x8b, 0x7a, 0x87, 0x91,
+	0x11, 0x44, 0x63, 0xdb, 0x98, 0x31, 0x4c, 0x56, 0xcd, 0xd7, 0x7b, 0x24, 0x7c, 0xaf, 0x8c, 0x19,
+	0xcb, 0xd2, 0x6c, 0x87, 0x39, 0xdb, 0xca, 0x7c, 0xa1, 0x04, 0x0a, 0xe7, 0x67, 0x22, 0xb2, 0xf9,
+	0x62, 0xfd, 0x57, 0xb0, 0x13, 0xfb, 0x96, 0x38, 0x89, 0xb7, 0xcc, 0xf0, 0xb9, 0x87, 0x12, 0x5a,
+	0x88, 0xe8, 0x4a, 0xc4, 0x15, 0xba, 0x7f, 0x46, 0x6f, 0xa6, 0xe2, 0x7e, 0xbc, 0x6c, 0x26, 0xaf,
+	0x81, 0xac, 0x82, 0x42, 0x5f, 0x6b, 0x23, 0xe9, 0xa0, 0x88, 0xb4, 0x38, 0x40, 0xdb, 0xf1, 0x8a,
+	0x9d, 0x7c, 0x0d, 0x6a, 0xc0, 0x0c, 0xeb, 0x0e, 0xc5, 0xdc, 0x43, 0x04, 0x91, 0x08, 0x2a, 0xcc,
+	0x99, 0x8a, 0x66, 0x90, 0x8c, 0xb3, 0x29, 0xa2, 0x04, 0x5b, 0x6b, 0x53, 0xb2, 0xf4, 0xe5, 0x14,
+	0x91, 0xfa, 0x63, 0xa8, 0xb1, 0x20, 0xe0, 0x81, 0x76, 0x1f, 0xc3, 0x5b, 0x32, 0xfc, 0xa5, 0x30,
+	0x0d, 0x4a, 0x54, 0xfa, 0xce, 0xea, 0x50, 0xb5, 0x8c, 0xc8, 0xd0, 0x4f, 0x41, 0xdb, 0x74, 0xcb,
+	0xc9, 0x43, 0x68, 0xf9, 0xae, 0x71, 0xc7, 0x82, 0xb1, 0x67, 0xcc, 0x18, 0xb6, 0x06, 0x95, 0x82,
+	0x34, 0x5d, 0x1a, 0x33, 0xa6, 0xff, 0x08, 0xdd, 0x8d, 0xf7, 0x98, 0x1c, 0x42, 0x55, 0x5c, 0x96,
+	0xa4, 0xa3, 0x40, 0x22, 0x5a, 0x44, 0xa0, 0x9d, 0xec, 0x41, 0x2d, 0xe2, 0x37, 0xcc, 0xc3, 0xbe,
+	0xa0, 0x52, 0x39, 0xd0, 0xdf, 0xc0, 0xfd, 0x55, 0x19, 0x9f, 0x40, 0x03, 0x6f, 0x9d, 0x63, 0x21,
+	0xab, 0x42, 0xeb, 0x62, 0x78, 0x6e, 0xad, 0xea, 0x2b, 0xaf, 0xe9, 0x1b, 0xc0, 0xf6, 0xff, 0x24,
+	0xeb, 0x79, 0x26, 0x2b, 0xed, 0xa2, 0x4f, 0xa0, 0x2e, 0x97, 0x4a, 0x50, 0x6d, 0x89, 0x1a, 0xa2,
+	0x8d, 0x26, 0x3e, 0xfd, 0x0d, 0x74, 0x8a, 0x2f, 0x36, 0x79, 0x00, 0x6a, 0xa2, 0x7e, 0x91, 0x58,
+	0x53, 0x1a, 0xce, 0xad, 0x0d, 0x2a, 0x7e, 0x5b, 0x83, 0xfd, 0x27, 0x31, 0xe4, 0x10, 0xe0, 0xc6,
+	0x71, 0x5d, 0x59, 0x9d, 0xb4, 0x5e, 0x99, 0x45, 0xbf, 0x83, 0xfd, 0xc2, 0x2b, 0x2e, 0xf0, 0xb7,
+	0x8e, 0xe7, 0x6d, 0xc2, 0x4b, 0x1f, 0xf9, 0x16, 0x54, 0x9f, 0x05, 0x21, 0xf7, 0x0c, 0x37, 0xd4,
+	0xca, 0x8f, 0x2a, 0x59, 0x27, 0x4a, 0xa9, 0xc3, 0xc4, 0x2d, 0xe9, 0x34, 0x0b, 0xd7, 0xdf, 0x41,
+	0xa7, 0x38, 0xe8, 0xa3, 0xa7, 0x90, 0x7c, 0x26, 0xb3, 0x1a, 0x9b, 0x3c, 0xf6, 0x22, 0xcc, 0xaa,
+	0x42, 0x55, 0x61, 0xe9, 0x0b, 0x83, 0x7e, 0x04, 0xdb, 0xab, 0xdd, 0x26, 0x2b, 0xaf, 0x92, 0x2f,
+	0xef, 0x49, 0x2e, 0x32, 0xcd, 0xfc, 0x23, 0xc7, 0x45, 0xef, 0xc3, 0x6e, 0x41, 0x23, 0x21, 0x1d,
+	0xa8, 0x1b, 0x51, 0x64, 0x98, 0x37, 0xe9, 0x91, 0x95, 0xa3, 0x0d, 0xfb, 0xda, 0x81, 0xbd, 0xa2,
+	0x1e, 0xa2, 0x3f, 0x81, 0x76, 0xbe, 0x31, 0x6c, 0x90, 0xfd, 0x34, 0x89, 0x4a, 0x25, 0x7f, 0xe8,
+	0x60, 0xe9, 0xcf, 0xa0, 0x86, 0x9d, 0x80, 0x10, 0xa8, 0x9a, 0xdc, 0x92, 0xf5, 0xac, 0x51, 0xfc,
+	0x26, 0x1a, 0x34, 0x66, 0x12, 0x92, 0xe8, 0x4b, 0x87, 0xfa, 0x11, 0x90, 0xfe, 0x94, 0x99, 0x37,
+	0x03, 0x66, 0xb8, 0xd1, 0x34, 0xd5, 0x43, 0xa0, 0x9a, 0xdb, 0x13, 0xfc, 0xd6, 0x7b, 0xb0, 0xbb,
+	0x14, 0x99, 0x5c, 0xbb, 0x1c, 0x5a, 0x59, 0x46, 0xff, 0xa3, 0x40, 0x55, 0x14, 0x94, 0x6c, 0x41,
+	0x79, 0x21, 0xb8, 0xec, 0x58, 0xe4, 0x29, 0xa8, 0xf2, 0xe7, 0x11, 0xbb, 0x52, 0xcf, 0xd6, 0xc9,
+	0x96, 0xac, 0x3f, 0x6e, 0x65, 0xec, 0x32, 0xda, 0xb4, 0x93, 0x2f, 0xf2, 0x39, 0x34, 0x64, 0x8e,
+	0xa1, 0x56, 0xc1, 0x93, 0xb7, 0x7c, 0x44, 0x53, 0xa7, 0x38, 0x2c, 0x08, 0xc5, 0x9f, 0x05, 0xbe,
+	0x01, 0x9a, 0x14, 0x97, 0xc1, 0x9d, 0x27, 0x5d, 0x68, 0xf2, 0x5b, 0x4f, 0x96, 0xae, 0x86, 0x4a,
+	0x1a, 0x38, 0x3e, 0xb7, 0x74, 0x0a, 0x75, 0x09, 0x5b, 0x13, 0x9a, 0x96, 0xa1, 0x9c, 0x95, 0x41,
+	0xc4, 0x4c, 0x7d, 0x7c, 0xa1, 0x54, 0x68, 0x79, 0xea, 0x8b, 0xad, 0xc3, 0x06, 0x9d, 0x2c, 0x29,
+	0x07, 0x5f, 0x3c, 0x86, 0x66, 0x9a, 0x0b, 0x51, 0xa1, 0x76, 0x75, 0x39, 0x7a, 0xf9, 0xd3, 0x76,
+	0x89, 0xb4, 0xa1, 0x39, 0xba, 0xa2, 0x6f, 0xcf, 0xdf, 0xbe, 0xf8, 0x61, 0x5b, 0x39, 0xf9, 0x4b,
+	0x81, 0xd6, 0x19, 0x77, 0xed, 0x11, 0x0b, 0xe6, 0x8e, 0xc9, 0xc8, 0x33, 0x68, 0xf4, 0xb9, 0xe7,
+	0x31, 0x33, 0x22, 0x3b, 0xd9, 0x79, 0x4c, 0x76, 0xff, 0x60, 0xdd, 0xa4, 0x97, 0x8e, 0x94, 0xaf,
+	0x14, 0xf2, 0x3d, 0xb4, 0x72, 0x1b, 0x43, 0xb4, 0xe4, 0x1d, 0xb6, 0xb6, 0xab, 0x07, 0xdd, 0x02,
+	0x4f, 0x72, 0x20, 0x4b, 0x67, 0xbf, 0x83, 0xc6, 0x03, 0x1b, 0x23, 0xc6, 0x16, 0x9b, 0x33, 0x97,
+	0x8b, 0x3b, 0x8c, 0xe3, 0x33, 0x55, 0xa8, 0x1c, 0x8a, 0x87, 0xe7, 0x50, 0xf9, 0xe5, 0xb9, 0xed,
+	0x44, 0xd3, 0x78, 0x72, 0x6c, 0xf2, 0x19, 0xbe, 0x48, 0xbf, 0xcc, 0xa2, 0x7b, 0x7f, 0xf6, 0xfc,
+	0x80, 0x5f, 0x33, 0x33, 0x0a, 0xd1, 0xd5, 0x5b, 0xbc, 0x5d, 0x4f, 0xfd, 0xc9, 0xa4, 0x8e, 0x4f,
+	0xd7, 0x6f, 0xfe, 0x0d, 0x00, 0x00, 0xff, 0xff, 0x63, 0x1e, 0x6f, 0x69, 0xd2, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -753,6 +1364,7 @@ const _ = grpc.SupportPackageIsVersion4
 type BolgServiceClient interface {
 	// ConnectはRoom Messagingを行うためのRPCです。
 	Connect(ctx context.Context, opts ...grpc.CallOption) (BolgService_ConnectClient, error)
+	CheckHealth(ctx context.Context, in *CheckHealthRequest, opts ...grpc.CallOption) (*CheckHealthResponse, error)
 }
 
 type bolgServiceClient struct {
@@ -794,10 +1406,20 @@ func (x *bolgServiceConnectClient) Recv() (*RoomMessage, error) {
 	return m, nil
 }
 
+func (c *bolgServiceClient) CheckHealth(ctx context.Context, in *CheckHealthRequest, opts ...grpc.CallOption) (*CheckHealthResponse, error) {
+	out := new(CheckHealthResponse)
+	err := c.cc.Invoke(ctx, "/bolg.BolgService/CheckHealth", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BolgServiceServer is the server API for BolgService service.
 type BolgServiceServer interface {
 	// ConnectはRoom Messagingを行うためのRPCです。
 	Connect(BolgService_ConnectServer) error
+	CheckHealth(context.Context, *CheckHealthRequest) (*CheckHealthResponse, error)
 }
 
 func RegisterBolgServiceServer(s *grpc.Server, srv BolgServiceServer) {
@@ -830,10 +1452,33 @@ func (x *bolgServiceConnectServer) Recv() (*RoomMessage, error) {
 	return m, nil
 }
 
+func _BolgService_CheckHealth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckHealthRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BolgServiceServer).CheckHealth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/bolg.BolgService/CheckHealth",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BolgServiceServer).CheckHealth(ctx, req.(*CheckHealthRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _BolgService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "bolg.BolgService",
 	HandlerType: (*BolgServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CheckHealth",
+			Handler:    _BolgService_CheckHealth_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "Connect",

@@ -98,5 +98,109 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.NotifyReceivingMessageOrBuilder getNotifyReceivingMsgOrBuilder();
 
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  boolean hasSurvivalResultMsg();
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  org.bolg_developers.bolg.SurvivalResultMessage getSurvivalResultMsg();
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  org.bolg_developers.bolg.SurvivalResultMessageOrBuilder getSurvivalResultMsgOrBuilder();
+
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  boolean hasStartGameReq();
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  org.bolg_developers.bolg.StartGameRequest getStartGameReq();
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  org.bolg_developers.bolg.StartGameRequestOrBuilder getStartGameReqOrBuilder();
+
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  boolean hasStartGameMsg();
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  org.bolg_developers.bolg.StartGameMessage getStartGameMsg();
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  org.bolg_developers.bolg.StartGameMessageOrBuilder getStartGameMsgOrBuilder();
+
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  boolean hasUpdateWeaponReq();
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponRequest getUpdateWeaponReq();
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder getUpdateWeaponReqOrBuilder();
+
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  boolean hasUpdateWeaponResp();
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponResponse getUpdateWeaponResp();
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder getUpdateWeaponRespOrBuilder();
+
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  boolean hasReadyReq();
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  org.bolg_developers.bolg.ReadyRequest getReadyReq();
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  org.bolg_developers.bolg.ReadyRequestOrBuilder getReadyReqOrBuilder();
+
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  boolean hasReadyMsg();
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  org.bolg_developers.bolg.ReadyMessage getReadyMsg();
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  org.bolg_developers.bolg.ReadyMessageOrBuilder getReadyMsgOrBuilder();
+
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  boolean hasError();
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  org.bolg_developers.bolg.Error getError();
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  org.bolg_developers.bolg.ErrorOrBuilder getErrorOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }

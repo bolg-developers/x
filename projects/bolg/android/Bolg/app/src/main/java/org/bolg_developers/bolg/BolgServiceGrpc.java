@@ -58,6 +58,37 @@ public final class BolgServiceGrpc {
      return getConnectMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<org.bolg_developers.bolg.CheckHealthRequest,
+      org.bolg_developers.bolg.CheckHealthResponse> getCheckHealthMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CheckHealth",
+      requestType = org.bolg_developers.bolg.CheckHealthRequest.class,
+      responseType = org.bolg_developers.bolg.CheckHealthResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<org.bolg_developers.bolg.CheckHealthRequest,
+      org.bolg_developers.bolg.CheckHealthResponse> getCheckHealthMethod() {
+    io.grpc.MethodDescriptor<org.bolg_developers.bolg.CheckHealthRequest, org.bolg_developers.bolg.CheckHealthResponse> getCheckHealthMethod;
+    if ((getCheckHealthMethod = BolgServiceGrpc.getCheckHealthMethod) == null) {
+      synchronized (BolgServiceGrpc.class) {
+        if ((getCheckHealthMethod = BolgServiceGrpc.getCheckHealthMethod) == null) {
+          BolgServiceGrpc.getCheckHealthMethod = getCheckHealthMethod = 
+              io.grpc.MethodDescriptor.<org.bolg_developers.bolg.CheckHealthRequest, org.bolg_developers.bolg.CheckHealthResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "bolg.BolgService", "CheckHealth"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.lite.ProtoLiteUtils.marshaller(
+                  org.bolg_developers.bolg.CheckHealthRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.lite.ProtoLiteUtils.marshaller(
+                  org.bolg_developers.bolg.CheckHealthResponse.getDefaultInstance()))
+                  .build();
+          }
+        }
+     }
+     return getCheckHealthMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -95,6 +126,13 @@ public final class BolgServiceGrpc {
       return asyncUnimplementedStreamingCall(getConnectMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void checkHealth(org.bolg_developers.bolg.CheckHealthRequest request,
+        io.grpc.stub.StreamObserver<org.bolg_developers.bolg.CheckHealthResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getCheckHealthMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -104,6 +142,13 @@ public final class BolgServiceGrpc {
                 org.bolg_developers.bolg.RoomMessage,
                 org.bolg_developers.bolg.RoomMessage>(
                   this, METHODID_CONNECT)))
+          .addMethod(
+            getCheckHealthMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                org.bolg_developers.bolg.CheckHealthRequest,
+                org.bolg_developers.bolg.CheckHealthResponse>(
+                  this, METHODID_CHECK_HEALTH)))
           .build();
     }
   }
@@ -136,6 +181,14 @@ public final class BolgServiceGrpc {
       return asyncBidiStreamingCall(
           getChannel().newCall(getConnectMethod(), getCallOptions()), responseObserver);
     }
+
+    /**
+     */
+    public void checkHealth(org.bolg_developers.bolg.CheckHealthRequest request,
+        io.grpc.stub.StreamObserver<org.bolg_developers.bolg.CheckHealthResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getCheckHealthMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -154,6 +207,13 @@ public final class BolgServiceGrpc {
     protected BolgServiceBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new BolgServiceBlockingStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public org.bolg_developers.bolg.CheckHealthResponse checkHealth(org.bolg_developers.bolg.CheckHealthRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getCheckHealthMethod(), getCallOptions(), request);
     }
   }
 
@@ -174,9 +234,18 @@ public final class BolgServiceGrpc {
         io.grpc.CallOptions callOptions) {
       return new BolgServiceFutureStub(channel, callOptions);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<org.bolg_developers.bolg.CheckHealthResponse> checkHealth(
+        org.bolg_developers.bolg.CheckHealthRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getCheckHealthMethod(), getCallOptions()), request);
+    }
   }
 
-  private static final int METHODID_CONNECT = 0;
+  private static final int METHODID_CHECK_HEALTH = 0;
+  private static final int METHODID_CONNECT = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -195,6 +264,10 @@ public final class BolgServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_CHECK_HEALTH:
+          serviceImpl.checkHealth((org.bolg_developers.bolg.CheckHealthRequest) request,
+              (io.grpc.stub.StreamObserver<org.bolg_developers.bolg.CheckHealthResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -224,6 +297,7 @@ public final class BolgServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .addMethod(getConnectMethod())
+              .addMethod(getCheckHealthMethod())
               .build();
         }
       }

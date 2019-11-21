@@ -10,6 +10,7 @@ option java_package = "org.bolg_developers.bolg";
 service BolgService {
   // ConnectはRoom Messagingを行うためのRPCです。
   rpc Connect(stream RoomMessage) returns (stream RoomMessage) {}
+  rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse) {}
 }
 
 message RoomMessage {
@@ -21,6 +22,14 @@ message RoomMessage {
     JoinRoomMessage join_room_msg = 5;
     NotifyReceivingRequest notify_receiving_req = 6;
     NotifyReceivingMessage notify_receiving_msg = 7;
+    SurvivalResultMessage survival_result_msg = 8;
+    StartGameRequest start_game_req = 9;
+    StartGameMessage start_game_msg = 10;
+    UpdateWeaponRequest update_weapon_req = 11;
+    UpdateWeaponResponse update_weapon_resp = 12;
+    ReadyRequest ready_req = 13;
+    ReadyMessage ready_msg = 14;
+    Error error = 15;
   }
 }
 
@@ -65,6 +74,7 @@ message NotifyReceivingRequest {
   string token = 2;
 }
 
+// NotifyReceivingMessageはNotifyReceivingRequestリクエストされたときに、すべてのプレイヤーに送信されるメッセージです。
 message NotifyReceivingMessage {
   // playerはダメージを受けたプレイヤーです。
   Player player = 1;
@@ -72,6 +82,53 @@ message NotifyReceivingMessage {
   // killerNameはダメージを受けたプレイヤーを殺したプレイヤーの名前です。
   // ダメージを受けたプレイヤーが死亡していない場合、このフィールドは空文字となります。
   string killerName = 2;
+}
+
+message SurvivalResultMessage {
+  Player winner = 1;
+  repeated SurvivalPersonalResult personals = 2;
+}
+
+message SurvivalPersonalResult {
+  string player_name = 1;
+  int64 kill_count = 2;
+}
+
+message StartGameRequest {
+  // tokenから得られるプレイヤーIDがルームのオーナーIDと一致しない場合、
+  // このリクエストは失敗します。
+  string token = 1;
+}
+
+message StartGameMessage { Room room = 1; }
+
+message UpdateWeaponRequest {
+  int64 attack = 1;
+  string token = 2;
+}
+
+message UpdateWeaponResponse {}
+
+message ReadyRequest {
+  string token = 1;
+}
+
+message ReadyMessage {
+  // player_idは準備完了したプレイヤーのIDです。
+  int64 player_id = 1;
+}
+
+message Error {
+  int32 code = 1;
+  string message = 2;
+}
+
+message CheckHealthRequest {
+  string name = 1;
+}
+
+message CheckHealthResponse {
+  string message = 1;
 }
 
 message Room {
@@ -120,17 +177,6 @@ message Player {
 // THESE WILL BE USED:
 // message Inventory {
 //   repeated Item items = 1;
-// }
-
-// message GameResult {
-//   repeated Player winners = 1;
-//   repeated PersonalResult personal_results = 2;
-// }
-
-// message PersonalResult {
-//   string player_name = 1;
-//   int64 kill_count = 2;
-//   int64 death_count = 3;
 // }
 
 // message User {

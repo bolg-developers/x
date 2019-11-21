@@ -17,7 +17,8 @@ type Room struct {
 func NewRoom(id int64) *Room {
 	return &Room{
 		Room: pb.Room{
-			Id: id,
+			Id:       id,
+			GameRule: pb.GameRule_SURVIVAL,
 		},
 	}
 }
@@ -52,4 +53,31 @@ func (players Players) ToPBPlayers() []*pb.Player {
 		ret[i] = pbp
 	}
 	return ret
+}
+
+func (players Players) ToSurivalPersonalResults() []*pb.SurvivalPersonalResult {
+	results := make([]*pb.SurvivalPersonalResult, len(players))
+	for i, p := range players {
+		results[i] = &pb.SurvivalPersonalResult{
+			PlayerName: p.Name,
+			KillCount:  p.Kill,
+		}
+	}
+	return results
+}
+
+func (players Players) NotReadyPlayers() Players {
+	ret := make(Players, 0, len(players))
+	for _, p := range players {
+		if !p.Ready {
+			ret = append(ret, p)
+		}
+	}
+	return ret
+}
+
+func changeReadyFalse(players Players) {
+	for _, p := range players {
+		p.Ready = false
+	}
 }

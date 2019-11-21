@@ -29,10 +29,6 @@
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".view.activity.JoinActivity"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
             android:name=".standby.player.PlayerStandbyActivity"
             android:screenOrientation="landscape">
         </activity>

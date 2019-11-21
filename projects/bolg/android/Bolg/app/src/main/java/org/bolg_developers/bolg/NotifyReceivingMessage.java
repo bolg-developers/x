@@ -4,6 +4,10 @@
 package org.bolg_developers.bolg;
 
 /**
+ * <pre>
+ * NotifyReceivingMessageはNotifyReceivingRequestリクエストされたときに、すべてのプレイヤーに送信されるメッセージです。
+ * </pre>
+ *
  * Protobuf type {@code bolg.NotifyReceivingMessage}
  */
 public  final class NotifyReceivingMessage extends
@@ -337,6 +341,10 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
+   * <pre>
+   * NotifyReceivingMessageはNotifyReceivingRequestリクエストされたときに、すべてのプレイヤーに送信されるメッセージです。
+   * </pre>
+   *
    * Protobuf type {@code bolg.NotifyReceivingMessage}
    */
   public static final class Builder extends

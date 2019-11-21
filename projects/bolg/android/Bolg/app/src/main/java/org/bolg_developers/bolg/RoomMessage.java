@@ -147,6 +147,118 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 7;
             break;
           }
+          case 66: {
+            org.bolg_developers.bolg.SurvivalResultMessage.Builder subBuilder = null;
+            if (dataCase_ == 8) {
+              subBuilder = ((org.bolg_developers.bolg.SurvivalResultMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.SurvivalResultMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.SurvivalResultMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 8;
+            break;
+          }
+          case 74: {
+            org.bolg_developers.bolg.StartGameRequest.Builder subBuilder = null;
+            if (dataCase_ == 9) {
+              subBuilder = ((org.bolg_developers.bolg.StartGameRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.StartGameRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.StartGameRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 9;
+            break;
+          }
+          case 82: {
+            org.bolg_developers.bolg.StartGameMessage.Builder subBuilder = null;
+            if (dataCase_ == 10) {
+              subBuilder = ((org.bolg_developers.bolg.StartGameMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.StartGameMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.StartGameMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 10;
+            break;
+          }
+          case 90: {
+            org.bolg_developers.bolg.UpdateWeaponRequest.Builder subBuilder = null;
+            if (dataCase_ == 11) {
+              subBuilder = ((org.bolg_developers.bolg.UpdateWeaponRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.UpdateWeaponRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.UpdateWeaponRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 11;
+            break;
+          }
+          case 98: {
+            org.bolg_developers.bolg.UpdateWeaponResponse.Builder subBuilder = null;
+            if (dataCase_ == 12) {
+              subBuilder = ((org.bolg_developers.bolg.UpdateWeaponResponse) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.UpdateWeaponResponse.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.UpdateWeaponResponse) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 12;
+            break;
+          }
+          case 106: {
+            org.bolg_developers.bolg.ReadyRequest.Builder subBuilder = null;
+            if (dataCase_ == 13) {
+              subBuilder = ((org.bolg_developers.bolg.ReadyRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.ReadyRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.ReadyRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 13;
+            break;
+          }
+          case 114: {
+            org.bolg_developers.bolg.ReadyMessage.Builder subBuilder = null;
+            if (dataCase_ == 14) {
+              subBuilder = ((org.bolg_developers.bolg.ReadyMessage) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.ReadyMessage.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.ReadyMessage) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 14;
+            break;
+          }
+          case 122: {
+            org.bolg_developers.bolg.Error.Builder subBuilder = null;
+            if (dataCase_ == 15) {
+              subBuilder = ((org.bolg_developers.bolg.Error) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.Error.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.Error) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 15;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -182,6 +294,14 @@ private static final long serialVersionUID = 0L;
     JOIN_ROOM_MSG(5),
     NOTIFY_RECEIVING_REQ(6),
     NOTIFY_RECEIVING_MSG(7),
+    SURVIVAL_RESULT_MSG(8),
+    START_GAME_REQ(9),
+    START_GAME_MSG(10),
+    UPDATE_WEAPON_REQ(11),
+    UPDATE_WEAPON_RESP(12),
+    READY_REQ(13),
+    READY_MSG(14),
+    ERROR(15),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -204,6 +324,14 @@ private static final long serialVersionUID = 0L;
         case 5: return JOIN_ROOM_MSG;
         case 6: return NOTIFY_RECEIVING_REQ;
         case 7: return NOTIFY_RECEIVING_MSG;
+        case 8: return SURVIVAL_RESULT_MSG;
+        case 9: return START_GAME_REQ;
+        case 10: return START_GAME_MSG;
+        case 11: return UPDATE_WEAPON_REQ;
+        case 12: return UPDATE_WEAPON_RESP;
+        case 13: return READY_REQ;
+        case 14: return READY_MSG;
+        case 15: return ERROR;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -401,6 +529,214 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.NotifyReceivingMessage.getDefaultInstance();
   }
 
+  public static final int SURVIVAL_RESULT_MSG_FIELD_NUMBER = 8;
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  public boolean hasSurvivalResultMsg() {
+    return dataCase_ == 8;
+  }
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  public org.bolg_developers.bolg.SurvivalResultMessage getSurvivalResultMsg() {
+    if (dataCase_ == 8) {
+       return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+    }
+    return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+   */
+  public org.bolg_developers.bolg.SurvivalResultMessageOrBuilder getSurvivalResultMsgOrBuilder() {
+    if (dataCase_ == 8) {
+       return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+    }
+    return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+  }
+
+  public static final int START_GAME_REQ_FIELD_NUMBER = 9;
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  public boolean hasStartGameReq() {
+    return dataCase_ == 9;
+  }
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  public org.bolg_developers.bolg.StartGameRequest getStartGameReq() {
+    if (dataCase_ == 9) {
+       return (org.bolg_developers.bolg.StartGameRequest) data_;
+    }
+    return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+   */
+  public org.bolg_developers.bolg.StartGameRequestOrBuilder getStartGameReqOrBuilder() {
+    if (dataCase_ == 9) {
+       return (org.bolg_developers.bolg.StartGameRequest) data_;
+    }
+    return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+  }
+
+  public static final int START_GAME_MSG_FIELD_NUMBER = 10;
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  public boolean hasStartGameMsg() {
+    return dataCase_ == 10;
+  }
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  public org.bolg_developers.bolg.StartGameMessage getStartGameMsg() {
+    if (dataCase_ == 10) {
+       return (org.bolg_developers.bolg.StartGameMessage) data_;
+    }
+    return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+   */
+  public org.bolg_developers.bolg.StartGameMessageOrBuilder getStartGameMsgOrBuilder() {
+    if (dataCase_ == 10) {
+       return (org.bolg_developers.bolg.StartGameMessage) data_;
+    }
+    return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+  }
+
+  public static final int UPDATE_WEAPON_REQ_FIELD_NUMBER = 11;
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  public boolean hasUpdateWeaponReq() {
+    return dataCase_ == 11;
+  }
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponRequest getUpdateWeaponReq() {
+    if (dataCase_ == 11) {
+       return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder getUpdateWeaponReqOrBuilder() {
+    if (dataCase_ == 11) {
+       return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+  }
+
+  public static final int UPDATE_WEAPON_RESP_FIELD_NUMBER = 12;
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  public boolean hasUpdateWeaponResp() {
+    return dataCase_ == 12;
+  }
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponResponse getUpdateWeaponResp() {
+    if (dataCase_ == 12) {
+       return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+   */
+  public org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder getUpdateWeaponRespOrBuilder() {
+    if (dataCase_ == 12) {
+       return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+    }
+    return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+  }
+
+  public static final int READY_REQ_FIELD_NUMBER = 13;
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  public boolean hasReadyReq() {
+    return dataCase_ == 13;
+  }
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  public org.bolg_developers.bolg.ReadyRequest getReadyReq() {
+    if (dataCase_ == 13) {
+       return (org.bolg_developers.bolg.ReadyRequest) data_;
+    }
+    return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.ReadyRequest ready_req = 13;</code>
+   */
+  public org.bolg_developers.bolg.ReadyRequestOrBuilder getReadyReqOrBuilder() {
+    if (dataCase_ == 13) {
+       return (org.bolg_developers.bolg.ReadyRequest) data_;
+    }
+    return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+  }
+
+  public static final int READY_MSG_FIELD_NUMBER = 14;
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  public boolean hasReadyMsg() {
+    return dataCase_ == 14;
+  }
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  public org.bolg_developers.bolg.ReadyMessage getReadyMsg() {
+    if (dataCase_ == 14) {
+       return (org.bolg_developers.bolg.ReadyMessage) data_;
+    }
+    return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+   */
+  public org.bolg_developers.bolg.ReadyMessageOrBuilder getReadyMsgOrBuilder() {
+    if (dataCase_ == 14) {
+       return (org.bolg_developers.bolg.ReadyMessage) data_;
+    }
+    return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+  }
+
+  public static final int ERROR_FIELD_NUMBER = 15;
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  public boolean hasError() {
+    return dataCase_ == 15;
+  }
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  public org.bolg_developers.bolg.Error getError() {
+    if (dataCase_ == 15) {
+       return (org.bolg_developers.bolg.Error) data_;
+    }
+    return org.bolg_developers.bolg.Error.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.Error error = 15;</code>
+   */
+  public org.bolg_developers.bolg.ErrorOrBuilder getErrorOrBuilder() {
+    if (dataCase_ == 15) {
+       return (org.bolg_developers.bolg.Error) data_;
+    }
+    return org.bolg_developers.bolg.Error.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -433,6 +769,30 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 7) {
       output.writeMessage(7, (org.bolg_developers.bolg.NotifyReceivingMessage) data_);
+    }
+    if (dataCase_ == 8) {
+      output.writeMessage(8, (org.bolg_developers.bolg.SurvivalResultMessage) data_);
+    }
+    if (dataCase_ == 9) {
+      output.writeMessage(9, (org.bolg_developers.bolg.StartGameRequest) data_);
+    }
+    if (dataCase_ == 10) {
+      output.writeMessage(10, (org.bolg_developers.bolg.StartGameMessage) data_);
+    }
+    if (dataCase_ == 11) {
+      output.writeMessage(11, (org.bolg_developers.bolg.UpdateWeaponRequest) data_);
+    }
+    if (dataCase_ == 12) {
+      output.writeMessage(12, (org.bolg_developers.bolg.UpdateWeaponResponse) data_);
+    }
+    if (dataCase_ == 13) {
+      output.writeMessage(13, (org.bolg_developers.bolg.ReadyRequest) data_);
+    }
+    if (dataCase_ == 14) {
+      output.writeMessage(14, (org.bolg_developers.bolg.ReadyMessage) data_);
+    }
+    if (dataCase_ == 15) {
+      output.writeMessage(15, (org.bolg_developers.bolg.Error) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -469,6 +829,38 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 7) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(7, (org.bolg_developers.bolg.NotifyReceivingMessage) data_);
+    }
+    if (dataCase_ == 8) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(8, (org.bolg_developers.bolg.SurvivalResultMessage) data_);
+    }
+    if (dataCase_ == 9) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(9, (org.bolg_developers.bolg.StartGameRequest) data_);
+    }
+    if (dataCase_ == 10) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(10, (org.bolg_developers.bolg.StartGameMessage) data_);
+    }
+    if (dataCase_ == 11) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(11, (org.bolg_developers.bolg.UpdateWeaponRequest) data_);
+    }
+    if (dataCase_ == 12) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(12, (org.bolg_developers.bolg.UpdateWeaponResponse) data_);
+    }
+    if (dataCase_ == 13) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(13, (org.bolg_developers.bolg.ReadyRequest) data_);
+    }
+    if (dataCase_ == 14) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(14, (org.bolg_developers.bolg.ReadyMessage) data_);
+    }
+    if (dataCase_ == 15) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(15, (org.bolg_developers.bolg.Error) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -518,6 +910,38 @@ private static final long serialVersionUID = 0L;
         result = result && getNotifyReceivingMsg()
             .equals(other.getNotifyReceivingMsg());
         break;
+      case 8:
+        result = result && getSurvivalResultMsg()
+            .equals(other.getSurvivalResultMsg());
+        break;
+      case 9:
+        result = result && getStartGameReq()
+            .equals(other.getStartGameReq());
+        break;
+      case 10:
+        result = result && getStartGameMsg()
+            .equals(other.getStartGameMsg());
+        break;
+      case 11:
+        result = result && getUpdateWeaponReq()
+            .equals(other.getUpdateWeaponReq());
+        break;
+      case 12:
+        result = result && getUpdateWeaponResp()
+            .equals(other.getUpdateWeaponResp());
+        break;
+      case 13:
+        result = result && getReadyReq()
+            .equals(other.getReadyReq());
+        break;
+      case 14:
+        result = result && getReadyMsg()
+            .equals(other.getReadyMsg());
+        break;
+      case 15:
+        result = result && getError()
+            .equals(other.getError());
+        break;
       case 0:
       default:
     }
@@ -560,6 +984,38 @@ private static final long serialVersionUID = 0L;
       case 7:
         hash = (37 * hash) + NOTIFY_RECEIVING_MSG_FIELD_NUMBER;
         hash = (53 * hash) + getNotifyReceivingMsg().hashCode();
+        break;
+      case 8:
+        hash = (37 * hash) + SURVIVAL_RESULT_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getSurvivalResultMsg().hashCode();
+        break;
+      case 9:
+        hash = (37 * hash) + START_GAME_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getStartGameReq().hashCode();
+        break;
+      case 10:
+        hash = (37 * hash) + START_GAME_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getStartGameMsg().hashCode();
+        break;
+      case 11:
+        hash = (37 * hash) + UPDATE_WEAPON_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getUpdateWeaponReq().hashCode();
+        break;
+      case 12:
+        hash = (37 * hash) + UPDATE_WEAPON_RESP_FIELD_NUMBER;
+        hash = (53 * hash) + getUpdateWeaponResp().hashCode();
+        break;
+      case 13:
+        hash = (37 * hash) + READY_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getReadyReq().hashCode();
+        break;
+      case 14:
+        hash = (37 * hash) + READY_MSG_FIELD_NUMBER;
+        hash = (53 * hash) + getReadyMsg().hashCode();
+        break;
+      case 15:
+        hash = (37 * hash) + ERROR_FIELD_NUMBER;
+        hash = (53 * hash) + getError().hashCode();
         break;
       case 0:
       default:
@@ -766,6 +1222,62 @@ private static final long serialVersionUID = 0L;
           result.data_ = notifyReceivingMsgBuilder_.build();
         }
       }
+      if (dataCase_ == 8) {
+        if (survivalResultMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = survivalResultMsgBuilder_.build();
+        }
+      }
+      if (dataCase_ == 9) {
+        if (startGameReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = startGameReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 10) {
+        if (startGameMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = startGameMsgBuilder_.build();
+        }
+      }
+      if (dataCase_ == 11) {
+        if (updateWeaponReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = updateWeaponReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 12) {
+        if (updateWeaponRespBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = updateWeaponRespBuilder_.build();
+        }
+      }
+      if (dataCase_ == 13) {
+        if (readyReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = readyReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 14) {
+        if (readyMsgBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = readyMsgBuilder_.build();
+        }
+      }
+      if (dataCase_ == 15) {
+        if (errorBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = errorBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -835,6 +1347,38 @@ private static final long serialVersionUID = 0L;
         }
         case NOTIFY_RECEIVING_MSG: {
           mergeNotifyReceivingMsg(other.getNotifyReceivingMsg());
+          break;
+        }
+        case SURVIVAL_RESULT_MSG: {
+          mergeSurvivalResultMsg(other.getSurvivalResultMsg());
+          break;
+        }
+        case START_GAME_REQ: {
+          mergeStartGameReq(other.getStartGameReq());
+          break;
+        }
+        case START_GAME_MSG: {
+          mergeStartGameMsg(other.getStartGameMsg());
+          break;
+        }
+        case UPDATE_WEAPON_REQ: {
+          mergeUpdateWeaponReq(other.getUpdateWeaponReq());
+          break;
+        }
+        case UPDATE_WEAPON_RESP: {
+          mergeUpdateWeaponResp(other.getUpdateWeaponResp());
+          break;
+        }
+        case READY_REQ: {
+          mergeReadyReq(other.getReadyReq());
+          break;
+        }
+        case READY_MSG: {
+          mergeReadyMsg(other.getReadyMsg());
+          break;
+        }
+        case ERROR: {
+          mergeError(other.getError());
           break;
         }
         case DATA_NOT_SET: {
@@ -1833,6 +2377,1094 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 7;
       onChanged();;
       return notifyReceivingMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.SurvivalResultMessage, org.bolg_developers.bolg.SurvivalResultMessage.Builder, org.bolg_developers.bolg.SurvivalResultMessageOrBuilder> survivalResultMsgBuilder_;
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public boolean hasSurvivalResultMsg() {
+      return dataCase_ == 8;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public org.bolg_developers.bolg.SurvivalResultMessage getSurvivalResultMsg() {
+      if (survivalResultMsgBuilder_ == null) {
+        if (dataCase_ == 8) {
+          return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+        }
+        return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 8) {
+          return survivalResultMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder setSurvivalResultMsg(org.bolg_developers.bolg.SurvivalResultMessage value) {
+      if (survivalResultMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        survivalResultMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 8;
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder setSurvivalResultMsg(
+        org.bolg_developers.bolg.SurvivalResultMessage.Builder builderForValue) {
+      if (survivalResultMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        survivalResultMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 8;
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder mergeSurvivalResultMsg(org.bolg_developers.bolg.SurvivalResultMessage value) {
+      if (survivalResultMsgBuilder_ == null) {
+        if (dataCase_ == 8 &&
+            data_ != org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.SurvivalResultMessage.newBuilder((org.bolg_developers.bolg.SurvivalResultMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 8) {
+          survivalResultMsgBuilder_.mergeFrom(value);
+        }
+        survivalResultMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 8;
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public Builder clearSurvivalResultMsg() {
+      if (survivalResultMsgBuilder_ == null) {
+        if (dataCase_ == 8) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 8) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        survivalResultMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public org.bolg_developers.bolg.SurvivalResultMessage.Builder getSurvivalResultMsgBuilder() {
+      return getSurvivalResultMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    public org.bolg_developers.bolg.SurvivalResultMessageOrBuilder getSurvivalResultMsgOrBuilder() {
+      if ((dataCase_ == 8) && (survivalResultMsgBuilder_ != null)) {
+        return survivalResultMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 8) {
+          return (org.bolg_developers.bolg.SurvivalResultMessage) data_;
+        }
+        return org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.SurvivalResultMessage survival_result_msg = 8;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.SurvivalResultMessage, org.bolg_developers.bolg.SurvivalResultMessage.Builder, org.bolg_developers.bolg.SurvivalResultMessageOrBuilder> 
+        getSurvivalResultMsgFieldBuilder() {
+      if (survivalResultMsgBuilder_ == null) {
+        if (!(dataCase_ == 8)) {
+          data_ = org.bolg_developers.bolg.SurvivalResultMessage.getDefaultInstance();
+        }
+        survivalResultMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.SurvivalResultMessage, org.bolg_developers.bolg.SurvivalResultMessage.Builder, org.bolg_developers.bolg.SurvivalResultMessageOrBuilder>(
+                (org.bolg_developers.bolg.SurvivalResultMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 8;
+      onChanged();;
+      return survivalResultMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameRequest, org.bolg_developers.bolg.StartGameRequest.Builder, org.bolg_developers.bolg.StartGameRequestOrBuilder> startGameReqBuilder_;
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public boolean hasStartGameReq() {
+      return dataCase_ == 9;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public org.bolg_developers.bolg.StartGameRequest getStartGameReq() {
+      if (startGameReqBuilder_ == null) {
+        if (dataCase_ == 9) {
+          return (org.bolg_developers.bolg.StartGameRequest) data_;
+        }
+        return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 9) {
+          return startGameReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder setStartGameReq(org.bolg_developers.bolg.StartGameRequest value) {
+      if (startGameReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        startGameReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 9;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder setStartGameReq(
+        org.bolg_developers.bolg.StartGameRequest.Builder builderForValue) {
+      if (startGameReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        startGameReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 9;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder mergeStartGameReq(org.bolg_developers.bolg.StartGameRequest value) {
+      if (startGameReqBuilder_ == null) {
+        if (dataCase_ == 9 &&
+            data_ != org.bolg_developers.bolg.StartGameRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.StartGameRequest.newBuilder((org.bolg_developers.bolg.StartGameRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 9) {
+          startGameReqBuilder_.mergeFrom(value);
+        }
+        startGameReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 9;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public Builder clearStartGameReq() {
+      if (startGameReqBuilder_ == null) {
+        if (dataCase_ == 9) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 9) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        startGameReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public org.bolg_developers.bolg.StartGameRequest.Builder getStartGameReqBuilder() {
+      return getStartGameReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    public org.bolg_developers.bolg.StartGameRequestOrBuilder getStartGameReqOrBuilder() {
+      if ((dataCase_ == 9) && (startGameReqBuilder_ != null)) {
+        return startGameReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 9) {
+          return (org.bolg_developers.bolg.StartGameRequest) data_;
+        }
+        return org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameRequest start_game_req = 9;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameRequest, org.bolg_developers.bolg.StartGameRequest.Builder, org.bolg_developers.bolg.StartGameRequestOrBuilder> 
+        getStartGameReqFieldBuilder() {
+      if (startGameReqBuilder_ == null) {
+        if (!(dataCase_ == 9)) {
+          data_ = org.bolg_developers.bolg.StartGameRequest.getDefaultInstance();
+        }
+        startGameReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.StartGameRequest, org.bolg_developers.bolg.StartGameRequest.Builder, org.bolg_developers.bolg.StartGameRequestOrBuilder>(
+                (org.bolg_developers.bolg.StartGameRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 9;
+      onChanged();;
+      return startGameReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameMessage, org.bolg_developers.bolg.StartGameMessage.Builder, org.bolg_developers.bolg.StartGameMessageOrBuilder> startGameMsgBuilder_;
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public boolean hasStartGameMsg() {
+      return dataCase_ == 10;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public org.bolg_developers.bolg.StartGameMessage getStartGameMsg() {
+      if (startGameMsgBuilder_ == null) {
+        if (dataCase_ == 10) {
+          return (org.bolg_developers.bolg.StartGameMessage) data_;
+        }
+        return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 10) {
+          return startGameMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder setStartGameMsg(org.bolg_developers.bolg.StartGameMessage value) {
+      if (startGameMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        startGameMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 10;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder setStartGameMsg(
+        org.bolg_developers.bolg.StartGameMessage.Builder builderForValue) {
+      if (startGameMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        startGameMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 10;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder mergeStartGameMsg(org.bolg_developers.bolg.StartGameMessage value) {
+      if (startGameMsgBuilder_ == null) {
+        if (dataCase_ == 10 &&
+            data_ != org.bolg_developers.bolg.StartGameMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.StartGameMessage.newBuilder((org.bolg_developers.bolg.StartGameMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 10) {
+          startGameMsgBuilder_.mergeFrom(value);
+        }
+        startGameMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 10;
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public Builder clearStartGameMsg() {
+      if (startGameMsgBuilder_ == null) {
+        if (dataCase_ == 10) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 10) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        startGameMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public org.bolg_developers.bolg.StartGameMessage.Builder getStartGameMsgBuilder() {
+      return getStartGameMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    public org.bolg_developers.bolg.StartGameMessageOrBuilder getStartGameMsgOrBuilder() {
+      if ((dataCase_ == 10) && (startGameMsgBuilder_ != null)) {
+        return startGameMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 10) {
+          return (org.bolg_developers.bolg.StartGameMessage) data_;
+        }
+        return org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.StartGameMessage start_game_msg = 10;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.StartGameMessage, org.bolg_developers.bolg.StartGameMessage.Builder, org.bolg_developers.bolg.StartGameMessageOrBuilder> 
+        getStartGameMsgFieldBuilder() {
+      if (startGameMsgBuilder_ == null) {
+        if (!(dataCase_ == 10)) {
+          data_ = org.bolg_developers.bolg.StartGameMessage.getDefaultInstance();
+        }
+        startGameMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.StartGameMessage, org.bolg_developers.bolg.StartGameMessage.Builder, org.bolg_developers.bolg.StartGameMessageOrBuilder>(
+                (org.bolg_developers.bolg.StartGameMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 10;
+      onChanged();;
+      return startGameMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponRequest, org.bolg_developers.bolg.UpdateWeaponRequest.Builder, org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder> updateWeaponReqBuilder_;
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public boolean hasUpdateWeaponReq() {
+      return dataCase_ == 11;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponRequest getUpdateWeaponReq() {
+      if (updateWeaponReqBuilder_ == null) {
+        if (dataCase_ == 11) {
+          return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 11) {
+          return updateWeaponReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder setUpdateWeaponReq(org.bolg_developers.bolg.UpdateWeaponRequest value) {
+      if (updateWeaponReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        updateWeaponReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 11;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder setUpdateWeaponReq(
+        org.bolg_developers.bolg.UpdateWeaponRequest.Builder builderForValue) {
+      if (updateWeaponReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        updateWeaponReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 11;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder mergeUpdateWeaponReq(org.bolg_developers.bolg.UpdateWeaponRequest value) {
+      if (updateWeaponReqBuilder_ == null) {
+        if (dataCase_ == 11 &&
+            data_ != org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponRequest.newBuilder((org.bolg_developers.bolg.UpdateWeaponRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 11) {
+          updateWeaponReqBuilder_.mergeFrom(value);
+        }
+        updateWeaponReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 11;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public Builder clearUpdateWeaponReq() {
+      if (updateWeaponReqBuilder_ == null) {
+        if (dataCase_ == 11) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 11) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        updateWeaponReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponRequest.Builder getUpdateWeaponReqBuilder() {
+      return getUpdateWeaponReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder getUpdateWeaponReqOrBuilder() {
+      if ((dataCase_ == 11) && (updateWeaponReqBuilder_ != null)) {
+        return updateWeaponReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 11) {
+          return (org.bolg_developers.bolg.UpdateWeaponRequest) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponRequest update_weapon_req = 11;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponRequest, org.bolg_developers.bolg.UpdateWeaponRequest.Builder, org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder> 
+        getUpdateWeaponReqFieldBuilder() {
+      if (updateWeaponReqBuilder_ == null) {
+        if (!(dataCase_ == 11)) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponRequest.getDefaultInstance();
+        }
+        updateWeaponReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.UpdateWeaponRequest, org.bolg_developers.bolg.UpdateWeaponRequest.Builder, org.bolg_developers.bolg.UpdateWeaponRequestOrBuilder>(
+                (org.bolg_developers.bolg.UpdateWeaponRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 11;
+      onChanged();;
+      return updateWeaponReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponResponse, org.bolg_developers.bolg.UpdateWeaponResponse.Builder, org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder> updateWeaponRespBuilder_;
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public boolean hasUpdateWeaponResp() {
+      return dataCase_ == 12;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponResponse getUpdateWeaponResp() {
+      if (updateWeaponRespBuilder_ == null) {
+        if (dataCase_ == 12) {
+          return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+      } else {
+        if (dataCase_ == 12) {
+          return updateWeaponRespBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder setUpdateWeaponResp(org.bolg_developers.bolg.UpdateWeaponResponse value) {
+      if (updateWeaponRespBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        updateWeaponRespBuilder_.setMessage(value);
+      }
+      dataCase_ = 12;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder setUpdateWeaponResp(
+        org.bolg_developers.bolg.UpdateWeaponResponse.Builder builderForValue) {
+      if (updateWeaponRespBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        updateWeaponRespBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 12;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder mergeUpdateWeaponResp(org.bolg_developers.bolg.UpdateWeaponResponse value) {
+      if (updateWeaponRespBuilder_ == null) {
+        if (dataCase_ == 12 &&
+            data_ != org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponResponse.newBuilder((org.bolg_developers.bolg.UpdateWeaponResponse) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 12) {
+          updateWeaponRespBuilder_.mergeFrom(value);
+        }
+        updateWeaponRespBuilder_.setMessage(value);
+      }
+      dataCase_ = 12;
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public Builder clearUpdateWeaponResp() {
+      if (updateWeaponRespBuilder_ == null) {
+        if (dataCase_ == 12) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 12) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        updateWeaponRespBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponResponse.Builder getUpdateWeaponRespBuilder() {
+      return getUpdateWeaponRespFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    public org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder getUpdateWeaponRespOrBuilder() {
+      if ((dataCase_ == 12) && (updateWeaponRespBuilder_ != null)) {
+        return updateWeaponRespBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 12) {
+          return (org.bolg_developers.bolg.UpdateWeaponResponse) data_;
+        }
+        return org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.UpdateWeaponResponse update_weapon_resp = 12;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.UpdateWeaponResponse, org.bolg_developers.bolg.UpdateWeaponResponse.Builder, org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder> 
+        getUpdateWeaponRespFieldBuilder() {
+      if (updateWeaponRespBuilder_ == null) {
+        if (!(dataCase_ == 12)) {
+          data_ = org.bolg_developers.bolg.UpdateWeaponResponse.getDefaultInstance();
+        }
+        updateWeaponRespBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.UpdateWeaponResponse, org.bolg_developers.bolg.UpdateWeaponResponse.Builder, org.bolg_developers.bolg.UpdateWeaponResponseOrBuilder>(
+                (org.bolg_developers.bolg.UpdateWeaponResponse) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 12;
+      onChanged();;
+      return updateWeaponRespBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyRequest, org.bolg_developers.bolg.ReadyRequest.Builder, org.bolg_developers.bolg.ReadyRequestOrBuilder> readyReqBuilder_;
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public boolean hasReadyReq() {
+      return dataCase_ == 13;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public org.bolg_developers.bolg.ReadyRequest getReadyReq() {
+      if (readyReqBuilder_ == null) {
+        if (dataCase_ == 13) {
+          return (org.bolg_developers.bolg.ReadyRequest) data_;
+        }
+        return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 13) {
+          return readyReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder setReadyReq(org.bolg_developers.bolg.ReadyRequest value) {
+      if (readyReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        readyReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 13;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder setReadyReq(
+        org.bolg_developers.bolg.ReadyRequest.Builder builderForValue) {
+      if (readyReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        readyReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 13;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder mergeReadyReq(org.bolg_developers.bolg.ReadyRequest value) {
+      if (readyReqBuilder_ == null) {
+        if (dataCase_ == 13 &&
+            data_ != org.bolg_developers.bolg.ReadyRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.ReadyRequest.newBuilder((org.bolg_developers.bolg.ReadyRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 13) {
+          readyReqBuilder_.mergeFrom(value);
+        }
+        readyReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 13;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public Builder clearReadyReq() {
+      if (readyReqBuilder_ == null) {
+        if (dataCase_ == 13) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 13) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        readyReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public org.bolg_developers.bolg.ReadyRequest.Builder getReadyReqBuilder() {
+      return getReadyReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    public org.bolg_developers.bolg.ReadyRequestOrBuilder getReadyReqOrBuilder() {
+      if ((dataCase_ == 13) && (readyReqBuilder_ != null)) {
+        return readyReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 13) {
+          return (org.bolg_developers.bolg.ReadyRequest) data_;
+        }
+        return org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyRequest ready_req = 13;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyRequest, org.bolg_developers.bolg.ReadyRequest.Builder, org.bolg_developers.bolg.ReadyRequestOrBuilder> 
+        getReadyReqFieldBuilder() {
+      if (readyReqBuilder_ == null) {
+        if (!(dataCase_ == 13)) {
+          data_ = org.bolg_developers.bolg.ReadyRequest.getDefaultInstance();
+        }
+        readyReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.ReadyRequest, org.bolg_developers.bolg.ReadyRequest.Builder, org.bolg_developers.bolg.ReadyRequestOrBuilder>(
+                (org.bolg_developers.bolg.ReadyRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 13;
+      onChanged();;
+      return readyReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyMessage, org.bolg_developers.bolg.ReadyMessage.Builder, org.bolg_developers.bolg.ReadyMessageOrBuilder> readyMsgBuilder_;
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public boolean hasReadyMsg() {
+      return dataCase_ == 14;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public org.bolg_developers.bolg.ReadyMessage getReadyMsg() {
+      if (readyMsgBuilder_ == null) {
+        if (dataCase_ == 14) {
+          return (org.bolg_developers.bolg.ReadyMessage) data_;
+        }
+        return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+      } else {
+        if (dataCase_ == 14) {
+          return readyMsgBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder setReadyMsg(org.bolg_developers.bolg.ReadyMessage value) {
+      if (readyMsgBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        readyMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 14;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder setReadyMsg(
+        org.bolg_developers.bolg.ReadyMessage.Builder builderForValue) {
+      if (readyMsgBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        readyMsgBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 14;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder mergeReadyMsg(org.bolg_developers.bolg.ReadyMessage value) {
+      if (readyMsgBuilder_ == null) {
+        if (dataCase_ == 14 &&
+            data_ != org.bolg_developers.bolg.ReadyMessage.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.ReadyMessage.newBuilder((org.bolg_developers.bolg.ReadyMessage) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 14) {
+          readyMsgBuilder_.mergeFrom(value);
+        }
+        readyMsgBuilder_.setMessage(value);
+      }
+      dataCase_ = 14;
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public Builder clearReadyMsg() {
+      if (readyMsgBuilder_ == null) {
+        if (dataCase_ == 14) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 14) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        readyMsgBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public org.bolg_developers.bolg.ReadyMessage.Builder getReadyMsgBuilder() {
+      return getReadyMsgFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    public org.bolg_developers.bolg.ReadyMessageOrBuilder getReadyMsgOrBuilder() {
+      if ((dataCase_ == 14) && (readyMsgBuilder_ != null)) {
+        return readyMsgBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 14) {
+          return (org.bolg_developers.bolg.ReadyMessage) data_;
+        }
+        return org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.ReadyMessage ready_msg = 14;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.ReadyMessage, org.bolg_developers.bolg.ReadyMessage.Builder, org.bolg_developers.bolg.ReadyMessageOrBuilder> 
+        getReadyMsgFieldBuilder() {
+      if (readyMsgBuilder_ == null) {
+        if (!(dataCase_ == 14)) {
+          data_ = org.bolg_developers.bolg.ReadyMessage.getDefaultInstance();
+        }
+        readyMsgBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.ReadyMessage, org.bolg_developers.bolg.ReadyMessage.Builder, org.bolg_developers.bolg.ReadyMessageOrBuilder>(
+                (org.bolg_developers.bolg.ReadyMessage) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 14;
+      onChanged();;
+      return readyMsgBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.Error, org.bolg_developers.bolg.Error.Builder, org.bolg_developers.bolg.ErrorOrBuilder> errorBuilder_;
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public boolean hasError() {
+      return dataCase_ == 15;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public org.bolg_developers.bolg.Error getError() {
+      if (errorBuilder_ == null) {
+        if (dataCase_ == 15) {
+          return (org.bolg_developers.bolg.Error) data_;
+        }
+        return org.bolg_developers.bolg.Error.getDefaultInstance();
+      } else {
+        if (dataCase_ == 15) {
+          return errorBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.Error.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder setError(org.bolg_developers.bolg.Error value) {
+      if (errorBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        errorBuilder_.setMessage(value);
+      }
+      dataCase_ = 15;
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder setError(
+        org.bolg_developers.bolg.Error.Builder builderForValue) {
+      if (errorBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        errorBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 15;
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder mergeError(org.bolg_developers.bolg.Error value) {
+      if (errorBuilder_ == null) {
+        if (dataCase_ == 15 &&
+            data_ != org.bolg_developers.bolg.Error.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.Error.newBuilder((org.bolg_developers.bolg.Error) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 15) {
+          errorBuilder_.mergeFrom(value);
+        }
+        errorBuilder_.setMessage(value);
+      }
+      dataCase_ = 15;
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public Builder clearError() {
+      if (errorBuilder_ == null) {
+        if (dataCase_ == 15) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 15) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        errorBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public org.bolg_developers.bolg.Error.Builder getErrorBuilder() {
+      return getErrorFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    public org.bolg_developers.bolg.ErrorOrBuilder getErrorOrBuilder() {
+      if ((dataCase_ == 15) && (errorBuilder_ != null)) {
+        return errorBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 15) {
+          return (org.bolg_developers.bolg.Error) data_;
+        }
+        return org.bolg_developers.bolg.Error.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.Error error = 15;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.Error, org.bolg_developers.bolg.Error.Builder, org.bolg_developers.bolg.ErrorOrBuilder> 
+        getErrorFieldBuilder() {
+      if (errorBuilder_ == null) {
+        if (!(dataCase_ == 15)) {
+          data_ = org.bolg_developers.bolg.Error.getDefaultInstance();
+        }
+        errorBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.Error, org.bolg_developers.bolg.Error.Builder, org.bolg_developers.bolg.ErrorOrBuilder>(
+                (org.bolg_developers.bolg.Error) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 15;
+      onChanged();;
+      return errorBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
