@@ -1,6 +1,12 @@
 run:
 	go run cmd/apiserver/apiserver.go
 
+build:
+	go build cmd/apiserver/apiserver.go
+
+exec:
+	./apiserver &
+
 evans:
 	evans pb/bolg.proto
 
