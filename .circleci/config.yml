@@ -22,12 +22,13 @@ jobs: # 1回の実行の基本作業単位
 
       - run:
           name: 単体テストを実行
-          # テスト結果を $TEST_RESULTS ディレクトリに保存します
           command: |
-            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
-            make -C projects/bolg/server test | tee ${TEST_RESULTS}/go-test.out
+            make -C projects/bolg/server test
 
-      - run: make -C projects/bolg/server build # プロジェクトの依存関係をプルしてビルドします
+      - run:
+          name: ビルドを実行
+          command: |
+            make -C projects/bolg/server build # プロジェクトの依存関係をプルしてビルドします
 
       - save_cache: # キャッシュを /go/pkg ディレクトリに保存します
           key: v1-pkg-cache
