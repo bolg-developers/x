@@ -7,6 +7,9 @@ build:
 exec:
 	./apiserver &
 
+test:
+	go test ./...
+
 evans:
 	evans pb/bolg.proto
 
