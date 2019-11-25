@@ -4,14 +4,17 @@ import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
+import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.standby.host.HostStandbyActivity
 import com.example.bolg.standby.player.PlayerStandbyActivity
+import kotlinx.coroutines.*
 
 
 /** ----------------------------------------------------------------------
@@ -26,6 +29,17 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
     private lateinit var intent: Intent
 
     var context: Context? = null
+
+    //  SharedPreferenceのインスタンス生成
+    val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+    private val editor: SharedPreferences.Editor? = data.edit()
+
+    // Jobの定義
+    private var viewModelJob = Job()
+
+    // スコープの定義
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val grpcTask = GrpcTask()
 
     /** **********************************************************************
      * joinDialog
@@ -78,11 +92,31 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * @param view 親のview
      * HostStandbyActivity(ホスト待機画面)への遷移
      * ********************************************************************** */
-    fun create(view: View){
-        Log.d("createjoin","oncreate")
-        context = view.context
-        intent = Intent(context, HostStandbyActivity::class.java)
-        context?.startActivity(intent)
+    fun create(view: View) {
+        Log.d("createjoin", "oncreate")
+        uiScope.launch {
+            async(Dispatchers.Default) {
+                grpcTask.createAndJoinRoomTask("yuta")
+            }.await().let {
+
+                // Data Put (player_id/player_id/player_readyは固定でテスト)
+                editor?.putLong("room_id",it.createAndJoinRoomResp.room.id)
+                editor?.putLong("player_id",1111)
+                editor?.putLong("player_hp",100)
+                editor?.putBoolean("player_ready",true)
+                editor?.putLong("owner_id",it.createAndJoinRoomResp.room.ownerId)
+                editor?.putInt("game_rule",it.createAndJoinRoomResp.room.gameRule.number)
+                editor?.putBoolean("game_start",it.createAndJoinRoomResp.room.gameStart)
+                editor?.putString("player_name","yuta")
+                editor?.putString("token",it.createAndJoinRoomResp?.token)
+                editor?.apply()
+
+                context = view.context
+                intent = Intent(context, HostStandbyActivity::class.java)
+                context?.startActivity(intent)
+
+            }
+        }
     }
 
     /** **********************************************************************
@@ -96,4 +130,5 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
 
         return true
     }
+
 }
