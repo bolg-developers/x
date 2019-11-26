@@ -16,7 +16,6 @@ import com.example.bolg.standby.host.HostStandbyActivity
 import com.example.bolg.standby.player.PlayerStandbyActivity
 import kotlinx.coroutines.*
 
-
 /** ----------------------------------------------------------------------
  * CreateJoinViewModel
  * @param application : AndroidViewModelの引数に使用
@@ -47,7 +46,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * 生成されている部屋に入室のため、部屋IDを入力する
      * ********************************************************************** */
     fun joinDialog(view: View){
-        Log.d("createjoin","onjoinDialog")
+        Log.d("createJoin","onJoinDialog")
 
         // Input widget
         val editText = EditText(view.context)
@@ -61,13 +60,13 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
             .setMessage("ルームIDを入力してください。\n（数字4桁）")
             .setView(editText)
             .setNegativeButton("キャンセル", DialogInterface.OnClickListener { dialog, whichButton ->
-                Log.d("createjoin","onjoinDialog/CancelButton")
+                Log.d("createJoin","onJoinDialog/CancelButton")
                 //キャンセルボタンを押したときの処理
             })
             .setPositiveButton("OK", DialogInterface.OnClickListener { dialog, whichButton ->
                 //ＯＫボタンを押したときの処理
                 // 入力されたルームIDが存在するか
-                Log.d("createjoin","onjoinDialog/OKButton")
+                Log.d("createJoin","onJoinDialog/OKButton")
                 if(roomIdCheck(editText.text.toString())){
                     join(view)
                 }
@@ -81,7 +80,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * PlayerStandbyActivity(参加者待機画面)への遷移
      * ********************************************************************** */
     private fun join(view: View){
-        Log.d("createjoin","onjoin")
+        Log.d("createJoin","join")
         context = view.context
         intent = Intent(view.context, PlayerStandbyActivity::class.java)
         context?.startActivity(intent)
@@ -93,27 +92,29 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * HostStandbyActivity(ホスト待機画面)への遷移
      * ********************************************************************** */
     fun create(view: View) {
-        Log.d("createjoin", "oncreate")
+        Log.d("createJoin", "create")
         uiScope.launch {
             async(Dispatchers.Default) {
                 grpcTask.createAndJoinRoomTask("yuta")
             }.await().let {
 
-                // Data Put (player_id/player_id/player_readyは固定でテスト)
-                editor?.putLong("room_id",it.createAndJoinRoomResp.room.id)
-                editor?.putLong("player_id",1111)
-                editor?.putLong("player_hp",100)
-                editor?.putBoolean("player_ready",true)
-                editor?.putLong("owner_id",it.createAndJoinRoomResp.room.ownerId)
-                editor?.putInt("game_rule",it.createAndJoinRoomResp.room.gameRule.number)
-                editor?.putBoolean("game_start",it.createAndJoinRoomResp.room.gameStart)
-                editor?.putString("player_name","yuta")
-                editor?.putString("token",it.createAndJoinRoomResp?.token)
-                editor?.apply()
+                if(it.createAndJoinRoomResp.room.id != 0L) {
+                    // Data Put (player_id/player_id/player_readyは固定でテスト)
+                    editor?.putLong("room_id", it.createAndJoinRoomResp.room.id)
+                    editor?.putLong("player_id", 1111)
+                    editor?.putLong("player_hp", 100)
+                    editor?.putBoolean("player_ready", true)
+                    editor?.putLong("owner_id", it.createAndJoinRoomResp.room.ownerId)
+                    editor?.putInt("game_rule", it.createAndJoinRoomResp.room.gameRule.number)
+                    editor?.putBoolean("game_start", it.createAndJoinRoomResp.room.gameStart)
+                    editor?.putString("player_name", "yuta")
+                    editor?.putString("token", it.createAndJoinRoomResp?.token)
+                    editor?.apply()
 
-                context = view.context
-                intent = Intent(context, HostStandbyActivity::class.java)
-                context?.startActivity(intent)
+                    context = view.context
+                    intent = Intent(context, HostStandbyActivity::class.java)
+                    context?.startActivity(intent)
+                }
 
             }
         }
@@ -124,9 +125,9 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * @param roomid 入力数値
      * 入力された部屋IDに対応する部屋は存在するのかチェック
      * ********************************************************************** */
-    private fun roomIdCheck(roomid: String): Boolean{
+    private fun roomIdCheck(roomId: String): Boolean{
 
-        Log.d("room",roomid.toString())
+        Log.d("room",roomId)
 
         return true
     }

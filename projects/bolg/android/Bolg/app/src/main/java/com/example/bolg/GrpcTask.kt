@@ -8,6 +8,10 @@ import org.bolg_developers.bolg.BolgServiceGrpc
 import org.bolg_developers.bolg.CreateAndJoinRoomRequest
 import org.bolg_developers.bolg.RoomMessage
 
+/** ----------------------------------------------------------------------
+ * GrpcTask
+ * Serverとの通信を担う
+ * ---------------------------------------------------------------------- */
 class GrpcTask {
 
     private var channel: ManagedChannel
@@ -27,6 +31,11 @@ class GrpcTask {
     }
 
 
+    /** **********************************************************************
+     * createAndJoinRoomTask
+     * @param pName playerの名前
+     * 部屋を作成し、入室する
+     * ********************************************************************** */
     fun createAndJoinRoomTask(pName: String) : RoomMessage {
         Log.d("BolgGrpcTask", "createRoom")
         val reqMessage = CreateAndJoinRoomRequest.newBuilder().setPlayerName(pName).build()
@@ -36,6 +45,11 @@ class GrpcTask {
         return message
     }
 
+
+    /** **********************************************************************
+     * response
+     * Requestに対するResponse
+     * ********************************************************************** */
     fun response(){
         observer = asyncStub.connect(object : StreamObserver<RoomMessage>{
             override fun onNext(value: RoomMessage) {
@@ -43,13 +57,13 @@ class GrpcTask {
                 message = value
             }
             override fun onError(t: Throwable) {
-                Log.d("StreamObserver", "onError: ${t.message}")
+                Log.d("StreamObserver", "onError: ${message.error.code}")
 
-                when(t.message) {
-                    "UNAUTHENTICATED" -> Log.d("Error", "ErrInvalidToken")
-                    "NOTFOUND"->  Log.d("Error", "ErrNotFound")
-                    "ALREADYEXISTS" -> Log.d("Error", "ErrAlreadyExists")
-                    "FAILEDPRECONDITION" -> Log.d("Error", "ErrHPisZero")
+                when(message.error.code) {
+                    0 -> Log.d("Error", "ErrInvalidToken")
+                    1->  Log.d("Error", "ErrNotFound")
+                    2 -> Log.d("Error", "ErrAlreadyExists")
+                    3 -> Log.d("Error", "ErrHPisZero")
                     else -> Log.d("Error", "Internal")
                 }
             }
