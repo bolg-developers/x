@@ -99,7 +99,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
                 grpcTask.createAndJoinRoomTask("yuta")
             }.await().let {
 
-                if(it.createAndJoinRoomResp.room.id != 0L) {
+                if(it.createAndJoinRoomResp.room.id == 0L) {
                     // Data Put (player_id/player_id/player_readyは固定でテスト)
                     editor?.putLong("room_id", it.createAndJoinRoomResp.room.id)
                     editor?.putLong("player_id", 1111)

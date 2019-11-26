@@ -109,16 +109,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         start.setOnClickListener { hostStandbyViewModel.startGame(this) }
 
         // インベントリ
-        inventory.setOnClickListener {
-            val hoge = "こんばんわ"
-            BluetoothFunction.getInstance().write(hoge.toByteArray())
-            Toast.makeText(applicationContext, "未実装", Toast.LENGTH_LONG).show() }
-
-        // Bluetooth　メッセージ受信
-        val bluetoothFunction = BluetoothFunction
-        bluetoothFunction.getInstance().readByteArray.observe(this , Observer { hoge ->
-            Log.d("テスト" , String(hoge, 0 ,hoge.size))
-        })
+        inventory.setOnClickListener { Toast.makeText(applicationContext, "未実装", Toast.LENGTH_LONG).show() }
     }
 
     /** **********************************************************************
@@ -142,5 +133,76 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
      * @param parent
      * ********************************************************************** */
     override fun onNothingSelected(parent: AdapterView<*>?) {
+    }
+
+
+    /** **********************************************************************
+     * onStart
+     * ・Bluetoothデバイスに接続
+     * ********************************************************************** */
+    public override fun onStart() {
+        super.onStart()
+        Log.d("HostStandbyActivity", "onStart")
+        BluetoothFunction.getInstance().connect()
+    }
+
+    /** **********************************************************************
+     * onRestart
+     * ・Bluetoothデバイスに接続
+     * ********************************************************************** */
+    public override fun onRestart() {
+        super.onRestart()
+        Log.d("HostStandbyActivity", "onRestart")
+        BluetoothFunction.getInstance().connect()
+    }
+
+    /** **********************************************************************
+     * onResume
+     * ・Bluetoothデバイスに接続
+     * ********************************************************************** */
+    override fun onResume() {
+        super.onResume()
+        Log.d("HostStandbyActivity", "onResume")
+        BluetoothFunction.getInstance().connect()
+    }
+
+
+    /** **********************************************************************
+     * onPause
+     * ・Bluetoothデバイスを切断
+     * ********************************************************************** */
+    public override fun onPause() {
+        super.onPause()  // Always call the superclass method first
+        Log.d("HostStandbyActivity", "onPause")
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
+    }
+
+    /** **********************************************************************
+     * onStop
+     * ・Bluetoothデバイスを切断
+     * ********************************************************************** */
+    public override fun onStop() {
+        super.onStop()
+        Log.d("HostStandbyActivity", "onStop")
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
+    }
+
+    /** **********************************************************************
+     * onDestroy
+     * ・Bluetoothデバイスを切断
+     * ********************************************************************** */
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("HostStandbyActivity", "onDestroy")
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
     }
 }

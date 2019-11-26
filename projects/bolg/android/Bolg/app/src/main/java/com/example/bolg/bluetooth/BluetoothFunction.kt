@@ -40,7 +40,7 @@ class BluetoothFunction private constructor() {
         }
     }
     // メンバー変数
-    private var mBluetoothService: BluetoothService? = null    // Bluetoothデバイスとの通信処理を担うクラス
+    var mBluetoothService: BluetoothService? = null    // Bluetoothデバイスとの通信処理を担うクラス
     private var mBluetoothAdapter: BluetoothAdapter? = null     // BluetoothAdapter : Bluetooth処理で必要
     private var mDeviceAddress: String = ""                     // DeviceのAddress格納
     private var mReadBuffer = ByteArray(READ_BUFFERSIZE)        // byte型で値が来る
