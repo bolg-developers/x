@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
+import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 
 /**
@@ -107,7 +109,16 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         start.setOnClickListener { hostStandbyViewModel.startGame(this) }
 
         // インベントリ
-        inventory.setOnClickListener { Toast.makeText(applicationContext, "未実装", Toast.LENGTH_LONG).show() }
+        inventory.setOnClickListener {
+            val hoge = "こんばんわ"
+            BluetoothFunction.getInstance().write(hoge.toByteArray())
+            Toast.makeText(applicationContext, "未実装", Toast.LENGTH_LONG).show() }
+
+        // Bluetooth　メッセージ受信
+        val bluetoothFunction = BluetoothFunction
+        bluetoothFunction.getInstance().readByteArray.observe(this , Observer { hoge ->
+            Log.d("テスト" , String(hoge, 0 ,hoge.size))
+        })
     }
 
     /** **********************************************************************
