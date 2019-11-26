@@ -24,15 +24,15 @@ class CreateJoinFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        var view = inflater.inflate(R.layout.fragment_main,container,false)
+        var view: View = inflater.inflate(R.layout.fragment_main,container,false)
 
         val application: Application = requireNotNull(this.activity).application
         val viewModelFactory = CreateJoinViewModelFactory(application)
-        val createJoinViewModel = ViewModelProviders.of(this,viewModelFactory).get(CreateJoinViewModel::class.java)
+        val createJoinViewModel:CreateJoinViewModel = ViewModelProviders.of(this,viewModelFactory).get(CreateJoinViewModel::class.java)
 
         // Button widget Setting
-        val joinBtn = view.findViewById<Button>(R.id.join_btn)
-        val createBtn = view.findViewById<Button>(R.id.create_btn)
+        val joinBtn:Button = view.findViewById<Button>(R.id.join_btn)
+        val createBtn:Button = view.findViewById<Button>(R.id.create_btn)
 
         // 参加
         joinBtn.setOnClickListener { createJoinViewModel.joinDialog(view) }

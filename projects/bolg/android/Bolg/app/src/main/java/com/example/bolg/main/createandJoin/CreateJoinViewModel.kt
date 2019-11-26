@@ -22,6 +22,7 @@ import kotlinx.coroutines.*
  * ・参加ボタン押下時の部屋ID入力Dialog表示
  * ・ホスト待機画面遷移
  * ・プレイヤー待機画面遷移
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class CreateJoinViewModel (application: Application): AndroidViewModel(application){
 
