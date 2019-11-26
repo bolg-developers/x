@@ -32,13 +32,13 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         /** widget init **/
         val progress    : ProgressBar =  findViewById(R.id.pairing_progress)
-        val hostpairing : ImageButton = findViewById(R.id.host_pairing)
-        val kakinbullet : Button = findViewById(R.id.host_kakin_bullet)
+        val hostPairing : ImageButton = findViewById(R.id.host_pairing)
+        val kakinBullet : Button = findViewById(R.id.host_kakin_bullet)
         val item        : Button = findViewById(R.id.host_item_btn)
         val inventory   : Button = findViewById(R.id.host_inventory_btn)
         val start       : Button = findViewById(R.id.host_ready_btn)
-        val rulespinner : Spinner = findViewById(R.id.host_game_rule_spinner)
-        val joinuser    : RecyclerView = findViewById(R.id.standby_recycler_view)
+        val ruleSpinner : Spinner = findViewById(R.id.host_game_rule_spinner)
+        val joinUser    : RecyclerView = findViewById(R.id.standby_recycler_view)
 
         /** spinner init **/
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -50,9 +50,9 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
-            rulespinner.adapter = adapter
+            ruleSpinner.adapter = adapter
         }
-        rulespinner.onItemSelectedListener = this
+        ruleSpinner.onItemSelectedListener = this
 
         /** viewModel init **/
         val application: Application = requireNotNull(this).application
@@ -63,7 +63,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         /**************************ViewModelに分割したい*********************************************************/
         // LayoutManagerの設定
         val layoutManager = LinearLayoutManager(this)
-        joinuser.layoutManager = layoutManager
+        joinUser.layoutManager = layoutManager
 
         // Adapterの設定
         // 試しに入れているだけ
@@ -72,15 +72,15 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             sampleList.add(i, ListData("hasegawa${i}"))
         }
         val adapter = StandbyRecyclerAdapter(sampleList)
-        joinuser.adapter = adapter
+        joinUser.adapter = adapter
         // 区切り線の表示
-        joinuser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        joinUser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         /******************************************************************************************************/
 
 
         /** onClick **/
         // 課金ボタンON/OFF
-        kakinbullet.setOnClickListener {
+        kakinBullet.setOnClickListener {
             if (hostStandbyViewModel.kakinBulletState){ Log.d("button","kakinbullet:OFF") }
             else {
                 Log.d("button", "kakinbullet:ON") }
@@ -96,7 +96,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
 
         // ペアリング
-        hostpairing.setOnClickListener {
+        hostPairing.setOnClickListener {
             progress.visibility = ProgressBar.VISIBLE
             Log.d("button", "progress:ON")
             if(hostStandbyViewModel.pairing()){
