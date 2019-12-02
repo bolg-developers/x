@@ -11,7 +11,6 @@ import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.stub.StreamObserver
 import org.bolg_developers.bolg.*
-import java.lang.RuntimeException
 
 /** ----------------------------------------------------------------------
  * GrpcTask
@@ -24,9 +23,7 @@ class GrpcTask(application: Application)  {
     private var asyncStub: BolgServiceGrpc.BolgServiceStub
     private lateinit var observer: StreamObserver<RoomMessage>
     private lateinit var message: RoomMessage
-    private lateinit var intent: Intent
-    private val myapplication = application
-
+    private var intent: Intent? = null
     //  SharedPreferenceのインスタンス生成
     val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", android.content.Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor? = data.edit()
@@ -50,18 +47,10 @@ class GrpcTask(application: Application)  {
      * ********************************************************************** */
     fun createAndJoinRoomTask(view: View){
         val reqMessageTest = CreateAndJoinRoomRequest.newBuilder().setPlayerName("HAL").build()
-        val reqMessage = CreateAndJoinRoomRequest.newBuilder().build()
         message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(reqMessageTest).build()
-        response(view)
+        responseObserver(view)
         observer.onNext(message)
-        Log.d("createAndJoinRoomTask", "RequestStart")
-        observer.onCompleted()       // observer.onNext(message)
-    }
-
-    init {
-
-        asyncStub = BolgServiceGrpc.newStub(channel)
-        blockingStub = BolgServiceGrpc.newBlockingStub(channel)
+        observer.onCompleted()
     }
 
     /** **********************************************************************
@@ -75,19 +64,26 @@ class GrpcTask(application: Application)  {
         val reqMessage = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("OSAKA").build()
         //val reqMessage = JoinRoomRequest.newBuilder().setRoomId(roomId).build()
         message = RoomMessage.newBuilder().setJoinRoomReq(reqMessage).build()
-        response(view)
+        responseObserver(view)
         observer.onNext(message)
         observer.onCompleted()
     }
 
-    private fun response(view: View){
+    /** **********************************************************************
+     * responseObserver
+     * @param view View
+     * Requestに対してのResponseのハンドリング
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    private fun responseObserver(view: View){
         observer = asyncStub.connect(object : StreamObserver<RoomMessage>{
             override fun onNext(value: RoomMessage) {
                 when(value.dataCase.number){
-                    2 -> {    // create_and_join_room_resp
+                    2 -> {    // RoomMessage.create_and_join_room_resp
                         Log.d("CreateJoinGrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
 
-                        if(value.joinRoomResp.room.id != 0L) {
+                        if(value.createAndJoinRoomResp.room.id != 0L) {
+                            Log.d("CreateJoinGrpcTask","no roomId 0")
                             editor?.putLong("room_id", value.createAndJoinRoomResp.room.id)
                             editor?.putLong("player_id", 1111)
                             editor?.putLong("player_hp", 100)
@@ -97,13 +93,16 @@ class GrpcTask(application: Application)  {
                             editor?.putBoolean("game_start", value.createAndJoinRoomResp.room.gameStart)
                             editor?.putString("token", value.createAndJoinRoomResp.token)
                             editor?.apply()
+
+                            Log.d("CreateJoinGrpcTask","StandbyIntent")
                             intent = Intent(view.context, HostStandbyActivity::class.java)
                             view.context.startActivity(intent)
                         }
                     }
 
-                    4 -> {    // join_room_resp
+                    4 -> {    // RoomMessage.join_room_resp
                         Log.d("CreateJoinGrpcTask","join_room_resp -> ${value.joinRoomResp}")
+
                         if(value.joinRoomResp.room.id != 0L) {
                             editor?.putLong("room_id", value.joinRoomResp.room.id)
                             editor?.putLong("player_id", 3333)
@@ -115,25 +114,18 @@ class GrpcTask(application: Application)  {
                             editor?.putString("player_name", "yuta")
                             editor?.putString("token", value.joinRoomResp.token)
                             editor?.apply()
+
                             intent = Intent(view.context, PlayerStandbyActivity::class.java)
                             view.context.startActivity(intent)
                         }
                     }
-
-                    5 -> {    // join_room_msg
-                        Log.d("CreateJoinGrpcTask","join_room_msg -> ${value.joinRoomMsg}")
-                    }
-                    15 -> {    // error
+                    15 -> {    // RoomMessage.error
                         Log.d("CreateJoinGrpcTask","error -> ${value.error}")
-                        intent = Intent(myapplication.applicationContext, HostStandbyActivity::class.java)
-                        myapplication.applicationContext.startActivity(intent)
                     }
                 }
-
             }
             override fun onError(t: Throwable) {
                 Log.d("CreateJoinGrpcTask", "onError: ${message.error.code}")
-                Log.d("CreateJoinGrpcTask", "onError: ${message.error}")
                 Log.d("CreateJoinGrpcTask", "onError: ${t.message}")
                 Log.d("CreateJoinGrpcTask", "onError: ${t.cause.toString()}")
 
@@ -150,13 +142,4 @@ class GrpcTask(application: Application)  {
             }
         })
     }
-//    fun test(){
-//        val reqMessage = CheckHealthRequest.newBuilder().setName("hasegawa").build()
-//        try {
-//            val resp = blockingStub?.checkHealth(reqMessage)
-//            Log.d("aa","resp ->" + resp.toString())
-//        }catch (e: RuntimeException){
-//            Log.d("aa",e.toString())
-//        }
-//    }
 }
