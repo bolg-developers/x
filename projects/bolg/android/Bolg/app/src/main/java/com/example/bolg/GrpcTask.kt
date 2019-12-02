@@ -1,24 +1,35 @@
 package com.example.bolg
 
+import android.app.Application
+import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
+import android.view.View
+import com.example.bolg.standby.host.HostStandbyActivity
+import com.example.bolg.standby.player.PlayerStandbyActivity
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.stub.StreamObserver
-import org.bolg_developers.bolg.BolgServiceGrpc
-import org.bolg_developers.bolg.CreateAndJoinRoomRequest
-import org.bolg_developers.bolg.RoomMessage
+import org.bolg_developers.bolg.*
+import java.lang.RuntimeException
 
 /** ----------------------------------------------------------------------
  * GrpcTask
  * Serverとの通信を担う
  * ---------------------------------------------------------------------- */
-class GrpcTask {
+class GrpcTask(application: Application)  {
 
     private var channel: ManagedChannel
     private var blockingStub: BolgServiceGrpc.BolgServiceBlockingStub?
     private var asyncStub: BolgServiceGrpc.BolgServiceStub
     private lateinit var observer: StreamObserver<RoomMessage>
     private lateinit var message: RoomMessage
+    private lateinit var intent: Intent
+    private val myapplication = application
+
+    //  SharedPreferenceのインスタンス生成
+    val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", android.content.Context.MODE_PRIVATE)
+    private val editor: SharedPreferences.Editor? = data.edit()
 
     init {
         Log.d("BolgGrpcTask","init")
@@ -33,43 +44,119 @@ class GrpcTask {
 
     /** **********************************************************************
      * createAndJoinRoomTask
-     * @param pName playerの名前
-     * 部屋を作成し、入室する
+     * @param view View
+     * 部屋を生成して入室する
+     * @author 長谷川　勇太
      * ********************************************************************** */
-    fun createAndJoinRoomTask(pName: String) : RoomMessage {
-        Log.d("BolgGrpcTask", "createRoom")
-        val reqMessage = CreateAndJoinRoomRequest.newBuilder().setPlayerName(pName).build()
-        message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(reqMessage).build()
-        response()
+    fun createAndJoinRoomTask(view: View){
+        val reqMessageTest = CreateAndJoinRoomRequest.newBuilder().setPlayerName("HAL").build()
+        val reqMessage = CreateAndJoinRoomRequest.newBuilder().build()
+        message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(reqMessageTest).build()
+        response(view)
         observer.onNext(message)
-        return message
+        Log.d("createAndJoinRoomTask", "RequestStart")
+        observer.onCompleted()       // observer.onNext(message)
     }
 
+    init {
+
+        asyncStub = BolgServiceGrpc.newStub(channel)
+        blockingStub = BolgServiceGrpc.newBlockingStub(channel)
+    }
 
     /** **********************************************************************
-     * response
-     * Requestに対するResponse
+     * joinRoomTask
+     * @param roomId 部屋ID
+     * @param view View
+     * 部屋を生成して入室する
+     * @author 長谷川　勇太
      * ********************************************************************** */
-    fun response(){
+    fun joinRoomTask(roomId: Long,view: View){
+        val reqMessage = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("OSAKA").build()
+        //val reqMessage = JoinRoomRequest.newBuilder().setRoomId(roomId).build()
+        message = RoomMessage.newBuilder().setJoinRoomReq(reqMessage).build()
+        response(view)
+        observer.onNext(message)
+        observer.onCompleted()
+    }
+
+    private fun response(view: View){
         observer = asyncStub.connect(object : StreamObserver<RoomMessage>{
             override fun onNext(value: RoomMessage) {
-                Log.d("StreamObserver", "onNext: res -> ${value.toString()}")
-                message = value
+                when(value.dataCase.number){
+                    2 -> {    // create_and_join_room_resp
+                        Log.d("CreateJoinGrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
+
+                        if(value.joinRoomResp.room.id != 0L) {
+                            editor?.putLong("room_id", value.createAndJoinRoomResp.room.id)
+                            editor?.putLong("player_id", 1111)
+                            editor?.putLong("player_hp", 100)
+                            editor?.putBoolean("player_ready", true)
+                            editor?.putLong("owner_id", value.createAndJoinRoomResp.room.ownerId)
+                            editor?.putInt("game_rule", value.createAndJoinRoomResp.room.gameRule.number)
+                            editor?.putBoolean("game_start", value.createAndJoinRoomResp.room.gameStart)
+                            editor?.putString("token", value.createAndJoinRoomResp.token)
+                            editor?.apply()
+                            intent = Intent(view.context, HostStandbyActivity::class.java)
+                            view.context.startActivity(intent)
+                        }
+                    }
+
+                    4 -> {    // join_room_resp
+                        Log.d("CreateJoinGrpcTask","join_room_resp -> ${value.joinRoomResp}")
+                        if(value.joinRoomResp.room.id != 0L) {
+                            editor?.putLong("room_id", value.joinRoomResp.room.id)
+                            editor?.putLong("player_id", 3333)
+                            editor?.putLong("player_hp", 100)
+                            editor?.putBoolean("player_ready", true)
+                            editor?.putLong("owner_id", value.joinRoomResp.room.ownerId)
+                            editor?.putInt("game_rule", value.joinRoomResp.room.gameRule.number)
+                            editor?.putBoolean("game_start", value.joinRoomResp.room.gameStart)
+                            editor?.putString("player_name", "yuta")
+                            editor?.putString("token", value.joinRoomResp.token)
+                            editor?.apply()
+                            intent = Intent(view.context, PlayerStandbyActivity::class.java)
+                            view.context.startActivity(intent)
+                        }
+                    }
+
+                    5 -> {    // join_room_msg
+                        Log.d("CreateJoinGrpcTask","join_room_msg -> ${value.joinRoomMsg}")
+                    }
+                    15 -> {    // error
+                        Log.d("CreateJoinGrpcTask","error -> ${value.error}")
+                        intent = Intent(myapplication.applicationContext, HostStandbyActivity::class.java)
+                        myapplication.applicationContext.startActivity(intent)
+                    }
+                }
+
             }
             override fun onError(t: Throwable) {
-                Log.d("StreamObserver", "onError: ${message.error.code}")
+                Log.d("CreateJoinGrpcTask", "onError: ${message.error.code}")
+                Log.d("CreateJoinGrpcTask", "onError: ${message.error}")
+                Log.d("CreateJoinGrpcTask", "onError: ${t.message}")
+                Log.d("CreateJoinGrpcTask", "onError: ${t.cause.toString()}")
 
                 when(message.error.code) {
-                    0 -> Log.d("Error", "ErrInvalidToken")
-                    1->  Log.d("Error", "ErrNotFound")
-                    2 -> Log.d("Error", "ErrAlreadyExists")
-                    3 -> Log.d("Error", "ErrHPisZero")
-                    else -> Log.d("Error", "Internal")
+                    0 ->    { Log.d("CreateJoinGrpcTask", "onError/InvalidToken") }
+                    1 ->    { Log.d("CreateJoinGrpcTask", "onError/NotFound") }
+                    2 ->    { Log.d("CreateJoinGrpcTask", "onError/AlreadyExists") }
+                    3 ->    { Log.d("CreateJoinGrpcTask", "onError/HPisZero") }
+                    else -> { Log.d("CreateJoinGrpcTask", "onError/Internal") }
                 }
             }
             override fun onCompleted() {
-                Log.d("StreamObserver", "onCompleted")
+                Log.d("createAndJoinRoomTask", "onCompleted")
             }
         })
     }
+//    fun test(){
+//        val reqMessage = CheckHealthRequest.newBuilder().setName("hasegawa").build()
+//        try {
+//            val resp = blockingStub?.checkHealth(reqMessage)
+//            Log.d("aa","resp ->" + resp.toString())
+//        }catch (e: RuntimeException){
+//            Log.d("aa",e.toString())
+//        }
+//    }
 }
