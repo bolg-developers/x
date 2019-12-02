@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	"github.com/bolg-developers/x/projects/bolg/server/pb"
 	"github.com/bolg-developers/x/projects/bolg/server/pkg/bolg"
@@ -10,6 +11,9 @@ import (
 )
 
 func main() {
+	logfile, err := os.OpenFile("./bolg.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	log.SetOutput(logfile)
+
 	port, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		panic(err)

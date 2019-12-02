@@ -6,7 +6,7 @@ import (
 
 const (
 	maxPlayer = 16
-	maxRoom   = 30
+	maxRoom   = 1000
 	initHP    = 100
 )
 
