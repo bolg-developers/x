@@ -27,9 +27,10 @@ import java.util.*
 class BluetoothFunction private constructor() {
     companion object {
         // 定数
-        private const val REQUEST_ENABLEBLUETOOTH: Int  = 1     // Bluetooth機能の有効化要求時の識別コード
-        private const val READ_BUFFERSIZE: Int          = 256  // Bluetooth受信バッファーサイズ
-
+        private const val REQUEST_ENABLEBLUETOOTH: Int  = 1  // Bluetooth機能の有効化要求時の識別コード
+        private const val BT_BUFFER_SIZE: Int = 16           // Bluetooth受信バッファーサイズ
+        private const val START_BYTE: Byte = 0xfe.toByte()   // Bluetoothのスタートバイト
+        private const val END_BYTE: Byte = 0xff.toByte()     // Bluetoothのエンドバイト
         // Singleton
         private var INSTANCE: BluetoothFunction ? = null
         fun getInstance(): BluetoothFunction {
@@ -39,15 +40,18 @@ class BluetoothFunction private constructor() {
             return INSTANCE!!
         }
     }
+
     // メンバー変数
     var mBluetoothService: BluetoothService? = null    // Bluetoothデバイスとの通信処理を担うクラス
     private var mBluetoothAdapter: BluetoothAdapter? = null     // BluetoothAdapter : Bluetooth処理で必要
     private var mDeviceAddress: String = ""                     // DeviceのAddress格納
-    private var mReadBuffer = ByteArray(READ_BUFFERSIZE)        // byte型で値が来る
+    private var mReadBuffer = ByteArray(BT_BUFFER_SIZE)        // byte型で値が来る
     private var mReadBufferCounter: Int = 0
-
-    var readByteArray: MutableLiveData<ByteArray> = MutableLiveData(mReadBuffer)
-
+    // Bluetoothから読み込んだ値が格納される
+    var hitByteArray: MutableLiveData<ByteArray> = MutableLiveData(mReadBuffer)
+    var shootByteArray: MutableLiveData<ByteArray> = MutableLiveData(mReadBuffer)
+    var loopCnt = 0
+    // applicationContext取得用
     val mGetContext = MyApplication
     var context: Context? = null
 
@@ -61,6 +65,7 @@ class BluetoothFunction private constructor() {
         }
         Log.d("BluetoothFunction", "Get_BluetoothAdapter")
     }
+
 
     /** **********************************************************************
      * btPairing
@@ -454,13 +459,63 @@ class BluetoothFunction private constructor() {
                         Log.d("Bluetoothhandle", "Disconnection complete")
                     }
                 }
+
                 // Bluetoothモジュールからの文字列取得
                 BluetoothService.MESSAGE_READ -> {
                     Log.d("Bluetoothhandle", "Message read")
+                    var mTempBuffer = ByteArray(BT_BUFFER_SIZE)
+                    var i: Int = 0
                     // 読み込んだメッセージを格納
-                    mReadBuffer = msg.obj as ByteArray
-                    readByteArray.value = mReadBuffer
+                    mTempBuffer = msg.obj as ByteArray
+
+                    // 送られてきたByteが0番目のByteがStartByteなら値を格納していく
+                    if(mTempBuffer[0] == START_BYTE){
+                        loopCnt = 0
+                        while (true){
+                            // BufferSizeを超えている場合終了
+                            if(loopCnt >= BT_BUFFER_SIZE - 1){
+                                break
+                            }
+                            // Byteを格納
+                            mReadBuffer[i] = mTempBuffer[loopCnt]
+                            // EndByteが来たらLoopを抜ける
+                            if(mTempBuffer[loopCnt] == END_BYTE){
+                                // LiveDataへ格納
+                                when (mReadBuffer[1]) {
+                                    // hit
+                                    0x01.toByte() -> {
+                                        Log.d("Bluetoothhandle", "hit")
+                                        hitByteArray.value = mReadBuffer
+                                    }
+                                    // shoot
+                                    0x02.toByte() -> {
+                                        Log.d("Bluetoothhandle", "shoot")
+                                        shootByteArray.value = mReadBuffer
+                                    }
+                                }
+                                // END_BYTEの次がSTART_BYTEならまたループを始める
+                                if(mTempBuffer[loopCnt + 1] == START_BYTE){
+                                    // 配列、ループカウントの初期化
+                                    for (i in 0..BT_BUFFER_SIZE-1) {
+                                        mReadBuffer[i]= 0.toByte()
+                                    }
+                                    i = 0
+                                    loopCnt++
+                                    continue
+                                } else {
+                                    // END_BYTEの次がSTART_BYTE以外ならループ終了
+                                    break
+                                }
+                            }
+                            // カウントアップ
+                            i++
+                            loopCnt++
+                        }
+                    }
+                    Log.d("Bluetoothhandle", "Message read END")
                 }
+
+                // Bluetoothモジュールからの文字列送信
                 BluetoothService.MESSAGE_WRITE -> {
                     Log.d("Bluetoothhandle", "Message write")
                 }
