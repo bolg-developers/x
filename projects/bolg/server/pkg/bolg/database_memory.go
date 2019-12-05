@@ -3,6 +3,7 @@ package bolg
 import (
 	"errors"
 	"fmt"
+	"log"
 	"sync"
 )
 
@@ -28,6 +29,7 @@ func (db *memoryRoomDatabase) Create(r *Room) error {
 	}
 	db.roomMap[r.Id] = r
 	db.playersMap[r.Id] = make(Players, 0, maxPlayer)
+	log.Println("Created room:", len(db.roomMap))
 	return nil
 }
 

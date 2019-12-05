@@ -1,10 +1,6 @@
 # bolg
 /projects/bolg/ @bolg-developers/bolgman
-/projects/bolg/android/ @bolg-developers/android-team
-/projects/bolg/docs/android @bolg-developers/android-team
-/projects/bolg/docs/api @bolg-developers/server-team
-/projects/bolg/docs/micon @bolg-developers/micon-team
-/projects/bolg/docs/server @bolg-developers/server-team
-/projects/bolg/micon/ @bolg-developers/micon-team
-/projects/bolg/pb/ @bolg-developers/server-team 
-/projects/bolg/server/ @bolg-developers/server-team
+/projects/bolg/server/ @bolg-developers/server
+/projects/bolg/android/ @bolg-developers/android
+/projects/bolg/micon/ @bolg-developers/micon
+/projects/bolg/hack/ @bolg-developers/server

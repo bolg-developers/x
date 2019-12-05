@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import com.example.bolg.GrpcTask
@@ -28,8 +29,6 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
 
     private lateinit var intent: Intent
 
-    var context: Context? = null
-
     //  SharedPreferenceのインスタンス生成
     val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor? = data.edit()
@@ -39,7 +38,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
 
     // スコープの定義
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val grpcTask = GrpcTask()
+    private val grpcTask = GrpcTask(application)
 
     /** **********************************************************************
      * joinDialog
@@ -61,30 +60,24 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
             .setMessage("ルームIDを入力してください。\n（数字4桁）")
             .setView(editText)
             .setNegativeButton("キャンセル", DialogInterface.OnClickListener { dialog, whichButton ->
-                Log.d("createJoin","onJoinDialog/CancelButton")
-                //キャンセルボタンを押したときの処理
             })
             .setPositiveButton("OK", DialogInterface.OnClickListener { dialog, whichButton ->
-                //ＯＫボタンを押したときの処理
-                // 入力されたルームIDが存在するか
-                Log.d("createJoin","onJoinDialog/OKButton")
-                if(roomIdCheck(editText.text.toString())){
-                    join(view)
+                // 空白でないか
+                if(editText.text.isEmpty()){
+                    Toast.makeText(view.context, "入力が空白です", Toast.LENGTH_LONG).show()
+                }
+                else if(editText.text.length < 4 || editText.text.length > 5){
+                    Toast.makeText(view.context, "部屋のIDは4桁です", Toast.LENGTH_LONG).show()
+                }
+                // 部屋への参加Request
+                else{
+                    uiScope.launch {
+                            Log.d("createJoin","JoinRequest")
+                            grpcTask.joinRoomTask(editText.text.toString().toLong(),view)
+                    }
                 }
             })
             .show()
-    }
-
-    /** **********************************************************************
-     * join
-     * @param view 親のview
-     * PlayerStandbyActivity(参加者待機画面)への遷移
-     * ********************************************************************** */
-    private fun join(view: View){
-        Log.d("createJoin","join")
-        context = view.context
-        intent = Intent(view.context, PlayerStandbyActivity::class.java)
-        context?.startActivity(intent)
     }
 
     /** **********************************************************************
@@ -92,9 +85,10 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * @param view 親のview
      * HostStandbyActivity(ホスト待機画面)への遷移
      * ********************************************************************** */
-    fun create(view: View) {
-        Log.d("createJoin", "create")
+    fun create(view: View){
+        Log.d("createAndJoinRoomTask","fun create start")
         uiScope.launch {
+<<<<<<< HEAD
             async(Dispatchers.Default) {
                 grpcTask.createAndJoinRoomTask("yuta")
             }.await().let {
@@ -118,19 +112,18 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
                 }
 
             }
+=======
+            grpcTask.createAndJoinRoomTask(view)
+>>>>>>> f23809494af8ae96691beb405917d6e3f3e27f44
         }
+        Log.d("createAndJoinRoomTask","fun create end")
     }
 
-    /** **********************************************************************
-     * create
-     * @param roomid 入力数値
-     * 入力された部屋IDに対応する部屋は存在するのかチェック
-     * ********************************************************************** */
-    private fun roomIdCheck(roomId: String): Boolean{
-
-        Log.d("room",roomId)
-
-        return true
-    }
+    // 通信確認()
+//    fun test(){
+//        uiScope.launch {
+//            grpcTask.test()
+//        }
+//    }
 
 }
