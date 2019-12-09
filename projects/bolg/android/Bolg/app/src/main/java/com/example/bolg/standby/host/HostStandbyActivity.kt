@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
+import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 
 /**
@@ -131,5 +133,77 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
      * @param parent
      * ********************************************************************** */
     override fun onNothingSelected(parent: AdapterView<*>?) {
+    }
+
+
+
+
+    /** **********************************************************************
+     * onStart
+     * ・Bluetoothデバイスに接続
+     * @author 中田　桂介
+     * ********************************************************************** */
+    public override fun onStart() {
+        super.onStart()
+        Log.d("HostStandbyActivity", "onStart")
+        BluetoothFunction.getInstance().connect()
+    }
+    /** **********************************************************************
+     * onRestart
+     * ・Bluetoothデバイスに接続
+     * ********************************************************************** */
+    public override fun onRestart() {
+        super.onRestart()
+        Log.d("HostStandbyActivity", "onRestart")
+        BluetoothFunction.getInstance().connect()
+    }
+    /** **********************************************************************
+     * onResume
+     * ・Bluetoothデバイスに接続
+     * @author 中田　桂介
+     * ********************************************************************** */
+    override fun onResume() {
+        super.onResume()
+        Log.d("HostStandbyActivity", "onResume")
+        BluetoothFunction.getInstance().connect()
+    }
+    /** **********************************************************************
+     * onPause
+     * ・Bluetoothデバイスを切断
+     * @author 中田　桂介
+     * ********************************************************************** */
+    public override fun onPause() {
+        super.onPause()  // Always call the superclass method first
+        Log.d("HostStandbyActivity", "onPause")
+        /*if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }*/
+    }
+    /** **********************************************************************
+     * onStop
+     * ・Bluetoothデバイスを切断
+     * @author 中田　桂介
+     * ********************************************************************** */
+    public override fun onStop() {
+        super.onStop()
+        Log.d("HostStandbyActivity", "onStop")
+        /*if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }*/
+    }
+    /** **********************************************************************
+     * onDestroy
+     * ・Bluetoothデバイスを切断
+     * @author 中田　桂介
+     * ********************************************************************** */
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("HostStandbyActivity", "onDestroy")
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
     }
 }

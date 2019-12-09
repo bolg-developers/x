@@ -25,4 +25,14 @@
         <item>○○戦</item>
     </string-array>
 
+    <string name="getBtAdapter">Get BluetoothAdapter</string>
+    <string name="notGetBtAdapter">Can not get BluetoothAdapter</string>
+    <string name="notPaired">Not paired</string>
+    <string name="btConnecting">Bluetooth connecting</string>
+    <string name="btConnect">Bluetooth connect</string>
+    <string name="btDisconnect">Bluetooth disconnect</string>
+
+
+
+
 </resources>

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.bolg.bluetooth.BluetoothFunction
 
 
 /** ----------------------------------------------------------------------
@@ -46,4 +47,12 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
 
     }
 
+    /** **********************************************************************
+     * pairing
+     * @return 成功/失敗
+     * ********************************************************************** */
+    fun pairing(): Boolean{
+        BluetoothFunction.getInstance().btPairing()
+        return true
+    }
 }

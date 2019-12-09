@@ -2,7 +2,9 @@ package com.example.bolg.standby.player
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
+import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 
 /** ----------------------------------------------------------------------
@@ -29,6 +32,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         /** widget init **/
         val progress  : ProgressBar =  findViewById(R.id.progress)
+        val playerPairing : ImageButton = findViewById(R.id.player_pairing)
         val joinuser  : RecyclerView = findViewById(R.id.standby_recycler_view)
         val ready     : Button = findViewById(R.id.player_ready_btn)
         val rule      : TextView = findViewById(R.id.rule)
@@ -36,7 +40,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** viewModel類 **/
         val application: Application = requireNotNull(this).application
         val viewModelFactoryplayer: PlayerStandbyViewModelFactory = PlayerStandbyViewModelFactory(application)
-        val playerstandbyViewModel = ViewModelProviders.of(this,viewModelFactoryplayer).get(PlayerStandbyViewModel::class.java)
+        val playerStandbyViewModel = ViewModelProviders.of(this,viewModelFactoryplayer).get(PlayerStandbyViewModel::class.java)
 
         /** RecyclerView init **/
         val layoutManager = LinearLayoutManager(this)
@@ -54,12 +58,12 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         /** Observe類 **/
         // ゲームルール
-        playerstandbyViewModel.gameRule.observe(this, Observer { mrule->
+        playerStandbyViewModel.gameRule.observe(this, Observer { mrule->
             rule.text = mrule
         })
 
         // アイテムON/OFF
-        playerstandbyViewModel.itemState.observe(this, Observer { item->
+        playerStandbyViewModel.itemState.observe(this, Observer { item->
             if(item){
                 // 青色に変化（ONっぽい表示）
             }else{
@@ -68,7 +72,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         })
 
         // 課金弾ON/OFF
-        playerstandbyViewModel.kakinBulletState.observe(this, Observer { kakinbullet->
+        playerStandbyViewModel.kakinBulletState.observe(this, Observer { kakinbullet->
             if(kakinbullet){
                 // 青色に変化（ONっぽい表示）
             }else{
@@ -79,6 +83,86 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** onClick **/
         ready.setOnClickListener { progress.visibility = ProgressBar.VISIBLE }
 
+        // ペアリング
+        playerPairing.setOnClickListener {
+            progress.visibility = ProgressBar.VISIBLE
+            Log.d("button", "progress:ON")
+            if(playerStandbyViewModel.pairing()){
+                progress.visibility = ProgressBar.INVISIBLE
+                Log.d("button", "progress:OFF")
+            }
+        }
 
+
+    }
+
+    /** **********************************************************************
+     * onStart
+     * ・Bluetoothデバイスに接続
+     * ********************************************************************** */
+    public override fun onStart() {
+        super.onStart()
+        Log.d("HostStandbyActivity", "onStart")
+        BluetoothFunction.getInstance().connect()
+    }
+
+    /** **********************************************************************
+     * onRestart
+     * ・Bluetoothデバイスに接続
+     * ********************************************************************** */
+    public override fun onRestart() {
+        super.onRestart()
+        Log.d("HostStandbyActivity", "onRestart")
+        BluetoothFunction.getInstance().connect()
+    }
+
+    /** **********************************************************************
+     * onResume
+     * ・Bluetoothデバイスに接続
+     * ********************************************************************** */
+    override fun onResume() {
+        super.onResume()
+        Log.d("HostStandbyActivity", "onResume")
+        BluetoothFunction.getInstance().connect()
+    }
+
+
+    /** **********************************************************************
+     * onPause
+     * ・Bluetoothデバイスを切断
+     * ********************************************************************** */
+    public override fun onPause() {
+        super.onPause()  // Always call the superclass method first
+        Log.d("HostStandbyActivity", "onPause")
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
+    }
+
+    /** **********************************************************************
+     * onStop
+     * ・Bluetoothデバイスを切断
+     * ********************************************************************** */
+    public override fun onStop() {
+        super.onStop()
+        Log.d("HostStandbyActivity", "onStop")
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
+    }
+
+    /** **********************************************************************
+     * onDestroy
+     * ・Bluetoothデバイスを切断
+     * ********************************************************************** */
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("HostStandbyActivity", "onDestroy")
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
     }
 }
