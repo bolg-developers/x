@@ -88,33 +88,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
         uiScope.launch {
-<<<<<<< HEAD
-            async(Dispatchers.Default) {
-                grpcTask.createAndJoinRoomTask("yuta")
-            }.await().let {
-
-                if(it.createAndJoinRoomResp.room.id == 0L) {
-                    // Data Put (player_id/player_id/player_readyは固定でテスト)
-                    editor?.putLong("room_id", it.createAndJoinRoomResp.room.id)
-                    editor?.putLong("player_id", 1111)
-                    editor?.putLong("player_hp", 100)
-                    editor?.putBoolean("player_ready", true)
-                    editor?.putLong("owner_id", it.createAndJoinRoomResp.room.ownerId)
-                    editor?.putInt("game_rule", it.createAndJoinRoomResp.room.gameRule.number)
-                    editor?.putBoolean("game_start", it.createAndJoinRoomResp.room.gameStart)
-                    editor?.putString("player_name", "yuta")
-                    editor?.putString("token", it.createAndJoinRoomResp?.token)
-                    editor?.apply()
-
-                    context = view.context
-                    intent = Intent(context, HostStandbyActivity::class.java)
-                    context?.startActivity(intent)
-                }
-
-            }
-=======
             grpcTask.createAndJoinRoomTask(view)
->>>>>>> f23809494af8ae96691beb405917d6e3f3e27f44
         }
         Log.d("createAndJoinRoomTask","fun create end")
     }
