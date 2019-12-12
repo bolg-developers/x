@@ -28,6 +28,7 @@ class MyApplication : Application() {
         super.onCreate()
 
         val context: Context = applicationContext()
+
     }
 
 }

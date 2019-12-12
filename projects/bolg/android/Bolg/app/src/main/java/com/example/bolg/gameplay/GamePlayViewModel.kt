@@ -21,7 +21,7 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
     private var mHitReadByte = ByteArray(BT_BUFFER_SIZE)    // 撃たれた時にReadした値を格納
 
     private var mWriteByte = ByteArray(BT_BUFFER_SIZE)  // Bluetoothへ送る値を格納
-
+  
     /** **********************************************************************
      * btWriteByte
      * @param writeByte

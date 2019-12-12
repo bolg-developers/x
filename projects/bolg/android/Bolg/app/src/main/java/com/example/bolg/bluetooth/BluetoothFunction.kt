@@ -67,7 +67,7 @@ class BluetoothFunction private constructor() {
         }
         Log.d("BluetoothFunction", "Get_BluetoothAdapter")
     }
-    
+
     /** **********************************************************************
      * btPairing
      * @return Boolean
@@ -81,7 +81,7 @@ class BluetoothFunction private constructor() {
         }
         //ペアリング済みの端末セットの問い合わせ
         val pairedDevices: Set<BluetoothDevice>  = mBluetoothAdapter!!.bondedDevices
-        if (pairedDevices.isNotEmpty()) {
+       if (pairedDevices.isNotEmpty()) {
             for (device in pairedDevices) {
                 //ペアリング済みのデバイス名とMACアドレスの表示
                 mDeviceAddress += device.address.toString()
@@ -179,16 +179,7 @@ class BluetoothFunction private constructor() {
      * ・概要2
      * @author 中田　桂介
      * ---------------------------------------------------------------------- */
-    open class BluetoothService// 接続時処理用スレッドの作成と開始
-    /** **********************************************************************
-     * constructor(BluetoothService)
-     * ・Bluetooth接続時処理用スレッドの作成と開始
-     * @author 中田　桂介
-     * ********************************************************************** */(
-        context: Context,
-        handler: Handler,
-        device: BluetoothDevice
-    ) {
+    open class BluetoothService {
         // 定数
         companion object {
             // Bluetooth UUID
@@ -207,12 +198,21 @@ class BluetoothFunction private constructor() {
         }
         // メンバー変数
         private var mState: Int = 0
-        private var mHandler: Handler = handler
+        private var mHandler: Handler
         private var mConnectionThread: ConnectionThread? = null
 
-        init {
+        /** **********************************************************************
+         * constructor(BluetoothService)
+         * ・Bluetooth接続時処理用スレッドの作成と開始
+         * @author 中田　桂介
+         * ********************************************************************** */
+        constructor(context: Context, handler: Handler, device: BluetoothDevice) {
+            mHandler = handler
             mState = STATE_NONE
+
             Log.d("BluetoothService", "BluetoothService constructor")
+
+            // 接続時処理用スレッドの作成と開始
             mConnectionThread = ConnectionThread(device)
             mConnectionThread!!.start()
         }
@@ -296,26 +296,26 @@ class BluetoothFunction private constructor() {
 
         /** ----------------------------------------------------------------------
          * ConnectionThread
+         * @param Thread
          * ・ConnectionThread
          * @author 中田　桂介
          * ---------------------------------------------------------------------- */
-        inner class ConnectionThread
-        /** **********************************************************************
-         * constructor(ConnectionThread)
-         * ・コンストラクタ
-         * @author 中田　桂介
-         * ********************************************************************** */(bluetoothDevice: BluetoothDevice) :
-            Thread() {
+        inner class ConnectionThread: Thread  {
             private var mBluetoothSocket: BluetoothSocket? = null       //  BluetoothDeviceを取得し、socketを取得する
             private var mInput: InputStream? = null     //メッセージinput
             private var mOutput: OutputStream? = null   //メッセージoutput
-
-            init {
+          
+            /** **********************************************************************
+             * constructor(ConnectionThread)
+             * ・コンストラクタ
+             * @author 中田　桂介
+             * ********************************************************************** */
+            constructor(bluetoothDevice: BluetoothDevice) {
                 Log.d("Bluetooththread", "ConnectionThread　constructor")
                 try {
                     mBluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(UUID_SPP)
-                    mInput = mBluetoothSocket!!.inputStream
-                    mOutput = mBluetoothSocket!!.outputStream
+                    mInput = mBluetoothSocket!!.getInputStream()
+                    mOutput = mBluetoothSocket!!.getOutputStream()
                 } catch (e: IOException) {
                     Log.e("BluetoothService", "failed : bluetoothdevice.createRfcommSocketToServiceRecord( UUID_SPP )", e)
                 }
@@ -498,7 +498,7 @@ class BluetoothFunction private constructor() {
                                 // END_BYTEの次がSTART_BYTEならまたループを始める
                                 if(mTempBuffer[loopCnt + 1] == START_BYTE){
                                     // 配列、ループカウントの初期化
-                                    for (i in 0 until BT_BUFFER_SIZE) {
+                                    for (i in 0..BT_BUFFER_SIZE-1) {
                                         mReadBuffer[i]= 0.toByte()
                                     }
                                     i = 0

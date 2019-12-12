@@ -145,7 +145,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
         BluetoothFunction.getInstance().connect()
     }
 
-
     /** **********************************************************************
      * onPause
      * ・Bluetoothデバイスを切断
