@@ -9,8 +9,6 @@ import com.example.bolg.GrpcTask
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
 
-
-
 /** ----------------------------------------------------------------------
  * PlayerStandbyViewModel
  * @param application : AndroidViewModelの引数に使用
@@ -20,7 +18,7 @@ import com.example.bolg.bluetooth.BluetoothFunction
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class PlayerStandbyViewModel(application: Application): AndroidViewModel(application){
-    
+
     // Jobの定義
     private var viewModelJob = Job()
     // スコープの定義

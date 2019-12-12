@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.bolg.GrpcTask
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
-import io.grpc.Grpc
 
 /** ----------------------------------------------------------------------
  * HostStandbyViewModel
@@ -54,6 +53,8 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * ********************************************************************** */
     fun startGame(token: String?, view: View?) {
         uiScope.launch {
+            GrpcTask.getInstance(app).setReady(token,view)
+            delay(100)
             GrpcTask.getInstance(app).startGame(token,view)
         }
     }
@@ -92,9 +93,8 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param token トークン
      * ********************************************************************** */
     fun inventory(token: String) {
-//        uiScope.launch {
-//            GrpcTask.getInstance(app).inventory(token)
-//        }
-        Log.d("Standby","まだ実装されていません")
+        uiScope.launch {
+            GrpcTask.getInstance(app).inventory(token)
+        }
     }
 }

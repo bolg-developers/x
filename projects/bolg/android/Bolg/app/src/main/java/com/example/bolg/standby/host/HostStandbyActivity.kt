@@ -49,7 +49,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
-        userId.text = "${data.getLong("player_id", 0)}"
+        userId.text = "${data.getString("token", "error")}"
         Log.d("createAndJoinRoomTask", "token ->" + data.getString("token", "取得出来てない"))
 
         /** spinner init **/

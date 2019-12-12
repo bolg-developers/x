@@ -28,6 +28,7 @@ import com.example.bolg.data.ListData
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class PlayerStandbyActivity : AppCompatActivity(){
+    private lateinit var playerStandbyViewModel: PlayerStandbyViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +51,13 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** viewModel類 **/
         val application: Application = requireNotNull(this).application
         val viewModelFactoryPlayer = PlayerStandbyViewModelFactory(application)
-        val playerStandbyViewModel: PlayerStandbyViewModel =
+        playerStandbyViewModel=
             ViewModelProviders.of(this, viewModelFactoryPlayer)
                 .get(PlayerStandbyViewModel::class.java)
 
         // RoomMessageData
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
-        userId.text = "${data.getLong("player_id", 0)}"
-        Log.d("createAndJoinRoomTask", "token ->" + data.getString("token", ""))
+        userId.text = "${data.getString("token", "error")}"
 
         /** RecyclerView init **/
         val layoutManager = LinearLayoutManager(this)
@@ -103,7 +103,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
         ready.setOnClickListener {
             progress.visibility = ProgressBar.VISIBLE
             playerStandbyViewModel.setReady(data.getString("token", "error").toString(), decorView)
-            Log.d("GrpcTask", "playerToken -> " + data.getString("token", "error").toString())
 
             // ペアリング
             playerPairing.setOnClickListener {

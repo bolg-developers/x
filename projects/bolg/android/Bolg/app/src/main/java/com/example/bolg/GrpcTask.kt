@@ -60,8 +60,8 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun createAndJoinRoomTask(view: View){
-        val reqMessageTest: CreateAndJoinRoomRequest = CreateAndJoinRoomRequest.newBuilder().setPlayerName("HAL").build()
-        message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(reqMessageTest).build()
+        val createAndJoinRoomReqMsg: CreateAndJoinRoomRequest = CreateAndJoinRoomRequest.newBuilder().setPlayerName("HAL").build()
+        message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(createAndJoinRoomReqMsg).build()
         responseObserver(view)
         observer?.onNext(message)
     }
@@ -74,8 +74,8 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun joinRoomTask(roomId: Long,view: View){
-        val reqMessage: JoinRoomRequest = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("OSAKA").build()
-        message = RoomMessage.newBuilder().setJoinRoomReq(reqMessage).build()
+        val joinRoomReqMsg: JoinRoomRequest = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("OSAKA").build()
+        message = RoomMessage.newBuilder().setJoinRoomReq(joinRoomReqMsg).build()
         responseObserver(view)
         observer?.onNext(message)
     }
@@ -85,8 +85,8 @@ class GrpcTask(application: Application)  {
      * @param token プレイヤー情報
      * ********************************************************************** */
     fun startGame(token: String?, view: View?) {
-        val readyReqMessage: StartGameRequest = StartGameRequest.newBuilder().setToken(token).build()
-        message = RoomMessage.newBuilder().setStartGameReq(readyReqMessage).build()
+        val startGameReqMsg: StartGameRequest = StartGameRequest.newBuilder().setToken(token).build()
+        message = RoomMessage.newBuilder().setStartGameReq(startGameReqMsg).build()
         responseObserver(view)
         observer?.onNext(message)
     }
@@ -97,30 +97,29 @@ class GrpcTask(application: Application)  {
      * @param token トークン
      * ********************************************************************** */
     fun updateWeapon(attack: Long, token: String?, view: View?) {
-        val reqMessage: UpdateWeaponRequest =
-            UpdateWeaponRequest.newBuilder().setAttack(attack).setToken(token).build()
-        message = RoomMessage.newBuilder().setUpdateWeaponReq(reqMessage).build()
+        val updateWeaponReqMsg: UpdateWeaponRequest = UpdateWeaponRequest.newBuilder().setAttack(attack).setToken(token).build()
+        message = RoomMessage.newBuilder().setUpdateWeaponReq(updateWeaponReqMsg).build()
         responseObserver(view)
         observer?.onNext(message)
+    }
+
+    /** **********************************************************************
+     * setReady
+     * @param token トークン
+     * ********************************************************************** */
+    fun setReady(token: String?, view: View?){
+        val setReadyReqMsg: ReadyRequest = ReadyRequest.newBuilder().setToken(token).build()
+        message = RoomMessage.newBuilder().setReadyReq(setReadyReqMsg).build()
+        responseObserver(view)
+        observer?.onNext(message)
+        observer?.onCompleted()
     }
 
     /** **********************************************************************
      * inventory
      * @param token トークン
      * ********************************************************************** */
-//    fun inventory(token: String) {
-//    }
-
-    /** **********************************************************************
-     * setReady
-     * @param token トークン
-     * ********************************************************************** */
-    fun setReady(token: String, view: View?){
-        val reqMessage: ReadyRequest = ReadyRequest.newBuilder().setToken(token).build()
-        message = RoomMessage.newBuilder().setReadyReq(reqMessage).build()
-        responseObserver(view)
-        observer?.onNext(message)
-        observer?.onCompleted()
+    fun inventory(token: String) {
     }
 
     /** **********************************************************************
@@ -138,6 +137,10 @@ class GrpcTask(application: Application)  {
                     }
                     2 -> {    // RoomMessage.create_and_join_room_resp
                         Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
+
+                        for(i in value.createAndJoinRoomResp.room.playersList){
+                            Log.d("GrpcTask","create_and_join_room_resp:ready -> ${i.ready}")
+                        }
 
                         if(value.createAndJoinRoomResp.room.id != 0L) {
                             Log.d("GrpcTask","no roomId 0")
@@ -202,6 +205,7 @@ class GrpcTask(application: Application)  {
                     }
                     10 -> {    // StartGameMessage
                         Log.d("GrpcTask", "start_game_msg -> ${value.startGameMsg}")
+                        Log.d("GrpcTask","げーむ開始")
                         val intent = Intent(view?.context, GamePlayActivity::class.java)
                         view?.context?.startActivity(intent)
                     }
