@@ -26,10 +26,10 @@ class MainViewModel (application: Application,fragmentManager: FragmentManager):
     private var viewModelJob = Job()
 
     // スコープの定義
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope: CoroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // Fragmentの操作
-    private val mFragmentManager = fragmentManager
+    private val mFragmentManager: FragmentManager = fragmentManager
 
     /** **********************************************************************
      * setTitle

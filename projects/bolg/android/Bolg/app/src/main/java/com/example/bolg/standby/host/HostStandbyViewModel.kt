@@ -1,13 +1,15 @@
 package com.example.bolg.standby.host
 
 import android.app.Application
-import android.content.Context
-import android.content.Intent
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.bolg.gameplay.GamePlayActivity
+import com.example.bolg.GrpcTask
+import kotlinx.coroutines.*
+import com.example.bolg.bluetooth.BluetoothFunction
+import io.grpc.Grpc
 
 /** ----------------------------------------------------------------------
  * HostStandbyViewModel
@@ -20,46 +22,49 @@ import com.example.bolg.gameplay.GamePlayActivity
  * ---------------------------------------------------------------------- */
 class HostStandbyViewModel (application: Application): AndroidViewModel(application){
 
-    // intent vars
-    private lateinit var intent: Intent
-    private var context: Context? = null
+    // Jobの定義
+    private var viewModelJob = Job()
+    // スコープの定義
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val app = application
 
     // GameRule
     private val _gameRule = MutableLiveData<String>()
     val gameRule: LiveData<String>
         get() = _gameRule
 
-    //var gameState = true
+    // 準備完了人数
+    private val _readyPlayerOwner = MutableLiveData<String>()
+    val readyPlayerOwner: LiveData<String>
+        get() = _readyPlayerOwner
 
     // 課金ボタンON/OFF
     var kakinBulletState = true
-
     var itemState = true
 
-//    fun setList(){
-//    }
-
-//    fun setState(state: Boolean){
-//        gameState = state
-//    }
+    // 準備完了人数の更新
+    private val _ready = MutableLiveData<String>()
+    val ready: LiveData<String>
+        get() = _ready
 
     /** **********************************************************************
      * startGame
-     * @param mcontext Activityのcontext
+     * @param token プレイヤー情報
      * ********************************************************************** */
-    fun startGame(mcontext: Context){
-        context = mcontext
-        intent = Intent(context, GamePlayActivity::class.java)
-        context?.startActivity(intent)
+    fun startGame(token: String?, view: View?) {
+        uiScope.launch {
+            GrpcTask.getInstance(app).startGame(token,view)
+        }
     }
 
     /** **********************************************************************
      * updateGameRule
      * @param rule 選択されたゲームルール
      * ********************************************************************** */
-    fun updateGameRule(rule: String){
+    fun updateGameRule(rule: String) {
         _gameRule.value = rule
-        Log.d("選択されたルール",rule)
+        Log.d("選択されたルール", rule)
     }
 
     /** **********************************************************************
@@ -67,8 +72,29 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @return 成功/失敗
      * ********************************************************************** */
     fun pairing(): Boolean{
-
+        BluetoothFunction.getInstance().btPairing()
         return true
     }
 
+    /** **********************************************************************
+     * updateWeapon
+     * @param attack 攻撃力
+     * @param token　トークン
+     * ********************************************************************** */
+    fun updateWeapon(attack: Long, token: String?, view: View?) {
+        uiScope.launch {
+            GrpcTask.getInstance(app).updateWeapon(attack,token,view)
+        }
+    }
+
+    /** **********************************************************************
+     * inventory
+     * @param token トークン
+     * ********************************************************************** */
+    fun inventory(token: String) {
+//        uiScope.launch {
+//            GrpcTask.getInstance(app).inventory(token)
+//        }
+        Log.d("Standby","まだ実装されていません")
+    }
 }

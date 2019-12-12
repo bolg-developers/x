@@ -8,25 +8,25 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/standby_recycler_view"
+        android:id="@+id/host_standby_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/join_text"
+        app:layout_constraintBottom_toTopOf="@+id/host_join_text"
         app:layout_constraintEnd_toStartOf="@+id/select_table"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/join_text"
+        android:id="@+id/host_join_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2/10"
+        android:text="0"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/standby_recycler_view"
+        app:layout_constraintTop_toBottomOf="@id/host_standby_recycler_view"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TableLayout
@@ -35,7 +35,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/standby_recycler_view"
+        app:layout_constraintStart_toEndOf="@id/host_standby_recycler_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.157">
 
@@ -140,7 +140,7 @@
                 android:background="@drawable/frame_black"
                 android:text="@string/billing_bullet_count" />
             <TextView
-                android:id="@+id/text"
+                android:id="@+id/host_ready_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="準備完了：2/10"
@@ -203,7 +203,7 @@
 
     </TableLayout>
     <ProgressBar
-        android:id="@+id/pairing_progress"
+        android:id="@+id/host_pairing_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

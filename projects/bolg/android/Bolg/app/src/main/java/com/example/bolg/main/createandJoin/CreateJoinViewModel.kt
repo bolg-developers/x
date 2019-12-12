@@ -1,10 +1,8 @@
 package com.example.bolg.main.createandJoin
 
 import android.app.Application
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -26,19 +24,11 @@ import kotlinx.coroutines.*
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class CreateJoinViewModel (application: Application): AndroidViewModel(application){
-
-    private lateinit var intent: Intent
-
-    //  SharedPreferenceのインスタンス生成
-    val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
-    private val editor: SharedPreferences.Editor? = data.edit()
-
+    private val app: Application = application
     // Jobの定義
     private var viewModelJob = Job()
-
     // スコープの定義
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private val grpcTask = GrpcTask(application)
 
     /** **********************************************************************
      * joinDialog
@@ -72,32 +62,25 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
                 // 部屋への参加Request
                 else{
                     uiScope.launch {
-                            Log.d("createJoin","JoinRequest")
-                            grpcTask.joinRoomTask(editText.text.toString().toLong(),view)
+                        Log.d("GrpcTask","JoinRequest")
+                        GrpcTask.getInstance(app).joinRoomTask(editText.text.toString().toLong(), view)
                     }
+                    Log.d("GrpcTask","joinRoomTaskEnd")
                 }
             })
-            .show()
+            .show() 
     }
 
     /** **********************************************************************
      * create
-     * @param view 親のview
      * HostStandbyActivity(ホスト待機画面)への遷移
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
         uiScope.launch {
-            grpcTask.createAndJoinRoomTask(view)
+            GrpcTask.getInstance(app).createAndJoinRoomTask(view)
         }
-        Log.d("createAndJoinRoomTask","fun create end")
+        // HostStandby Transition
+        Log.d("GrpcTask","create_and_join_room_respIntent")
     }
-
-    // 通信確認()
-//    fun test(){
-//        uiScope.launch {
-//            grpcTask.test()
-//        }
-//    }
-
 }
