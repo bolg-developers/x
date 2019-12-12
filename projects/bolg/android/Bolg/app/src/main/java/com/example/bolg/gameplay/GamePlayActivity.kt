@@ -15,6 +15,7 @@ import com.example.bolg.main.MainViewModelFactory
 /** ----------------------------------------------------------------------
  * GamePlayActivity
  * ゲームプレイ中画面
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class GamePlayActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {

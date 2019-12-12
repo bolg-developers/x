@@ -23,6 +23,7 @@ import com.example.bolg.data.ListData
  * 部屋生成者の待機画面
  * ・参加ユーザーのリスト表示
  * ・ゲームルールの決定画面のView
+ * @author 長谷川　勇太
  * */
 class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var hostStandbyViewModel: HostStandbyViewModel
@@ -148,6 +149,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
      * @param position
      * @param id
      * 選択ItemをViewに反映させる
+     * @author 長谷川　勇太
      * ********************************************************************** */
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val spinnerParent: Spinner = parent as Spinner
@@ -158,6 +160,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     /** **********************************************************************
      * onNothingSelected
      * @param parent
+     * @author 長谷川　勇太
      * ********************************************************************** */
     override fun onNothingSelected(parent: AdapterView<*>?) {
     }

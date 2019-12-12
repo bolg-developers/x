@@ -12,6 +12,7 @@ import com.example.bolg.R
  * MainActivity
  * TitleFragmentの一定時間表示指示クラス
  * 上記が終了するとCreateJoinFragmentの表示指示
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class MainActivity : AppCompatActivity() {
 

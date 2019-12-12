@@ -34,6 +34,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * joinDialog
      * @param view
      * 生成されている部屋に入室のため、部屋IDを入力する
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun joinDialog(view: View){
         Log.d("createJoin","onJoinDialog")
@@ -74,6 +75,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
     /** **********************************************************************
      * create
      * HostStandbyActivity(ホスト待機画面)への遷移
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")

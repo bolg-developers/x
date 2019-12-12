@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 /** ----------------------------------------------------------------------
  * CreateJoinViewModelFactory
  * @param application : ViewModelの引数に使用
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class CreateJoinViewModelFactory (private val application: Application): ViewModelProvider.Factory{
 

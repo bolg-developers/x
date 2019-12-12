@@ -50,6 +50,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     /** **********************************************************************
      * startGame
      * @param token プレイヤー情報
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun startGame(token: String?, view: View?) {
         uiScope.launch {
@@ -62,6 +63,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     /** **********************************************************************
      * updateGameRule
      * @param rule 選択されたゲームルール
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun updateGameRule(rule: String) {
         _gameRule.value = rule
@@ -71,6 +73,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     /** **********************************************************************
      * pairing
      * @return 成功/失敗
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun pairing(): Boolean{
         BluetoothFunction.getInstance().btPairing()
@@ -81,6 +84,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * updateWeapon
      * @param attack 攻撃力
      * @param token　トークン
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun updateWeapon(attack: Long, token: String?, view: View?) {
         uiScope.launch {
@@ -91,6 +95,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     /** **********************************************************************
      * inventory
      * @param token トークン
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun inventory(token: String) {
         uiScope.launch {

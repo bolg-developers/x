@@ -16,6 +16,7 @@ import kotlinx.coroutines.*
  * MainActivityの処理部分担う
  * ・Titleの表示
  * ・参加/部屋生成画面へ遷移
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class MainViewModel (application: Application,fragmentManager: FragmentManager): AndroidViewModel(application){
 
@@ -34,6 +35,7 @@ class MainViewModel (application: Application,fragmentManager: FragmentManager):
     /** **********************************************************************
      * setTitle
      * タイトルの表示
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun setTitle(){
         Log.d("main/title","onsetTitle")
@@ -49,6 +51,7 @@ class MainViewModel (application: Application,fragmentManager: FragmentManager):
     /** **********************************************************************
      * startTimer
      * タイトル表示のカウントアップ
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun startTimer(){
         Log.d("main/title","onstartTimer")
@@ -70,6 +73,7 @@ class MainViewModel (application: Application,fragmentManager: FragmentManager):
      * setCreateJoin
      * private
      * 参加/部屋生成画面へ遷移
+     * @author 長谷川　勇太
      * ********************************************************************** */
     private fun setCreateJoin(){
         Log.d("main/title","onsetCreateJoin")

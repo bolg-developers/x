@@ -24,7 +24,7 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     /** **********************************************************************
      * btWriteByte
-     * @param ByteArray
+     * @param writeByte
      * ・引数のByteArrayをBluetoothへ送信する
      * @author 中田　桂介
      * ********************************************************************** */
@@ -35,7 +35,7 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     /** **********************************************************************
      * btShootRead
-     * @param ByteArray
+     * @param readByte
      * ・引数のByteArrayをbtShootReadに格納する
      * @author 中田　桂介
      * ********************************************************************** */
@@ -46,7 +46,7 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     /** **********************************************************************
      * btHitRead
-     * @param ByteArray
+     * @param readByte
      * ・引数のByteArrayをmHitReadByteに格納する
      * @author 中田　桂介
      * ********************************************************************** */

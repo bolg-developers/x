@@ -17,6 +17,7 @@ import kotlinx.coroutines.Job
 /** ----------------------------------------------------------------------
  * CreateJoinFragment
  * 部屋への参加/作成
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class CreateJoinFragment : Fragment(){
 

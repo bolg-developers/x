@@ -63,6 +63,7 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
     /** **********************************************************************
      * pairing
      * @return 成功/失敗
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun pairing(): Boolean{
         BluetoothFunction.getInstance().btPairing()
