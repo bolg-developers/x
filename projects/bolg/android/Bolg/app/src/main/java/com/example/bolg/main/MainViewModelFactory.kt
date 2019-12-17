@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
  * @param application : ViewModelの引数に使用
  * @param fragmentManager : Fragmentの操作
  * ViewModelのインスタンスの取得
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class MainViewModelFactory ( private val application: Application,private val fragmentManager: FragmentManager): ViewModelProvider.Factory{
     @Suppress("unchecked_cast")

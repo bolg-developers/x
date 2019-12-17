@@ -10,6 +10,7 @@ import com.example.bolg.main.MainViewModel
  * GamePlayViewModelFactory
  * @param application : ViewModelの引数に使用
  * ViewModelのインスタンスの取得
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class GamePlayViewModelFactory (private val application: Application): ViewModelProvider.Factory{
     @Suppress("unchecked_cast")

@@ -1,5 +1,6 @@
 package com.example.bolg.bluetooth
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -32,6 +33,7 @@ class BluetoothFunction private constructor() {
         private const val START_BYTE: Byte = 0xfe.toByte()   // Bluetoothのスタートバイト
         private const val END_BYTE: Byte = 0xff.toByte()     // Bluetoothのエンドバイト
         // Singleton
+        @SuppressLint("StaticFieldLeak")
         private var INSTANCE: BluetoothFunction ? = null
         fun getInstance(): BluetoothFunction {
             if(INSTANCE == null){
@@ -46,13 +48,13 @@ class BluetoothFunction private constructor() {
     private var mBluetoothAdapter: BluetoothAdapter? = null     // BluetoothAdapter : Bluetooth処理で必要
     private var mDeviceAddress: String = ""                     // DeviceのAddress格納
     private var mReadBuffer = ByteArray(BT_BUFFER_SIZE)        // byte型で値が来る
-    private var mReadBufferCounter: Int = 0
+    //private var mReadBufferCounter: Int = 0
     // Bluetoothから読み込んだ値が格納される
     var hitByteArray: MutableLiveData<ByteArray> = MutableLiveData(mReadBuffer)
     var shootByteArray: MutableLiveData<ByteArray> = MutableLiveData(mReadBuffer)
     var loopCnt = 0
     // applicationContext取得用
-    val mGetContext = MyApplication
+    private val mGetContext = MyApplication
     var context: Context? = null
 
     init {
@@ -65,7 +67,6 @@ class BluetoothFunction private constructor() {
         }
         Log.d("BluetoothFunction", "Get_BluetoothAdapter")
     }
-
 
     /** **********************************************************************
      * btPairing
@@ -80,10 +81,10 @@ class BluetoothFunction private constructor() {
         }
         //ペアリング済みの端末セットの問い合わせ
         val pairedDevices: Set<BluetoothDevice>  = mBluetoothAdapter!!.bondedDevices
-        if (pairedDevices.size > 0) {
+       if (pairedDevices.isNotEmpty()) {
             for (device in pairedDevices) {
                 //ペアリング済みのデバイス名とMACアドレスの表示
-                mDeviceAddress = mDeviceAddress + device.address.toString()
+                mDeviceAddress += device.address.toString()
                 Log.d("BluetoothFunction", "DeviceName: " + device.name.toString())
             }
         }
@@ -156,7 +157,7 @@ class BluetoothFunction private constructor() {
         }
 
         // バイト列送信
-        if(mBluetoothService!!.writePreparation(byteBuff) == false){
+        if(!mBluetoothService!!.writePreparation(byteBuff)){
             return false
         }
         return true
@@ -273,7 +274,7 @@ class BluetoothFunction private constructor() {
 
         /** **********************************************************************
          * writePreparation
-         * @param ByteArray
+         * @param byteBuff
          * @return Boolean
          * ・スレッドを作成
          * @author 中田　桂介
@@ -287,7 +288,7 @@ class BluetoothFunction private constructor() {
                 }
                 connectionThread = mConnectionThread
             }
-            if(connectionThread!!.writeStart(byteBuff) == false){
+            if(!connectionThread!!.writeStart(byteBuff)){
                 return false
         }
             return true
@@ -303,7 +304,7 @@ class BluetoothFunction private constructor() {
             private var mBluetoothSocket: BluetoothSocket? = null       //  BluetoothDeviceを取得し、socketを取得する
             private var mInput: InputStream? = null     //メッセージinput
             private var mOutput: OutputStream? = null   //メッセージoutput
-
+          
             /** **********************************************************************
              * constructor(ConnectionThread)
              * ・コンストラクタ
@@ -322,7 +323,7 @@ class BluetoothFunction private constructor() {
 
             /** **********************************************************************
              * writeStart
-             * @param ByteArray
+             * @param byteBuff
              * @return Boolean
              * ・書き込み開始時処理
              * @author 中田　桂介
@@ -426,7 +427,8 @@ class BluetoothFunction private constructor() {
      * ・Handler
      * @author 中田　桂介
      * ********************************************************************** */
-    private var mHandler: Handler = object : Handler() {
+    private var mHandler: Handler = @SuppressLint("HandlerLeak")
+    object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 BluetoothService.MESSAGE_STATECHANGE -> when (msg.arg1) {

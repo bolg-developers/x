@@ -11,6 +11,7 @@ import com.example.bolg.data.ListData
 /** ----------------------------------------------------------------------
  * StandbyRecyclerAdapter
  * @param itemList SampleでListを追加している（多分消す）
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class StandbyRecyclerAdapter(var itemList: List<ListData>) : RecyclerView.Adapter<StandbyRecyclerViewHolder>(){
     // 後で変更
@@ -26,6 +27,7 @@ class StandbyRecyclerAdapter(var itemList: List<ListData>) : RecyclerView.Adapte
      * @param parent
      * @param viewType
      * @return StandbyRecyclerViewHolder(View)
+     * @author 長谷川　勇太
      * ********************************************************************** */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StandbyRecyclerViewHolder {
         val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false)
@@ -36,18 +38,16 @@ class StandbyRecyclerAdapter(var itemList: List<ListData>) : RecyclerView.Adapte
      * onBindViewHolder
      * @param holder
      * @param position
+     * @author 長谷川　勇太
      * ********************************************************************** */
     override fun onBindViewHolder(holder: StandbyRecyclerViewHolder, position: Int) {
-        holder.let {
-            it.uname.text = itemList.get(position).uname
-        }
+        holder.uname.text = itemList[position].uname
     }
 
     /** **********************************************************************
-     * onBindViewHolder
-     * @param holder
-     * @param position
+     * getItemCount
      * @return size: Int
+     * @author 長谷川　勇太
      * ********************************************************************** */
     override fun getItemCount(): Int {
         return itemList.size

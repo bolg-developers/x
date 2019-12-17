@@ -9,11 +9,15 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.bolg.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 
 /** ----------------------------------------------------------------------
  * CreateJoinFragment
  * 部屋への参加/作成
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class CreateJoinFragment : Fragment(){
 
@@ -24,22 +28,25 @@ class CreateJoinFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        var view: View = inflater.inflate(R.layout.fragment_main,container,false)
+        val view: View = inflater.inflate(R.layout.fragment_main,container,false)
 
         val application: Application = requireNotNull(this.activity).application
         val viewModelFactory = CreateJoinViewModelFactory(application)
         val createJoinViewModel:CreateJoinViewModel = ViewModelProviders.of(this,viewModelFactory).get(CreateJoinViewModel::class.java)
 
         // Button widget Setting
-        val joinBtn:Button = view.findViewById<Button>(R.id.join_btn)
-        val createBtn:Button = view.findViewById<Button>(R.id.create_btn)
+        val joinBtn:Button = view.findViewById(R.id.join_btn)
+        val createBtn:Button = view.findViewById(R.id.create_btn)
 
         // 参加
-        joinBtn.setOnClickListener { createJoinViewModel.joinDialog(view) }
+        joinBtn.setOnClickListener {
+            createJoinViewModel.joinDialog(view)
+        }
 
         // 部屋生成
-        createBtn.setOnClickListener { createJoinViewModel.create(view) }
-
+        createBtn.setOnClickListener {
+            createJoinViewModel.create(view)
+        }
         return view
     }
 }

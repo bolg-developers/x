@@ -21,13 +21,10 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
     private var mHitReadByte = ByteArray(BT_BUFFER_SIZE)    // 撃たれた時にReadした値を格納
 
     private var mWriteByte = ByteArray(BT_BUFFER_SIZE)  // Bluetoothへ送る値を格納
-
-
-
-
+  
     /** **********************************************************************
      * btWriteByte
-     * @param ByteArray
+     * @param writeByte
      * ・引数のByteArrayをBluetoothへ送信する
      * @author 中田　桂介
      * ********************************************************************** */
@@ -38,7 +35,7 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     /** **********************************************************************
      * btShootRead
-     * @param ByteArray
+     * @param readByte
      * ・引数のByteArrayをbtShootReadに格納する
      * @author 中田　桂介
      * ********************************************************************** */
@@ -49,7 +46,7 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     /** **********************************************************************
      * btHitRead
-     * @param ByteArray
+     * @param readByte
      * ・引数のByteArrayをmHitReadByteに格納する
      * @author 中田　桂介
      * ********************************************************************** */

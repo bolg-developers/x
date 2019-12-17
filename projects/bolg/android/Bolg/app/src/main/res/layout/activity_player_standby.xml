@@ -8,35 +8,35 @@
     tools:context=".standby.player.PlayerStandbyActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/standby_recycler_view"
+        android:id="@+id/player_standby_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/join_text"
-        app:layout_constraintEnd_toStartOf="@+id/select_table"
+        app:layout_constraintBottom_toTopOf="@+id/player_join_text"
+        app:layout_constraintEnd_toStartOf="@+id/player_select_table"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/join_text"
+        android:id="@+id/player_join_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2/10"
+        android:text="0"
         android:textSize="20sp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/standby_recycler_view"
+        app:layout_constraintTop_toBottomOf="@id/player_standby_recycler_view"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TableLayout
-        android:id="@+id/select_table"
+        android:id="@+id/player_select_table"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/standby_recycler_view"
+        app:layout_constraintStart_toEndOf="@id/player_standby_recycler_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.157">
 
@@ -46,7 +46,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/player_pairing"
+                android:id="@+id/player_pairing_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
@@ -54,7 +54,7 @@
                 android:text="@string/pairing" />
 
             <TextView
-                android:id="@+id/user_id"
+                android:id="@+id/player_user_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
@@ -69,7 +69,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/rule"
+                android:id="@+id/player_rule"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="4"
@@ -215,7 +215,7 @@
     </TableLayout>
 
     <ProgressBar
-        android:id="@+id/progress"
+        android:id="@+id/player_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

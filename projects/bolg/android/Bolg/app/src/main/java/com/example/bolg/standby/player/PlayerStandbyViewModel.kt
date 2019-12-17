@@ -1,11 +1,13 @@
 package com.example.bolg.standby.player
 
 import android.app.Application
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.bolg.GrpcTask
+import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
-
 
 /** ----------------------------------------------------------------------
  * PlayerStandbyViewModel
@@ -17,10 +19,14 @@ import com.example.bolg.bluetooth.BluetoothFunction
  * ---------------------------------------------------------------------- */
 class PlayerStandbyViewModel(application: Application): AndroidViewModel(application){
 
-    //private lateinit var intent: Intent
+    // Jobの定義
+    private var viewModelJob = Job()
+    // スコープの定義
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    //private var context: Context? = null
+    private val app: Application = application
 
+    /** LiveDataの設定 **/
     private val _gameState = MutableLiveData<Boolean>()
     val gameState: LiveData<Boolean>
         get() = _gameState
@@ -30,6 +36,11 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
         get() = _gameRule
 
     //var gameState = true
+
+    // 準備完了人数
+    private val _readyPlayerNormal = MutableLiveData<String>()
+    val readyPlayerNormal: LiveData<String>
+        get() = _readyPlayerNormal
 
     // 課金ボタンON/OFF
     private val _kakinBulletState = MutableLiveData<Boolean>()
@@ -43,13 +54,16 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
     /**
      * HOSTが設定した値を元に変更
      * */
-    fun setGameSetting(){
-
+    fun setReady(token: String, view: View?){
+        uiScope.launch {
+            GrpcTask.getInstance(app).setReady(token, view)
+        }
     }
 
     /** **********************************************************************
      * pairing
      * @return 成功/失敗
+     * @author 長谷川　勇太
      * ********************************************************************** */
     fun pairing(): Boolean{
         BluetoothFunction.getInstance().btPairing()

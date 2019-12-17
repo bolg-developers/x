@@ -15,6 +15,7 @@ import com.example.bolg.main.MainViewModelFactory
 /** ----------------------------------------------------------------------
  * GamePlayActivity
  * ゲームプレイ中画面
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class GamePlayActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +25,6 @@ class GamePlayActivity : AppCompatActivity(){
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
         val gamePlayViewModel:GamePlayViewModel = ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
-
-
 
         // Observe : 弾を撃った時に動く
         BluetoothFunction.getInstance().shootByteArray.observe(this , Observer { readByte ->
