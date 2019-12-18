@@ -1,6 +1,8 @@
 package com.example.bolg.standby.host
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
@@ -9,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.bolg.GrpcTask
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
+import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
  * HostStandbyViewModel
@@ -21,12 +24,15 @@ import com.example.bolg.bluetooth.BluetoothFunction
  * ---------------------------------------------------------------------- */
 class HostStandbyViewModel (application: Application): AndroidViewModel(application){
 
-    // Jobの定義
+    /** Coroutine init **/
+    // job get
     private var viewModelJob = Job()
-    // スコープの定義
+    // scope get
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+
     private val app = application
+    val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
 
     // GameRule
     private val _gameRule = MutableLiveData<String>()
@@ -54,10 +60,18 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * ********************************************************************** */
     fun startGame(token: String?, view: View?) {
         uiScope.launch {
-            GrpcTask.getInstance(app).setReady(token,view)
-            delay(100)
             GrpcTask.getInstance(app).startGame(token,view)
         }
+    }
+
+    /** **********************************************************************
+     * setReady
+     * @param token プレイヤー情報
+     * @param view View
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    fun setReady(token: String?, view: View?){
+        GrpcTask.getInstance(app).setReady(token,view)
     }
 
     /** **********************************************************************
@@ -75,8 +89,11 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @return 成功/失敗
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun pairing(): Boolean{
+    fun pairing(view: View?): Boolean{
+        // ペアリング実行
         BluetoothFunction.getInstance().btPairing()
+        // 武器のセット
+        updateWeapon(20L, data.getString("token", "0:0"),view)
         return true
     }
 
@@ -84,10 +101,12 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * updateWeapon
      * @param attack 攻撃力
      * @param token　トークン
+     * @param view  View
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun updateWeapon(attack: Long, token: String?, view: View?) {
         uiScope.launch {
+            delay(100)
             GrpcTask.getInstance(app).updateWeapon(attack,token,view)
         }
     }

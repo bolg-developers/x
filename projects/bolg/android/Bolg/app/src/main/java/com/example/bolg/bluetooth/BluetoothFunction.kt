@@ -1,6 +1,5 @@
 package com.example.bolg.bluetooth
 
-import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -29,11 +28,10 @@ class BluetoothFunction private constructor() {
     companion object {
         // 定数
         private const val REQUEST_ENABLEBLUETOOTH: Int  = 1  // Bluetooth機能の有効化要求時の識別コード
-        private const val BT_BUFFER_SIZE: Int = 16           // Bluetooth受信バッファーサイズ
+        private const val BT_BUFFER_SIZE: Int = 32           // Bluetooth受信バッファーサイズ
         private const val START_BYTE: Byte = 0xfe.toByte()   // Bluetoothのスタートバイト
         private const val END_BYTE: Byte = 0xff.toByte()     // Bluetoothのエンドバイト
         // Singleton
-        @SuppressLint("StaticFieldLeak")
         private var INSTANCE: BluetoothFunction ? = null
         fun getInstance(): BluetoothFunction {
             if(INSTANCE == null){
@@ -48,11 +46,13 @@ class BluetoothFunction private constructor() {
     private var mBluetoothAdapter: BluetoothAdapter? = null     // BluetoothAdapter : Bluetooth処理で必要
     private var mDeviceAddress: String = ""                     // DeviceのAddress格納
     private var mReadBuffer = ByteArray(BT_BUFFER_SIZE)        // byte型で値が来る
+    private var mReadTempBuffer = ByteArray(BT_BUFFER_SIZE)        // byte型で値が来る
     //private var mReadBufferCounter: Int = 0
     // Bluetoothから読み込んだ値が格納される
     var hitByteArray: MutableLiveData<ByteArray> = MutableLiveData(mReadBuffer)
     var shootByteArray: MutableLiveData<ByteArray> = MutableLiveData(mReadBuffer)
     var loopCnt = 0
+    var cntTemp = 0
     // applicationContext取得用
     private val mGetContext = MyApplication
     var context: Context? = null
@@ -81,7 +81,7 @@ class BluetoothFunction private constructor() {
         }
         //ペアリング済みの端末セットの問い合わせ
         val pairedDevices: Set<BluetoothDevice>  = mBluetoothAdapter!!.bondedDevices
-       if (pairedDevices.isNotEmpty()) {
+        if (pairedDevices.isNotEmpty()) {
             for (device in pairedDevices) {
                 //ペアリング済みのデバイス名とMACアドレスの表示
                 mDeviceAddress += device.address.toString()
@@ -111,7 +111,6 @@ class BluetoothFunction private constructor() {
             Log.d("BluetoothFunction", "Connecting")
             return false
         }
-
 
         val device: BluetoothDevice = mBluetoothAdapter!!.getRemoteDevice(mDeviceAddress)
         // BluetoothService: インスタンス生成
@@ -144,7 +143,7 @@ class BluetoothFunction private constructor() {
 
     /** **********************************************************************
      * write
-     * @param ByteArray
+     * @param byteBuff
      * @return Boolean
      * ・byteArrayの送信
      * @author 中田　桂介
@@ -158,8 +157,10 @@ class BluetoothFunction private constructor() {
 
         // バイト列送信
         if(!mBluetoothService!!.writePreparation(byteBuff)){
+            Log.d("BluetoothFunction", "writePreparationError")
             return false
         }
+
         return true
     }
 
@@ -284,13 +285,15 @@ class BluetoothFunction private constructor() {
             var connectionThread: ConnectionThread? = null
             synchronized(this) {
                 if (STATE_CONNECTED != mState) {
+                    Log.d("writePreparation", "STATE_CONNECTEDError")
                     return false
                 }
                 connectionThread = mConnectionThread
             }
             if(!connectionThread!!.writeStart(byteBuff)){
+                Log.d("writePreparation", "writeStartError")
                 return false
-        }
+            }
             return true
         }
 
@@ -304,7 +307,7 @@ class BluetoothFunction private constructor() {
             private var mBluetoothSocket: BluetoothSocket? = null       //  BluetoothDeviceを取得し、socketを取得する
             private var mInput: InputStream? = null     //メッセージinput
             private var mOutput: OutputStream? = null   //メッセージoutput
-          
+
             /** **********************************************************************
              * constructor(ConnectionThread)
              * ・コンストラクタ
@@ -369,7 +372,7 @@ class BluetoothFunction private constructor() {
                         // 接続済み（Bluetoothデバイスから送信されるデータ受信）
                         STATE_CONNECTED -> {
                             Log.d("BluetoothService", "STATE_CONNECTED")
-                            val buff = ByteArray(256)
+                            val buff = ByteArray(BT_BUFFER_SIZE)
                             val byte: Int
                             try {
                                 // 文字列読み込み
@@ -427,8 +430,7 @@ class BluetoothFunction private constructor() {
      * ・Handler
      * @author 中田　桂介
      * ********************************************************************** */
-    private var mHandler: Handler = @SuppressLint("HandlerLeak")
-    object : Handler() {
+    private var mHandler: Handler = object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 BluetoothService.MESSAGE_STATECHANGE -> when (msg.arg1) {
@@ -469,34 +471,58 @@ class BluetoothFunction private constructor() {
                     var i: Int = 0
                     // 読み込んだメッセージを格納
                     mTempBuffer = msg.obj as ByteArray
+                    var iCountBuf = msg.arg1;
+
+                    // readしたbyte数をプラスしていく
+                    cntTemp += iCountBuf
+                    // readされた分Bufferに格納していく
+                    for (i in 1..iCountBuf) {
+                        mReadTempBuffer[loopCnt]= mTempBuffer[i - 1]
+                        loopCnt++
+                    }
+                    // 一定数溜まったら処理を実行する
+                    if(cntTemp >= 10){
+                        cntTemp = 0
+                    } else if(cntTemp == 7){
+                        cntTemp = 0
+                    } else if (cntTemp == 3){
+                        cntTemp = 0
+                    } else {
+                        return
+                    }
+
+                    Log.d("Test","mTempBuffer ->${mReadTempBuffer[0]} , ${mReadTempBuffer[1]} , ${mReadTempBuffer[2]} , ${mReadTempBuffer[3]} , ${mReadTempBuffer[4]} , ${mReadTempBuffer[5]} , ${mReadTempBuffer[7]} ,${mReadTempBuffer[8]} , ${mReadTempBuffer[9]} , ${mReadTempBuffer[10]}")
 
                     // 送られてきたByteが0番目のByteがStartByteなら値を格納していく
-                    if(mTempBuffer[0] == START_BYTE){
+                    if(mReadTempBuffer[0] == START_BYTE || mReadTempBuffer[1] == START_BYTE ){
                         loopCnt = 0
                         while (true){
-                            // BufferSizeを超えている場合終了
+                            // BufferSizeTestを超えている場合終了
                             if(loopCnt >= BT_BUFFER_SIZE - 1){
                                 break
                             }
                             // Byteを格納
-                            mReadBuffer[i] = mTempBuffer[loopCnt]
+                            mReadBuffer[i] = mReadTempBuffer[loopCnt]
                             // EndByteが来たらLoopを抜ける
-                            if(mTempBuffer[loopCnt] == END_BYTE){
+                            if(mReadTempBuffer[loopCnt] == END_BYTE){
                                 // LiveDataへ格納
                                 when (mReadBuffer[1]) {
                                     // hit
                                     0x01.toByte() -> {
-                                        Log.d("Bluetoothhandle", "hit")
+                                        Log.d("Bluetoothhandle", "hit->")
+                                        Log.d("Bluetoothhandle","mTempBuffer ->${mReadBuffer[0]} , ${mReadBuffer[1]} , ${mReadBuffer[2]} , ${mReadBuffer[3]} , ${mReadBuffer[4]} , ${mReadBuffer[5]} , ${mReadBuffer[7]} ,${mReadBuffer[8]} , ${mReadBuffer[9]} , ${mReadBuffer[10]}")
+
                                         hitByteArray.value = mReadBuffer
                                     }
                                     // shoot
                                     0x02.toByte() -> {
-                                        Log.d("Bluetoothhandle", "shoot")
-                                        shootByteArray.value = mReadBuffer
+                                        Log.d("Bluetoothhandle", "shoot->")
+                                        Log.d("Bluetoothhandle","mTempBuffer ->${mReadBuffer[0]} , ${mReadBuffer[1]} , ${mReadBuffer[2]} , ${mReadBuffer[3]} , ${mReadBuffer[4]} , ${mReadBuffer[5]} , ${mReadBuffer[7]} ,${mReadBuffer[8]} , ${mReadBuffer[9]} , ${mReadBuffer[10]}")
+
                                     }
                                 }
                                 // END_BYTEの次がSTART_BYTEならまたループを始める
-                                if(mTempBuffer[loopCnt + 1] == START_BYTE){
+                                if(mReadTempBuffer[loopCnt + 1] == START_BYTE){
                                     // 配列、ループカウントの初期化
                                     for (i in 0..BT_BUFFER_SIZE-1) {
                                         mReadBuffer[i]= 0.toByte()
@@ -514,6 +540,10 @@ class BluetoothFunction private constructor() {
                             loopCnt++
                         }
                     }
+                    for (i in 0..BT_BUFFER_SIZE-1) {
+                        mReadTempBuffer[i]= 0.toByte()
+                    }
+                    loopCnt = 0
                     Log.d("Bluetoothhandle", "Message read END")
                 }
 

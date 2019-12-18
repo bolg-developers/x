@@ -1,6 +1,9 @@
 package com.example.bolg.standby.player
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -8,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.bolg.GrpcTask
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
+import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
  * PlayerStandbyViewModel
@@ -19,12 +23,14 @@ import com.example.bolg.bluetooth.BluetoothFunction
  * ---------------------------------------------------------------------- */
 class PlayerStandbyViewModel(application: Application): AndroidViewModel(application){
 
-    // Jobの定義
+    /** Coroutine定義 **/
+    // Job Set
     private var viewModelJob = Job()
-    // スコープの定義
+    // Scope Set
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val app: Application = application
+    val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
 
     /** LiveDataの設定 **/
     private val _gameState = MutableLiveData<Boolean>()
@@ -51,9 +57,12 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
     val itemState: LiveData<Boolean>
         get() = _itemState
 
-    /**
-     * HOSTが設定した値を元に変更
-     * */
+    /** **********************************************************************
+     * setReady
+     * @param token プレイヤー情報
+     * @param view View
+     * @author 長谷川　勇太
+     * ********************************************************************** */
     fun setReady(token: String, view: View?){
         uiScope.launch {
             GrpcTask.getInstance(app).setReady(token, view)
@@ -65,8 +74,27 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
      * @return 成功/失敗
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun pairing(): Boolean{
+    fun pairing(view: View?): Boolean{
+
         BluetoothFunction.getInstance().btPairing()
+
+        // 武器のセット
+        Log.d("createAndJoinRoomTask", "token ->" + data.getString("token", ""))
+        updateWeapon(20L, data.getString("token", "0:0"),view)
+
         return true
+    }
+
+    /** **********************************************************************
+     * updateWeapon
+     * @param attack 攻撃力
+     * @param token　トークン
+     * @param view   View
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    fun updateWeapon(attack: Long, token: String?, view: View?) {
+        uiScope.launch {
+            GrpcTask.getInstance(app).updateWeapon(attack,token,view)
+        }
     }
 }

@@ -23,11 +23,11 @@ class MainViewModel (application: Application,fragmentManager: FragmentManager):
     // titleViewTimer
     private var intentTimer = 0
 
-    // Jobの定義
+    /** Coroutine定義 **/
+    // Job Set
     private var viewModelJob = Job()
-
-    // スコープの定義
-    private val uiScope: CoroutineScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    // Scope Set
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // Fragmentの操作
     private val mFragmentManager: FragmentManager = fragmentManager
@@ -71,7 +71,6 @@ class MainViewModel (application: Application,fragmentManager: FragmentManager):
 
     /** **********************************************************************
      * setCreateJoin
-     * private
      * 参加/部屋生成画面へ遷移
      * @author 長谷川　勇太
      * ********************************************************************** */

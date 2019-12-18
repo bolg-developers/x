@@ -18,13 +18,13 @@ import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 
-/**
+/** ----------------------------------------------------------------------
  * HostStandbyActivity
- * 部屋生成者の待機画面
+ * ・部屋生成者の待機画面
  * ・参加ユーザーのリスト表示
  * ・ゲームルールの決定画面のView
  * @author 長谷川　勇太
- * */
+ * ---------------------------------------------------------------------- */
 class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var hostStandbyViewModel: HostStandbyViewModel
 
@@ -87,6 +87,9 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         joinUser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         /******************************************************************************************************/
 
+        // ready request
+        hostStandbyViewModel.setReady(data.getString("token", "0:0"),decorView)
+
         /** onClick **/
         // 課金ボタンON/OFF
         kakinBullet.setOnClickListener {
@@ -112,14 +115,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         hostPairing.setOnClickListener {
             progress.visibility = ProgressBar.VISIBLE
             Log.d("button", "progress:ON")
-            if (hostStandbyViewModel.pairing()) {
+            if (hostStandbyViewModel.pairing(decorView)) {
                 progress.visibility = ProgressBar.INVISIBLE
                 Log.d("button", "progress:OFF")
             }
-
-            // 武器のセット
-            Log.d("createAndJoinRoomTask", "token ->" + data.getString("token", ""))
-            hostStandbyViewModel.updateWeapon(100L, data.getString("token", "0:0"),decorView)
         }
 
         // ゲームスタート

@@ -20,6 +20,7 @@ import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
+import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
  * クラス名 PlayerStandbyActivity
@@ -48,14 +49,14 @@ class PlayerStandbyActivity : AppCompatActivity(){
         val playerPairing: ImageButton = findViewById(R.id.player_pairing_btn)
         val joinNum: TextView = findViewById(R.id.player_join_text)
 
-        /** viewModel類 **/
+        /** viewModel**/
         val application: Application = requireNotNull(this).application
         val viewModelFactoryPlayer = PlayerStandbyViewModelFactory(application)
         playerStandbyViewModel=
             ViewModelProviders.of(this, viewModelFactoryPlayer)
                 .get(PlayerStandbyViewModel::class.java)
 
-        // RoomMessageData
+        /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
         userId.text = "${data.getString("token", "error")}"
 
@@ -84,34 +85,25 @@ class PlayerStandbyActivity : AppCompatActivity(){
         })
 
         // アイテムON/OFF
-        playerStandbyViewModel.itemState.observe(this, Observer { item ->
-            if (item) {
-                // 青色に変化（ONっぽい表示）
-            } else {
-            }
+        playerStandbyViewModel.itemState.observe(this, Observer {
         })
 
         // 課金弾ON/OFF
-        playerStandbyViewModel.kakinBulletState.observe(this, Observer { kakinbullet ->
-            if (kakinbullet) {
-                // 青色に変化（ONっぽい表示）
-            } else {
-            }
+        playerStandbyViewModel.kakinBulletState.observe(this, Observer {
         })
 
         /** onClick **/
         ready.setOnClickListener {
             progress.visibility = ProgressBar.VISIBLE
             playerStandbyViewModel.setReady(data.getString("token", "error").toString(), decorView)
-
-            // ペアリング
-            playerPairing.setOnClickListener {
-                progress.visibility = ProgressBar.VISIBLE
-                Log.d("button", "progress:ON")
-                if (playerStandbyViewModel.pairing()) {
-                    progress.visibility = ProgressBar.INVISIBLE
-                    Log.d("button", "progress:OFF")
-                }
+        }
+        // ペアリング
+        playerPairing.setOnClickListener {
+            progress.visibility = ProgressBar.VISIBLE
+            Log.d("button", "progress:ON")
+            if (playerStandbyViewModel.pairing(decorView)) {
+                progress.visibility = ProgressBar.INVISIBLE
+                Log.d("button", "progress:OFF")
             }
         }
     }
@@ -152,10 +144,10 @@ class PlayerStandbyActivity : AppCompatActivity(){
     public override fun onPause() {
         super.onPause()  // Always call the superclass method first
         Log.d("HostStandbyActivity", "onPause")
-        if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
 
     /** **********************************************************************
@@ -165,10 +157,10 @@ class PlayerStandbyActivity : AppCompatActivity(){
     public override fun onStop() {
         super.onStop()
         Log.d("HostStandbyActivity", "onStop")
-        if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
 
     /** **********************************************************************

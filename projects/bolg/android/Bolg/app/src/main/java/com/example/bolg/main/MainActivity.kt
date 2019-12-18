@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory = MainViewModelFactory(application,supportFragmentManager)
         val mainViewModel: MainViewModel = ViewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
 
+        // title view
         mainViewModel.setTitle()
 
         mainViewModel.startTimer()

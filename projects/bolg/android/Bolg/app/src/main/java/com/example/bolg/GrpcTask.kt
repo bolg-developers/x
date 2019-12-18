@@ -20,6 +20,7 @@ import org.bolg_developers.bolg.*
  * Serverとの通信を担う
  * bidirectionalStreamingRPCを行う場合常にServerとChannelが接続されている状態。
  * なのでシングルトン処理を行う
+ * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class GrpcTask(application: Application)  {
 
@@ -136,6 +137,26 @@ class GrpcTask(application: Application)  {
     }
 
     /** **********************************************************************
+     * NotifyReceivingTask
+     * @param token トークン
+     * @param playerId プレイヤーID
+     * @param view  View
+     * 準備完了メッセージ
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    fun notifyReceivingTask(token: String?, playerId: Long, view: View?){
+        val notifyReceivingReqMsg: NotifyReceivingRequest = NotifyReceivingRequest
+            .newBuilder()
+            .setToken(token)
+            .setPlayerId(playerId)
+            .build()
+
+        message = RoomMessage.newBuilder().setNotifyReceivingReq(notifyReceivingReqMsg).build()
+        responseObserver(view)
+        observer?.onNext(message)
+    }
+
+    /** **********************************************************************
      * responseObserver
      * @param view View
      * Requestに対してのResponseのハンドリング
@@ -167,6 +188,7 @@ class GrpcTask(application: Application)  {
                             editor?.putInt("game_rule", value.createAndJoinRoomResp.room.gameRule.number)
                             editor?.putBoolean("game_start", value.createAndJoinRoomResp.room.gameStart)
                             editor?.putString("token", value.createAndJoinRoomResp.token)
+                            editor?.putBoolean("standby_state",true)
                             editor?.apply()
                             val intent = Intent(view?.context, HostStandbyActivity::class.java)
                             view?.context?.startActivity(intent)
@@ -190,6 +212,7 @@ class GrpcTask(application: Application)  {
                             editor?.putBoolean("game_start", value.joinRoomResp.room.gameStart)
                             editor?.putString("player_name", value.joinRoomResp.room.getPlayers(1).name)
                             editor?.putString("token", value.joinRoomResp.token)
+                            editor?.putBoolean("standby_state",false)
                             editor?.apply()
 
                             // PlayerStandby Transition
@@ -201,6 +224,7 @@ class GrpcTask(application: Application)  {
                     5 -> {    // join_room_msg
                         Log.d("GrpcTask", "join_room_msg  ->${value.joinRoomMsg}")
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.name} が入室しました。")
+                        Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.id} が入室しました。")
                     }
                     6 -> {    // notify_receiving_req
                         Log.d("GrpcTask", "notify_receiving_req ->${value.joinRoomMsg}")
@@ -212,6 +236,14 @@ class GrpcTask(application: Application)  {
                     8 -> {    // survival_result_msg
                         Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")
                         Log.d("GrpcTask", "${value.survivalResultMsg.winner.name}が勝利")
+                        if(data.getBoolean("standby_state",true)){
+                            val intent =  Intent(view?.context, HostStandbyActivity::class.java)
+                            view?.context?.startActivity(intent)
+                        }
+                        else{
+                            val intent =  Intent(view?.context, PlayerStandbyActivity::class.java)
+                            view?.context?.startActivity(intent)
+                        }
                     }
                     9 -> {    // start_game_req
                         Log.d("GrpcTask", "start_game_req  ->${value.startGameReq}")
@@ -219,6 +251,8 @@ class GrpcTask(application: Application)  {
                     10 -> {    // start_game_msg
                         Log.d("GrpcTask", "start_game_msg -> ${value.startGameMsg}")
                         Log.d("GrpcTask","げーむ開始")
+
+                        // 部屋にいるすべてのプレイヤーが準備完了でゲームプレイ画面へ遷移する。
                         val intent = Intent(view?.context, GamePlayActivity::class.java)
                         view?.context?.startActivity(intent)
                     }
@@ -234,19 +268,21 @@ class GrpcTask(application: Application)  {
                     14 -> {    // ready_msg
                         Log.d("GrpcTask", "ready_msg  -> ${value.readyMsg}")
                         Log.d("GrpcTask", "playerID: ${value.readyMsg.playerId}が準備完了です")
+                        // Testのため保存
+                        editor?.putLong("test_player_id", value.readyMsg.playerId)
+                        editor?.apply()
+
                     }
                     15 -> {    // error
                         when (value.error.message) {
-                            "game is already starting" -> {
-                                val intent = Intent(view?.context, GamePlayActivity::class.java)
-                                view?.context?.startActivity(intent)
+                            "game is already starting" -> { // すでにゲームが開始している
                                 Log.d("GrpcTask", "ReadyMessage ->${value.error.message}")
                             }
                             else -> {
                                 Log.d("GrpcTask", "ReadyMessage -> ${value.error.message}")
                             }
                         }
-                        observer?.onCompleted()
+//                        observer?.onCompleted()
                     }
                 }
             }
