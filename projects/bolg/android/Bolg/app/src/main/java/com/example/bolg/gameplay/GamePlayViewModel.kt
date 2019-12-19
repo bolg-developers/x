@@ -1,9 +1,18 @@
 package com.example.bolg.gameplay
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
+import com.example.bolg.GrpcTask
 import com.example.bolg.bluetooth.BluetoothFunction
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.experimental.and
 
 /** ----------------------------------------------------------------------
  * GamePlayViewModel
@@ -21,7 +30,18 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
     private var mHitReadByte = ByteArray(BT_BUFFER_SIZE)    // 撃たれた時にReadした値を格納
 
     private var mWriteByte = ByteArray(BT_BUFFER_SIZE)  // Bluetoothへ送る値を格納
-  
+    private val app = application
+
+    /** Coroutine定義 **/
+    // Job Set
+    private var viewModelJob = Job()
+    // Scope Set
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    /** SharedPreferenceのインスタンス生成 **/
+    val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+
+
     /** **********************************************************************
      * btWriteByte
      * @param writeByte
@@ -50,9 +70,32 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
      * ・引数のByteArrayをmHitReadByteに格納する
      * @author 中田　桂介
      * ********************************************************************** */
-    fun btHitRead(readByte: ByteArray){
-        Log.d("GamePlayViewModel", "Get ByteArray")
+    fun btHitRead(readByte: ByteArray, view: View){
         mHitReadByte = readByte
-    }
 
+        Log.d("GamePlayViewModel", "btHitRead:readByte[0]->${mHitReadByte[0]}")
+        Log.d("GamePlayViewModel", "btHitRead:readByte[1]->${mHitReadByte[1]}")
+        Log.d("GamePlayViewModel", "btHitRead:readByte[2]->${mHitReadByte[2]}")
+        Log.d("GamePlayViewModel", "btHitRead:readByte[3]->${mHitReadByte[3]}")
+        Log.d("GamePlayViewModel", "btHitRead:readByte[4]->${mHitReadByte[4]}")
+        Log.d("GamePlayViewModel", "btHitRead:readByte[5]->${mHitReadByte[5]}")
+        Log.d("GamePlayViewModel", "btHitRead:readByte[6]->${mHitReadByte[6]}")
+
+        // playerIDを抽出
+        var playerId: Long = 0
+        for (i in 2..5) {
+            playerId = playerId shl 8
+            playerId = playerId or (mHitReadByte[i] and 0xFF.toByte()).toLong()
+        }
+        Log.d("GamePlayViewModel", "btHitRead:playerId->${playerId}")
+
+        // tokenの取得
+        val token: String? = data.getString("token", "error")
+        Log.d("GamePlayViewModel", "btHitRead:token->${token}")
+
+        //  NotifyReceivingRequestを行う
+        uiScope.launch {
+            GrpcTask.getInstance(app).notifyReceivingTask(token, playerId, view)
+        }
+    }
 }
