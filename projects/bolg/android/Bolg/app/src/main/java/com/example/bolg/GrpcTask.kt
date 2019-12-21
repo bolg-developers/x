@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.bolg.gameplay.GamePlayActivity
 import com.example.bolg.standby.host.HostStandbyActivity
 import com.example.bolg.standby.player.PlayerStandbyActivity
@@ -42,6 +44,9 @@ class GrpcTask(application: Application)  {
     private var message: RoomMessage? = null
     private var channel: ManagedChannel
     private val asyncStub: BolgServiceGrpc.BolgServiceStub
+
+
+//    var hp: MutableLiveData<Long> = MutableLiveData()
 
     init {
         Log.d("GrpcTask", "init")
@@ -225,6 +230,8 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "join_room_msg  ->${value.joinRoomMsg}")
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.name} が入室しました。")
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.id} が入室しました。")
+                        editor?.putLong("test",value.joinRoomMsg.player.id)
+                        editor?.apply()
                     }
                     6 -> {    // notify_receiving_req
                         Log.d("GrpcTask", "notify_receiving_req ->${value.joinRoomMsg}")
@@ -232,6 +239,8 @@ class GrpcTask(application: Application)  {
                     7 -> {    // notify_receiving_msg
                         Log.d("GrpcTask", "notify_receiving_msg ->${value.notifyReceivingMsg}")
                         Log.d("GrpcTask", "ダメージをうけたプレイヤー : ${value.notifyReceivingMsg.player.name}")
+//                        hp.value = value.notifyReceivingMsg.player.hp
+
                     }
                     8 -> {    // survival_result_msg
                         Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")
@@ -298,6 +307,7 @@ class GrpcTask(application: Application)  {
                     else -> { Log.d("GrpcTask", "onError/Internal") }
                 }
             }
+
             override fun onCompleted() {
                 Log.d("GrpcTask", "onCompleted")
             }

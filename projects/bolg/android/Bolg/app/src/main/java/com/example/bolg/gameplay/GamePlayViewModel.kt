@@ -8,10 +8,7 @@ import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import com.example.bolg.GrpcTask
 import com.example.bolg.bluetooth.BluetoothFunction
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.experimental.and
 
 /** ----------------------------------------------------------------------
@@ -40,7 +37,6 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     /** SharedPreferenceのインスタンス生成 **/
     val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
-
 
     /** **********************************************************************
      * btWriteByte
@@ -88,13 +84,15 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
             playerId = playerId or (mHitReadByte[i] and 0xFF.toByte()).toLong()
         }
         Log.d("GamePlayViewModel", "btHitRead:playerId->${playerId}")
-
         // tokenの取得
         val token: String? = data.getString("token", "error")
         Log.d("GamePlayViewModel", "btHitRead:token->${token}")
 
         //  NotifyReceivingRequestを行う
         uiScope.launch {
+            delay(800)
+            Log.d("GamePlayViewModel", "notifyReceivingTaskStart")
+            Log.d("GamePlayViewModel", "token->${token},playerId->${playerId}")
             GrpcTask.getInstance(app).notifyReceivingTask(token, playerId, view)
         }
     }

@@ -5,14 +5,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
-import com.example.bolg.main.MainViewModel
-import com.example.bolg.main.MainViewModelFactory
+import kotlinx.android.synthetic.main.activity_host_standby.*
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -25,12 +25,16 @@ class GamePlayActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_play)
 
+        var hitCnt = 0
+
         // root view
         val decorView = window.decorView
 
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
         val gamePlayViewModel:GamePlayViewModel = ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
+
+        val playerHp: TextView = findViewById(R.id.id_txt)
 
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
@@ -55,7 +59,7 @@ class GamePlayActivity : AppCompatActivity(){
         Log.d("createAndJoinRoomTask","mTempBuffer ->${integers[0]} , ${integers[1]} , ${integers[2]} , ${integers[3]}, ${integers[4]} , ${integers[5]} , ${integers[6]} ")
 
         if(!BluetoothFunction.getInstance().write(integers)){
-            Log.d("createAndJoinRoomTask","Errorororor")
+            Log.d("createAndJoinRoomTask","writeError")
         }
 
         // Observe : 弾を撃った時に動く
@@ -67,10 +71,21 @@ class GamePlayActivity : AppCompatActivity(){
 
         // Observe : 弾を被弾時に動く
         BluetoothFunction.getInstance().hitByteArray.observe(this , Observer { readByte ->
-            Log.d("GamePlayActivity" , "Bluetooth read ByteArray")
-            // Bluetoothの値GamePlayViewModelへ送る
-            gamePlayViewModel.btHitRead(readByte, decorView)
+            //  一回目はスルーする
+            if(hitCnt != 0) {
+                Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
+                // Bluetoothの値GamePlayViewModelへ送る
+
+                gamePlayViewModel.btHitRead(readByte, decorView)
+            }
+            hitCnt++
         })
+
+
+//        GrpcTask.getInstance(application).hp.observe(this, Observer { hit ->
+//            Log.d("GrpcTask", "HP更新observe")
+//            playerHp.text = hit.toString()
+//        })
 
     }
 
