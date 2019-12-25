@@ -2,17 +2,23 @@ package com.example.bolg.gameplay
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
+import com.example.bolg.standby.host.HostStandbyActivity
+import com.example.bolg.standby.player.PlayerStandbyActivity
 import kotlinx.android.synthetic.main.activity_host_standby.*
+import kotlinx.coroutines.*
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -33,14 +39,17 @@ class GamePlayActivity : AppCompatActivity(){
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
         val gamePlayViewModel:GamePlayViewModel = ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
-
         val playerHp: TextView = findViewById(R.id.id_txt)
 
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+
+        playerHp.text = data.getLong("player_hp",0).toString()
+
         // playerIdをByteArrayに変換する
         val playerId = data.getLong("player_id",0)
         val value: Int = playerId.toInt()
+
         Log.d("createAndJoinRoomTask", "playerId -> $value")
         val bytes = ByteBuffer.allocate(4).putInt(value).array()
 
@@ -82,13 +91,33 @@ class GamePlayActivity : AppCompatActivity(){
         })
 
 
-//        GrpcTask.getInstance(application).hp.observe(this, Observer { hit ->
-//            Log.d("GrpcTask", "HP更新observe")
-//            playerHp.text = hit.toString()
-//        })
+        // HPの更新
+        val viewModelJob = Job()
+        val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+        uiScope.launch {
+            while (data.getLong("player_hp",0) != 0L){
+                Log.d("HpUpData","更新")
+                playerHp.text = data.getLong("player_hp",0).toString()
+                delay(200)
+            }
+
+            // Dialog
+            // もう一回やるかどうか
+            // Dialog設定/表示
+            AlertDialog.Builder(applicationContext)
+                .setCancelable(false)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle("ルームID入力")
+                .setMessage("ルームIDを入力してください。\n（数字）")
+                .setNegativeButton("キャンセル") { _, _ ->
+                }
+                .setPositiveButton("OK") { _, _ ->
+                }
+                .show()
+
+        }
 
     }
-
     // ↓ここから下はBluetoothのconnect、disconnectをしているだけ
     /** **********************************************************************
      * onStart

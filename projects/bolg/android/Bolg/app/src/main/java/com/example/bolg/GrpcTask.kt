@@ -45,9 +45,6 @@ class GrpcTask(application: Application)  {
     private var channel: ManagedChannel
     private val asyncStub: BolgServiceGrpc.BolgServiceStub
 
-
-//    var hp: MutableLiveData<Long> = MutableLiveData()
-
     init {
         Log.d("GrpcTask", "init")
         channel = ManagedChannelBuilder
@@ -67,7 +64,7 @@ class GrpcTask(application: Application)  {
      * ユーザー　ー＞　オーナープレイヤー
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun createAndJoinRoomTask(view: View){
+     fun createAndJoinRoomTask(view: View){
         val createAndJoinRoomReqMsg: CreateAndJoinRoomRequest = CreateAndJoinRoomRequest.newBuilder().setPlayerName("HAL").build()
         message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(createAndJoinRoomReqMsg).build()
         responseObserver(view)
@@ -138,8 +135,8 @@ class GrpcTask(application: Application)  {
      * @param token トークン
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun inventory(token: String) {
-    }
+//    fun inventory(token: String) {
+//    }
 
     /** **********************************************************************
      * NotifyReceivingTask
@@ -176,11 +173,6 @@ class GrpcTask(application: Application)  {
                     }
                     2 -> {    // create_and_join_room_resp
                         Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
-
-                        for(i in value.createAndJoinRoomResp.room.playersList){
-                            Log.d("GrpcTask","create_and_join_room_resp:ready -> ${i.ready}")
-                        }
-
                         if(value.createAndJoinRoomResp.room.id != 0L) {
                             Log.d("GrpcTask","no roomId 0")
                             // Player Info Save
@@ -239,8 +231,10 @@ class GrpcTask(application: Application)  {
                     7 -> {    // notify_receiving_msg
                         Log.d("GrpcTask", "notify_receiving_msg ->${value.notifyReceivingMsg}")
                         Log.d("GrpcTask", "ダメージをうけたプレイヤー : ${value.notifyReceivingMsg.player.name}")
-//                        hp.value = value.notifyReceivingMsg.player.hp
-
+                        if (data.getLong("player_id",999) == value.notifyReceivingMsg.player.id) {
+                            editor?.putLong("player_hp", value.notifyReceivingMsg.player.hp)
+                            editor?.apply()
+                        }
                     }
                     8 -> {    // survival_result_msg
                         Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")

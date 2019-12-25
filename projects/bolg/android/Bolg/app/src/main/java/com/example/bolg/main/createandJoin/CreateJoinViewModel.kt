@@ -2,7 +2,6 @@ package com.example.bolg.main.createandJoin
 
 import android.app.Application
 import android.content.DialogInterface
-import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -11,8 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import com.example.bolg.GrpcTask
 import com.example.bolg.R
-import com.example.bolg.standby.host.HostStandbyActivity
-import com.example.bolg.standby.player.PlayerStandbyActivity
 import kotlinx.coroutines.*
 
 /** ----------------------------------------------------------------------
@@ -48,16 +45,15 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
             .setCancelable(false)
             .setIcon(R.mipmap.ic_launcher)
             .setTitle("ルームID入力")
-            .setMessage("ルームIDを入力してください。\n（数字4桁）")
+            .setMessage("ルームIDを入力してください。\n（数字）")
             .setView(editText)
-            .setNegativeButton("キャンセル", DialogInterface.OnClickListener { dialog, whichButton ->
-            })
-            .setPositiveButton("OK", DialogInterface.OnClickListener { dialog, whichButton ->
+            .setNegativeButton("キャンセル") { _, _ ->
+            }
+            .setPositiveButton("OK") { _, _ ->
                 // 空白でないか
                 if(editText.text.isEmpty()){
                     Toast.makeText(view.context, "入力が空白です", Toast.LENGTH_LONG).show()
-                }
-                else if(editText.text.length < 4 || editText.text.length > 5){
+                } else if(editText.text.length < 2 || editText.text.length > 5){
                     Toast.makeText(view.context, "部屋のIDは4桁です", Toast.LENGTH_LONG).show()
                 }
                 // 部屋への参加Request
@@ -68,7 +64,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
                     }
                     Log.d("GrpcTask","joinRoomTaskEnd")
                 }
-            })
+            }
             .show() 
     }
 
@@ -82,7 +78,5 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
         uiScope.launch {
             GrpcTask.getInstance(app).createAndJoinRoomTask(view)
         }
-        // HostStandby Transition
-        Log.d("GrpcTask","create_and_join_room_respIntent")
     }
 }
