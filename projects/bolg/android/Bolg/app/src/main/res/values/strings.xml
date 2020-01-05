@@ -31,8 +31,10 @@
     <string name="btConnecting">Bluetooth connecting</string>
     <string name="btConnect">Bluetooth connect</string>
     <string name="btDisconnect">Bluetooth disconnect</string>
-
-
-
+    <string name="sutamna">sutamna</string>
+    <string name="_1">アイテム1</string>
+    <string name="_2">アイテム2</string>
+    <string name="_3">アイテム3</string>
+    <string name="survival">殲滅戦</string>
 
 </resources>

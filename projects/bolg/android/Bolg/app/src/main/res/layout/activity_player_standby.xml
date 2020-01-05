@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,43 +8,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".standby.player.PlayerStandbyActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="20dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/player_standby_recycler_view"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/frame_black"
         app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/player_join_text"
-        app:layout_constraintEnd_toStartOf="@+id/player_select_table"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/join_num"
+        app:layout_constraintEnd_toStartOf="@id/player_select_table"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
-        android:id="@+id/player_join_text"
+        android:id="@+id/join_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="参加人数"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_standby_recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/player_join_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        android:textSize="20sp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/player_standby_recycler_view"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/join_num"
+        app:layout_constraintStart_toEndOf="@+id/join_num"
+        android:layout_marginStart="10dp"
+        android:textSize="20sp"/>
     <TableLayout
         android:id="@+id/player_select_table"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toEndOf="@id/player_standby_recycler_view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.157">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <TableRow
-            android:id="@+id/row"
+            android:id="@+id/player_pairing_id_row"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="2dp">
 
             <ImageButton
                 android:id="@+id/player_pairing_btn"
@@ -58,13 +85,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:text="@string/user_id" />
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow1"
+            android:id="@+id/player_rule_row"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -75,143 +102,195 @@
                 android:layout_span="4"
                 android:gravity="center"
                 android:textSize="20sp"
+                android:layout_margin="2dp"
                 android:background="@drawable/frame_black"
-                android:text="ルール(HOST選択反映)" />
+                android:text="@string/survival" />
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/host_item_row"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <TextView
-                android:id="@+id/player_kakin_bullet"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_span="2"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:layout_margin="2dp"
-                android:background="@drawable/frame_black"
-                android:text="課金弾(HOST選択反映)" />
+                android:gravity="bottom"
+                android:text="課金弾"
+                android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/btn_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:gravity="bottom"
+                android:text="アイテム"
+                android:textStyle="bold"/>
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/player_item_btn_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            >
+
+            <ImageButton
+                android:id="@+id/host_kakin_bullet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_span="2"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_button_on" />
+
+            <ImageButton
+                android:id="@+id/host_item_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:layout_margin="2dp"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_button_on" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/player_inventory_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/player_item1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_span="2"
-                android:gravity="center"
-                android:textSize="15sp"
                 android:layout_margin="2dp"
+                android:layout_span="2"
                 android:background="@drawable/frame_black"
-                android:text="Item(HOST選択反映)" />
+                android:gravity="center"
+                android:text="アイテム1"
+                android:textStyle="bold"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/player_item2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_span="2"
+                android:background="@drawable/frame_black"
+                android:gravity="center"
+                android:text="アイテム2"
+                android:textStyle="bold"
+                android:textSize="20sp" />
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
 
             <TextView
-                android:id="@+id/btn_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_span="2"
-                android:textSize="15sp"
-                android:gravity="center"
                 android:layout_margin="2dp"
                 android:background="@drawable/frame_black"
-                android:text="アイテム(インベントリ)" />
-
-            <TextView
-                android:id="@+id/btn_5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
-                android:textSize="15sp"
                 android:gravity="center"
-                android:layout_margin="2dp"
-                android:background="@drawable/frame_black"
-                android:text="アイテム(インベントリ)" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRowd"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                android:text="課金弾"
+                android:textStyle="bold"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/player_kakin_bullet_count"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_span="2"
-                android:textSize="15sp"
-                android:gravity="center"
                 android:layout_margin="2dp"
                 android:background="@drawable/frame_black"
-                android:text="@string/billing_bullet_count" />
+                android:gravity="center"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="20sp" />
+
             <TextView
-                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/frame_black"
+                android:layout_span="1"
+                android:text="準備完了"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/player_ready_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="準備完了：2/10"
-                android:textSize="15sp"
                 android:layout_margin="2dp"
                 android:background="@drawable/frame_black"
-                android:layout_span="2" />
+                android:text="0"
+                android:textStyle="bold"
+                android:layout_span="1"
+                android:gravity="center"
+                android:textSize="20sp" />
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRowp"
+            android:id="@+id/tableRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/player_inventory_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_span="2"
-                android:text="@string/inventory" />
-
-            <Button
+                android:layout_margin="2dp"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_inventory_on_dark" />
+            <ImageButton
                 android:id="@+id/player_ready_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_span="2"
-                android:text="@string/standby_ok" />
+                android:layout_margin="2dp"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_ready_on_dark" />
         </TableRow>
 
         <TableRow
-            android:id="@+id/dummyTableRow4"
+            android:id="@+id/player_dummy_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/dummy1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
                 android:text="@string/dummy" />
             <Button
-                android:id="@+id/dummy2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
                 android:text="@string/dummy" />
             <Button
-                android:id="@+id/dummy3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
                 android:text="@string/dummy" />
             <Button
-                android:id="@+id/dummy4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
                 android:text="@string/dummy" />
         </TableRow>
-
     </TableLayout>
 
     <ProgressBar

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.bolg.FireMissilesDialogFragment
 import com.example.bolg.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,8 @@ class CreateJoinFragment : Fragment(){
         // Button widget Setting
         val joinBtn:Button = view.findViewById(R.id.join_btn)
         val createBtn:Button = view.findViewById(R.id.create_btn)
+
+        val test = FireMissilesDialogFragment()
 
         // 参加
         joinBtn.setOnClickListener {

@@ -14,6 +14,7 @@ import com.example.bolg.standby.player.PlayerStandbyActivity
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.stub.StreamObserver
+import kotlinx.coroutines.*
 import org.bolg_developers.bolg.*
 
 /** ----------------------------------------------------------------------
@@ -22,6 +23,9 @@ import org.bolg_developers.bolg.*
  * Serverとの通信を担う
  * bidirectionalStreamingRPCを行う場合常にServerとChannelが接続されている状態。
  * なのでシングルトン処理を行う
+ * 問題点：
+ * ①Dialogが出せない
+ * ②Toastも出せない
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class GrpcTask(application: Application)  {
@@ -44,6 +48,13 @@ class GrpcTask(application: Application)  {
     private var message: RoomMessage? = null
     private var channel: ManagedChannel
     private val asyncStub: BolgServiceGrpc.BolgServiceStub
+
+    // test
+    var joinUserNum: MutableLiveData<Long> = MutableLiveData(0)
+    // job get
+    private var viewModelJob = Job()
+    // scope get
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     init {
         Log.d("GrpcTask", "init")
@@ -132,11 +143,8 @@ class GrpcTask(application: Application)  {
 
     /** **********************************************************************
      * inventory
-     * @param token トークン
      * @author 長谷川　勇太
      * ********************************************************************** */
-//    fun inventory(token: String) {
-//    }
 
     /** **********************************************************************
      * NotifyReceivingTask
@@ -224,6 +232,13 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.id} が入室しました。")
                         editor?.putLong("test",value.joinRoomMsg.player.id)
                         editor?.apply()
+
+                        uiScope.launch {
+                            delay(1000)
+                            Log.d("GrpcTask", "参加人数は${joinUserNum.value}人です")
+                            joinUserNum.value = joinUserNum.value?.plus(1)
+                            Log.d("GrpcTask", "参加人数は${joinUserNum.value}になりました")
+                        }
                     }
                     6 -> {    // notify_receiving_req
                         Log.d("GrpcTask", "notify_receiving_req ->${value.joinRoomMsg}")
