@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#E0ECF8"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +13,7 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
+        android:background="@drawable/header"
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="20dp" />
 
@@ -27,20 +28,20 @@
         android:background="@drawable/frame_black"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/join_num"
+        app:layout_constraintBottom_toTopOf="@+id/host_join_num_txt"
         app:layout_constraintEnd_toStartOf="@id/host_select_table"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <TextView
-        android:id="@+id/join_num"
+        android:id="@+id/host_join_num_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="参加人数"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/host_standby_recycler_view"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="12dp"
         android:textSize="20sp"
         />
 
@@ -50,8 +51,8 @@
         android:layout_height="wrap_content"
         android:text="0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/join_num"
-        app:layout_constraintStart_toEndOf="@+id/join_num"
+        app:layout_constraintTop_toTopOf="@+id/host_join_num_txt"
+        app:layout_constraintStart_toEndOf="@+id/host_join_num_txt"
         android:layout_marginStart="10dp"
         android:textSize="20sp"/>
 
@@ -77,7 +78,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_span="2"
-                android:src="@drawable/ic_settings_bluetooth_black_24dp"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_pairing"
                 android:text="@string/pairing" />
 
             <TextView
@@ -87,6 +89,7 @@
                 android:layout_span="2"
                 android:gravity="center"
                 android:text="UserID"
+                android:background="@drawable/frame_black"
                 android:textSize="25sp" />
         </TableRow>
 
@@ -120,18 +123,19 @@
                 android:layout_height="wrap_content"
                 android:layout_span="2"
                 android:gravity="bottom"
-                android:text="課金弾"
+                android:text="@string/billingAmmunition"
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/host_item_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_span="2"
                 android:gravity="bottom"
-                android:text="アイテム"
+                android:text="@string/item_txt"
                 android:textStyle="bold"/>
-
         </TableRow>
+
         <TableRow
             android:id="@+id/host_item_btn_row"
             android:layout_width="match_parent"
@@ -141,12 +145,13 @@
             >
 
             <ImageButton
-                android:id="@+id/host_kakin_bullet"
+                android:id="@+id/host_billing_ammunition_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:layout_span="2"
                 android:background="@null"
+                android:elevation="20dp"
                 app:srcCompat="@drawable/bolg_button_on" />
 
             <ImageButton
@@ -156,6 +161,7 @@
                 android:layout_span="2"
                 android:layout_margin="2dp"
                 android:background="@null"
+                android:elevation="20dp"
                 app:srcCompat="@drawable/bolg_button_on" />
 
         </TableRow>
@@ -164,10 +170,12 @@
             android:id="@+id/host_inventory_item_row"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            >
 
             <TextView
-                android:id="@+id/host_item1"
+                android:id="@+id/host_select_item1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -179,7 +187,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/host_item2"
+                android:id="@+id/host_select_item2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -192,10 +200,11 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRowd"
+            android:id="@+id/table_row"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -208,7 +217,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/host_kakin_bullet_count"
+                android:id="@+id/host_billing_ammunition_txt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -229,7 +238,7 @@
                 android:gravity="center"
                 android:textSize="18sp" />
             <TextView
-                android:id="@+id/host_ready_text"
+                android:id="@+id/host_ready_txt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -245,7 +254,9 @@
             android:id="@+id/tableRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            >
 
             <ImageButton
                 android:id="@+id/host_inventory_btn"

@@ -9,6 +9,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.example.bolg.R
@@ -16,6 +17,7 @@ import com.example.bolg.R.menu.sutamina_menu
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 /** ----------------------------------------------------------------------
  * MainActivity
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity","onCreate")
 
         val test = 20000L
+        val decor = window.decorView
+        // hide navigation bar, hide status bar
+        decor.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 
         /** stamina info sharedPreferences **/
         val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
@@ -69,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                toolbar.title  = "終了"
+                toolbar.title  = "BOLG"
                 // スタミナの数を見て終了するか判断
                 // スタミナ回復する
                 // 判断

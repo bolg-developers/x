@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/toolbar_color"
+    android:background="#E0ECF8"
     tools:context=".main.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,7 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/background"
+        android:background="@drawable/header"
         android:elevation="20dp" />
 
     <LinearLayout

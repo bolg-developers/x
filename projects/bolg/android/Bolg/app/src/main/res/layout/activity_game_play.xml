@@ -2,174 +2,121 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_margin= "20dp"
-    android:background="@color/toolbar_color"
+    android:padding="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/list_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/status_layout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:text="List"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/status_layout"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="150dp"
         android:layout_height="match_parent"
         android:background="@drawable/frame_black"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/list_layout"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/bullet_kind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bolg_change_ammunition"
+        android:contentDescription="@string/todo"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/list"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/bullet_kind"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:src="@drawable/bolg_timer"
+        android:contentDescription="@string/todo" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/timer"
+        app:layout_constraintTop_toTopOf="@id/timer"
+        android:text="@string/timer"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="50dp"
+        />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/item1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
+        android:src="@drawable/bplg_item"
+        android:contentDescription="@string/todo" />
 
-                <TableLayout
-                    android:id="@+id/select_table"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                    <TableRow
-                        android:id="@+id/row1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <Button
-                            android:id="@+id/testbutton"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="∞">
-                        </Button>
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="リロード">
-                        </Button>
-                    </TableRow>
-                    <TableRow
-                        android:id="@+id/row2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="アイテム１">
-                        </Button>
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="アイテム２">
-                        </Button>
-                    </TableRow>
-                </TableLayout>
+    <ImageView
+        android:id="@+id/item2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/item1"
+        app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
+        android:src="@drawable/bplg_item"
+        android:contentDescription="@string/todo" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+    <ImageView
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/item2"
+        app:layout_constraintTop_toBottomOf="@+id/timer"
+        android:src="@drawable/bolg_log"
+        android:contentDescription="@string/todo" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/hit_point_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/item1"
+        android:src="@drawable/bolg_hitpoint_blue"
+        android:contentDescription="@string/todo"
+        android:layout_marginStart="10dp"
+        tools:ignore="RtlSymmetry" />
 
-                <TableLayout
-                    android:id="@+id/time_log_table"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                    <TableRow
-                        android:id="@+id/row3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="制限時間">
-                        </Button>
-                    </TableRow>
-                    <TableRow
-                        android:id="@+id/row4"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="HIT/KILL">
-                        </Button>
-                    </TableRow>
-                </TableLayout>
+    <TextView
+        android:id="@+id/hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/hit_point_img"
+        app:layout_constraintTop_toTopOf="@+id/hit_point_img"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="100dp"
+        android:text="@string/hit_point"
+        android:textSize="30sp"
+        android:textColor="@color/white" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TableLayout
-                android:id="@+id/hp_table"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TableRow
-                    android:id="@+id/row5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_add_black_24dp"
-                        android:text="＋">
-                    </ImageView>
-                    <TextView
-                        android:id="@+id/id_txt"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textSize="20sp"
-                        android:text="１００">
-                    </TextView>
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_create_black_24dp"
-                        android:text="弾画像">
-                    </ImageView>
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="残弾数">
-                    </Button>
-                </TableRow>
-            </TableLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <ImageView
+        android:id="@+id/bullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/hit_point_img"
+        app:layout_constraintTop_toBottomOf="@+id/log"
+        android:src="@drawable/bolg_bullet_nomal"
+        android:contentDescription="@string/todo"
+        tools:ignore="RtlSymmetry" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/bullet"
+        app:layout_constraintTop_toTopOf="@+id/bullet"
+        android:text="∞"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="100dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

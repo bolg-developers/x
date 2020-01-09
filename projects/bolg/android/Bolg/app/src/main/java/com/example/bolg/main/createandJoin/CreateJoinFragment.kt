@@ -1,6 +1,7 @@
 package com.example.bolg.main.createandJoin
 
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.bolg.FireMissilesDialogFragment
 import com.example.bolg.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.bolg.gameplay.GamePlayActivity
 
 
 /** ----------------------------------------------------------------------
@@ -38,8 +36,6 @@ class CreateJoinFragment : Fragment(){
         // Button widget Setting
         val joinBtn:Button = view.findViewById(R.id.join_btn)
         val createBtn:Button = view.findViewById(R.id.create_btn)
-
-        val test = FireMissilesDialogFragment()
 
         // 参加
         joinBtn.setOnClickListener {

@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bolg.GrpcTask
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
@@ -48,18 +49,18 @@ class PlayerStandbyActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_standby)
 
-        Log.d("GrpcTask","PlayerStandbyActivitySta")
-
         // root view
         val decorView: View = window.decorView
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 
         /** widget init **/
-        val userId: TextView = findViewById(R.id.player_user_id)
-        val progress: ProgressBar = findViewById(R.id.player_progress)
-        val joinUser: RecyclerView = findViewById(R.id.player_standby_recycler_view)
-        val ready: ImageButton = findViewById(R.id.player_ready_btn)
-        val rule: TextView = findViewById(R.id.player_rule)
-        val playerPairing: ImageButton = findViewById(R.id.player_pairing_btn)
+        val userId        : TextView     = findViewById(R.id.player_user_id)
+        val rule          : TextView     = findViewById(R.id.player_rule)
+//        val joinMember    : TextView     = findViewById(R.id.player_join_num)
+        val ready         : ImageButton  = findViewById(R.id.player_ready_btn)
+        val playerPairing : ImageButton  = findViewById(R.id.player_pairing_btn)
+        val progress      : ProgressBar  = findViewById(R.id.player_progress)
+        val joinUser      : RecyclerView = findViewById(R.id.player_standby_recycler_view)
 
         /** viewModel**/
         val application: Application = requireNotNull(this).application
@@ -86,7 +87,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
             }
 
             override fun onFinish() {
-                toolbar.title  = "終了"
+                toolbar.title  = "BOLG"
                 stamina1?.setIcon(R.drawable.favorite)
                 editor?.putBoolean("staminaFirst", true)
                 editor?.putBoolean("staminaSecond", true)
@@ -116,7 +117,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         // 区切り線の表示
         joinUser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        /** Observe類 **/
+        /** Observe kind **/
         // ゲームルール
         playerStandbyViewModel.gameRule.observe(this, Observer { mrule ->
             rule.text = mrule
@@ -132,6 +133,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         // 課金弾ON/OFF
         playerStandbyViewModel.kakinBulletState.observe(this, Observer {
+        })
+
+        GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
+            Log.d("Host","${joinNum}人が参加しています")
+//            joinMember.text = joinNum.toString()
         })
 
         /** onClick **/
