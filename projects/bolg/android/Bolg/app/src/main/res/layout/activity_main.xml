@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#E0ECF8"
+    android:background="@drawable/bolg_background_img"
     tools:context=".main.MainActivity">
 
     <androidx.appcompat.widget.Toolbar

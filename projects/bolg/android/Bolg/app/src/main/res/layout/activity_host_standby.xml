@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#E0ECF8"
+    android:background="@drawable/bolg_background_img"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

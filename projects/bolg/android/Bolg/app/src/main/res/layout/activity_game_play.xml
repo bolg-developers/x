@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="10dp"
+    android:background="@drawable/bolg_background_img"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

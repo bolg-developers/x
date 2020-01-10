@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0ECF8"
+    android:background="@drawable/bolg_background_img"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".standby.player.PlayerStandbyActivity">
 
