@@ -57,6 +57,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         /** widget init **/
         val userId            : TextView     = findViewById(R.id.host_user_id)
         val joinMember        : TextView     = findViewById(R.id.host_join_num)
+        val readyNum          : TextView     = findViewById(R.id.host_ready_txt)
         val hostPairing       : ImageButton  = findViewById(R.id.host_pairing)
         val billingAmmunition : ImageButton  = findViewById(R.id.host_billing_ammunition_btn)
         val inventory         : ImageButton  = findViewById(R.id.host_inventory_btn)
@@ -66,7 +67,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         val ruleSpinner       : Spinner      = findViewById(R.id.host_game_rule_spinner)
         val joinUser          : RecyclerView = findViewById(R.id.host_standby_recycler_view)
 
+
         start.isEnabled = false
+        var readyCount: Long = 0
+
 
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
@@ -123,18 +127,8 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
         }.start()
 
-        /**************************ViewModelに分割したい*********************************************************/
-        // LayoutManagerの設定
-        val layoutManager = LinearLayoutManager(this)
-        joinUser.layoutManager = layoutManager
-        // Adapterの設定
-        val sampleList: MutableList<ListData> = mutableListOf()
-        for (i: Int in 0..10) { sampleList.add(i, ListData("参加ユーザー${i}")) }
-        val adapter = StandbyRecyclerAdapter(sampleList)
-        joinUser.adapter = adapter
-        // 区切り線の表示
-        joinUser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        /******************************************************************************************************/
+        // List Update
+        hostStandbyViewModel.updateList(this,joinUser,"参加者なし")
 
         // ready request
         hostStandbyViewModel.setReady(data.getString("token", "0:0"),decorView)
@@ -181,14 +175,22 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         inventory.setOnClickListener { hostStandbyViewModel.inventory(data.getString("token", "0:0").toString()) }
 
         /** observer kind **/
-        // 入室者数処理
-        hostStandbyViewModel.readyPlayerOwner.observe(this, Observer {
-        })
+//        hostStandbyViewModel.readyPlayerOwner.observe(this, Observer {
+//        })
 
+        // 入室者数処理
         GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
             Log.d("Host","${joinNum}人が参加しています")
             joinMember.text = joinNum.toString()
+            hostStandbyViewModel.updateList(this,joinUser,joinNum.toString())
         })
+
+        // 準備完了処理
+        GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
+            readyNum.text = readyCount.toString()
+            readyCount++
+        })
+
     }
 
     /** **********************************************************************

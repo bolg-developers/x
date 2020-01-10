@@ -56,11 +56,14 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** widget init **/
         val userId        : TextView     = findViewById(R.id.player_user_id)
         val rule          : TextView     = findViewById(R.id.player_rule)
-//        val joinMember    : TextView     = findViewById(R.id.player_join_num)
         val ready         : ImageButton  = findViewById(R.id.player_ready_btn)
         val playerPairing : ImageButton  = findViewById(R.id.player_pairing_btn)
         val progress      : ProgressBar  = findViewById(R.id.player_progress)
         val joinUser      : RecyclerView = findViewById(R.id.player_standby_recycler_view)
+
+
+        ready.isEnabled = false
+
 
         /** viewModel**/
         val application: Application = requireNotNull(this).application
@@ -117,6 +120,25 @@ class PlayerStandbyActivity : AppCompatActivity(){
         // 区切り線の表示
         joinUser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
+
+        /** onClick **/
+        ready.setOnClickListener {
+            progress.visibility = ProgressBar.VISIBLE
+            playerStandbyViewModel.setReady(data.getString("token", "error").toString(), decorView)
+        }
+        // ペアリング
+        playerPairing.setOnClickListener {
+            progress.visibility = ProgressBar.VISIBLE
+            Log.d("button", "progress:ON")
+            if (playerStandbyViewModel.pairing(decorView)) {
+                progress.visibility = ProgressBar.INVISIBLE
+                Log.d("button", "progress:OFF")
+                ready.isEnabled = true
+                ready.setImageResource(R.drawable.bolg_ready_on_right)
+
+            }
+        }
+
         /** Observe kind **/
         // ゲームルール
         playerStandbyViewModel.gameRule.observe(this, Observer { mrule ->
@@ -140,20 +162,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
 //            joinMember.text = joinNum.toString()
         })
 
-        /** onClick **/
-        ready.setOnClickListener {
-            progress.visibility = ProgressBar.VISIBLE
-            playerStandbyViewModel.setReady(data.getString("token", "error").toString(), decorView)
-        }
-        // ペアリング
-        playerPairing.setOnClickListener {
-            progress.visibility = ProgressBar.VISIBLE
-            Log.d("button", "progress:ON")
-            if (playerStandbyViewModel.pairing(decorView)) {
-                progress.visibility = ProgressBar.INVISIBLE
-                Log.d("button", "progress:OFF")
-            }
-        }
     }
     /** **********************************************************************
      * onStart

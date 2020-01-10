@@ -264,7 +264,7 @@
                 android:layout_span="2"
                 android:layout_margin="2dp"
                 android:background="@null"
-                app:srcCompat="@drawable/bolg_ready_on_right" />
+                app:srcCompat="@drawable/bolg_ready_on_dark" />
         </TableRow>
 
         <TableRow

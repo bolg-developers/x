@@ -32,6 +32,7 @@ import java.nio.ByteBuffer
  * ゲームプレイ中画面
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
+@Suppress("NAME_SHADOWING")
 class GamePlayActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,9 +124,18 @@ class GamePlayActivity : AppCompatActivity(){
 
         GrpcTask.getInstance(application).gameEndFlg.observe(this, Observer {result->
             Log.d("GamePlayActivity" , "game end")
+//            val joinUser: MutableList<String>? = null
+//            for (item in result.survivalResultMsg.personalsOrBuilderList){
+//                Log.d("GamePlayActivity" , item.playerName)
+//                joinUser?.add(item.playerName)
+//                Log.d("GamePlayActivity" , joinUser.toString())
+//            }
             AlertDialog.Builder(this) // FragmentではActivityを取得して生成
                 .setTitle("リザルト")
-                .setMessage(result.toString())
+                .setMessage(
+                    "勝者:${result.survivalResultMsg.winner.name}"+ "\n"
+                  + "参加者：${result.survivalResultMsg.personalsOrBuilderList[0]},${result.survivalResultMsg.personalsOrBuilderList[1]}"
+                )
                 .setPositiveButton("もう一度") { _, _ ->
                      val intent:Intent
                     if(data.getBoolean("standby_state",true)){
