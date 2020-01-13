@@ -46,19 +46,9 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     val gameRule: LiveData<String>
         get() = _gameRule
 
-    // 準備完了人数
-//    private val _readyPlayerOwner = MutableLiveData<String>()
-//    val readyPlayerOwner: LiveData<String>
-//        get() = _readyPlayerOwner
-
     // 課金ボタンON/OFF
     var kakinBulletState = true
     var itemState = true
-
-    // 準備完了人数の更新
-//    private val _ready = MutableLiveData<String>()
-//    val ready: LiveData<String>
-//        get() = _ready
 
     /** **********************************************************************
      * startGame
@@ -123,12 +113,17 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param token トークン
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun inventory(token: String) {
-//        uiScope.launch {
-//            GrpcTask.getInstance(app).inventory(token)
-//        }
-    }
+//    fun inventory(token: String) {
+//    }
+//
 
+    /** **********************************************************************
+     * updateList
+     * @param context Context
+     * @param joinUser
+     * @param name
+     * @author 長谷川　勇太
+     * ********************************************************************** */
     fun updateList(context: Context,joinUser:RecyclerView,name: String){
         // LayoutManagerの設定
         layoutManager = LinearLayoutManager(context)

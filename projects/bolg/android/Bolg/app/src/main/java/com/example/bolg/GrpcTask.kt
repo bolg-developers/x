@@ -28,6 +28,7 @@ import org.bolg_developers.bolg.*
  * なのでシングルトン処理を行う
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
+@Suppress("UNUSED_CHANGED_VALUE")
 class GrpcTask(application: Application)  {
 
     /** Singleton **/
@@ -50,11 +51,12 @@ class GrpcTask(application: Application)  {
     private val asyncStub : BolgServiceGrpc.BolgServiceStub
 
     // 参加者人数
-    var joinUserNum: MutableLiveData<Long>        = MutableLiveData(0)
-    var hitFlg     : MutableLiveData<Long>        = MutableLiveData(0)
-    var gameEndFlg : MutableLiveData<RoomMessage> = MutableLiveData()
-    var joinFlg    : MutableLiveData<String>      = MutableLiveData("")
-    var readyFlg   : MutableLiveData<Boolean>     = MutableLiveData(false)
+    var joinUserNum : MutableLiveData<Long>                  = MutableLiveData(0)
+    var hitFlg      : MutableLiveData<Long>                  = MutableLiveData(0)
+    var gameEndFlg  : MutableLiveData<RoomMessage>           = MutableLiveData()
+    var joinFlg     : MutableLiveData<String>                = MutableLiveData("")
+    var readyFlg    : MutableLiveData<Boolean>               = MutableLiveData(true)
+    var userNameList: MutableLiveData<MutableList<String>>   = MutableLiveData()
 
     /** coroutine init **/
     private var liveDataJob = Job()
@@ -182,15 +184,7 @@ class GrpcTask(application: Application)  {
                 when(value.dataCase.number){
                     1 -> { Log.d("GrpcTask", "joinCreate_and_join_room_req ->${value.createAndJoinRoomReq}") }
                     2 -> {    // create_and_join_room_resp
-
-                        uiScope.launch {
-                            delay(100)
-                            Log.d("GrpcTask", "参加人数は${joinUserNum.value}人です")
-                            joinUserNum.value = joinUserNum.value?.plus(1)
-                            Log.d("GrpcTask", "参加人数は${joinUserNum.value}になりました")
-                        }
-
-                            Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
+                        Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
                         if(value.createAndJoinRoomResp.room.id != 0L) {
                             Log.d("GrpcTask","no roomId 0")
                             // Player Info Save
@@ -204,14 +198,41 @@ class GrpcTask(application: Application)  {
                             editor?.putBoolean("game_start", value.createAndJoinRoomResp.room.gameStart)
                             editor?.putString("token", value.createAndJoinRoomResp.token)
                             editor?.putBoolean("standby_state",true)
+
+                            // 部屋内の準備完了人数の取得
+                            var num = 0L
+                            val cnt = value.createAndJoinRoomResp.room.playersCount
+                            for (i in 0 until cnt){
+                                if(value.createAndJoinRoomResp.room.getPlayers(i).ready){
+                                    num++
+                                }
+                            }
+                            editor?.putLong("player_ready_num", num)
                             editor?.apply()
+                            Log.d("player_ready_num","準備完了人数${num}")
+
+                            uiScope.launch {
+                                delay(100)
+                                Log.d("GrpcTask", "参加人数は${joinUserNum.value}人です")
+                                joinUserNum.value = cnt.toLong()
+                                Log.d("GrpcTask", "参加人数は${joinUserNum.value}になりました")
+                                // List add observe
+                                joinFlg.value = value.createAndJoinRoomResp.room.getPlayers(0).name
+
+                                val list = mutableListOf<String>()
+                                for(i in 0 until cnt){
+                                    list.add(value.createAndJoinRoomResp.room.getPlayers(i).name)
+                                }
+                                Log.d("List","create_and_join_room_resp->$list")
+                                userNameList.value = list
+                            }
+
+
                             val intent = Intent(view?.context, HostStandbyActivity::class.java)
                             view?.context?.startActivity(intent)
                         }
                     }
-
                     3 -> { Log.d("GrpcTask", "join_room_req  ->${value.joinRoomReq}") }
-
                     4 -> {    // join_room_resp
                         Log.d("GrpcTask","join_room_resp -> ${value.joinRoomResp}")
                         if(value.joinRoomResp.room.id != 0L) {
@@ -227,9 +248,30 @@ class GrpcTask(application: Application)  {
                             editor?.putString("token", value.joinRoomResp.token)
                             editor?.putBoolean("standby_state",false)
                             editor?.apply()
+
+                            // 部屋内の準備完了人数の取得
+                            var num = 0L
+                            val cnt = value.joinRoomResp.room.playersCount
+                            for (i in 0 until cnt){
+                                if(value.joinRoomResp.room.getPlayers(i).ready){
+                                    num++
+                                }
+                            }
+                            editor?.putLong("player_ready_num", num)
+                            editor?.apply()
+                            Log.d("player_ready_num","準備完了人数${num}")
                             // PlayerStandby Transition
-                            val intent = Intent(view?.context, PlayerStandbyActivity::class.java)
-                            view?.context?.startActivity(intent)
+
+                            uiScope.launch {
+                                val list = mutableListOf<String>()
+                                for(i in 0 until cnt){
+                                    list.add(value.joinRoomResp.room.getPlayers(i).name)
+                                }
+                                Log.d("List","join_room_resp->$list")
+                                userNameList.value = list
+                                val intent = Intent(view?.context, PlayerStandbyActivity::class.java)
+                                view?.context?.startActivity(intent)
+                            }
                         }
                     }
                     5 -> {    // join_room_msg
@@ -238,7 +280,6 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.id} が入室しました。")
                         editor?.putLong("test",value.joinRoomMsg.player.id)
                         editor?.apply()
-
                         uiScope.launch {
                             delay(100)
                             Log.d("GrpcTask", "参加人数は${joinUserNum.value}人です")
@@ -246,12 +287,19 @@ class GrpcTask(application: Application)  {
                             Log.d("GrpcTask", "参加人数は${joinUserNum.value}になりました")
 
                             // List add observe
-                            joinFlg.value = value.joinRoomMsg.player.name
+                            // joinFlg.value = value.joinRoomMsg.player.name
+                            val list = userNameList.value
+                            for(i in 0 until list?.size!!) {
+                                if(value.joinRoomMsg.player.name != list[i]) {
+                                    list.add(value.joinRoomMsg.player.name)
+                                }
+                            }
+                            Log.d("List","join_room_msg->$list")
+                            userNameList.value = list
                         }
+
                     }
-
                     6 -> { Log.d("GrpcTask", "notify_receiving_req ->${value.joinRoomMsg}") }
-
                     7 -> {    // notify_receiving_msg
                         Log.d("GrpcTask", "notify_receiving_msg ->${value.notifyReceivingMsg}")
                         uiScope.launch {
@@ -265,7 +313,6 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "ダメージをうけたプレイヤーid : ${value.notifyReceivingMsg.player.id}")
 
                     }
-
                     8 -> {    // survival_result_msg
                         Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")
                         Log.d("GrpcTask", "${value.survivalResultMsg.winner.name}が勝利")
@@ -274,9 +321,7 @@ class GrpcTask(application: Application)  {
                             gameEndFlg.value = value
                         }
                     }
-
                     9 -> { Log.d("GrpcTask", "start_game_req  ->${value.startGameReq}") }
-
                     10 -> {    // start_game_msg
                         Log.d("GrpcTask", "start_game_msg -> ${value.startGameMsg}")
                         Log.d("GrpcTask","げーむ開始")
@@ -285,22 +330,24 @@ class GrpcTask(application: Application)  {
                         val intent = Intent(view?.context, GamePlayActivity::class.java)
                         view?.context?.startActivity(intent)
                     }
-
                     11 -> { Log.d("GrpcTask", "update_weapon_req   ->${value.updateWeaponReq}") }
-
                     12 -> { Log.d("GrpcTask", "update_weapon_resp -> 何もかえって来なくていい") }
-
                     13 -> { Log.d("GrpcTask", "ready_req  ->${value.updateWeaponResp}") }
-
                     14 -> {    // ready_msg
                         Log.d("GrpcTask", "ready_msg  -> ${value.readyMsg}")
                         Log.d("GrpcTask", "playerID: ${value.readyMsg.playerId}が準備完了です")
                         // Testのため保存
                         editor?.putLong("test_player_id", value.readyMsg.playerId)
                         editor?.apply()
+                        Log.d("player_ready_num", "save")
 
                         uiScope.launch {
+                            var tmp = data.getLong("player_ready_num",99)
+                            editor?.putLong("player_ready_num",++tmp)
+                            editor?.apply()
+                            Log.d("player_ready_num", "$tmp")
                             readyFlg.value = true
+                            Log.d("player_ready_num", "observe before")
                         }
                     }
                     15 -> {    // error

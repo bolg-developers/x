@@ -38,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="参加人数"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/host_standby_recycler_view"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@+id/host_join_num_txt"
         app:layout_constraintStart_toEndOf="@+id/host_join_num_txt"
@@ -89,6 +91,7 @@
                 android:layout_span="2"
                 android:gravity="center"
                 android:text="UserID"
+                android:textColor="@color/white"
                 android:background="@drawable/frame_black"
                 android:textSize="25sp" />
         </TableRow>
@@ -124,6 +127,7 @@
                 android:layout_span="2"
                 android:gravity="bottom"
                 android:text="@string/billingAmmunition"
+                android:textColor="@color/white"
                 android:textStyle="bold"/>
 
             <TextView
@@ -133,6 +137,7 @@
                 android:layout_span="2"
                 android:gravity="bottom"
                 android:text="@string/item_txt"
+                android:textColor="@color/white"
                 android:textStyle="bold"/>
         </TableRow>
 
@@ -183,6 +188,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="アイテム1"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 
@@ -195,6 +201,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="アイテム2"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
         </TableRow>
@@ -213,6 +220,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="課金弾"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 
@@ -224,6 +232,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="0"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 
@@ -234,6 +243,7 @@
                 android:background="@drawable/frame_black"
                 android:layout_span="1"
                 android:text="準備完了"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textSize="18sp" />
@@ -244,6 +254,7 @@
                 android:layout_margin="2dp"
                 android:background="@drawable/frame_black"
                 android:text="0"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_span="1"
                 android:gravity="center"

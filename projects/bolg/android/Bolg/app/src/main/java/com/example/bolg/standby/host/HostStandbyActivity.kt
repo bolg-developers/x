@@ -60,17 +60,14 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         val readyNum          : TextView     = findViewById(R.id.host_ready_txt)
         val hostPairing       : ImageButton  = findViewById(R.id.host_pairing)
         val billingAmmunition : ImageButton  = findViewById(R.id.host_billing_ammunition_btn)
-        val inventory         : ImageButton  = findViewById(R.id.host_inventory_btn)
+//        val inventory         : ImageButton  = findViewById(R.id.host_inventory_btn)
         val start             : ImageButton  = findViewById(R.id.host_start_btn)
         val item              : ImageButton  = findViewById(R.id.host_item_btn)
         val progress          : ProgressBar  = findViewById(R.id.host_pairing_progress)
         val ruleSpinner       : Spinner      = findViewById(R.id.host_game_rule_spinner)
         val joinUser          : RecyclerView = findViewById(R.id.host_standby_recycler_view)
 
-
         start.isEnabled = false
-        var readyCount: Long = 0
-
 
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
@@ -128,10 +125,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }.start()
 
         // List Update
-        hostStandbyViewModel.updateList(this,joinUser,"参加者なし")
+//        hostStandbyViewModel.updateList(this,joinUser,"参加者なし")
 
-        // ready request
-        hostStandbyViewModel.setReady(data.getString("token", "0:0"),decorView)
+        readyNum.text = data.getLong("player_ready_num",99L).toString()
+        Log.d("player_ready_num", "init")
 
         /** onClick processing **/
         // 課金ボタンON/OFF
@@ -163,6 +160,8 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 Log.d("button", "progress:OFF")
                 start.isEnabled = true
                 start.setImageResource(R.drawable.bolg_start_on_right)
+                // ready request
+                hostStandbyViewModel.setReady(data.getString("token", "0:0"),decorView)
             }
         }
 
@@ -172,7 +171,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
 
         // インベントリ
-        inventory.setOnClickListener { hostStandbyViewModel.inventory(data.getString("token", "0:0").toString()) }
+//        inventory.setOnClickListener { hostStandbyViewModel.inventory(data.getString("token", "0:0").toString()) }
 
         /** observer kind **/
 //        hostStandbyViewModel.readyPlayerOwner.observe(this, Observer {
@@ -182,15 +181,21 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
             Log.d("Host","${joinNum}人が参加しています")
             joinMember.text = joinNum.toString()
-            hostStandbyViewModel.updateList(this,joinUser,joinNum.toString())
         })
 
         // 準備完了処理
         GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
-            readyNum.text = readyCount.toString()
-            readyCount++
+            readyNum.text = data.getLong("player_ready_num",99L).toString()
+            Log.d("player_ready_num", "observe")
         })
 
+        // 入室リスト更新
+        GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
+            // List Update
+            for(i in 0 until joinUserList.size){
+                hostStandbyViewModel.updateList(this,joinUser, joinUserList[i])
+            }
+        })
     }
 
     /** **********************************************************************

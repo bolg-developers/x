@@ -8,9 +8,14 @@ import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.GrpcTask
+import com.example.bolg.adapter.StandbyRecyclerAdapter
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
+import com.example.bolg.data.ListData
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -28,6 +33,9 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
     private var viewModelJob = Job()
     // Scope Set
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private var layoutManager: LinearLayoutManager? = null
+    private val sampleList: MutableList<ListData> = mutableListOf()
 
     private val app: Application = application
     val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
@@ -96,5 +104,25 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
         uiScope.launch {
             GrpcTask.getInstance(app).updateWeapon(attack,token,view)
         }
+    }
+
+
+    /** **********************************************************************
+     * updateList
+     * @param context Context
+     * @param joinUser
+     * @param name
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    fun updateList(context: Context, joinUser: RecyclerView, name: String){
+        // LayoutManagerの設定
+        layoutManager = LinearLayoutManager(context)
+        joinUser.layoutManager = layoutManager
+        // Adapterの設定
+        sampleList.add(ListData(name))
+        val adapter = StandbyRecyclerAdapter(sampleList)
+        joinUser.adapter = adapter
+        // 区切り線の表示
+        joinUser.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 }

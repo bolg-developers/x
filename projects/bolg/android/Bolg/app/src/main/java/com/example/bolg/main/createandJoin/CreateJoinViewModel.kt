@@ -43,7 +43,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
         // Dialog設定/表示
         AlertDialog.Builder(view.context)
             .setCancelable(false)
-            .setIcon(R.mipmap.ic_launcher)
+            .setIcon(R.drawable.logo_mini)
             .setTitle("ルームID入力")
             .setMessage("ルームIDを入力してください。\n（数字）")
             .setView(editText)

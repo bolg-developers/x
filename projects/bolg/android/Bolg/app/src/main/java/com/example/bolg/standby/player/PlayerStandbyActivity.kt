@@ -56,14 +56,14 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** widget init **/
         val userId        : TextView     = findViewById(R.id.player_user_id)
         val rule          : TextView     = findViewById(R.id.player_rule)
+        val readyNum      : TextView     = findViewById(R.id.player_ready_text)
         val ready         : ImageButton  = findViewById(R.id.player_ready_btn)
         val playerPairing : ImageButton  = findViewById(R.id.player_pairing_btn)
         val progress      : ProgressBar  = findViewById(R.id.player_progress)
         val joinUser      : RecyclerView = findViewById(R.id.player_standby_recycler_view)
 
-
         ready.isEnabled = false
-
+        var readyCount: Long = 0
 
         /** viewModel**/
         val application: Application = requireNotNull(this).application
@@ -157,9 +157,23 @@ class PlayerStandbyActivity : AppCompatActivity(){
         playerStandbyViewModel.kakinBulletState.observe(this, Observer {
         })
 
+        // 入室者数処理
         GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
             Log.d("Host","${joinNum}人が参加しています")
-//            joinMember.text = joinNum.toString()
+        })
+
+        // 準備完了処理
+        GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
+            readyNum.text = readyCount.toString()
+            readyCount++
+        })
+
+        // 入室リスト更新
+        GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
+            // List Update
+            for(i in 0 until joinUserList.size){
+                playerStandbyViewModel.updateList(this,joinUser, joinUserList[i])
+            }
         })
 
     }

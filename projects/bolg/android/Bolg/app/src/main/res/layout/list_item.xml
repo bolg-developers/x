@@ -10,5 +10,6 @@
         android:id="@+id/user_name"
         android:layout_gravity="center"
         android:textSize = "20sp"
+        android:textColor="@color/white"
         android:text = "@string/user"/>
 </LinearLayout>

@@ -89,6 +89,7 @@
                 android:textSize="25sp"
                 android:gravity="center"
                 android:background="@drawable/frame_black"
+                android:textColor="@color/white"
                 android:text="@string/user_id" />
         </TableRow>
 
@@ -106,6 +107,7 @@
                 android:textSize="20sp"
                 android:layout_margin="2dp"
                 android:background="@drawable/frame_black"
+                android:textColor="@color/white"
                 android:text="@string/survival" />
         </TableRow>
 
@@ -123,6 +125,7 @@
                 android:layout_span="2"
                 android:gravity="bottom"
                 android:text="課金弾"
+                android:textColor="@color/white"
                 android:textStyle="bold"/>
 
             <TextView
@@ -131,6 +134,7 @@
                 android:layout_span="2"
                 android:gravity="bottom"
                 android:text="アイテム"
+                android:textColor="@color/white"
                 android:textStyle="bold"/>
 
         </TableRow>
@@ -177,6 +181,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="アイテム1"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 
@@ -189,6 +194,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="アイテム2"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
         </TableRow>
@@ -206,6 +212,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="課金弾"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 
@@ -217,6 +224,7 @@
                 android:background="@drawable/frame_black"
                 android:gravity="center"
                 android:text="0"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20sp" />
 
@@ -227,6 +235,7 @@
                 android:background="@drawable/frame_black"
                 android:layout_span="1"
                 android:text="準備完了"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textSize="18sp" />
@@ -237,6 +246,7 @@
                 android:layout_margin="2dp"
                 android:background="@drawable/frame_black"
                 android:text="0"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_span="1"
                 android:gravity="center"
