@@ -10,7 +10,14 @@ option java_package = "org.bolg_developers.bolg";
 service BolgService {
   // ConnectはRoom Messagingを行うためのRPCです。
   rpc Connect(stream RoomMessage) returns (stream RoomMessage) {}
+  // CheckHealth はサーバーが生存しているかチェックするためのRPCです。
   rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse) {}
+  rpc GetStamina(GetStaminaRequest) returns (Stamina) {}
+  //  UseStamina はスタミナを消費するためのRPCです。
+  rpc UseStamina(UseStaminaRequest) returns (UseStaminaResponse) {}
+  // RecoverStamina はスタミナを強制回復するためのRPCです。
+  // デバッグ用のRPCあることに注意してください！！！！！！！！！！！！！
+  rpc RecoverStamina(RecoverStaminaRequest) returns (RecoverStaminaResponse) {}
 }
 
 message RoomMessage {
@@ -131,6 +138,23 @@ message CheckHealthResponse {
   string message = 1;
 }
 
+message GetStaminaRequest {}
+
+message UseStaminaRequest {}
+
+message UseStaminaResponse {
+  Stamina stamina = 1;
+}
+
+message RecoverStaminaRequest {
+  // count は回復したいスタミナの個数を表します。
+  int64 count = 1;
+}
+
+message RecoverStaminaResponse {
+  Stamina stamina = 1;
+}
+
 message Room {
   // output only
   // idはルーム番号にも利用されます。
@@ -172,6 +196,21 @@ message Player {
   // ルーム内のすべてのプレイヤーのreadyがtrueになったとき、
   // ゲームを開始することができます。
   bool ready = 4;
+}
+
+message Stamina {
+  // output only
+  int64 count = 1;
+
+  // output only
+  int64 max_count = 2;
+
+  // output only
+  // recovery_time は「この時間になれば回復する」という時間unix時間を表します。
+  // recovery_time 以降に Stamina リソースを取得すると自動的に回復します。
+  // ただし count == 0 の状態でスタミナを取得しても自動的には回復しません（代わりにエラーが返されます）。
+  // また count == max_count の場合、recovery_time は 0 になります。
+  int64 recovery_time = 3;
 }
 
 // THESE WILL BE USED:
