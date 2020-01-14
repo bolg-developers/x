@@ -84,16 +84,19 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
             playerId = playerId or (mHitReadByte[i] and 0xFF.toByte()).toLong()
         }
         Log.d("GamePlayViewModel", "btHitRead:playerId->${playerId}")
-        // tokenの取得
-        val token: String? = data.getString("token", "error")
-        Log.d("GamePlayViewModel", "btHitRead:token->${token}")
 
-        //  NotifyReceivingRequestを行う
-        uiScope.launch {
-            delay(800)
-            Log.d("GamePlayViewModel", "notifyReceivingTaskStart")
-            Log.d("GamePlayViewModel", "token->${token},playerId->${playerId}")
-            GrpcTask.getInstance(app).notifyReceivingTask(token, playerId, view)
+        if(playerId != data.getLong("player_id",999)) {
+            // tokenの取得
+            val token: String? = data.getString("token", "error")
+            Log.d("GamePlayViewModel", "btHitRead:token->${token}")
+
+            //  NotifyReceivingRequestを行う
+            uiScope.launch {
+                delay(200)
+                Log.d("GamePlayViewModel", "notifyReceivingTaskStart")
+                Log.d("GamePlayViewModel", "token->${token},playerId->${playerId}")
+                GrpcTask.getInstance(app).notifyReceivingTask(token, playerId, view)
+            }
         }
     }
 }

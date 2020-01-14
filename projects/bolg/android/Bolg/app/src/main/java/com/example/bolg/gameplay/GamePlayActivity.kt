@@ -68,7 +68,8 @@ class GamePlayActivity : AppCompatActivity(){
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
 
-        playerHp.text = data.getLong("player_hp",0).toString()
+//        playerHp.text = data.getLong("player_hp",0).toString()
+        playerHp.text = 100.toString()
 
         // playerIdをByteArrayに変換する
         val playerId = data.getLong("player_id",0)
@@ -116,7 +117,7 @@ class GamePlayActivity : AppCompatActivity(){
         // HP更新
         GrpcTask.getInstance(application).hitFlg.observe(this, Observer { hp->
             Log.d("GamePlayActivity" , "HP Update")
-            if(hitCnt != 0) {
+            if(hitCnt > 0) {
                 playerHp.text = hp.toString()
             }
             hitCnt++
@@ -124,12 +125,6 @@ class GamePlayActivity : AppCompatActivity(){
 
         GrpcTask.getInstance(application).gameEndFlg.observe(this, Observer {result->
             Log.d("GamePlayActivity" , "game end")
-//            val joinUser: MutableList<String>? = null
-//            for (item in result.survivalResultMsg.personalsOrBuilderList){
-//                Log.d("GamePlayActivity" , item.playerName)
-//                joinUser?.add(item.playerName)
-//                Log.d("GamePlayActivity" , joinUser.toString())
-//            }
             AlertDialog.Builder(this) // FragmentではActivityを取得して生成
                 .setTitle("リザルト")
                 .setMessage(

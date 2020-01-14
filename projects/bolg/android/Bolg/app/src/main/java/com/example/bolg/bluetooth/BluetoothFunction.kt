@@ -1,5 +1,6 @@
 package com.example.bolg.bluetooth
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -12,6 +13,10 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.bolg.MyApplication
 import com.example.bolg.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -40,6 +45,10 @@ class BluetoothFunction private constructor() {
             return INSTANCE!!
         }
     }
+    // Job Set
+    private var viewModelJob = Job()
+    // Scope Set
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // メンバー変数
     var mBluetoothService: BluetoothService? = null    // Bluetoothデバイスとの通信処理を担うクラス
@@ -430,7 +439,8 @@ class BluetoothFunction private constructor() {
      * ・Handler
      * @author 中田　桂介
      * ********************************************************************** */
-    private var mHandler: Handler = object : Handler() {
+    private var mHandler: Handler = @SuppressLint("HandlerLeak")
+    object : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 BluetoothService.MESSAGE_STATECHANGE -> when (msg.arg1) {
@@ -471,7 +481,7 @@ class BluetoothFunction private constructor() {
                     var i: Int = 0
                     // 読み込んだメッセージを格納
                     mTempBuffer = msg.obj as ByteArray
-                    var iCountBuf = msg.arg1;
+                    val iCountBuf = msg.arg1;
 
                     // readしたbyte数をプラスしていく
                     cntTemp += iCountBuf
@@ -512,19 +522,19 @@ class BluetoothFunction private constructor() {
                                         Log.d("Bluetoothhandle", "hit->")
                                         Log.d("Bluetoothhandle","mTempBuffer ->${mReadBuffer[0]} , ${mReadBuffer[1]} , ${mReadBuffer[2]} , ${mReadBuffer[3]} , ${mReadBuffer[4]} , ${mReadBuffer[5]} , ${mReadBuffer[7]} ,${mReadBuffer[8]} , ${mReadBuffer[9]} , ${mReadBuffer[10]}")
 
-                                        hitByteArray.value = mReadBuffer
+                                            hitByteArray.value = mReadBuffer
+
                                     }
                                     // shoot
                                     0x02.toByte() -> {
                                         Log.d("Bluetoothhandle", "shoot->")
                                         Log.d("Bluetoothhandle","mTempBuffer ->${mReadBuffer[0]} , ${mReadBuffer[1]} , ${mReadBuffer[2]} , ${mReadBuffer[3]} , ${mReadBuffer[4]} , ${mReadBuffer[5]} , ${mReadBuffer[7]} ,${mReadBuffer[8]} , ${mReadBuffer[9]} , ${mReadBuffer[10]}")
-
                                     }
                                 }
                                 // END_BYTEの次がSTART_BYTEならまたループを始める
                                 if(mReadTempBuffer[loopCnt + 1] == START_BYTE){
                                     // 配列、ループカウントの初期化
-                                    for (i in 0..BT_BUFFER_SIZE-1) {
+                                    for (i in 0 until BT_BUFFER_SIZE) {
                                         mReadBuffer[i]= 0.toByte()
                                     }
                                     i = 0
@@ -540,7 +550,7 @@ class BluetoothFunction private constructor() {
                             loopCnt++
                         }
                     }
-                    for (i in 0..BT_BUFFER_SIZE-1) {
+                    for (i in 0 until BT_BUFFER_SIZE) {
                         mReadTempBuffer[i]= 0.toByte()
                     }
                     loopCnt = 0
