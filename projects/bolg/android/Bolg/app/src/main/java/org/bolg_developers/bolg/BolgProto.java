@@ -110,6 +110,31 @@ public final class BolgProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_bolg_CheckHealthResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_GetStaminaRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_GetStaminaRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_UseStaminaRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_UseStaminaRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_UseStaminaResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_UseStaminaResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_RecoverStaminaRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_RecoverStaminaRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_RecoverStaminaResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_RecoverStaminaResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_bolg_Room_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -119,6 +144,11 @@ public final class BolgProto {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_bolg_Player_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_bolg_Stamina_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_bolg_Stamina_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -172,19 +202,30 @@ public final class BolgProto {
       "ssage\022\021\n\tplayer_id\030\001 \001(\003\"&\n\005Error\022\014\n\004cod" +
       "e\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\"\"\n\022CheckHealthR" +
       "equest\022\014\n\004name\030\001 \001(\t\"&\n\023CheckHealthRespo" +
-      "nse\022\017\n\007message\030\001 \001(\t\"z\n\004Room\022\n\n\002id\030\001 \001(\003" +
-      "\022!\n\tgame_rule\030\002 \001(\0162\016.bolg.GameRule\022\035\n\007p" +
-      "layers\030\003 \003(\0132\014.bolg.Player\022\022\n\ngame_start" +
-      "\030\004 \001(\010\022\020\n\010owner_id\030\005 \001(\003\"=\n\006Player\022\n\n\002id" +
-      "\030\001 \001(\003\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\003\022\r\n\005read" +
-      "y\030\004 \001(\010*#\n\010GameRule\022\t\n\005UNSET\020\000\022\014\n\010SURVIV" +
-      "AL\020\0012\212\001\n\013BolgService\0225\n\007Connect\022\021.bolg.R" +
-      "oomMessage\032\021.bolg.RoomMessage\"\000(\0010\001\022D\n\013C" +
-      "heckHealth\022\030.bolg.CheckHealthRequest\032\031.b" +
-      "olg.CheckHealthResponse\"\000B`\n\030org.bolg_de" +
-      "velopers.bolgB\tBolgProtoP\001Z7github.com/b" +
-      "olg-developers/x/projects/bolg/server/pb" +
-      ";pbb\006proto3"
+      "nse\022\017\n\007message\030\001 \001(\t\"\023\n\021GetStaminaReques" +
+      "t\"\023\n\021UseStaminaRequest\"4\n\022UseStaminaResp" +
+      "onse\022\036\n\007stamina\030\001 \001(\0132\r.bolg.Stamina\"&\n\025" +
+      "RecoverStaminaRequest\022\r\n\005count\030\001 \001(\003\"8\n\026" +
+      "RecoverStaminaResponse\022\036\n\007stamina\030\001 \001(\0132" +
+      "\r.bolg.Stamina\"z\n\004Room\022\n\n\002id\030\001 \001(\003\022!\n\tga" +
+      "me_rule\030\002 \001(\0162\016.bolg.GameRule\022\035\n\007players" +
+      "\030\003 \003(\0132\014.bolg.Player\022\022\n\ngame_start\030\004 \001(\010" +
+      "\022\020\n\010owner_id\030\005 \001(\003\"=\n\006Player\022\n\n\002id\030\001 \001(\003" +
+      "\022\014\n\004name\030\002 \001(\t\022\n\n\002hp\030\003 \001(\003\022\r\n\005ready\030\004 \001(" +
+      "\010\"B\n\007Stamina\022\r\n\005count\030\001 \001(\003\022\021\n\tmax_count" +
+      "\030\002 \001(\003\022\025\n\rrecovery_time\030\003 \001(\003*#\n\010GameRul" +
+      "e\022\t\n\005UNSET\020\000\022\014\n\010SURVIVAL\020\0012\324\002\n\013BolgServi" +
+      "ce\0225\n\007Connect\022\021.bolg.RoomMessage\032\021.bolg." +
+      "RoomMessage\"\000(\0010\001\022D\n\013CheckHealth\022\030.bolg." +
+      "CheckHealthRequest\032\031.bolg.CheckHealthRes" +
+      "ponse\"\000\0226\n\nGetStamina\022\027.bolg.GetStaminaR" +
+      "equest\032\r.bolg.Stamina\"\000\022A\n\nUseStamina\022\027." +
+      "bolg.UseStaminaRequest\032\030.bolg.UseStamina" +
+      "Response\"\000\022M\n\016RecoverStamina\022\033.bolg.Reco" +
+      "verStaminaRequest\032\034.bolg.RecoverStaminaR" +
+      "esponse\"\000B`\n\030org.bolg_developers.bolgB\tB" +
+      "olgProtoP\001Z7github.com/bolg-developers/x" +
+      "/projects/bolg/server/pb;pbb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -312,18 +353,54 @@ public final class BolgProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_CheckHealthResponse_descriptor,
         new java.lang.String[] { "Message", });
-    internal_static_bolg_Room_descriptor =
+    internal_static_bolg_GetStaminaRequest_descriptor =
       getDescriptor().getMessageTypes().get(19);
+    internal_static_bolg_GetStaminaRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_GetStaminaRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_bolg_UseStaminaRequest_descriptor =
+      getDescriptor().getMessageTypes().get(20);
+    internal_static_bolg_UseStaminaRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_UseStaminaRequest_descriptor,
+        new java.lang.String[] { });
+    internal_static_bolg_UseStaminaResponse_descriptor =
+      getDescriptor().getMessageTypes().get(21);
+    internal_static_bolg_UseStaminaResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_UseStaminaResponse_descriptor,
+        new java.lang.String[] { "Stamina", });
+    internal_static_bolg_RecoverStaminaRequest_descriptor =
+      getDescriptor().getMessageTypes().get(22);
+    internal_static_bolg_RecoverStaminaRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_RecoverStaminaRequest_descriptor,
+        new java.lang.String[] { "Count", });
+    internal_static_bolg_RecoverStaminaResponse_descriptor =
+      getDescriptor().getMessageTypes().get(23);
+    internal_static_bolg_RecoverStaminaResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_RecoverStaminaResponse_descriptor,
+        new java.lang.String[] { "Stamina", });
+    internal_static_bolg_Room_descriptor =
+      getDescriptor().getMessageTypes().get(24);
     internal_static_bolg_Room_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_Room_descriptor,
         new java.lang.String[] { "Id", "GameRule", "Players", "GameStart", "OwnerId", });
     internal_static_bolg_Player_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_bolg_Player_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_bolg_Player_descriptor,
         new java.lang.String[] { "Id", "Name", "Hp", "Ready", });
+    internal_static_bolg_Stamina_descriptor =
+      getDescriptor().getMessageTypes().get(26);
+    internal_static_bolg_Stamina_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_bolg_Stamina_descriptor,
+        new java.lang.String[] { "Count", "MaxCount", "RecoveryTime", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
