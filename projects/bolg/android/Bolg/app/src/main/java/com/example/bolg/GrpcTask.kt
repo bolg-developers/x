@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.bolg.gameplay.GamePlayActivity
 import com.example.bolg.standby.host.HostStandbyActivity
 import com.example.bolg.standby.player.PlayerStandbyActivity
@@ -62,7 +64,7 @@ class GrpcTask(application: Application)  {
      * ユーザー　ー＞　オーナープレイヤー
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun createAndJoinRoomTask(view: View){
+     fun createAndJoinRoomTask(view: View){
         val createAndJoinRoomReqMsg: CreateAndJoinRoomRequest = CreateAndJoinRoomRequest.newBuilder().setPlayerName("HAL").build()
         message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(createAndJoinRoomReqMsg).build()
         responseObserver(view)
@@ -133,8 +135,8 @@ class GrpcTask(application: Application)  {
      * @param token トークン
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun inventory(token: String) {
-    }
+//    fun inventory(token: String) {
+//    }
 
     /** **********************************************************************
      * NotifyReceivingTask
@@ -171,11 +173,6 @@ class GrpcTask(application: Application)  {
                     }
                     2 -> {    // create_and_join_room_resp
                         Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
-
-                        for(i in value.createAndJoinRoomResp.room.playersList){
-                            Log.d("GrpcTask","create_and_join_room_resp:ready -> ${i.ready}")
-                        }
-
                         if(value.createAndJoinRoomResp.room.id != 0L) {
                             Log.d("GrpcTask","no roomId 0")
                             // Player Info Save
@@ -225,6 +222,8 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "join_room_msg  ->${value.joinRoomMsg}")
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.name} が入室しました。")
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.id} が入室しました。")
+                        editor?.putLong("test",value.joinRoomMsg.player.id)
+                        editor?.apply()
                     }
                     6 -> {    // notify_receiving_req
                         Log.d("GrpcTask", "notify_receiving_req ->${value.joinRoomMsg}")
@@ -232,6 +231,10 @@ class GrpcTask(application: Application)  {
                     7 -> {    // notify_receiving_msg
                         Log.d("GrpcTask", "notify_receiving_msg ->${value.notifyReceivingMsg}")
                         Log.d("GrpcTask", "ダメージをうけたプレイヤー : ${value.notifyReceivingMsg.player.name}")
+                        if (data.getLong("player_id",999) == value.notifyReceivingMsg.player.id) {
+                            editor?.putLong("player_hp", value.notifyReceivingMsg.player.hp)
+                            editor?.apply()
+                        }
                     }
                     8 -> {    // survival_result_msg
                         Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")
@@ -298,6 +301,7 @@ class GrpcTask(application: Application)  {
                     else -> { Log.d("GrpcTask", "onError/Internal") }
                 }
             }
+
             override fun onCompleted() {
                 Log.d("GrpcTask", "onCompleted")
             }

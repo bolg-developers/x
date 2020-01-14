@@ -117,8 +117,8 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun inventory(token: String) {
-        uiScope.launch {
-            GrpcTask.getInstance(app).inventory(token)
-        }
+//        uiScope.launch {
+//            GrpcTask.getInstance(app).inventory(token)
+//        }
     }
 }

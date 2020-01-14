@@ -2,17 +2,23 @@ package com.example.bolg.gameplay
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
-import com.example.bolg.main.MainViewModel
-import com.example.bolg.main.MainViewModelFactory
+import com.example.bolg.standby.host.HostStandbyActivity
+import com.example.bolg.standby.player.PlayerStandbyActivity
+import kotlinx.android.synthetic.main.activity_host_standby.*
+import kotlinx.coroutines.*
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -25,18 +31,25 @@ class GamePlayActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_play)
 
+        var hitCnt = 0
+
         // root view
         val decorView = window.decorView
 
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
         val gamePlayViewModel:GamePlayViewModel = ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
+        val playerHp: TextView = findViewById(R.id.id_txt)
 
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+
+        playerHp.text = data.getLong("player_hp",0).toString()
+
         // playerIdをByteArrayに変換する
         val playerId = data.getLong("player_id",0)
         val value: Int = playerId.toInt()
+
         Log.d("createAndJoinRoomTask", "playerId -> $value")
         val bytes = ByteBuffer.allocate(4).putInt(value).array()
 
@@ -55,7 +68,7 @@ class GamePlayActivity : AppCompatActivity(){
         Log.d("createAndJoinRoomTask","mTempBuffer ->${integers[0]} , ${integers[1]} , ${integers[2]} , ${integers[3]}, ${integers[4]} , ${integers[5]} , ${integers[6]} ")
 
         if(!BluetoothFunction.getInstance().write(integers)){
-            Log.d("createAndJoinRoomTask","Errorororor")
+            Log.d("createAndJoinRoomTask","writeError")
         }
 
         // Observe : 弾を撃った時に動く
@@ -67,13 +80,44 @@ class GamePlayActivity : AppCompatActivity(){
 
         // Observe : 弾を被弾時に動く
         BluetoothFunction.getInstance().hitByteArray.observe(this , Observer { readByte ->
-            Log.d("GamePlayActivity" , "Bluetooth read ByteArray")
-            // Bluetoothの値GamePlayViewModelへ送る
-            gamePlayViewModel.btHitRead(readByte, decorView)
+            //  一回目はスルーする
+            if(hitCnt != 0) {
+                Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
+                // Bluetoothの値GamePlayViewModelへ送る
+
+                gamePlayViewModel.btHitRead(readByte, decorView)
+            }
+            hitCnt++
         })
 
-    }
 
+        // HPの更新
+        val viewModelJob = Job()
+        val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+        uiScope.launch {
+            while (data.getLong("player_hp",0) != 0L){
+                Log.d("HpUpData","更新")
+                playerHp.text = data.getLong("player_hp",0).toString()
+                delay(200)
+            }
+
+            // Dialog
+            // もう一回やるかどうか
+            // Dialog設定/表示
+            AlertDialog.Builder(applicationContext)
+                .setCancelable(false)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle("ルームID入力")
+                .setMessage("ルームIDを入力してください。\n（数字）")
+                .setNegativeButton("キャンセル") { _, _ ->
+                }
+                .setPositiveButton("OK") { _, _ ->
+                }
+                .show()
+
+        }
+
+    }
     // ↓ここから下はBluetoothのconnect、disconnectをしているだけ
     /** **********************************************************************
      * onStart
