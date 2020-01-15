@@ -6,8 +6,13 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.GrpcTask
+import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.bluetooth.BluetoothFunction
+import com.example.bolg.data.ListData
 import kotlinx.coroutines.*
 import kotlin.experimental.and
 
@@ -28,6 +33,9 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     private var mWriteByte = ByteArray(BT_BUFFER_SIZE)  // Bluetoothへ送る値を格納
     private val app = application
+
+    private var layoutManager: LinearLayoutManager? = null
+    private val sampleList: MutableList<ListData> = mutableListOf()
 
     /** Coroutine定義 **/
     // Job Set
@@ -98,5 +106,24 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
                 GrpcTask.getInstance(app).notifyReceivingTask(token, playerId, view)
             }
         }
+    }
+
+    /** **********************************************************************
+     * updateList
+     * @param context Context
+     * @param joinUser
+     * @param name
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    fun updateList(context: Context, joinUser: RecyclerView, name: String){
+        // LayoutManagerの設定
+        layoutManager = LinearLayoutManager(context)
+        joinUser.layoutManager = layoutManager
+        // Adapterの設定
+        sampleList.add(ListData(name))
+        val adapter = StandbyRecyclerAdapter(sampleList)
+        joinUser.adapter = adapter
+        // 区切り線の表示
+        joinUser.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 }

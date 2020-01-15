@@ -1,7 +1,6 @@
 package com.example.bolg.main.createandJoin
 
 import android.app.Application
-import android.content.DialogInterface
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -75,6 +74,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
+
         uiScope.launch {
             GrpcTask.getInstance(app).createAndJoinRoomTask(view)
         }

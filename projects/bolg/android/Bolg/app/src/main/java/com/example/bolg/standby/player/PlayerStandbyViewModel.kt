@@ -16,7 +16,6 @@ import com.example.bolg.adapter.StandbyRecyclerAdapter
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
-import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
  * PlayerStandbyViewModel
@@ -100,12 +99,11 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
      * @param view   View
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun updateWeapon(attack: Long, token: String?, view: View?) {
+    private fun updateWeapon(attack: Long, token: String?, view: View?) {
         uiScope.launch {
             GrpcTask.getInstance(app).updateWeapon(attack,token,view)
         }
     }
-
 
     /** **********************************************************************
      * updateList

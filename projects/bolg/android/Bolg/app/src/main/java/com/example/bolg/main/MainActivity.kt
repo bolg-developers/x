@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 /** ----------------------------------------------------------------------
  * MainActivity
  * TitleFragmentの一定時間表示指示クラス

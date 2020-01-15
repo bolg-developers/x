@@ -40,7 +40,7 @@
     <string name="item_txt">アイテム</string>
     <string name="todo">TODO</string>
     <string name="timer">00:00:00</string>
-    <string name="hit_point">ヒットポイント</string>
+    <string name="hit_point">100</string>
     <string name="remaining_ammo">残弾数</string>
 
 </resources>

@@ -25,7 +25,6 @@ import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 import com.example.bolg.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.nio.ByteBuffer
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -140,22 +139,22 @@ class PlayerStandbyActivity : AppCompatActivity(){
         }
 
         /** Observe kind **/
-        // ゲームルール
-        playerStandbyViewModel.gameRule.observe(this, Observer { mrule ->
-            rule.text = mrule
-        })
-
-        // 入室者数
-        playerStandbyViewModel.readyPlayerNormal.observe(this, Observer {
-        })
-
-        // アイテムON/OFF
-        playerStandbyViewModel.itemState.observe(this, Observer {
-        })
-
-        // 課金弾ON/OFF
-        playerStandbyViewModel.kakinBulletState.observe(this, Observer {
-        })
+//        // ゲームルール
+//        playerStandbyViewModel.gameRule.observe(this, Observer { mrule ->
+//            rule.text = mrule
+//        })
+//
+//        // 入室者数
+//        playerStandbyViewModel.readyPlayerNormal.observe(this, Observer {
+//        })
+//
+//        // アイテムON/OFF
+//        playerStandbyViewModel.itemState.observe(this, Observer {
+//        })
+//
+//        // 課金弾ON/OFF
+//        playerStandbyViewModel.kakinBulletState.observe(this, Observer {
+//        })
 
         // 入室者数処理
         GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
@@ -170,12 +169,12 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         // 入室リスト更新
         GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
+            Log.d("PlayerActivity",joinUserList.toString())
             // List Update
             for(i in 0 until joinUserList.size){
                 playerStandbyViewModel.updateList(this,joinUser, joinUserList[i])
             }
         })
-
     }
     /** **********************************************************************
      * onStart

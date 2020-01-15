@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Resources
-import android.media.Image
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -16,18 +14,18 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.GrpcTask
-import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
-import com.example.bolg.data.ListData
 import com.example.bolg.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import java.util.concurrent.TimeUnit
+import android.widget.ArrayAdapter
+
+
+
 
 /** ----------------------------------------------------------------------
  * HostStandbyActivity
@@ -85,19 +83,25 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         }
 
         /** spinner init **/
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(
+//        // Create an ArrayAdapter using the string array and a default spinner layout
+//        ArrayAdapter.createFromResource(
+//            this,
+//            R.array.planets_array,
+//            android.R.layout.simple_spinner_item
+//        ).also { adapter ->
+//            // Specify the layout to use when the list of choices appears
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//            // Apply the adapter to the spinner
+//            ruleSpinner.adapter = adapter
+//        }
+//        ruleSpinner.onItemSelectedListener = this
+        val adapter = ArrayAdapter(
             this,
-            R.array.planets_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            ruleSpinner.adapter = adapter
-        }
-        ruleSpinner.onItemSelectedListener = this
-
+            R.layout.custom_spinner,
+            resources.getStringArray(R.array.planets_array)
+        )
+        adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown)
+        ruleSpinner.adapter = adapter
         /** viewModel init **/
         val application: Application = requireNotNull(this).application
         val viewModelFactoryHost = HostStandbyViewModelFactory(application)
@@ -170,13 +174,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             hostStandbyViewModel.startGame(data.getString("token", "0:0"),decorView)
         }
 
-        // インベントリ
-//        inventory.setOnClickListener { hostStandbyViewModel.inventory(data.getString("token", "0:0").toString()) }
-
         /** observer kind **/
-//        hostStandbyViewModel.readyPlayerOwner.observe(this, Observer {
-//        })
-
         // 入室者数処理
         GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
             Log.d("Host","${joinNum}人が参加しています")

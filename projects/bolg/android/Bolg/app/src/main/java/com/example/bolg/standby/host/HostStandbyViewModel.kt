@@ -3,6 +3,7 @@ package com.example.bolg.standby.host
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
@@ -16,7 +17,6 @@ import com.example.bolg.adapter.StandbyRecyclerAdapter
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
-import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
  * HostStandbyViewModel
@@ -36,7 +36,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var layoutManager: LinearLayoutManager? = null
-    private val sampleList: MutableList<ListData> = mutableListOf()
+    val sampleList: MutableList<ListData> = mutableListOf()
 
     private val app = application
     val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
@@ -109,15 +109,6 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     }
 
     /** **********************************************************************
-     * inventory
-     * @param token トークン
-     * @author 長谷川　勇太
-     * ********************************************************************** */
-//    fun inventory(token: String) {
-//    }
-//
-
-    /** **********************************************************************
      * updateList
      * @param context Context
      * @param joinUser
@@ -129,6 +120,10 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
         layoutManager = LinearLayoutManager(context)
         joinUser.layoutManager = layoutManager
         // Adapterの設定
+        Log.d("log",sampleList.toString())
+        if(sampleList.size > 1) {
+            sampleList.removeAt(0)
+        }
         sampleList.add(ListData(name))
         val adapter = StandbyRecyclerAdapter(sampleList)
         joinUser.adapter = adapter

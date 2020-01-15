@@ -7,11 +7,8 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.bolg.gameplay.GamePlayActivity
-import com.example.bolg.main.MainActivity
 import com.example.bolg.standby.host.HostStandbyActivity
 import com.example.bolg.standby.player.PlayerStandbyActivity
 import io.grpc.ManagedChannel
@@ -223,10 +220,12 @@ class GrpcTask(application: Application)  {
                                 for(i in 0 until cnt){
                                     list.add(value.createAndJoinRoomResp.room.getPlayers(i).name)
                                 }
-                                Log.d("List","create_and_join_room_resp->$list")
+                                Log.d("List","create_and_join_room_resp->" +
+                                        "\n" +
+                                        "Grpc側" +
+                                        "$list")
                                 userNameList.value = list
                             }
-
 
                             val intent = Intent(view?.context, HostStandbyActivity::class.java)
                             view?.context?.startActivity(intent)
@@ -267,7 +266,10 @@ class GrpcTask(application: Application)  {
                                 for(i in 0 until cnt){
                                     list.add(value.joinRoomResp.room.getPlayers(i).name)
                                 }
-                                Log.d("List","join_room_resp->$list")
+                                Log.d("List","join_room_resp->" +
+                                        "\n" +
+                                        "Grpc側" +
+                                        "$list")
                                 userNameList.value = list
                                 val intent = Intent(view?.context, PlayerStandbyActivity::class.java)
                                 view?.context?.startActivity(intent)
@@ -289,12 +291,19 @@ class GrpcTask(application: Application)  {
                             // List add observe
                             // joinFlg.value = value.joinRoomMsg.player.name
                             val list = userNameList.value
+                            Log.d("List","join_room_msg->" +
+                                    "\n" +
+                                    "Grpc側：入室" +
+                                    "$list")
                             for(i in 0 until list?.size!!) {
                                 if(value.joinRoomMsg.player.name != list[i]) {
                                     list.add(value.joinRoomMsg.player.name)
                                 }
                             }
-                            Log.d("List","join_room_msg->$list")
+                            Log.d("List","join_room_msg->" +
+                                    "\n" +
+                                    "Grpc側：入室処理後" +
+                                    "$list")
                             userNameList.value = list
                         }
 

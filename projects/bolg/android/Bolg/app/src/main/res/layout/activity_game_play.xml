@@ -3,36 +3,51 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="10dp"
     android:background="@drawable/bolg_background_img"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/game_toolbar"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/header"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="20dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="150dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/frame_black"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_toolbar"
         app:layout_constraintStart_toStartOf="parent" />
+
+
     <ImageView
         android:id="@+id/bullet_kind"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:src="@drawable/bolg_change_ammunition"
         android:contentDescription="@string/todo"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@+id/list"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/game_toolbar" />
 
     <ImageView
         android:id="@+id/timer"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/bullet_kind"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_toolbar"
         android:src="@drawable/bolg_timer"
         android:contentDescription="@string/todo" />
 
@@ -45,12 +60,12 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="20dp"
         />
 
     <ImageView
         android:id="@+id/item1"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@+id/list"
@@ -60,7 +75,7 @@
 
     <ImageView
         android:id="@+id/item2"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/item1"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
@@ -69,7 +84,7 @@
 
     <ImageView
         android:id="@+id/log"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/item2"
         app:layout_constraintTop_toBottomOf="@+id/timer"
@@ -78,8 +93,8 @@
 
     <ImageView
         android:id="@+id/hit_point_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
         app:layout_constraintStart_toEndOf="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/item1"
         android:src="@drawable/bolg_hitpoint_blue"
@@ -93,16 +108,16 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/hit_point_img"
         app:layout_constraintTop_toTopOf="@+id/hit_point_img"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="50dp"
         android:text="@string/hit_point"
         android:textSize="30sp"
         android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/bullet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
         app:layout_constraintStart_toEndOf="@+id/hit_point_img"
         app:layout_constraintTop_toBottomOf="@+id/log"
         android:src="@drawable/bolg_bullet_nomal"
@@ -116,8 +131,8 @@
         android:text="∞"
         android:textColor="@color/white"
         android:textSize="30sp"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="80dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

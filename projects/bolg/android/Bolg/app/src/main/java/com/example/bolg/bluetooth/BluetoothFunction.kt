@@ -16,7 +16,6 @@ import com.example.bolg.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -37,6 +36,7 @@ class BluetoothFunction private constructor() {
         private const val START_BYTE: Byte = 0xfe.toByte()   // Bluetoothのスタートバイト
         private const val END_BYTE: Byte = 0xff.toByte()     // Bluetoothのエンドバイト
         // Singleton
+        @SuppressLint("StaticFieldLeak")
         private var INSTANCE: BluetoothFunction ? = null
         fun getInstance(): BluetoothFunction {
             if(INSTANCE == null){
@@ -326,8 +326,8 @@ class BluetoothFunction private constructor() {
                 Log.d("Bluetooththread", "ConnectionThread　constructor")
                 try {
                     mBluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(UUID_SPP)
-                    mInput = mBluetoothSocket!!.getInputStream()
-                    mOutput = mBluetoothSocket!!.getOutputStream()
+                    mInput = mBluetoothSocket!!.inputStream
+                    mOutput = mBluetoothSocket!!.outputStream
                 } catch (e: IOException) {
                     Log.e("BluetoothService", "failed : bluetoothdevice.createRfcommSocketToServiceRecord( UUID_SPP )", e)
                 }
@@ -491,14 +491,11 @@ class BluetoothFunction private constructor() {
                         loopCnt++
                     }
                     // 一定数溜まったら処理を実行する
-                    if(cntTemp >= 10){
-                        cntTemp = 0
-                    } else if(cntTemp == 7){
-                        cntTemp = 0
-                    } else if (cntTemp == 3){
-                        cntTemp = 0
-                    } else {
-                        return
+                    cntTemp = when {
+                        cntTemp >= 10 -> 0
+                        cntTemp == 7 -> 0
+                        cntTemp == 3 -> 0
+                        else -> return
                     }
 
                     Log.d("Test","mTempBuffer ->${mReadTempBuffer[0]} , ${mReadTempBuffer[1]} , ${mReadTempBuffer[2]} , ${mReadTempBuffer[3]} , ${mReadTempBuffer[4]} , ${mReadTempBuffer[5]} , ${mReadTempBuffer[7]} ,${mReadTempBuffer[8]} , ${mReadTempBuffer[9]} , ${mReadTempBuffer[10]}")
