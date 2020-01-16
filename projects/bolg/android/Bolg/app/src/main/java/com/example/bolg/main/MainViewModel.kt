@@ -74,7 +74,7 @@ class MainViewModel (application: Application,fragmentManager: FragmentManager):
      * 参加/部屋生成画面へ遷移
      * @author 長谷川　勇太
      * ********************************************************************** */
-    private fun setCreateJoin(){
+    fun setCreateJoin(){
         Log.d("main/title","onsetCreateJoin")
 
         mFragmentManager.beginTransaction().replace(

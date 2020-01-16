@@ -31,8 +31,16 @@
     <string name="btConnecting">Bluetooth connecting</string>
     <string name="btConnect">Bluetooth connect</string>
     <string name="btDisconnect">Bluetooth disconnect</string>
-
-
-
+    <string name="sutamna">stamina</string>
+    <string name="_1">アイテム1</string>
+    <string name="_2">アイテム2</string>
+    <string name="_3">アイテム3</string>
+    <string name="survival">殲滅戦</string>
+    <string name="billingAmmunition">課金弾</string>
+    <string name="item_txt">アイテム</string>
+    <string name="todo">TODO</string>
+    <string name="timer">00:00:00</string>
+    <string name="hit_point">100</string>
+    <string name="remaining_ammo">残弾数</string>
 
 </resources>

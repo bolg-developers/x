@@ -3,15 +3,20 @@ package com.example.bolg.standby.host
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.GrpcTask
+import com.example.bolg.adapter.StandbyRecyclerAdapter
 import kotlinx.coroutines.*
 import com.example.bolg.bluetooth.BluetoothFunction
-import java.nio.ByteBuffer
+import com.example.bolg.data.ListData
 
 /** ----------------------------------------------------------------------
  * HostStandbyViewModel
@@ -30,6 +35,8 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     // scope get
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    private var layoutManager: LinearLayoutManager? = null
+    val sampleList: MutableList<ListData> = mutableListOf()
 
     private val app = application
     val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
@@ -39,19 +46,9 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     val gameRule: LiveData<String>
         get() = _gameRule
 
-    // 準備完了人数
-    private val _readyPlayerOwner = MutableLiveData<String>()
-    val readyPlayerOwner: LiveData<String>
-        get() = _readyPlayerOwner
-
     // 課金ボタンON/OFF
     var kakinBulletState = true
     var itemState = true
-
-    // 準備完了人数の更新
-    private val _ready = MutableLiveData<String>()
-    val ready: LiveData<String>
-        get() = _ready
 
     /** **********************************************************************
      * startGame
@@ -104,7 +101,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param view  View
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun updateWeapon(attack: Long, token: String?, view: View?) {
+    private fun updateWeapon(attack: Long, token: String?, view: View?) {
         uiScope.launch {
             delay(100)
             GrpcTask.getInstance(app).updateWeapon(attack,token,view)
@@ -112,13 +109,25 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     }
 
     /** **********************************************************************
-     * inventory
-     * @param token トークン
+     * updateList
+     * @param context Context
+     * @param joinUser
+     * @param name
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun inventory(token: String) {
-//        uiScope.launch {
-//            GrpcTask.getInstance(app).inventory(token)
-//        }
+    fun updateList(context: Context,joinUser:RecyclerView,name: String){
+        // LayoutManagerの設定
+        layoutManager = LinearLayoutManager(context)
+        joinUser.layoutManager = layoutManager
+        // Adapterの設定
+        Log.d("log",sampleList.toString())
+        if(sampleList.size > 1) {
+            sampleList.removeAt(0)
+        }
+        sampleList.add(ListData(name))
+        val adapter = StandbyRecyclerAdapter(sampleList)
+        joinUser.adapter = adapter
+        // 区切り線の表示
+        joinUser.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 }

@@ -1,7 +1,6 @@
 package com.example.bolg.main.createandJoin
 
 import android.app.Application
-import android.content.DialogInterface
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -43,7 +42,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
         // Dialog設定/表示
         AlertDialog.Builder(view.context)
             .setCancelable(false)
-            .setIcon(R.mipmap.ic_launcher)
+            .setIcon(R.drawable.logo_mini)
             .setTitle("ルームID入力")
             .setMessage("ルームIDを入力してください。\n（数字）")
             .setView(editText)
@@ -75,6 +74,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
+
         uiScope.launch {
             GrpcTask.getInstance(app).createAndJoinRoomTask(view)
         }

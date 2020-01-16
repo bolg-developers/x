@@ -6,19 +6,20 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
+import com.example.bolg.main.MainActivity
 import com.example.bolg.standby.host.HostStandbyActivity
 import com.example.bolg.standby.player.PlayerStandbyActivity
-import kotlinx.android.synthetic.main.activity_host_standby.*
-import kotlinx.coroutines.*
+import kotlinx.android.synthetic.main.activity_game_play.*
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -26,6 +27,7 @@ import java.nio.ByteBuffer
  * ゲームプレイ中画面
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
+@Suppress("NAME_SHADOWING", "UNREACHABLE_CODE")
 class GamePlayActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,24 +37,30 @@ class GamePlayActivity : AppCompatActivity(){
 
         // root view
         val decorView = window.decorView
+        // hide navigation bar, hide status bar
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
-        val gamePlayViewModel:GamePlayViewModel = ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
-        val playerHp: TextView = findViewById(R.id.id_txt)
+        val gamePlayViewModel:GamePlayViewModel =
+            ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
+
+        /** widget init **/
+        val playerHp : TextView = findViewById(R.id.hp)
+        val joinUser : RecyclerView = findViewById(R.id.list)
+
+        gamePlayViewModel.updateList(this,joinUser, "参加者")
 
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
-
-        playerHp.text = data.getLong("player_hp",0).toString()
+        playerHp.text = 100.toString()
+        /** Toolbar init **/
+        game_toolbar.title = data.getString("player_name","player_name_none") + data.getString("token","player_name_none")
 
         // playerIdをByteArrayに変換する
         val playerId = data.getLong("player_id",0)
         val value: Int = playerId.toInt()
-
-        Log.d("createAndJoinRoomTask", "playerId -> $value")
         val bytes = ByteBuffer.allocate(4).putInt(value).array()
-
         Log.d("createAndJoinRoomTask","mTempBuffer ->${bytes[0]} , ${bytes[1]} , ${bytes[2]} , ${bytes[3]} ")
 
         // send byteArray create
@@ -84,39 +92,47 @@ class GamePlayActivity : AppCompatActivity(){
             if(hitCnt != 0) {
                 Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
                 // Bluetoothの値GamePlayViewModelへ送る
-
                 gamePlayViewModel.btHitRead(readByte, decorView)
+            }
+        })
+
+        /** Observe kind **/
+        // HP更新
+        GrpcTask.getInstance(application).hitFlg.observe(this, Observer { hp->
+            Log.d("GamePlayActivity" , "HP Update")
+            if(hitCnt > 0) {
+                playerHp.text = hp.toString()
             }
             hitCnt++
         })
 
-
-        // HPの更新
-        val viewModelJob = Job()
-        val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-        uiScope.launch {
-            while (data.getLong("player_hp",0) != 0L){
-                Log.d("HpUpData","更新")
-                playerHp.text = data.getLong("player_hp",0).toString()
-                delay(200)
-            }
-
-            // Dialog
-            // もう一回やるかどうか
-            // Dialog設定/表示
-            AlertDialog.Builder(applicationContext)
-                .setCancelable(false)
-                .setIcon(R.mipmap.ic_launcher)
-                .setTitle("ルームID入力")
-                .setMessage("ルームIDを入力してください。\n（数字）")
-                .setNegativeButton("キャンセル") { _, _ ->
+        GrpcTask.getInstance(application).gameEndFlg.observe(this, Observer {result->
+            Log.d("GamePlayActivity" , "game end")
+            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                .setTitle("リザルト")
+                .setMessage(
+                    "勝者 + \n" +
+                            result.survivalResultMsg.winner.name + "\n"
+                  + "参加者(死んだ回数) + \n" +
+                            result.survivalResultMsg.personalsOrBuilderList[0].playerName +
+                            " (${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回)" +
+                            result.survivalResultMsg.personalsOrBuilderList[1].playerName +
+                            " (${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回)"
+                )
+                .setPositiveButton("もう一度") { _, _ ->
+                     val intent:Intent = if(data.getBoolean("standby_state",true)){
+                         Intent(this, HostStandbyActivity::class.java)
+                     }else{
+                         Intent(this, PlayerStandbyActivity::class.java)
+                     }
+                    startActivity(intent)
                 }
-                .setPositiveButton("OK") { _, _ ->
+                .setNegativeButton("終了"){_, _ ->
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 }
                 .show()
-
-        }
-
+        })
     }
     // ↓ここから下はBluetoothのconnect、disconnectをしているだけ
     /** **********************************************************************
