@@ -7,21 +7,12 @@ import com.example.bolg.adapter.holder.StandbyRecyclerViewHolder
 import com.example.bolg.R
 import com.example.bolg.data.ListData
 
-// Clicl処理がある場合は引数にListnerをいれるかも
 /** ----------------------------------------------------------------------
  * StandbyRecyclerAdapter
  * @param itemList SampleでListを追加している（多分消す）
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class StandbyRecyclerAdapter(var itemList: List<ListData>) : RecyclerView.Adapter<StandbyRecyclerViewHolder>(){
-    // 後で変更
-    // var data =  List<ListData>
-    //    var data =  itemList
-    //        set(value) {
-    //            field = value
-    //            notifyDataSetChanged()
-    //        }
-
+class StandbyRecyclerAdapter(private var itemList: List<ListData>) : RecyclerView.Adapter<StandbyRecyclerViewHolder>(){
     /** **********************************************************************
      * onCreateViewHolder
      * @param parent

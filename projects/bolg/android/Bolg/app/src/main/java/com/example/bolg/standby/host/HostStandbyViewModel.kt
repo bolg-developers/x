@@ -36,7 +36,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var layoutManager: LinearLayoutManager? = null
-    val sampleList: MutableList<ListData> = mutableListOf()
+    private val sampleList: MutableList<ListData> = mutableListOf()
 
     private val app = application
     val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
