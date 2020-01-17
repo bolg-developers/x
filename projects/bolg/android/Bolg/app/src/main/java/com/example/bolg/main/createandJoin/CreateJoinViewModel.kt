@@ -1,6 +1,7 @@
 package com.example.bolg.main.createandJoin
 
 import android.app.Application
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import com.example.bolg.GrpcTask
 import com.example.bolg.R
+import com.example.bolg.gameplay.GamePlayActivity
+import com.example.bolg.standby.player.PlayerStandbyActivity
 import kotlinx.coroutines.*
 
 /** ----------------------------------------------------------------------
@@ -42,7 +45,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
         // Dialog設定/表示
         AlertDialog.Builder(view.context)
             .setCancelable(false)
-            .setIcon(R.drawable.logo_mini)
+            .setIcon(R.drawable.logo)
             .setTitle("ルームID入力")
             .setMessage("ルームIDを入力してください。\n（数字）")
             .setView(editText)
@@ -74,6 +77,9 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
+
+//        val intent = Intent(view.context, GamePlayActivity::class.java)
+//        view.context?.startActivity(intent)
 
         uiScope.launch {
             GrpcTask.getInstance(app).createAndJoinRoomTask(view)

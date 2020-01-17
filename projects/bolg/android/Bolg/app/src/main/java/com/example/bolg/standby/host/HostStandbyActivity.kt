@@ -1,5 +1,6 @@
 package com.example.bolg.standby.host
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -22,6 +23,10 @@ import com.example.bolg.main.MainActivity
 import java.util.*
 import java.util.concurrent.TimeUnit
 import android.widget.ArrayAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.bolg.adapter.StandbyRecyclerAdapter
+import com.example.bolg.data.ListData
+import kotlinx.android.synthetic.main.activity_game_play.*
 import kotlinx.android.synthetic.main.activity_host_standby.*
 
 /** ----------------------------------------------------------------------
@@ -39,7 +44,9 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private var stamina1: MenuItem? = null
     private var stamina2: MenuItem? = null
     private var stamina3: MenuItem ? = null
+    private var listFlg = false
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host_standby)
@@ -64,6 +71,12 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         start.isEnabled = false
 
+        /** viewModel init **/
+        val application: Application = requireNotNull(this).application
+        val viewModelFactoryHost = HostStandbyViewModelFactory(application)
+        hostStandbyViewModel =
+            ViewModelProviders.of(this, viewModelFactoryHost).get(HostStandbyViewModel::class.java)
+
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
         // write editor get
@@ -76,8 +89,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         host_toolbar.title = data.getString("player_name","")
         host_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
         host_toolbar.setNavigationOnClickListener {
+            listFlg = false
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         /** spinner init **/
@@ -88,11 +103,8 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         )
         adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown)
         ruleSpinner.adapter = adapter
-        /** viewModel init **/
-        val application: Application = requireNotNull(this).application
-        val viewModelFactoryHost = HostStandbyViewModelFactory(application)
-        hostStandbyViewModel =
-            ViewModelProviders.of(this, viewModelFactoryHost).get(HostStandbyViewModel::class.java)
+
+        hostStandbyViewModel.updateList(applicationContext, joinUser, data.getString("player_name", "")!!,1)
 
         /** CountDownTimer init **/
         timer = object : CountDownTimer(data.getLong("nowTimer",0), 1000){
@@ -106,7 +118,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
             override fun onFinish() {
                 host_toolbar.title  = data.getString("player_name","")
-                stamina1?.setIcon(R.drawable.favorite)
+                stamina1?.setIcon(R.drawable.bolg_stamina_on)
                 editor?.putBoolean("staminaFirst", true)
                 editor?.putBoolean("staminaSecond", true)
                 editor?.putBoolean("staminaThird", true)
@@ -176,10 +188,25 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         // 入室リスト更新
         GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
             // List Update
-            for(i in 0 until joinUserList.size){
-                hostStandbyViewModel.updateList(this,joinUser, joinUserList[i])
+            Log.d("RecyclerList","observe: joinUserList -> $joinUserList")
+            if(listFlg) {
+//                for (i in 0 until joinUserList.size) {
+//                    hostStandbyViewModel.updateList(this, joinUser, joinUserList[i],0)
+//                    Log.d("RecyclerList","observe: joinUserList[${i}] -> ${joinUserList[i]}")
+//                }
+                val sampleList: MutableList<ListData> = mutableListOf()
+
+                for (i in 0 until joinUserList.size) {
+                    sampleList.add(ListData(joinUserList[i]))
+                }
+                val mAdapter = StandbyRecyclerAdapter(sampleList)
+                joinUser.adapter = mAdapter
+                // 区切り線の表示
+                joinUser.addItemDecoration(DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL))
             }
+            listFlg = true
         })
+
     }
 
     /** **********************************************************************
@@ -222,7 +249,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     public override fun onRestart() {
         super.onRestart()
         Log.d("HostStandbyActivity", "onRestart")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
     /** **********************************************************************
      * onResume
@@ -255,10 +282,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     public override fun onStop() {
         super.onStop()
         Log.d("HostStandbyActivity", "onStop")
-        /*if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }*/
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
     /** **********************************************************************
      * onDestroy
@@ -285,21 +312,21 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         if(data.getBoolean("staminaFirst", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaFirst")
-            stamina1?.setIcon(R.drawable.favorite)
+            stamina1?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina1?.setIcon(R.drawable.favorite_off)
+            stamina1?.setIcon(R.drawable.bolg_stamina_off)
         }
         if(data.getBoolean("staminaSecond", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaSecond")
-            stamina2?.setIcon(R.drawable.favorite)
+            stamina2?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina2?.setIcon(R.drawable.favorite_off)
+            stamina2?.setIcon(R.drawable.bolg_stamina_off)
         }
         if(data.getBoolean("staminaThird", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaThird")
-            stamina3?.setIcon(R.drawable.favorite)
+            stamina3?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina3?.setIcon(R.drawable.favorite_off)
+            stamina3?.setIcon(R.drawable.bolg_stamina_off)
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -311,18 +338,18 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         when(item?.itemId) {
             R.id.menu_item1 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item1")
-                item.setIcon(R.drawable.favorite_off) // Timer起動トリガー
+                item.setIcon(R.drawable.bolg_stamina_off) // Timer起動トリガー
                 // stamina state off
                 editor?.putBoolean("staminaFirst", false)
             }
             R.id.menu_item2 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item2")
-                item.setIcon(R.drawable.favorite_off)
+                item.setIcon(R.drawable.bolg_stamina_off)
                 editor?.putBoolean("staminaSecond", false)
             }
             R.id.menu_item3 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item3")
-                item.setIcon(R.drawable.favorite_off)
+                item.setIcon(R.drawable.bolg_stamina_off)
                 editor?.putBoolean("staminaThird", false)
             }
             R.id.add_stamina -> {

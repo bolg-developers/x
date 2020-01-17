@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 // スタミナの数を見て終了するか判断
                 // スタミナ回復する
                 // 判断
-                stamina1?.setIcon(R.drawable.favorite)
+                stamina1?.setIcon(R.drawable.bolg_stamina_on)
                 editor?.putBoolean("staminaFirst", true)
                 editor?.putBoolean("staminaSecond", true)
                 editor?.putBoolean("staminaThird", true)
@@ -113,21 +113,21 @@ class MainActivity : AppCompatActivity() {
 
         if(data.getBoolean("staminaFirst", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaFirst")
-            stamina1?.setIcon(R.drawable.favorite)
+            stamina1?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina1?.setIcon(R.drawable.favorite_off)
+            stamina1?.setIcon(R.drawable.bolg_stamina_off)
         }
         if(data.getBoolean("staminaSecond", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaSecond")
-            stamina2?.setIcon(R.drawable.favorite)
+            stamina2?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina2?.setIcon(R.drawable.favorite_off)
+            stamina2?.setIcon(R.drawable.bolg_stamina_off)
         }
         if(data.getBoolean("staminaThird", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaThird")
-            stamina3?.setIcon(R.drawable.favorite)
+            stamina3?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina3?.setIcon(R.drawable.favorite_off)
+            stamina3?.setIcon(R.drawable.bolg_stamina_off)
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         when(item?.itemId) {
             R.id.menu_item1 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item1")
-                item.setIcon(R.drawable.favorite_off) // Timer起動トリガー
+                item.setIcon(R.drawable.bolg_stamina_off) // Timer起動トリガー
                 // stamina state off
                 editor?.putBoolean("staminaFirst", false)
                 editor?.apply()
@@ -149,14 +149,14 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menu_item2 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item2")
-                item.setIcon(R.drawable.favorite_off)
+                item.setIcon(R.drawable.bolg_stamina_off)
                 editor?.putBoolean("staminaSecond", false)
                 editor?.apply()
                 timer.start()
             }
             R.id.menu_item3 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item3")
-                item.setIcon(R.drawable.favorite_off)
+                item.setIcon(R.drawable.bolg_stamina_off)
                 editor?.putBoolean("staminaThird", false)
                 editor?.apply()
                 timer.start()

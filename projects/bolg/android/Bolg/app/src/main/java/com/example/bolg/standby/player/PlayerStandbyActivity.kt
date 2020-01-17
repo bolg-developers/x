@@ -24,15 +24,16 @@ import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 import com.example.bolg.main.MainActivity
+import kotlinx.android.synthetic.main.activity_game_play.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_player_standby.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 /** ----------------------------------------------------------------------
- * クラス名 PlayerStandbyActivity
- * ・概要1
- * ・概要2
+ * PlayerStandbyActivity
+ * ・存在する部屋への参加
+ * ・参加ユーザーのリスト表示
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 @Suppress("UNREACHABLE_CODE")
@@ -44,7 +45,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
     private var stamina2: MenuItem? = null
     private var stamina3: MenuItem ? = null
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("CommitPrefEdits", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_standby)
@@ -55,7 +56,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         /** widget init **/
         val userId        : TextView     = findViewById(R.id.player_user_id)
-//        val rule          : TextView     = findViewById(R.id.player_rule)
         val readyNum      : TextView     = findViewById(R.id.player_ready_text)
         val ready         : ImageButton  = findViewById(R.id.player_ready_btn)
         val playerPairing : ImageButton  = findViewById(R.id.player_pairing_btn)
@@ -64,6 +64,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         ready.isEnabled = false
         var readyCount: Long = 0
+        var listFlg = false
 
         /** viewModel**/
         val application: Application = requireNotNull(this).application
@@ -84,6 +85,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         player_toolbar.setNavigationOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         /** CountDownTimer init **/
@@ -99,7 +101,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
             override fun onFinish() {
                 player_toolbar.title  = "BOLG"
-                stamina1?.setIcon(R.drawable.favorite)
+                stamina1?.setIcon(R.drawable.bolg_stamina_on)
                 editor?.putBoolean("staminaFirst", true)
                 editor?.putBoolean("staminaSecond", true)
                 editor?.putBoolean("staminaThird", true)
@@ -110,16 +112,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** RecyclerView init **/
         val layoutManager = LinearLayoutManager(this)
         joinUser.layoutManager = layoutManager
-        // Adapterの設定
-        val sampleList: MutableList<ListData> = mutableListOf()
-        for (i: Int in 0..10) {
-            sampleList.add(i, ListData("hasegawa${i}"))
-        }
-        val adapter = StandbyRecyclerAdapter(sampleList)
-        joinUser.adapter = adapter
-        // 区切り線の表示
-        joinUser.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-
 
         /** onClick **/
         ready.setOnClickListener {
@@ -158,9 +150,9 @@ class PlayerStandbyActivity : AppCompatActivity(){
 //        })
 
         // 入室者数処理
-        GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
-            Log.d("Host","${joinNum}人が参加しています")
-        })
+//        GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
+//            Log.d("Host","${joinNum}人が参加しています")
+//        })
 
         // 準備完了処理
         GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
@@ -172,9 +164,12 @@ class PlayerStandbyActivity : AppCompatActivity(){
         GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
             Log.d("PlayerActivity",joinUserList.toString())
             // List Update
-            for(i in 0 until joinUserList.size){
-                playerStandbyViewModel.updateList(this,joinUser, joinUserList[i])
-            }
+//            if (listFlg) {
+                for (i in 0 until joinUserList.size) {
+                    playerStandbyViewModel.updateList(this, joinUser, joinUserList[i])
+                }
+//            }
+//            listFlg = true
         })
     }
     /** **********************************************************************
@@ -194,7 +189,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
     public override fun onRestart() {
         super.onRestart()
         Log.d("HostStandbyActivity", "onRestart")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
 
     /** **********************************************************************
@@ -226,7 +221,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
      * ********************************************************************** */
     public override fun onStop() {
         super.onStop()
-        Log.d("HostStandbyActivity", "onStop")
+//        Log.d("HostStandbyActivity", "onStop")
 //        if (null != BluetoothFunction.getInstance().mBluetoothService) {
 //            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
 //            BluetoothFunction.getInstance().mBluetoothService = null
@@ -257,21 +252,21 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         if(data.getBoolean("staminaFirst", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaFirst")
-            stamina1?.setIcon(R.drawable.favorite)
+            stamina1?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina1?.setIcon(R.drawable.favorite_off)
+            stamina1?.setIcon(R.drawable.bolg_stamina_off)
         }
         if(data.getBoolean("staminaSecond", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaSecond")
-            stamina2?.setIcon(R.drawable.favorite)
+            stamina2?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina2?.setIcon(R.drawable.favorite_off)
+            stamina2?.setIcon(R.drawable.bolg_stamina_off)
         }
         if(data.getBoolean("staminaThird", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaThird")
-            stamina3?.setIcon(R.drawable.favorite)
+            stamina3?.setIcon(R.drawable.bolg_stamina_on)
         }else{
-            stamina3?.setIcon(R.drawable.favorite_off)
+            stamina3?.setIcon(R.drawable.bolg_stamina_off)
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -284,7 +279,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         when(item?.itemId) {
             R.id.menu_item1 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item1")
-                item.setIcon(R.drawable.favorite_off) // Timer起動トリガー
+                item.setIcon(R.drawable.bolg_stamina_off) // Timer起動トリガー
                 // stamina state off
                 editor?.putBoolean("staminaFirst", false)
                 editor?.apply()
@@ -292,14 +287,14 @@ class PlayerStandbyActivity : AppCompatActivity(){
             }
             R.id.menu_item2 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item2")
-                item.setIcon(R.drawable.favorite_off) // Timer起動トリガー
+                item.setIcon(R.drawable.bolg_stamina_off) // Timer起動トリガー
                 editor?.putBoolean("staminaSecond", false)
                 editor?.apply()
                 timer.start()
             }
             R.id.menu_item3 -> {
                 Log.d("MainActivity","onOptionsItemSelected/menu_item3")
-                item.setIcon(R.drawable.favorite_off) // Timer起動トリガー
+                item.setIcon(R.drawable.bolg_stamina_off) // Timer起動トリガー
                 editor?.putBoolean("staminaThird", false)
                 editor?.apply()
                 timer.start()

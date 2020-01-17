@@ -127,6 +127,7 @@ class BluetoothFunction private constructor() {
         // Bluetooth接続開始処理
         mBluetoothService!!.connectStart()
         return true
+
     }
 
     /** **********************************************************************

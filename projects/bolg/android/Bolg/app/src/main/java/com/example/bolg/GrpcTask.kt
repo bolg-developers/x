@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.bolg.gameplay.GamePlayActivity
 import com.example.bolg.standby.host.HostStandbyActivity
@@ -52,6 +51,7 @@ class GrpcTask(application: Application)  {
     var hitFlg      : MutableLiveData<Long>                  = MutableLiveData(0)
     var gameEndFlg  : MutableLiveData<RoomMessage>           = MutableLiveData()
     var joinFlg     : MutableLiveData<String>                = MutableLiveData("")
+    var hitName     : MutableLiveData<String>                = MutableLiveData("")
     var readyFlg    : MutableLiveData<Boolean>               = MutableLiveData(true)
     var userNameList: MutableLiveData<MutableList<String>>   = MutableLiveData()
 
@@ -313,7 +313,9 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "notify_receiving_msg ->${value.notifyReceivingMsg}")
                         uiScope.launch {
                             delay(100)
-                            Toast.makeText(view?.context, "ダメージをうけたプレイヤー（ID） : ${value.notifyReceivingMsg.player.name}(${value.notifyReceivingMsg.player.id})", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(view?.context, "ダメージをうけたプレイヤー（ID） : ${value.notifyReceivingMsg.player.name}(${value.notifyReceivingMsg.player.id})", Toast.LENGTH_SHORT).show()
+                            hitName.value = value.notifyReceivingMsg.player.name
+
                             if (data.getLong("player_id",999) == value.notifyReceivingMsg.player.id) {
                                 hitFlg.value = value.notifyReceivingMsg.player.hp
                             }

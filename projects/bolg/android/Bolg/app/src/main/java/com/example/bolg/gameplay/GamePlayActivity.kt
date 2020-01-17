@@ -1,5 +1,6 @@
 package com.example.bolg.gameplay
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.Intent
@@ -29,11 +30,14 @@ import java.nio.ByteBuffer
  * ---------------------------------------------------------------------- */
 @Suppress("NAME_SHADOWING", "UNREACHABLE_CODE")
 class GamePlayActivity : AppCompatActivity(){
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_play)
 
         var hitCnt = 0
+        var hitNameFlg = false
+        var dialogFlg  = false
 
         // root view
         val decorView = window.decorView
@@ -108,30 +112,40 @@ class GamePlayActivity : AppCompatActivity(){
 
         GrpcTask.getInstance(application).gameEndFlg.observe(this, Observer {result->
             Log.d("GamePlayActivity" , "game end")
-            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
-                .setTitle("リザルト")
-                .setMessage(
-                    "勝者 + \n" +
-                            result.survivalResultMsg.winner.name + "\n"
-                  + "参加者(死んだ回数) + \n" +
-                            result.survivalResultMsg.personalsOrBuilderList[0].playerName +
-                            " (${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回)" +
-                            result.survivalResultMsg.personalsOrBuilderList[1].playerName +
-                            " (${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回)"
-                )
-                .setPositiveButton("もう一度") { _, _ ->
-                     val intent:Intent = if(data.getBoolean("standby_state",true)){
-                         Intent(this, HostStandbyActivity::class.java)
-                     }else{
-                         Intent(this, PlayerStandbyActivity::class.java)
-                     }
-                    startActivity(intent)
-                }
-                .setNegativeButton("終了"){_, _ ->
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-                .show()
+                AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                    .setTitle("リザルト")
+                    .setMessage(
+                        "勝者 \n" +
+                                result.survivalResultMsg.winner.name + "\n"
+                                + "参加者(死んだ回数) \n" +
+                                result.survivalResultMsg.personalsOrBuilderList[0].playerName +
+                                " (${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回)" +
+                                result.survivalResultMsg.personalsOrBuilderList[1].playerName +
+                                " (${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回)"
+                    )
+                    .setPositiveButton("もう一度") { _, _ ->
+                        val intent: Intent = if (data.getBoolean("standby_state", true)) {
+                            Intent(this, HostStandbyActivity::class.java)
+                        } else {
+                            Intent(this, PlayerStandbyActivity::class.java)
+                        }
+                        startActivity(intent)
+                        finish()
+                    }
+                    .setNegativeButton("終了") { _, _ ->
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    .show()
+        })
+
+        // 被弾者通知
+        GrpcTask.getInstance(application).hitName.observe(this, Observer { name->
+            if(hitNameFlg) {
+                log.text = name + "が撃たれました！"
+            }
+            hitNameFlg = true
         })
     }
     // ↓ここから下はBluetoothのconnect、disconnectをしているだけ
