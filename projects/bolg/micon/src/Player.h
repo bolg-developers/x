@@ -5,10 +5,11 @@
 #include <Arduino.h>
 #include <IGun.h>
 #include "Gun.h"
+#include <BolgLogger.h>
 
 namespace bolg
 {
-    // プレイヤー
+    /// プレイヤー
     class Player : public IPlayer, public IAttacker, public IDefenser
     {
     private:
@@ -19,6 +20,12 @@ namespace bolg
 
     public:
 
+        ///
+        /// @brief   初期化
+        ///
+        /// @param   userID  ユーザーID
+        /// @param   gun     使用する銃
+        ///
         void init(int32_t userID, std::shared_ptr<IGun> gun)
         {
             m_userID = userID;
@@ -32,12 +39,13 @@ namespace bolg
 
         void attack() override
         {
+            BOLG_LOG("Attack\n");
             m_gun->shot();
         }
 
         void applyDamage(int32_t damage) override
         {
-            //Serial.printf("damage = %d\n", damage);
+            BOLG_LOG("damage id : %d\n", damage);
         }
     };
 }

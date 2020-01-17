@@ -14,6 +14,7 @@
 
 namespace bolg
 {
+    /// 引き金監視タスク
     class TriggerTask :public TaskBase
     {
     private:
@@ -32,7 +33,7 @@ namespace bolg
 
             int32_t prev = digitalRead(m_triggerPin);
 
-            while(true)
+            while(!isDestroyNotification())
             {
                 int32_t state = digitalRead(m_triggerPin);
 

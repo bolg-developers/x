@@ -10,14 +10,14 @@
 
 namespace bolg
 {
-    // 防衛インターフェース
+    /// 防衛者インターフェース
     class IDefenser
     {
     public:
 
-        //
-        // @brief     ダメージを受ける
-        //
+        ///
+        /// @brief     ダメージを受ける
+        ///
         virtual void applyDamage(int32_t damage) = 0;
     };
 }

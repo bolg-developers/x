@@ -11,14 +11,17 @@
 
 namespace bolg
 {
-    // 銃
+    /// 銃のインターフェース
     class IGun
     {
     public:
 
-        //
-        // @brief    発砲する
-        //
+        ///
+        /// @brief   発砲する
+        ///
+        /// @retval  true  : 成功
+        /// @retval  false : エラー
+        ///
         virtual bool shot() = 0;
     };
 }

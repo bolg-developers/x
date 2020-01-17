@@ -12,9 +12,11 @@
 #include <memory>
 #include <BluetoothSerial.h>
 #include <ICommandSender.h>
+#include <BolgLogger.h>
 
 namespace bolg
 {
+    /// コマンド送信タスク
     class CommandSendTask : public TaskBase, public ICommandSender
     {
     private:
@@ -56,7 +58,7 @@ namespace bolg
 
         void task() override
         {
-            while(true)
+            while(!isDestroyNotification())
             {
                 flush();
                 delay(1);
@@ -79,13 +81,22 @@ namespace bolg
             m_packetSizePos++;
             m_packetSizeBuffer[m_packetPos] = sizeof(uint8_t);
 
+            BOLG_LOG("CommandSend  command : %d  arg : ", command);
+
             // 引数あり
             if(args)
             {
                 ::memcpy(m_packetBuffer + m_packetSizePos,&(*args)[0],args->size());
-                m_packetSizePos += args->size();
+                m_packetSizePos                 += args->size();
                 m_packetSizeBuffer[m_packetPos] += args->size();
+
+                for(const auto itr : *args)
+                {
+                    BOLG_LOG("%d", itr);
+                }
             }
+
+            BOLG_LOG("\n");
 
             m_packetPos++;
             xSemaphoreGiveRecursive(m_xMutex);
@@ -106,7 +117,7 @@ namespace bolg
             }
 
             int32_t  packetPos = 0;
-            uint8_t* pPacket = m_packetBuffer;
+            uint8_t* pPacket   = m_packetBuffer;
 
             while(m_packetPos != packetPos)
             {

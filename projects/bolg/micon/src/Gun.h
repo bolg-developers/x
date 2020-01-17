@@ -3,9 +3,11 @@
 #include <IPlayer.h>
 #include <IShotManager.h>
 #include <memory>
+#include <IVibrator.h>
 
 namespace bolg
 {
+    /// 銃
     class Gun : public IGun
     {
     private:
@@ -23,12 +25,17 @@ namespace bolg
             m_shotManager(shotManager),
             m_shot(shot){}
 
+        ///
+        /// @brief   銃の所有者を設定する
+        ///
+        /// @param   owner   所有者
+        ///
         void setOwner(std::shared_ptr<IPlayer> owner)
         {
             m_owner = owner;
         }
 
-        bool shot()
+        bool shot() override
         {
             m_shotManager->createShot(m_shot);
             return true;
