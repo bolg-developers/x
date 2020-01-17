@@ -25,6 +25,7 @@ import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 import com.example.bolg.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_player_standby.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -54,7 +55,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         /** widget init **/
         val userId        : TextView     = findViewById(R.id.player_user_id)
-        val rule          : TextView     = findViewById(R.id.player_rule)
+//        val rule          : TextView     = findViewById(R.id.player_rule)
         val readyNum      : TextView     = findViewById(R.id.player_ready_text)
         val ready         : ImageButton  = findViewById(R.id.player_ready_btn)
         val playerPairing : ImageButton  = findViewById(R.id.player_pairing_btn)
@@ -76,12 +77,20 @@ class PlayerStandbyActivity : AppCompatActivity(){
         val editor: SharedPreferences.Editor? = data.edit()
         userId.text = "${data.getString("token", "error")}"
 
+        /** Toolbar init **/
+        setSupportActionBar(player_toolbar)
+        player_toolbar.title = data.getString("player_name","")
+        player_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
+        player_toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         /** CountDownTimer init **/
         timer = object : CountDownTimer(data.getLong("nowTimer",0), 1000){
             override fun onTick(millisUntilFinished: Long) {
                 // "00:00:00"の方式で表示する。
-                toolbar.title = String.format(
+                player_toolbar.title = String.format(
                     Locale.getDefault(),"%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(millisUntilFinished)%60,
                     TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)%60,
@@ -89,7 +98,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
             }
 
             override fun onFinish() {
-                toolbar.title  = "BOLG"
+                player_toolbar.title  = "BOLG"
                 stamina1?.setIcon(R.drawable.favorite)
                 editor?.putBoolean("staminaFirst", true)
                 editor?.putBoolean("staminaSecond", true)
@@ -97,14 +106,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
                 editor?.apply()
             }
         }.start()
-
-        /** Toolbar init **/
-        setSupportActionBar(toolbar)
-        toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
-        toolbar.setNavigationOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
 
         /** RecyclerView init **/
         val layoutManager = LinearLayoutManager(this)

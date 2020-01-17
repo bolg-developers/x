@@ -19,10 +19,10 @@ import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.main.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 import android.widget.ArrayAdapter
+import kotlinx.android.synthetic.main.activity_host_standby.*
 
 /** ----------------------------------------------------------------------
  * HostStandbyActivity
@@ -72,9 +72,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         userId.text = "${data.getString("token", "error")}"
 
         /** Toolbar init **/
-        setSupportActionBar(toolbar)
-        toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
-        toolbar.setNavigationOnClickListener {
+        setSupportActionBar(host_toolbar)
+        host_toolbar.title = data.getString("player_name","")
+        host_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
+        host_toolbar.setNavigationOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -97,14 +98,14 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         timer = object : CountDownTimer(data.getLong("nowTimer",0), 1000){
             override fun onTick(millisUntilFinished: Long) {
                 // "00:00:00"の方式で表示する。
-                toolbar.title = String.format(
+                host_toolbar.title = String.format(
                     Locale.getDefault(),"%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(millisUntilFinished)%60,
                     TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)%60,
                     TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60)
             }
             override fun onFinish() {
-                toolbar.title  = "BOLG"
+                host_toolbar.title  = data.getString("player_name","")
                 stamina1?.setIcon(R.drawable.favorite)
                 editor?.putBoolean("staminaFirst", true)
                 editor?.putBoolean("staminaSecond", true)

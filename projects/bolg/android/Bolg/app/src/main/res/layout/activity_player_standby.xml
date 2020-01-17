@@ -9,7 +9,7 @@
     tools:context=".standby.player.PlayerStandbyActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/player_toolbar"
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/player_select_table"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/player_toolbar" />
 
 <!--    <TextView-->
 <!--        android:id="@+id/join_num"-->
@@ -64,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/player_toolbar">
 
         <TableRow
             android:id="@+id/player_pairing_id_row"
@@ -153,7 +153,7 @@
                 android:layout_margin="2dp"
                 android:layout_span="2"
                 android:background="@null"
-                app:srcCompat="@drawable/bolg_button_on" />
+                app:srcCompat="@drawable/bolg_button_off_dark" />
 
             <ImageButton
                 android:id="@+id/host_item_btn"
@@ -162,7 +162,7 @@
                 android:layout_span="2"
                 android:layout_margin="2dp"
                 android:background="@null"
-                app:srcCompat="@drawable/bolg_button_on" />
+                app:srcCompat="@drawable/bolg_button_off_dark" />
 
         </TableRow>
 

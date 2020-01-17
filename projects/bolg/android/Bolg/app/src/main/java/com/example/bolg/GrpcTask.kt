@@ -62,7 +62,7 @@ class GrpcTask(application: Application)  {
     init {
         Log.d("GrpcTask", "init")
         channel = ManagedChannelBuilder
-            .forAddress("test", 0)
+            .forAddress("host", 0)
             .usePlaintext()
             .build()
         asyncStub = BolgServiceGrpc.newStub(channel)
