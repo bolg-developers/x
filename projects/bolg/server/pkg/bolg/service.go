@@ -383,6 +383,21 @@ func (svc *Service) CheckHealth(_ context.Context, in *pb.CheckHealthRequest) (*
 	return out, nil
 }
 
+// TODO: 実装する
+func (svc *Service) GetStamina(_ context.Context, in *pb.GetStaminaRequest) (*pb.Stamina, error) {
+	return &pb.Stamina{}, nil
+}
+
+// TODO: 実装する
+func (svc *Service) UseStamina(_ context.Context, in *pb.UseStaminaRequest) (*pb.UseStaminaResponse, error) {
+	return &pb.UseStaminaResponse{}, nil
+}
+
+// TODO: 実装する
+func (svc *Service) RecoverStamina(_ context.Context, in *pb.RecoverStaminaRequest) (*pb.RecoverStaminaResponse, error) {
+	return &pb.RecoverStaminaResponse{}, nil
+}
+
 func toGRPCError(err error) error {
 	if err == nil {
 		return err
