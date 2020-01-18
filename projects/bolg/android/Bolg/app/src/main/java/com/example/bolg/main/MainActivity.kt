@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.example.bolg.R
 import com.example.bolg.R.menu.sutamina_menu
+import com.example.bolg.bluetooth.BluetoothFunction
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         editor?.putBoolean("staminaSecond", true)
         editor?.putBoolean("staminaThird", true)
         editor?.putLong("nowTimer", 0L)
+        editor?.putBoolean("loop_state",false)
         editor?.apply()    // 非同期
 
         /** Toolbar init **/
@@ -98,6 +100,11 @@ class MainActivity : AppCompatActivity() {
         // title display timer
         // mainViewModel.startTimer()
         mainViewModel.setCreateJoin()
+
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
     }
 
 
@@ -177,5 +184,16 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item!!)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        /** SharedPreferences **/
+        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
 
+        if(data.getBoolean("loop_state",false)){
+            if (null != BluetoothFunction.getInstance().mBluetoothService) {
+                BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+                BluetoothFunction.getInstance().mBluetoothService = null
+            }
+        }
+    }
 }

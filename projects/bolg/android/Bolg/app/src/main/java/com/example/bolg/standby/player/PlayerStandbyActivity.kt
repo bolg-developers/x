@@ -23,8 +23,10 @@ import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
+import com.example.bolg.gameplay.GamePlayActivity
 import com.example.bolg.main.MainActivity
 import kotlinx.android.synthetic.main.activity_game_play.*
+import kotlinx.android.synthetic.main.activity_host_standby.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_player_standby.*
 import java.util.*
@@ -44,6 +46,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
     private var stamina1: MenuItem? = null
     private var stamina2: MenuItem? = null
     private var stamina3: MenuItem ? = null
+    private lateinit var decorView: View
 
     @SuppressLint("CommitPrefEdits", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +54,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         setContentView(R.layout.activity_player_standby)
 
         // root view
-        val decorView: View = window.decorView
+        decorView = window.decorView
         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 
         /** widget init **/
@@ -63,8 +66,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         val joinUser      : RecyclerView = findViewById(R.id.player_standby_recycler_view)
 
         ready.isEnabled = false
-        var readyCount: Long = 0
-        var listFlg = false
+        var gameStart = false
 
         /** viewModel**/
         val application: Application = requireNotNull(this).application
@@ -76,6 +78,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** SharedPreferences **/
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor? = data.edit()
+        readyNum.text = data.getLong("player_ready_num",99L).toString()
+
+        // 武器のセット
+        playerStandbyViewModel.updateWeapon(20L, data.getString("token", "0:0"),decorView)
+
         userId.text = "${data.getString("token", "error")}"
 
         /** Toolbar init **/
@@ -83,8 +90,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
         player_toolbar.title = data.getString("player_name","")
         player_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
         player_toolbar.setNavigationOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
@@ -122,12 +127,20 @@ class PlayerStandbyActivity : AppCompatActivity(){
         playerPairing.setOnClickListener {
             progress.visibility = ProgressBar.VISIBLE
             Log.d("button", "progress:ON")
-            if (playerStandbyViewModel.pairing(decorView)) {
-                progress.visibility = ProgressBar.INVISIBLE
-                Log.d("button", "progress:OFF")
+            if(!data.getBoolean("loop_state",false)) {
+                if (playerStandbyViewModel.pairing(decorView)) {
+                    progress.visibility = ProgressBar.INVISIBLE
+                    Log.d("button", "progress:OFF")
+                    ready.isEnabled = true
+                    ready.setImageResource(R.drawable.bolg_ready_on_right)
+                }
+            }
+            else{
+                BluetoothFunction.getInstance().connect()
+                playerStandbyViewModel.setReady(data.getString("token", "0:0")!!, decorView)
                 ready.isEnabled = true
                 ready.setImageResource(R.drawable.bolg_ready_on_right)
-
+                progress.visibility = ProgressBar.INVISIBLE
             }
         }
 
@@ -156,8 +169,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         // 準備完了処理
         GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
-            readyNum.text = readyCount.toString()
-            readyCount++
+            readyNum.text = data.getLong("player_ready_num",99L).toString()
         })
 
         // 入室リスト更新
@@ -171,6 +183,14 @@ class PlayerStandbyActivity : AppCompatActivity(){
 //            }
 //            listFlg = true
         })
+
+        GrpcTask.getInstance(application).gameStart.observe(this, Observer {
+            if (gameStart) {
+                val intent = Intent(applicationContext, GamePlayActivity::class.java)
+                startActivity(intent)
+            }
+            gameStart = true
+        })
     }
     /** **********************************************************************
      * onStart
@@ -179,7 +199,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
     public override fun onStart() {
         super.onStart()
         Log.d("HostStandbyActivity", "onStart")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
 
     /** **********************************************************************
@@ -189,7 +209,37 @@ class PlayerStandbyActivity : AppCompatActivity(){
     public override fun onRestart() {
         super.onRestart()
         Log.d("HostStandbyActivity", "onRestart")
-//        BluetoothFunction.getInstance().connect()
+        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        if(data.getBoolean("retry_state",false)){
+            finish()
+        }
+
+        if(data.getBoolean("loop_state",false))
+        {
+//            player_pairing_btn.isEnabled = true
+            if (null != BluetoothFunction.getInstance().mBluetoothService) {
+                BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+                BluetoothFunction.getInstance().mBluetoothService = null
+            }
+            player_ready_btn.isEnabled = false
+            player_pairing_btn.isEnabled = true
+            player_ready_btn.setImageResource(R.drawable.bolg_ready_on_dark)
+            player_progress.visibility = ProgressBar.INVISIBLE
+        }
+        // 再ゲーム処理
+        else
+        {
+//            Log.d("StandbyActivity", "再ゲーム")
+//            BluetoothFunction.getInstance().connect()
+//            player_ready_btn.isEnabled = true
+//            player_pairing_btn.isEnabled = false
+//            player_ready_btn.setImageResource(R.drawable.bolg_ready_on_right)
+//            playerStandbyViewModel.setReady(data.getString("token", "0:0")!!, decorView)
+//            player_progress.visibility = ProgressBar.INVISIBLE
+            // ready request
+        }
+
+        //        BluetoothFunction.getInstance().connect()
     }
 
     /** **********************************************************************
@@ -199,7 +249,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
     override fun onResume() {
         super.onResume()
         Log.d("HostStandbyActivity", "onResume")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
 
     /** **********************************************************************
@@ -235,10 +285,10 @@ class PlayerStandbyActivity : AppCompatActivity(){
     override fun onDestroy() {
         super.onDestroy()
         Log.d("HostStandbyActivity", "onDestroy")
-        if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

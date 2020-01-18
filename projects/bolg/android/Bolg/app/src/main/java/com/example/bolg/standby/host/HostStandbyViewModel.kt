@@ -89,8 +89,6 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
     fun pairing(view: View?): Boolean{
         // ペアリング実行
         BluetoothFunction.getInstance().btPairing()
-        // 武器のセット
-        updateWeapon(20L, data.getString("token", "0:0"),view)
         return true
     }
 
@@ -101,7 +99,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param view  View
      * @author 長谷川　勇太
      * ********************************************************************** */
-    private fun updateWeapon(attack: Long, token: String?, view: View?) {
+    fun updateWeapon(attack: Long, token: String?, view: View?) {
         uiScope.launch {
             delay(100)
             GrpcTask.getInstance(app).updateWeapon(attack,token,view)

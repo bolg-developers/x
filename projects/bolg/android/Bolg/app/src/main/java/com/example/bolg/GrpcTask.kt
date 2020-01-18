@@ -53,7 +53,9 @@ class GrpcTask(application: Application)  {
     var joinFlg     : MutableLiveData<String>                = MutableLiveData("")
     var hitName     : MutableLiveData<String>                = MutableLiveData("")
     var readyFlg    : MutableLiveData<Boolean>               = MutableLiveData(true)
+    var gameStart   : MutableLiveData<Boolean>               = MutableLiveData(true)
     var userNameList: MutableLiveData<MutableList<String>>   = MutableLiveData()
+    var gameUserNameList: MutableLiveData<MutableList<String>>   = MutableLiveData()
 
     /** coroutine init **/
     private var liveDataJob = Job()
@@ -327,6 +329,8 @@ class GrpcTask(application: Application)  {
                     8 -> {    // survival_result_msg
                         Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")
                         Log.d("GrpcTask", "${value.survivalResultMsg.winner.name}が勝利")
+                        editor?.putLong("player_ready_num",value.survivalResultMsg.personalsCount.toLong())
+                        editor?.apply()
                         uiScope.launch {
                             delay(100)
                             gameEndFlg.value = value
@@ -338,8 +342,18 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask","げーむ開始")
 
                         // 部屋にいるすべてのプレイヤーが準備完了でゲームプレイ画面へ遷移する。
-                        val intent = Intent(view?.context, GamePlayActivity::class.java)
-                        view?.context?.startActivity(intent)
+
+                        uiScope.launch {
+                            delay(100)
+                            gameStart.value = true
+
+                            val list = mutableListOf<String>()
+                            for(i in 0 until value.startGameMsg.room.playersCount){
+                                list.add(value.startGameMsg.room.getPlayers(i).name)
+                            }
+
+                            gameUserNameList.value = list
+                        }
                     }
                     11 -> { Log.d("GrpcTask", "update_weapon_req   ->${value.updateWeaponReq}") }
                     12 -> { Log.d("GrpcTask", "update_weapon_resp -> 何もかえって来なくていい") }

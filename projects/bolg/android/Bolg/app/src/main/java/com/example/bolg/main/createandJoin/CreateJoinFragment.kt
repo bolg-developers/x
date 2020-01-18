@@ -1,6 +1,7 @@
 package com.example.bolg.main.createandJoin
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.bolg.R
+import com.example.bolg.bluetooth.BluetoothFunction
 
 /** ----------------------------------------------------------------------
  * CreateJoinFragment
@@ -16,7 +18,6 @@ import com.example.bolg.R
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class CreateJoinFragment : Fragment(){
-
     // Fragmentが初めてUIを描画する時にシステムが呼び出す
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +34,11 @@ class CreateJoinFragment : Fragment(){
         // Button widget Setting
         val joinBtn:ImageButton = view.findViewById(R.id.join_btn)
         val createBtn:ImageButton = view.findViewById(R.id.create_btn)
+
+        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+            BluetoothFunction.getInstance().mBluetoothService = null
+        }
 
         // 参加
         joinBtn.setOnClickListener {

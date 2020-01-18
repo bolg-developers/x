@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.data.ListData
+import com.example.bolg.gameplay.GamePlayActivity
 import kotlinx.android.synthetic.main.activity_game_play.*
 import kotlinx.android.synthetic.main.activity_host_standby.*
 
@@ -45,6 +46,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     private var stamina2: MenuItem? = null
     private var stamina3: MenuItem ? = null
     private var listFlg = false
+    private lateinit var decorView: View
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,24 +54,24 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         setContentView(R.layout.activity_host_standby)
 
         // root view
-        val decorView = window.decorView
+        decorView = window.decorView
         // hide navigation bar, hide status bar
-        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+        decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 
         /** widget init **/
-        val userId            : TextView     = findViewById(R.id.host_user_id)
-        val joinMember        : TextView     = findViewById(R.id.host_join_num)
-        val readyNum          : TextView     = findViewById(R.id.host_ready_txt)
-        val hostPairing       : ImageButton  = findViewById(R.id.host_pairing)
-        val billingAmmunition : ImageButton  = findViewById(R.id.host_billing_ammunition_btn)
-//        val inventory         : ImageButton  = findViewById(R.id.host_inventory_btn)
-        val start             : ImageButton  = findViewById(R.id.host_start_btn)
-        val item              : ImageButton  = findViewById(R.id.host_item_btn)
-        val progress          : ProgressBar  = findViewById(R.id.host_pairing_progress)
-        val ruleSpinner       : Spinner      = findViewById(R.id.host_game_rule_spinner)
-        val joinUser          : RecyclerView = findViewById(R.id.host_standby_recycler_view)
+        val userId: TextView = findViewById(R.id.host_user_id)
+        val joinMember: TextView = findViewById(R.id.host_join_num)
+        val readyNum: TextView = findViewById(R.id.host_ready_txt)
+        val hostPairing: ImageButton = findViewById(R.id.host_pairing)
+        val billingAmmunition: ImageButton = findViewById(R.id.host_billing_ammunition_btn)
+        val start: ImageButton = findViewById(R.id.host_start_btn)
+        val item: ImageButton = findViewById(R.id.host_item_btn)
+        val progress: ProgressBar = findViewById(R.id.host_pairing_progress)
+        val ruleSpinner: Spinner = findViewById(R.id.host_game_rule_spinner)
+        val joinUser: RecyclerView = findViewById(R.id.host_standby_recycler_view)
 
-        start.isEnabled = false
+        var gameStart = false
 
         /** viewModel init **/
         val application: Application = requireNotNull(this).application
@@ -81,17 +83,19 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
         // write editor get
         val editor: SharedPreferences.Editor? = data.edit()
+
+        // 武器のセット
+        hostStandbyViewModel.updateWeapon(20L, data.getString("token", "0:0"), decorView)
+
         // User ID view
         userId.text = "${data.getString("token", "error")}"
 
         /** Toolbar init **/
         setSupportActionBar(host_toolbar)
-        host_toolbar.title = data.getString("player_name","")
+        host_toolbar.title = data.getString("player_name", "")
         host_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
         host_toolbar.setNavigationOnClickListener {
             listFlg = false
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
@@ -104,20 +108,28 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown)
         ruleSpinner.adapter = adapter
 
-        hostStandbyViewModel.updateList(applicationContext, joinUser, data.getString("player_name", "")!!,1)
+        /** list init **/
+        hostStandbyViewModel.updateList(
+            applicationContext,
+            joinUser,
+            data.getString("player_name", "")!!,
+            1
+        )
 
         /** CountDownTimer init **/
-        timer = object : CountDownTimer(data.getLong("nowTimer",0), 1000){
+        timer = object : CountDownTimer(data.getLong("nowTimer", 0), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 // "00:00:00"の方式で表示する。
                 host_toolbar.title = String.format(
-                    Locale.getDefault(),"%02d:%02d:%02d",
-                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished)%60,
-                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)%60,
-                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60)
+                    Locale.getDefault(), "%02d:%02d:%02d",
+                    TimeUnit.MILLISECONDS.toHours(millisUntilFinished) % 60,
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60,
+                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60
+                )
             }
+
             override fun onFinish() {
-                host_toolbar.title  = data.getString("player_name","")
+                host_toolbar.title = data.getString("player_name", "")
                 stamina1?.setIcon(R.drawable.bolg_stamina_on)
                 editor?.putBoolean("staminaFirst", true)
                 editor?.putBoolean("staminaSecond", true)
@@ -129,7 +141,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         // List Update
 //        hostStandbyViewModel.updateList(this,joinUser,"参加者なし")
 
-        readyNum.text = data.getLong("player_ready_num",99L).toString()
+        readyNum.text = data.getLong("player_ready_num", 99L).toString()
         Log.d("player_ready_num", "init")
 
         /** onClick processing **/
@@ -155,41 +167,53 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
 
         // ペアリング
         hostPairing.setOnClickListener {
-            progress.visibility = ProgressBar.VISIBLE
-            Log.d("button", "progress:ON")
-            if (hostStandbyViewModel.pairing(decorView)) {
-                progress.visibility = ProgressBar.INVISIBLE
-                Log.d("button", "progress:OFF")
+
+            if(!data.getBoolean("loop_state",false)) {
+                progress.visibility = ProgressBar.VISIBLE
+                Log.d("button", "progress:ON")
+                if (hostStandbyViewModel.pairing(decorView)) {
+                    progress.visibility = ProgressBar.INVISIBLE
+                    Log.d("button", "progress:OFF")
+                    start.isEnabled = true
+                    start.setImageResource(R.drawable.bolg_start_on_right)
+                    // ready request
+                    hostStandbyViewModel.setReady(data.getString("token", "0:0"), decorView)
+                    hostPairing.isEnabled = false
+                }
+            }
+            else{
+                BluetoothFunction.getInstance().connect()
                 start.isEnabled = true
                 start.setImageResource(R.drawable.bolg_start_on_right)
                 // ready request
-                hostStandbyViewModel.setReady(data.getString("token", "0:0"),decorView)
+                hostStandbyViewModel.setReady(data.getString("token", "0:0"), decorView)
+                hostPairing.isEnabled = false
             }
         }
 
         // ゲームスタート
         start.setOnClickListener {
-            hostStandbyViewModel.startGame(data.getString("token", "0:0"),decorView)
+            hostStandbyViewModel.startGame(data.getString("token", "0:0"), decorView)
         }
 
         /** observer kind **/
         // 入室者数処理
         GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
-            Log.d("Host","${joinNum}人が参加しています")
+            Log.d("Host", "${joinNum}人が参加しています")
             joinMember.text = joinNum.toString()
         })
 
         // 準備完了処理
         GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
-            readyNum.text = data.getLong("player_ready_num",99L).toString()
+            readyNum.text = data.getLong("player_ready_num", 99L).toString()
             Log.d("player_ready_num", "observe")
         })
 
         // 入室リスト更新
-        GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
+        GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList ->
             // List Update
-            Log.d("RecyclerList","observe: joinUserList -> $joinUserList")
-            if(listFlg) {
+            Log.d("RecyclerList", "observe: joinUserList -> $joinUserList")
+            if (listFlg) {
 //                for (i in 0 until joinUserList.size) {
 //                    hostStandbyViewModel.updateList(this, joinUser, joinUserList[i],0)
 //                    Log.d("RecyclerList","observe: joinUserList[${i}] -> ${joinUserList[i]}")
@@ -202,13 +226,24 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 val mAdapter = StandbyRecyclerAdapter(sampleList)
                 joinUser.adapter = mAdapter
                 // 区切り線の表示
-                joinUser.addItemDecoration(DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL))
+                joinUser.addItemDecoration(
+                    DividerItemDecoration(
+                        applicationContext,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
             }
             listFlg = true
         })
 
+        GrpcTask.getInstance(application).gameStart.observe(this, Observer {
+            if (gameStart) {
+                val intent = Intent(applicationContext, GamePlayActivity::class.java)
+                startActivity(intent)
+            }
+            gameStart = true
+        })
     }
-
     /** **********************************************************************
      * onItemSelected
      * @param parent
@@ -240,7 +275,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     public override fun onStart() {
         super.onStart()
         Log.d("HostStandbyActivity", "onStart")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
     /** **********************************************************************
      * onRestart
@@ -249,6 +284,39 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     public override fun onRestart() {
         super.onRestart()
         Log.d("HostStandbyActivity", "onRestart")
+        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+
+        if(data.getBoolean("retry_state",false)){
+            finish()
+        }
+
+        if (data.getBoolean("loop_state", false)) {
+//            host_start_btn.isEnabled = false
+//            host_pairing.isEnabled = true
+            if (null != BluetoothFunction.getInstance().mBluetoothService) {
+                BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+                BluetoothFunction.getInstance().mBluetoothService = null
+            }
+
+            host_start_btn.isEnabled = false
+            host_pairing.isEnabled = true
+            host_start_btn.setImageResource(R.drawable.bolg_start_on_dark)
+        }
+        // 再ゲーム処理
+//        else {
+//            BluetoothFunction.getInstance().connect()
+//            if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//                BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//                BluetoothFunction.getInstance().mBluetoothService = null
+//            }
+//
+//            host_start_btn.isEnabled = false
+//            host_pairing.isEnabled = true
+//            host_start_btn.setImageResource(R.drawable.bolg_start_on_dark)
+            // ready request
+//            hostStandbyViewModel.setReady(data.getString("token", "0:0"), decorView)
+//            host_pairing_progress.visibility = ProgressBar.INVISIBLE
+//        }
 //        BluetoothFunction.getInstance().connect()
     }
     /** **********************************************************************
@@ -259,7 +327,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     override fun onResume() {
         super.onResume()
         Log.d("HostStandbyActivity", "onResume")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
     /** **********************************************************************
      * onPause
@@ -295,10 +363,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     override fun onDestroy() {
         super.onDestroy()
         Log.d("HostStandbyActivity", "onDestroy")
-        if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
