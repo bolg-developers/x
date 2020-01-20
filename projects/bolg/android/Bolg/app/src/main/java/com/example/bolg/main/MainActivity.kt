@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private var stamina2: MenuItem? = null
     private var stamina3: MenuItem ? = null
     private var nowTimer: Long? = null
+    private val decor: View = window.decorView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity","onCreate")
 
         val test = 20000L
-        val decor = window.decorView
         // hide navigation bar, hide status bar
         decor.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 

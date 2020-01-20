@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.bolg.R
 import com.example.bolg.bluetooth.BluetoothFunction
 
@@ -47,7 +48,14 @@ class CreateJoinFragment : Fragment(){
 
         // 部屋生成
         createBtn.setOnClickListener {
-            createJoinViewModel.create(view)
+
+            val dialog = SweetAlertDialog(view.context, SweetAlertDialog.SUCCESS_TYPE)
+            dialog.titleText = "本当に部屋を生成しますか？"
+            dialog.confirmText = "生成"
+            dialog.setConfirmClickListener {
+                createJoinViewModel.create(view)
+            }
+            dialog.show()
         }
         return view
     }
