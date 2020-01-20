@@ -88,7 +88,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * ********************************************************************** */
     fun pairing(view: View?): Boolean{
         // ペアリング実行
-        BluetoothFunction.getInstance().btPairing()
+        BluetoothFunction.getInstance().btPairing(view)
         return true
     }
 

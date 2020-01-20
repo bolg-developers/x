@@ -19,6 +19,10 @@ import com.example.bolg.bluetooth.BluetoothFunction
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import java.util.concurrent.TimeUnit
+import android.content.DialogInterface
+import android.app.AlertDialog
+import android.app.PendingIntent.getActivity
+
 
 /** ----------------------------------------------------------------------
  * MainActivity
