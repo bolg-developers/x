@@ -3,7 +3,6 @@ package com.example.bolg.standby.player
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -82,7 +81,7 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun pairing(view: View?): Boolean{
-        BluetoothFunction.getInstance().btPairing()
+        BluetoothFunction.getInstance().btPairing(view)
         return true
     }
 
