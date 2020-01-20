@@ -90,6 +90,10 @@ class PlayerStandbyActivity : AppCompatActivity(){
         player_toolbar.title = data.getString("player_name","")
         player_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
         player_toolbar.setNavigationOnClickListener {
+            if (null != BluetoothFunction.getInstance().mBluetoothService) {
+                BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+                BluetoothFunction.getInstance().mBluetoothService = null
+            }
             finish()
         }
 
@@ -226,20 +230,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
             player_ready_btn.setImageResource(R.drawable.bolg_ready_on_dark)
             player_progress.visibility = ProgressBar.INVISIBLE
         }
-        // 再ゲーム処理
-        else
-        {
-//            Log.d("StandbyActivity", "再ゲーム")
-//            BluetoothFunction.getInstance().connect()
-//            player_ready_btn.isEnabled = true
-//            player_pairing_btn.isEnabled = false
-//            player_ready_btn.setImageResource(R.drawable.bolg_ready_on_right)
-//            playerStandbyViewModel.setReady(data.getString("token", "0:0")!!, decorView)
-//            player_progress.visibility = ProgressBar.INVISIBLE
-            // ready request
-        }
-
-        //        BluetoothFunction.getInstance().connect()
     }
 
     /** **********************************************************************

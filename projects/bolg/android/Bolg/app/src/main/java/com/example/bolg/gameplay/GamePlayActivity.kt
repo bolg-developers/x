@@ -5,21 +5,25 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
 import kotlinx.android.synthetic.main.activity_game_play.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -27,10 +31,8 @@ import java.nio.ByteBuffer
  * ゲームプレイ中画面
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-@Suppress("NAME_SHADOWING", "UNREACHABLE_CODE")
+@Suppress("NAME_SHADOWING", "UNREACHABLE_CODE", "DEPRECATION")
 class GamePlayActivity : AppCompatActivity(){
-    private var listFlg = false
-
     @SuppressLint("SetTextI18n", "CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,7 @@ class GamePlayActivity : AppCompatActivity(){
         val decorView = window.decorView
         // hide navigation bar, hide status bar
         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+        val mVibrator =  getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
@@ -111,6 +114,7 @@ class GamePlayActivity : AppCompatActivity(){
         GrpcTask.getInstance(application).hitFlg.observe(this, Observer { hp->
             Log.d("GamePlayActivity" , "HP Update")
             if(hitCnt > 0) {
+                mVibrator.vibrate(100)
                 playerHp.text = hp.toString()
             }
             hitCnt++
@@ -118,31 +122,44 @@ class GamePlayActivity : AppCompatActivity(){
 
         GrpcTask.getInstance(application).gameEndFlg.observe(this, Observer {result->
             Log.d("GamePlayActivity" , "game end")
+            val winnerName = result.survivalResultMsg.winner.name
+            var winOfLose = "Winner"
+            var winOfLoseImg = R.drawable.ic_thumb_up_black_24dp
+
+            if(winnerName != data.getString("player_name","Error") ){
+                winOfLose = "Lose"
+                winOfLoseImg = R.drawable.ic_thumb_down_black_24dp
+            }
+
             if(data.getBoolean("end_game",false)) {
-                AlertDialog.Builder(this) // FragmentではActivityを取得して生成
-                    .setTitle("リザルト")
-                    .setMessage(
-                        "勝者 \n" +
-                                result.survivalResultMsg.winner.name + "\n"
-                                + "参加者(死んだ回数) \n" +
-                                result.survivalResultMsg.personalsOrBuilderList[0].playerName +
-                                " (${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回)" +
-                                result.survivalResultMsg.personalsOrBuilderList[1].playerName +
-                                " (${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回)"
-                    )
-                    .setPositiveButton("もう一度") { _, _ ->
+
+                val resultString =
+                    result.survivalResultMsg.personalsOrBuilderList[0].playerName + " -> \n" + "KILL :  ${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回,　　　　　" +
+                            result.survivalResultMsg.personalsOrBuilderList[1].playerName + " -> \n" + "KILL :  ${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回"
+
+                val dialog = SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                    .setTitleText(winOfLose)
+                    .setCustomImage(winOfLoseImg)
+                    .setContentText(resultString)
+                    .setConfirmText("←")
+                    .setConfirmClickListener {
+                        Log.d("GAME","←")
                         editor?.putBoolean("loop_state", true)
                         editor?.putBoolean("retry_state", false)
                         editor?.commit()
                         finish()
                     }
-                    .setNegativeButton("終了") { _, _ ->
+                    .setCancelText("×")
+                    .setCancelClickListener {
+                        Log.d("GAME","×")
                         editor?.putBoolean("loop_state", true)
                         editor?.putBoolean("retry_state", true)
                         editor?.commit()
                         finish()
                     }
-                    .show()
+                dialog.setCanceledOnTouchOutside(false)
+                dialog.show()
+
             }
         })
 
@@ -153,6 +170,7 @@ class GamePlayActivity : AppCompatActivity(){
             if(hitNameFlg) {
                 log.text = name + "が撃たれました！"
             }
+
             hitNameFlg = true
         })
 

@@ -273,6 +273,8 @@ class GrpcTask(application: Application)  {
                                         "Grpc側" +
                                         "$list")
                                 userNameList.value = list
+
+                                delay(600)
                                 val intent = Intent(view?.context, PlayerStandbyActivity::class.java)
                                 view?.context?.startActivity(intent)
                             }

@@ -5,12 +5,14 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AlphaAnimation
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -96,6 +98,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         host_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
         host_toolbar.setNavigationOnClickListener {
             listFlg = false
+            if (null != BluetoothFunction.getInstance().mBluetoothService) {
+                BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+                BluetoothFunction.getInstance().mBluetoothService = null
+            }
             finish()
         }
 

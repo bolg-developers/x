@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Vibrator
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -106,7 +107,6 @@ class MainActivity : AppCompatActivity() {
             BluetoothFunction.getInstance().mBluetoothService = null
         }
     }
-
 
     /** Stamina display menu **/
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
