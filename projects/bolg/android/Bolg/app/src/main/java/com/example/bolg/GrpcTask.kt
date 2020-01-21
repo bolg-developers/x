@@ -321,7 +321,6 @@ class GrpcTask(application: Application)  {
                         }
                         Log.d("GrpcTask", "ダメージをうけたプレイヤー : ${value.notifyReceivingMsg.player.name}")
                         Log.d("GrpcTask", "ダメージをうけたプレイヤーid : ${value.notifyReceivingMsg.player.id}")
-
                     }
                     8 -> {    // survival_result_msg
                         Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")
@@ -339,7 +338,6 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask","げーむ開始")
 
                         // 部屋にいるすべてのプレイヤーが準備完了でゲームプレイ画面へ遷移する。
-
                         uiScope.launch {
                             delay(100)
                             gameStart.value = true
@@ -348,7 +346,6 @@ class GrpcTask(application: Application)  {
                             for(i in 0 until value.startGameMsg.room.playersCount){
                                 list.add(value.startGameMsg.room.getPlayers(i).name)
                             }
-
                             gameUserNameList.value = list
                         }
                     }
