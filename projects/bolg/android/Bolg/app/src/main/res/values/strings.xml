@@ -44,4 +44,6 @@
     <string name="remaining_ammo">残弾数</string>
     <string name="log">Log受信中…</string>
 
+    <string name="winner">Winner</string>
+    <string name="loser">Loser</string>
 </resources>

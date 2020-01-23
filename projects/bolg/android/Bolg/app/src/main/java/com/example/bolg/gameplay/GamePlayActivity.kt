@@ -20,6 +20,8 @@ import com.example.bolg.R
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.bluetooth.BluetoothFunction
 import com.example.bolg.data.ListData
+import com.example.bolg.gameplay.GamePlayViewModel.Companion.LOSER
+import com.example.bolg.gameplay.GamePlayViewModel.Companion.WINNER
 import kotlinx.android.synthetic.main.activity_game_play.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -33,6 +35,7 @@ import java.nio.ByteBuffer
  * ---------------------------------------------------------------------- */
 @Suppress("NAME_SHADOWING", "UNREACHABLE_CODE", "DEPRECATION")
 class GamePlayActivity : AppCompatActivity(){
+
     @SuppressLint("SetTextI18n", "CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,38 +46,50 @@ class GamePlayActivity : AppCompatActivity(){
         var hitNameFlg = false
 
         // root view
-        val decorView = window.decorView
+        val decorView: View = window.decorView
         // hide navigation bar, hide status bar
-        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+        decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
         val mVibrator =  getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
         val gamePlayViewModel:GamePlayViewModel =
-            ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
+            ViewModelProviders.of(this,viewModelFactory)
+                .get(GamePlayViewModel::class.java)
 
         /** widget init **/
         val playerHp : TextView = findViewById(R.id.hp)
         val joinUser : RecyclerView = findViewById(R.id.list)
 
         /** SharedPreferences **/
-        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor? = data.edit()
 
+        // gameEnd init
         editor?.putBoolean("end_game",false)
         editor?.apply()
 
+        // HP 初期値
         playerHp.text = 100.toString()
 
         /** Toolbar init **/
-        game_toolbar.title = data.getString("player_name","player_name_none") + data.getString("token","player_name_none")
+        game_toolbar.title =
+            data.getString("player_name","player_name_none") +
+            data.getString("token","player_name_none")
 
         // playerIdをByteArrayに変換する
-        val playerId = data.getLong("player_id",0)
+        val playerId = data.getLong("player_id",99).toInt()
         Log.d("GamePlayActivity", playerId.toString())
-        val value: Int = playerId.toInt()
-        val bytes = ByteBuffer.allocate(4).putInt(value).array()
-        Log.d("createAndJoinRoomTask","mTempBuffer ->${bytes[0]} , ${bytes[1]} , ${bytes[2]} , ${bytes[3]} ")
+
+        val bytes = ByteBuffer.allocate(4).putInt(playerId).array()
+        Log.d("GamePlayActivity",
+            "mTempBuffer ->" +
+                    "${bytes[0]} , " +
+                    "${bytes[1]} , " +
+                    "${bytes[2]} , " +
+                    "${bytes[3]} ")
 
         // send byteArray create
         val integers = byteArrayOf(
@@ -86,21 +101,36 @@ class GamePlayActivity : AppCompatActivity(){
             bytes[3],
             0xff.toByte()    //  EndByte
         )
-        Log.d("createAndJoinRoomTask","SENDBuffer ->${integers[0]} , ${integers[1]} , ${integers[2]} , ${integers[3]}, ${integers[4]} , ${integers[5]} , ${integers[6]} ")
+
+        Log.d("GamePlayActivity",
+            "SENDBuffer ->" +
+                    "${integers[0]} , " +
+                    "${integers[1]} , " +
+                    "${integers[2]} , " +
+                    "${integers[3]}, " +
+                    "${integers[4]} , " +
+                    "${integers[5]} , " +
+                    "${integers[6]} ")
 
         if(!BluetoothFunction.getInstance().write(integers)){
             Log.d("createAndJoinRoomTask","writeError")
         }
 
         // Observe : 弾を撃った時に動く
-        BluetoothFunction.getInstance().shootByteArray.observe(this , Observer { readByte ->
+        BluetoothFunction
+            .getInstance()
+            .shootByteArray
+            .observe(this , Observer { readByte ->
             Log.d("GamePlayActivity" , "Bluetooth read ByteArray")
             // Bluetoothの値GamePlayViewModelへ送る
             gamePlayViewModel.btShootRead(readByte)
         })
 
         // Observe : 弾を被弾時に動く
-        BluetoothFunction.getInstance().hitByteArray.observe(this , Observer { readByte ->
+        BluetoothFunction
+            .getInstance()
+            .hitByteArray
+            .observe(this , Observer { readByte ->
             //  一回目はスルーする
             if(hitCnt != 0) {
                 Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
@@ -111,7 +141,10 @@ class GamePlayActivity : AppCompatActivity(){
 
         /** Observe kind **/
         // HP更新
-        GrpcTask.getInstance(application).hitFlg.observe(this, Observer { hp->
+        GrpcTask
+            .getInstance(application)
+            .hitFlg
+            .observe(this, Observer { hp->
             Log.d("GamePlayActivity" , "HP Update")
             if(hitCnt > 0) {
                 mVibrator.vibrate(100)
@@ -120,14 +153,17 @@ class GamePlayActivity : AppCompatActivity(){
             hitCnt++
         })
 
-        GrpcTask.getInstance(application).gameEndFlg.observe(this, Observer {result->
+        GrpcTask
+            .getInstance(application)
+            .gameEndFlg
+            .observe(this, Observer {result->
             Log.d("GamePlayActivity" , "game end")
             val winnerName = result.survivalResultMsg.winner.name
-            var winOfLose = "Winner"
+            var winOfLose = WINNER
             var winOfLoseImg = R.drawable.ic_thumb_up_black_24dp
 
             if(winnerName != data.getString("player_name","Error") ){
-                winOfLose = "Lose"
+                winOfLose = LOSER
                 winOfLoseImg = R.drawable.ic_thumb_down_black_24dp
             }
 
@@ -170,7 +206,6 @@ class GamePlayActivity : AppCompatActivity(){
             if(hitNameFlg) {
                 log.text = name + "が撃たれました！"
             }
-
             hitNameFlg = true
         })
 

@@ -96,10 +96,14 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun joinRoomTask(roomId: Long,view: View){
-        val joinRoomReqMsg: JoinRoomRequest = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("OSAKA").build()
+        val joinRoomReqMsg: JoinRoomRequest = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("NAGOYA").build()
+        Log.d("3Test",joinRoomReqMsg.toString())
+        Log.d("3Test",message.toString())
         message = RoomMessage.newBuilder().setJoinRoomReq(joinRoomReqMsg).build()
+        Log.d("3Test",message.toString())
         responseObserver(view)
         observer?.onNext(message)
+        Log.d("3Test",message.toString())
     }
 
     /** **********************************************************************
@@ -230,20 +234,25 @@ class GrpcTask(application: Application)  {
                     }
                     3 -> { Log.d("GrpcTask", "join_room_req  ->${value.joinRoomReq}") }
                     4 -> {    // join_room_resp
+                        Log.d("3Test","join_room_resp -> ${value.joinRoomResp}")
                         Log.d("GrpcTask","join_room_resp -> ${value.joinRoomResp}")
                         if(value.joinRoomResp.room.id != 0L) {
                             // Player Info Save
                             editor?.putLong("room_id", value.joinRoomResp.room.id)
-                            editor?.putLong("player_id", value.joinRoomResp.room.getPlayers(1).id)
-                            editor?.putLong("player_hp", value.joinRoomResp.room.getPlayers(1).hp)
-                            editor?.putBoolean("player_ready", value.joinRoomResp.room.getPlayers(1).ready)
                             editor?.putLong("owner_id", value.joinRoomResp.room.ownerId)
                             editor?.putInt("game_rule", value.joinRoomResp.room.gameRule.number)
                             editor?.putBoolean("game_start", value.joinRoomResp.room.gameStart)
-                            editor?.putString("player_name", value.joinRoomResp.room.getPlayers(1).name)
                             editor?.putString("token", value.joinRoomResp.token)
                             editor?.putBoolean("standby_state",false)
+                            editor?.putString("player_name", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).name)
+                            editor?.putLong("player_id", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).id)
+                            editor?.putLong("player_hp", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).hp)
+                            editor?.putBoolean("player_ready", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).ready)
                             editor?.apply()
+
+                            Log.d("3Test", value.joinRoomResp.room.playersCount.toString())
+                            Log.d("3Test", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).id.toString())
+                            Log.d("3Test", value.joinRoomResp.room.toString())
 
                             // 部屋内の準備完了人数の取得
                             var num = 0L
@@ -270,6 +279,7 @@ class GrpcTask(application: Application)  {
                                 userNameList.value = list
 
                                 delay(600)
+
                                 val intent = Intent(view?.context, PlayerStandbyActivity::class.java)
                                 view?.context?.startActivity(intent)
                             }
@@ -279,8 +289,6 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "join_room_msg  ->${value.joinRoomMsg}")
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.name} が入室しました。")
                         Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.id} が入室しました。")
-                        editor?.putLong("test",value.joinRoomMsg.player.id)
-                        editor?.apply()
                         uiScope.launch {
                             delay(100)
                             Log.d("GrpcTask", "参加人数は${joinUserNum.value}人です")
@@ -395,7 +403,6 @@ class GrpcTask(application: Application)  {
                     else -> { Log.d("GrpcTask", "onError/Internal") }
                 }
             }
-
             override fun onCompleted() {
                 Log.d("GrpcTask", "onCompleted")
             }

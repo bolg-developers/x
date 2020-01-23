@@ -11,7 +11,7 @@ import com.example.bolg.R
  * TitleFragment
  * メイン画面の前にLogoを表示するFragment
  * ---------------------------------------------------------------------- */
-class TitleFtagment :Fragment(){
+class TitleFragment :Fragment(){
 
     override fun onCreateView(
         inflater: LayoutInflater,

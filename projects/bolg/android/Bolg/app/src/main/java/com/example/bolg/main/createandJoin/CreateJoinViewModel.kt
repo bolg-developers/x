@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.bolg.GrpcTask
@@ -65,7 +64,7 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
                         Log.d("GrpcTask","JoinRequest")
                         GrpcTask.getInstance(app).joinRoomTask(joinEdit.text.toString().toLong(), view)
                         sDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
-                        delay(800)
+                        delay(900)
                         sDialog.cancel()
                     }
                     Log.d("GrpcTask","joinRoomTaskEnd")
@@ -81,9 +80,9 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
-
         uiScope.launch {
             GrpcTask.getInstance(app).createAndJoinRoomTask(view)
         }
     }
+
 }

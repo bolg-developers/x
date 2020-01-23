@@ -130,7 +130,14 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
         Log.d("RecyclerList", "updateList->$sampleList")
         val adapter = StandbyRecyclerAdapter(sampleList)
         joinUser.adapter = adapter
+
         // 区切り線の表示
-        joinUser.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        joinUser
+            .addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
     }
 }

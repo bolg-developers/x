@@ -30,7 +30,6 @@ import android.app.PendingIntent.getActivity
  * 上記が終了するとCreateJoinFragmentの表示指示
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-@Suppress("UNREACHABLE_CODE")
 class MainActivity : AppCompatActivity() {
 
     /** stamina  info init **/
@@ -39,32 +38,46 @@ class MainActivity : AppCompatActivity() {
     private var stamina2: MenuItem? = null
     private var stamina3: MenuItem ? = null
     private var nowTimer: Long? = null
-    private val decor: View = window.decorView
+
+    lateinit var mainViewModel: MainViewModel
+
+    companion object{
+        const val stamina = 20000L
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d("MainActivity","onCreate")
 
-        val test = 20000L
         // hide navigation bar, hide status bar
+        val decor: View = window.decorView
         decor.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 
-        /** stamina info sharedPreferences **/
-        val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor? = data.edit()
-        editor?.putBoolean("staminaFirst", true)
-        editor?.putBoolean("staminaSecond", true)
-        editor?.putBoolean("staminaThird", true)
-        editor?.putLong("nowTimer", 0L)
-        editor?.putBoolean("loop_state",false)
-        editor?.apply()    // 非同期
+        val application: Application =
+            requireNotNull(this).application
+
+        val viewModelFactory =
+            MainViewModelFactory(application,supportFragmentManager)
+
+        mainViewModel =
+            ViewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
+
+        // CreateAndJoin1画面の表示
+        mainViewModel.setCreateJoin()
+
+        // スタミナ情報の初期化
+        mainViewModel.initStaminaPreferences(application)
 
         /** Toolbar init **/
         setSupportActionBar(toolbar)
 
         /** CountDownTimer init **/
-        timer = object : CountDownTimer(test, 1000){
+        val editor: SharedPreferences.Editor? =
+            application.getSharedPreferences(
+                "RoomDataSave", Context.MODE_PRIVATE)
+                .edit()
+        timer = object : CountDownTimer(stamina, 1000){
             override fun onTick(millisUntilFinished: Long) {
                 // "00:00:00"の方式で表示する。
                 toolbar.title = String.format(
@@ -91,20 +104,6 @@ class MainActivity : AppCompatActivity() {
                 editor?.apply()
             }
         }
-
-        val application: Application =
-            requireNotNull(this).application
-        val viewModelFactory =
-            MainViewModelFactory(application,supportFragmentManager)
-        val mainViewModel: MainViewModel =
-            ViewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
-
-        // title画像が表示できないのでコメント化
-        // title display
-        // mainViewModel.setTitle()
-        // title display timer
-        // mainViewModel.startTimer()
-        mainViewModel.setCreateJoin()
 
         if (null != BluetoothFunction.getInstance().mBluetoothService) {
             BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
@@ -145,9 +144,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val data: SharedPreferences =
-            application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor? = data.edit()
+        val editor: SharedPreferences.Editor? =
+            application.getSharedPreferences(
+                "RoomDataSave", Context.MODE_PRIVATE)
+                .edit()
 
         when(item?.itemId) {
             R.id.menu_item1 -> {
@@ -191,7 +191,10 @@ class MainActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         /** SharedPreferences **/
-        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            getSharedPreferences(
+                "RoomDataSave",
+                Context.MODE_PRIVATE)
 
         if(data.getBoolean("loop_state",false)){
             if (null != BluetoothFunction.getInstance().mBluetoothService) {

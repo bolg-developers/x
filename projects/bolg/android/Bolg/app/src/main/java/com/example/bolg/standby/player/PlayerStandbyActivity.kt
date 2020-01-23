@@ -46,7 +46,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
     private var stamina1: MenuItem? = null
     private var stamina2: MenuItem? = null
     private var stamina3: MenuItem ? = null
-    private lateinit var decorView: View
+    private var listFlg = false
 
     @SuppressLint("CommitPrefEdits", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         setContentView(R.layout.activity_player_standby)
 
         // root view
-        decorView = window.decorView
+        val decorView = window.decorView
         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
 
         /** widget init **/
@@ -83,11 +83,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
         // 武器のセット
         playerStandbyViewModel.updateWeapon(20L, data.getString("token", "0:0"),decorView)
 
-        userId.text = "${data.getString("token", "error")}"
+        userId.text = "${data.getString("player_name", "no name")}"
 
         /** Toolbar init **/
         setSupportActionBar(player_toolbar)
-        player_toolbar.title = data.getString("player_name","")
+        player_toolbar.title = "BoLG"
         player_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
         player_toolbar.setNavigationOnClickListener {
             if (null != BluetoothFunction.getInstance().mBluetoothService) {
@@ -96,6 +96,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
             }
             finish()
         }
+        listFlg = false
 
         /** CountDownTimer init **/
         timer = object : CountDownTimer(data.getLong("nowTimer",0), 1000){
@@ -149,28 +150,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
         }
 
         /** Observe kind **/
-//        // ゲームルール
-//        playerStandbyViewModel.gameRule.observe(this, Observer { mrule ->
-//            rule.text = mrule
-//        })
-//
-//        // 入室者数
-//        playerStandbyViewModel.readyPlayerNormal.observe(this, Observer {
-//        })
-//
-//        // アイテムON/OFF
-//        playerStandbyViewModel.itemState.observe(this, Observer {
-//        })
-//
-//        // 課金弾ON/OFF
-//        playerStandbyViewModel.kakinBulletState.observe(this, Observer {
-//        })
-
-        // 入室者数処理
-//        GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
-//            Log.d("Host","${joinNum}人が参加しています")
-//        })
-
         // 準備完了処理
         GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
             readyNum.text = data.getLong("player_ready_num",99L).toString()
@@ -179,13 +158,29 @@ class PlayerStandbyActivity : AppCompatActivity(){
         // 入室リスト更新
         GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
             Log.d("PlayerActivity",joinUserList.toString())
-            // List Update
+//                for (i in 0 until joinUserList.size) {
+//                    playerStandbyViewModel.updateList(this, joinUser, joinUserList[i])
+//                }
+
 //            if (listFlg) {
+
+                val sampleList: MutableList<ListData> = mutableListOf()
+
                 for (i in 0 until joinUserList.size) {
-                    playerStandbyViewModel.updateList(this, joinUser, joinUserList[i])
+                    sampleList.add(ListData(joinUserList[i]))
                 }
+                val mAdapter = StandbyRecyclerAdapter(sampleList)
+                joinUser.adapter = mAdapter
+
+                // 区切り線の表示
+                joinUser.addItemDecoration(
+                    DividerItemDecoration(
+                        applicationContext,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
 //            }
-//            listFlg = true
+            listFlg = true
         })
 
         GrpcTask.getInstance(application).gameStart.observe(this, Observer {

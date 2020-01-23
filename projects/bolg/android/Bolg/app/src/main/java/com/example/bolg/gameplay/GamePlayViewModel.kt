@@ -27,7 +27,10 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
         private const val START_BYTE: Byte  = 0xfe.toByte()  // Bluetoothのスタートバイト
         private const val END_BYTE: Byte    = 0xff.toByte()  // Bluetoothのエンドバイト
         private const val BT_BUFFER_SIZE: Int = 16           // Bluetoothのバッファーサイズ
+        const val WINNER = "Winner"
+        const val LOSER = "Loser"
     }
+
     private var mShootReadByte = ByteArray(BT_BUFFER_SIZE)  // 撃った時にReadした値を格納
     private var mHitReadByte = ByteArray(BT_BUFFER_SIZE)    // 撃たれた時にReadした値を格納
 
