@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.bolg.GrpcTask
 import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.R
@@ -29,6 +30,8 @@ import kotlinx.android.synthetic.main.activity_game_play.*
 import kotlinx.android.synthetic.main.activity_host_standby.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_player_standby.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -87,7 +90,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         /** Toolbar init **/
         setSupportActionBar(player_toolbar)
-        player_toolbar.title = "BoLG"
         player_toolbar.setNavigationIcon(R.drawable.ic_keyboard_backspace_black_24dp)
         player_toolbar.setNavigationOnClickListener {
             if (null != BluetoothFunction.getInstance().mBluetoothService) {
@@ -158,11 +160,6 @@ class PlayerStandbyActivity : AppCompatActivity(){
         // 入室リスト更新
         GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
             Log.d("PlayerActivity",joinUserList.toString())
-//                for (i in 0 until joinUserList.size) {
-//                    playerStandbyViewModel.updateList(this, joinUser, joinUserList[i])
-//                }
-
-//            if (listFlg) {
 
                 val sampleList: MutableList<ListData> = mutableListOf()
 
@@ -335,15 +332,23 @@ class PlayerStandbyActivity : AppCompatActivity(){
                 timer.start()
             }
             R.id.add_stamina -> {
-                Toast.makeText(applicationContext, "スタミナ回復Dialog", Toast.LENGTH_LONG).show()
-                // メニューの再作成するように設定する
-                editor?.putBoolean("staminaFirst", true)
-                editor?.putBoolean("staminaSecond", true)
-                editor?.putBoolean("staminaThird", true)
-                editor?.commit()
-                invalidateOptionsMenu()
-                return true
-                timer.onFinish()
+                Toast.makeText(applicationContext, "RoomID : " + data.getLong("room_id",0L).toString(), Toast.LENGTH_LONG).show()
+//                // メニューの再作成するように設定する
+//                editor?.putBoolean("staminaFirst", true)
+//                editor?.putBoolean("staminaSecond", true)
+//                editor?.putBoolean("staminaThird", true)
+//                editor?.commit()
+//                invalidateOptionsMenu()
+
+                GlobalScope.launch{
+                    val dialog = SweetAlertDialog(applicationContext, SweetAlertDialog.SUCCESS_TYPE)
+                    dialog.titleText = data.getLong("room_id",0L).toString()
+                    dialog.cancelText = "×"
+                    dialog.setCancelClickListener {
+                        dialog.setCancelClickListener(null)
+                    }
+                    dialog.show()
+                }
             }
         }
         return super.onOptionsItemSelected(item!!)

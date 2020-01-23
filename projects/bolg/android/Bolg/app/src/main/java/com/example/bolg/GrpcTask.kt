@@ -46,7 +46,7 @@ class GrpcTask(application: Application)  {
     private var channel   : ManagedChannel
     private val asyncStub : BolgServiceGrpc.BolgServiceStub
 
-    // 参加者人数
+    /** LiveData init **/
     var joinUserNum : MutableLiveData<Long>                  = MutableLiveData(0)
     var hitFlg      : MutableLiveData<Long>                  = MutableLiveData(0)
     var gameEndFlg  : MutableLiveData<RoomMessage>           = MutableLiveData()
@@ -183,8 +183,8 @@ class GrpcTask(application: Application)  {
                     1 -> { Log.d("GrpcTask", "joinCreate_and_join_room_req ->${value.createAndJoinRoomReq}") }
                     2 -> {    // create_and_join_room_resp
                         Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
+
                         if(value.createAndJoinRoomResp.room.id != 0L) {
-                            Log.d("GrpcTask","no roomId 0")
                             // Player Info Save
                             editor?.putLong("room_id", value.createAndJoinRoomResp.room.id)
                             editor?.putLong("player_id", value.createAndJoinRoomResp.room.getPlayers(0).id)

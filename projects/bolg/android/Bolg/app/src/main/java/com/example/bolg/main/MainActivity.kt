@@ -173,16 +173,8 @@ class MainActivity : AppCompatActivity() {
                 timer.start()
             }
             R.id.add_stamina -> {
-                Toast.makeText(applicationContext, "スタミナ回復Dialog", Toast.LENGTH_LONG).show()
-                // メニューの再作成するように設定する
-                editor?.putBoolean("staminaFirst", true)
-                editor?.putBoolean("staminaSecond", true)
-                editor?.putBoolean("staminaThird", true)
-                editor?.apply()
-                // 再描画
-                invalidateOptionsMenu()
+                Toast.makeText(applicationContext, "Roomが作られていません", Toast.LENGTH_LONG).show()
                 return true
-                timer.onFinish()
             }
         }
         return super.onOptionsItemSelected(item!!)

@@ -406,15 +406,14 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 editor?.putBoolean("staminaThird", false)
             }
             R.id.add_stamina -> {
-                Toast.makeText(applicationContext, "スタミナ回復Dialog", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "RoomID : " + data.getLong("room_id",0L).toString(), Toast.LENGTH_LONG).show()
                 // メニューの再作成するように設定する
-                editor?.putBoolean("staminaFirst", true)
-                editor?.putBoolean("staminaSecond", true)
-                editor?.putBoolean("staminaThird", true)
-                editor?.apply()
-                invalidateOptionsMenu()
+//                editor?.putBoolean("staminaFirst", true)
+//                editor?.putBoolean("staminaSecond", true)
+//                editor?.putBoolean("staminaThird", true)
+//                editor?.apply()
+//                invalidateOptionsMenu()
                 return true
-                timer.onFinish()
             }
         }
         editor?.apply()

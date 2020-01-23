@@ -24,7 +24,7 @@
     <item
         android:title="stamina"
         android:id="@+id/add_stamina"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_apps_black_24dp"
         app:showAsAction="always"/>
 
 </menu>
