@@ -185,17 +185,8 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
 
                         if(value.createAndJoinRoomResp.room.id != 0L) {
-                            // Player Info Save
-                            editor?.putLong("room_id", value.createAndJoinRoomResp.room.id)
-                            editor?.putLong("player_id", value.createAndJoinRoomResp.room.getPlayers(0).id)
-                            editor?.putLong("player_hp", value.createAndJoinRoomResp.room.getPlayers(0).hp)
-                            editor?.putString("player_name", value.createAndJoinRoomResp.room.getPlayers(0).name)
-                            editor?.putBoolean("player_ready", value.createAndJoinRoomResp.room.getPlayers(0).ready)
-                            editor?.putLong("owner_id", value.createAndJoinRoomResp.room.ownerId)
-                            editor?.putInt("game_rule", value.createAndJoinRoomResp.room.gameRule.number)
-                            editor?.putBoolean("game_start", value.createAndJoinRoomResp.room.gameStart)
-                            editor?.putString("token", value.createAndJoinRoomResp.token)
-                            editor?.putBoolean("standby_state",true)
+
+                            updateOwnerPlayerInfo(value.createAndJoinRoomResp)
 
                             // 部屋内の準備完了人数の取得
                             var num = 0L
@@ -237,22 +228,8 @@ class GrpcTask(application: Application)  {
                         Log.d("3Test","join_room_resp -> ${value.joinRoomResp}")
                         Log.d("GrpcTask","join_room_resp -> ${value.joinRoomResp}")
                         if(value.joinRoomResp.room.id != 0L) {
-                            // Player Info Save
-                            editor?.putLong("room_id", value.joinRoomResp.room.id)
-                            editor?.putLong("owner_id", value.joinRoomResp.room.ownerId)
-                            editor?.putInt("game_rule", value.joinRoomResp.room.gameRule.number)
-                            editor?.putBoolean("game_start", value.joinRoomResp.room.gameStart)
-                            editor?.putString("token", value.joinRoomResp.token)
-                            editor?.putBoolean("standby_state",false)
-                            editor?.putString("player_name", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).name)
-                            editor?.putLong("player_id", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).id)
-                            editor?.putLong("player_hp", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).hp)
-                            editor?.putBoolean("player_ready", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).ready)
-                            editor?.apply()
 
-                            Log.d("3Test", value.joinRoomResp.room.playersCount.toString())
-                            Log.d("3Test", value.joinRoomResp.room.getPlayers(value.joinRoomResp.room.playersCount-1).id.toString())
-                            Log.d("3Test", value.joinRoomResp.room.toString())
+                            updateNormalPlayerInfo(value.joinRoomResp)
 
                             // 部屋内の準備完了人数の取得
                             var num = 0L
@@ -407,5 +384,45 @@ class GrpcTask(application: Application)  {
                 Log.d("GrpcTask", "onCompleted")
             }
         })
+    }
+
+    /** **********************************************************************
+     * updateOwnerPlayerInfo
+     * @param createAndJoinRoomResp
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    private fun updateOwnerPlayerInfo(createAndJoinRoomResp:CreateAndJoinRoomResponse){
+        // Player Info Save
+        editor?.putLong("room_id", createAndJoinRoomResp.room.id)
+        editor?.putLong("player_id", createAndJoinRoomResp.room.getPlayers(0).id)
+        editor?.putLong("player_hp", createAndJoinRoomResp.room.getPlayers(0).hp)
+        editor?.putString("player_name", createAndJoinRoomResp.room.getPlayers(0).name)
+        editor?.putBoolean("player_ready", createAndJoinRoomResp.room.getPlayers(0).ready)
+        editor?.putLong("owner_id", createAndJoinRoomResp.room.ownerId)
+        editor?.putInt("game_rule", createAndJoinRoomResp.room.gameRule.number)
+        editor?.putBoolean("game_start", createAndJoinRoomResp.room.gameStart)
+        editor?.putString("token", createAndJoinRoomResp.token)
+        editor?.putBoolean("standby_state",true)
+    }
+
+    /** **********************************************************************
+     * updateNormalPlayerInfo
+     * @param joinRoomResp
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    private fun updateNormalPlayerInfo(joinRoomResp:JoinRoomResponse){
+        // Player Info Save
+        editor?.putLong("room_id", joinRoomResp.room.id)
+        editor?.putLong("owner_id", joinRoomResp.room.ownerId)
+        editor?.putInt("game_rule", joinRoomResp.room.gameRule.number)
+        editor?.putBoolean("game_start", joinRoomResp.room.gameStart)
+        editor?.putString("token", joinRoomResp.token)
+        editor?.putBoolean("standby_state",false)
+        editor?.putString("player_name", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).name)
+        editor?.putLong("player_id", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).id)
+        editor?.putLong("player_hp", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).hp)
+        editor?.putBoolean("player_ready", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).ready)
+        editor?.apply()
+
     }
 }

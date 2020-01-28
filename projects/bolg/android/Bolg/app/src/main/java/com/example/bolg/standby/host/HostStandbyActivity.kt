@@ -93,7 +93,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 decorView)
 
         // User ID view
-        userId.text = "${data.getString("token", "error")}"
+        userId.text = "${data.getString("player_name", "error")}"
         // List Update
         readyNum.text = data.getLong("player_ready_num", 99L).toString()
 
