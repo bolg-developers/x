@@ -10,14 +10,14 @@
 
 namespace bolg
 {
-    // 攻撃者インターフェース
+    /// 攻撃者インターフェース
     class IAttacker
     {
     public:
 
-        //
-        // @bridef    攻撃をする
-        //
+        ///
+        /// @brief    攻撃をする
+        ///
         virtual void attack() = 0;
     };
 }

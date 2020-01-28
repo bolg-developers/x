@@ -12,6 +12,7 @@
 
 namespace bolg
 {
+    /// 赤外線送信タスク
     class IRsendTask : public TaskBase
     {
     public:

@@ -14,9 +14,11 @@
 #include <BluetoothSerial.h>
 #include <BolgConfig.h>
 #include <esp_log.h>
+#include <BolgLogger.h>
 
 namespace bolg
 {
+    /// コマンド受信タスク
     class CommandReveiveTask : public TaskBase, public ICommandReceiver
     {
     public:
@@ -72,7 +74,7 @@ namespace bolg
 
         void task() override
         {
-            while(true)
+            while(!isDestroyNotification())
             {
                 // スタートバイトが来るまで待機
                 while(static_cast<uint8_t>(m_stream->read()) != COMMAND_START_BYTE)
@@ -85,17 +87,19 @@ namespace bolg
                     delay(1);
                 }
 
-                uint8_t command = m_stream->read();
+                const uint8_t command = m_stream->read();
+                const auto commandData = m_commandMap.find(command);
 
-                auto commandData = m_commandMap.find(command);
-
+                // コマンドが登録されているか
                 if(commandData != m_commandMap.end())
                 {
+                    // コマンドの引数バイトが到着するまで待機
                     while(m_stream->available() < commandData->second.argByte)
                     {
                         delay(1);
                     }
 
+                    // 引数読み出し
                     m_stream->readBytes(m_buffer,commandData->second.argByte);
 
                     std::vector<uint8_t> arg;
@@ -104,6 +108,16 @@ namespace bolg
 
                     ::memcpy(&arg[0],m_buffer,commandData->second.argByte);
 
+                    BOLG_LOG("CommandReceive  command : %d  arg : ", command);
+
+                    for(const auto itr : arg)
+                    {
+                        BOLG_LOG("%d ", itr);
+                    }
+
+                    BOLG_LOG("\n");
+
+                    // コマンドコールバック実行
                     commandData->second.callBack(arg);
                 }
 

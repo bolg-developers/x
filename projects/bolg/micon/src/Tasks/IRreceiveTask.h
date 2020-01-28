@@ -15,10 +15,11 @@
 #include <BolgConfig.h>
 #include <vector>
 #include <array>
+#include <BolgLogger.h>
 
 namespace bolg
 {
-    // 赤外線受信タスク
+    /// 赤外線受信タスク
     class IRreceiveTask : public TaskBase
     {
     private:
@@ -51,11 +52,10 @@ namespace bolg
 
         void task() override
         {
-            init();
-
-            while(true)
+            while(!isDestroyNotification())
             {
                 receive();
+                delay(10);
             }
         }
 
@@ -71,12 +71,12 @@ namespace bolg
                 return;
             }
 
+            m_initialized = true;
+
             for(auto& itr : irrecv)
             {
                 itr->enableIRIn();
             }
-
-            m_initialized = true;
         }
 
         void finalize()
@@ -88,9 +88,9 @@ namespace bolg
 
             m_initialized = false;
 
-            for(auto& itr : irrecv)
+            for(const auto& itr : irrecv)
             {
-            
+                itr->resume();
                 itr->disableIRIn();
             }
         }
@@ -105,20 +105,33 @@ namespace bolg
 
         void receive()
         {
+            if(!m_initialized)
+            {
+                return;
+            }
+
             decode_results result;
 
-            for(auto& itr : irrecv)
+            int32_t id = 0;
+
+            for(int32_t i = 0; i < irrecv.size(); i++)
             {
-                if(itr->decode(&result))
+                if(irrecv[i]->decode(&result))
                 {
                     if(result.decode_type == SONY)
                     {
-                        m_damage->applyDamage(result.value);
+                        id = static_cast<int32_t>(result.value);
+                        BOLG_LOG("IRreceive  pin : %d   id : %d\n",BOLG_IR_RECEIVE_PINS[i],id);
                     }
-                    itr->resume();
+
+                    irrecv[i]->resume();
                 }
             }
-            delay(1);
+
+            if(id)
+            {
+                m_damage->applyDamage(id);
+            }
         }
     };
 }
