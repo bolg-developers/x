@@ -5,14 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.bolg.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-
 
 /** ----------------------------------------------------------------------
  * CreateJoinFragment
@@ -35,8 +31,8 @@ class CreateJoinFragment : Fragment(){
         val createJoinViewModel:CreateJoinViewModel = ViewModelProviders.of(this,viewModelFactory).get(CreateJoinViewModel::class.java)
 
         // Button widget Setting
-        val joinBtn:Button = view.findViewById(R.id.join_btn)
-        val createBtn:Button = view.findViewById(R.id.create_btn)
+        val joinBtn:ImageButton = view.findViewById(R.id.join_btn)
+        val createBtn:ImageButton = view.findViewById(R.id.create_btn)
 
         // 参加
         joinBtn.setOnClickListener {
