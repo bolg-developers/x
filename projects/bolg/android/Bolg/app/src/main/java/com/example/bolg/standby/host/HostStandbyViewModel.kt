@@ -88,9 +88,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * ********************************************************************** */
     fun pairing(view: View?): Boolean{
         // ペアリング実行
-        BluetoothFunction.getInstance().btPairing()
-        // 武器のセット
-        updateWeapon(20L, data.getString("token", "0:0"),view)
+        BluetoothFunction.getInstance().btPairing(view)
         return true
     }
 
@@ -101,7 +99,7 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param view  View
      * @author 長谷川　勇太
      * ********************************************************************** */
-    private fun updateWeapon(attack: Long, token: String?, view: View?) {
+    fun updateWeapon(attack: Long, token: String?, view: View?) {
         uiScope.launch {
             delay(100)
             GrpcTask.getInstance(app).updateWeapon(attack,token,view)
@@ -115,19 +113,31 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param name
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun updateList(context: Context,joinUser:RecyclerView,name: String){
+    fun updateList(context: Context,joinUser:RecyclerView,name: String, genre: Int){
         // LayoutManagerの設定
         layoutManager = LinearLayoutManager(context)
         joinUser.layoutManager = layoutManager
         // Adapterの設定
-        Log.d("log",sampleList.toString())
-        if(sampleList.size > 1) {
-            sampleList.removeAt(0)
+        Log.d("RecyclerList", "updateList->$sampleList")
+        if(genre == 0) {
+            if (sampleList.size > 0) {
+                sampleList.removeAt(0)
+                Log.d("RecyclerList", "remove")
+                Log.d("RecyclerList", "updateList->$sampleList")
+            }
         }
         sampleList.add(ListData(name))
+        Log.d("RecyclerList", "updateList->$sampleList")
         val adapter = StandbyRecyclerAdapter(sampleList)
         joinUser.adapter = adapter
+
         // 区切り線の表示
-        joinUser.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        joinUser
+            .addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
     }
 }

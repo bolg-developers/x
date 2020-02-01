@@ -1,6 +1,8 @@
 package com.example.bolg.bluetooth
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -9,13 +11,12 @@ import android.content.Context
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.bolg.MyApplication
 import com.example.bolg.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -83,22 +84,37 @@ class BluetoothFunction private constructor() {
      * ・Bluetoothデバイスとペアリングする
      * @author 中田　桂介
      * ********************************************************************** */
-    fun btPairing(): Boolean {
+    fun btPairing(view: View?): Boolean {
+
         if( null == mBluetoothAdapter ) {
             Log.d("BluetoothFunction", "Can_not_get_BluetoothAdapter")
             return false
         }
-        //ペアリング済みの端末セットの問い合わせ
-        val pairedDevices: Set<BluetoothDevice>  = mBluetoothAdapter!!.bondedDevices
-        if (pairedDevices.isNotEmpty()) {
-            for (device in pairedDevices) {
-                //ペアリング済みのデバイス名とMACアドレスの表示
-                mDeviceAddress += device.address.toString()
-                Log.d("BluetoothFunction", "DeviceName: " + device.name.toString())
+        uiScope.launch {
+            //ペアリング済みの端末セットの問い合わせ
+            val pairedDevices: Set<BluetoothDevice>  = mBluetoothAdapter!!.bondedDevices
+            val deviceItems = mutableListOf<String>()
+            val deviceNameItems = mutableListOf<String>()
+            if (pairedDevices.isNotEmpty()) {
+                for (device in pairedDevices) {
+                    //ペアリング済みのデバイス名とMACアドレスの表示
+                    deviceItems.add(device.address.toString())
+                    deviceNameItems.add(device.name.toString())
+                    Log.d("BluetoothFunction", "DeviceName: " + device.name.toString())
+                }
             }
+
+            delay(500)
+            AlertDialog.Builder(view?.context)
+            .setTitle("Selector")
+            .setItems(deviceNameItems.toTypedArray()) { _, which ->
+                mDeviceAddress = deviceItems[which]
+                // Bluetoothデバイスに接続
+                connect()
+            }
+            .show()
         }
-        // Bluetoothデバイスに接続
-        connect()
+
         return true
     }
 
@@ -127,6 +143,7 @@ class BluetoothFunction private constructor() {
         // Bluetooth接続開始処理
         mBluetoothService!!.connectStart()
         return true
+
     }
 
     /** **********************************************************************
