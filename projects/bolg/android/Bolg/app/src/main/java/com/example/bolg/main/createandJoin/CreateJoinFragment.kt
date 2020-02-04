@@ -26,11 +26,19 @@ class CreateJoinFragment : Fragment(){
     ): View? {
 
         super.onCreateView(inflater, container, savedInstanceState)
-        val view: View = inflater.inflate(R.layout.fragment_main,container,false)
+        val view: View =
+            inflater.inflate(
+                R.layout.fragment_main,
+                container,false
+            )
 
         /** viewModel init **/
-        val application: Application = requireNotNull(this.activity).application
-        val viewModelFactory = CreateJoinViewModelFactory(application)
+        val application: Application =
+            requireNotNull(this.activity).application
+
+        val viewModelFactory =
+            CreateJoinViewModelFactory(application)
+
         val createJoinViewModel:CreateJoinViewModel =
             ViewModelProviders.of(
                 this,viewModelFactory)
@@ -53,7 +61,10 @@ class CreateJoinFragment : Fragment(){
 
         // 部屋生成
         createBtn.setOnClickListener {
-            val dialog = SweetAlertDialog(view.context, SweetAlertDialog.SUCCESS_TYPE)
+            val dialog =
+                SweetAlertDialog(
+                    view.context,
+                    SweetAlertDialog.SUCCESS_TYPE)
             dialog.titleText = "本当に部屋を生成しますか？"
             dialog.confirmText = "生成"
             dialog.setConfirmClickListener {
@@ -65,7 +76,6 @@ class CreateJoinFragment : Fragment(){
             }
             dialog.setCanceledOnTouchOutside(false)
             dialog.show()
-
         }
         return view
     }

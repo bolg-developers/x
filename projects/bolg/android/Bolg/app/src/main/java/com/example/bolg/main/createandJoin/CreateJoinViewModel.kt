@@ -22,13 +22,18 @@ import kotlinx.coroutines.*
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 @Suppress("DEPRECATION")
-class CreateJoinViewModel (application: Application): AndroidViewModel(application){
+class CreateJoinViewModel (
+    application: Application
+): AndroidViewModel(application){
     private val app: Application = application
-    private val mVibrator =  app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private val mVibrator =
+        app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     // Jobの定義
     private var viewModelJob = Job()
     // スコープの定義
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope =
+        CoroutineScope(
+            Dispatchers.Main + viewModelJob)
 
     /** **********************************************************************
      * joinDialog
@@ -54,7 +59,12 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
             .setContentText("Join")
             .setConfirmClickListener { sDialog ->
                 if(joinEdit.text.isEmpty()){
-                    Toast.makeText(view.context, "入力が空白です", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        view.context,
+                        "入力が空白です",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
                     mVibrator.vibrate(50)
                     sDialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 }
@@ -62,7 +72,15 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
                 else{
                     uiScope.launch {
                         Log.d("GrpcTask","JoinRequest")
-                        GrpcTask.getInstance(app).joinRoomTask(joinEdit.text.toString().toLong(), view)
+                        GrpcTask
+                            .getInstance(app)
+                            .joinRoomTask(
+                                joinEdit
+                                    .text
+                                    .toString()
+                                    .toLong(),
+                                view
+                            )
                         sDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         delay(900)
                         sDialog.cancel()

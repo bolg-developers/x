@@ -32,7 +32,7 @@ import java.util.*
 class BluetoothFunction private constructor() {
     companion object {
         // 定数
-        private const val REQUEST_ENABLEBLUETOOTH: Int  = 1  // Bluetooth機能の有効化要求時の識別コード
+       // private const val REQUEST_ENABLEBLUETOOTH: Int  = 1  // Bluetooth機能の有効化要求時の識別コード
         private const val BT_BUFFER_SIZE: Int = 32           // Bluetooth受信バッファーサイズ
         private const val START_BYTE: Byte = 0xfe.toByte()   // Bluetoothのスタートバイト
         private const val END_BYTE: Byte = 0xff.toByte()     // Bluetoothのエンドバイト
@@ -47,9 +47,10 @@ class BluetoothFunction private constructor() {
         }
     }
     // Job Set
-    private var viewModelJob = Job()
+    private var viewModelJob: Job = Job()
     // Scope Set
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope:CoroutineScope =
+        CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // メンバー変数
     var mBluetoothService: BluetoothService? = null    // Bluetoothデバイスとの通信処理を担うクラス
@@ -69,7 +70,10 @@ class BluetoothFunction private constructor() {
 
     init {
         // Bluetoothアダプタの取得
-        val bluetoothManager: BluetoothManager = mGetContext.applicationContext().getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        val bluetoothManager: BluetoothManager =
+            mGetContext
+                .applicationContext()
+                .getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         mBluetoothAdapter = bluetoothManager.adapter
         // Android端末がBluetoothをサポートしていない場合アプリを終了する
         if( null == mBluetoothAdapter ) {
@@ -127,19 +131,32 @@ class BluetoothFunction private constructor() {
     fun connect(): Boolean {
         // mDeviceAddressが空の場合は処理しない
         if (mDeviceAddress == "") {
-            Toast.makeText(MyApplication.applicationContext(), R.string.notPaired, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                MyApplication.applicationContext(),
+                R.string.notPaired, Toast.LENGTH_SHORT)
+                .show()
             return false
         }
         // mBluetoothServiceがnullでない場合「接続済み」or「接続中」
         if (null != mBluetoothService) {
-            Toast.makeText(MyApplication.applicationContext(), R.string.btConnecting, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                MyApplication.applicationContext(),
+                R.string.btConnecting,
+                Toast.LENGTH_SHORT)
+                .show()
             Log.d("BluetoothFunction", "Connecting")
             return false
         }
 
-        val device: BluetoothDevice = mBluetoothAdapter!!.getRemoteDevice(mDeviceAddress)
+        val device: BluetoothDevice =
+            mBluetoothAdapter!!.getRemoteDevice(mDeviceAddress)
         // BluetoothService: インスタンス生成
-        mBluetoothService = BluetoothService(MyApplication.applicationContext(), mHandler, device)
+        mBluetoothService =
+            BluetoothService(
+                MyApplication.applicationContext(),
+                mHandler,
+                device
+            )
         // Bluetooth接続開始処理
         mBluetoothService!!.connectStart()
         return true
@@ -202,15 +219,14 @@ class BluetoothFunction private constructor() {
 
     /** ----------------------------------------------------------------------
      * BluetoothService
-     * ・概要1
-     * ・概要2
      * @author 中田　桂介
      * ---------------------------------------------------------------------- */
     open class BluetoothService {
         // 定数
         companion object {
             // Bluetooth UUID
-            private val UUID_SPP = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
+            private val UUID_SPP: UUID =
+                UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
             // State
             const val MESSAGE_STATECHANGE            = 1
             const val STATE_NONE                     = 0
@@ -270,7 +286,11 @@ class BluetoothFunction private constructor() {
                 return
             }
 
-            Toast.makeText(MyApplication.applicationContext(), R.string.btConnect, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                MyApplication.applicationContext(),
+                R.string.btConnect,
+                Toast.LENGTH_SHORT
+            ).show()
             Log.d("BluetoothService", "Connect")
 
             // ステータス設定
@@ -289,7 +309,11 @@ class BluetoothFunction private constructor() {
                 return
             }
 
-            Toast.makeText(MyApplication.applicationContext(), R.string.btDisconnect, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                MyApplication.applicationContext(),
+                R.string.btDisconnect,
+                Toast.LENGTH_SHORT
+            ).show()
             Log.d("BluetoothService", "Disconnect")
 
             // ステータス設定
@@ -346,7 +370,10 @@ class BluetoothFunction private constructor() {
                     mInput = mBluetoothSocket!!.inputStream
                     mOutput = mBluetoothSocket!!.outputStream
                 } catch (e: IOException) {
-                    Log.e("BluetoothService", "failed : bluetoothdevice.createRfcommSocketToServiceRecord( UUID_SPP )", e)
+                    Log.e("BluetoothService",
+                        "failed : bluetoothdevice.createRfcommSocketToServiceRecord( UUID_SPP )",
+                        e
+                    )
                 }
             }
 
@@ -365,7 +392,11 @@ class BluetoothFunction private constructor() {
                     }
                     mHandler.obtainMessage(MESSAGE_WRITE).sendToTarget()
                 } catch (e: IOException) {
-                    Log.e("BluetoothService", "Failed : mBluetoothSocket.close()", e)
+                    Log.e(
+                        "BluetoothService",
+                        "Failed : mBluetoothSocket.close()",
+                        e
+                    )
                     return false
                 }
                 return true
@@ -515,10 +546,23 @@ class BluetoothFunction private constructor() {
                         else -> return
                     }
 
-                    Log.d("Test","mTempBuffer ->${mReadTempBuffer[0]} , ${mReadTempBuffer[1]} , ${mReadTempBuffer[2]} , ${mReadTempBuffer[3]} , ${mReadTempBuffer[4]} , ${mReadTempBuffer[5]} , ${mReadTempBuffer[7]} ,${mReadTempBuffer[8]} , ${mReadTempBuffer[9]} , ${mReadTempBuffer[10]}")
+                    Log.d("Test",
+                        "mTempBuffer ->" +
+                                "${mReadTempBuffer[0]} , " +
+                                "${mReadTempBuffer[1]} , " +
+                                "${mReadTempBuffer[2]} ," +
+                                "${mReadTempBuffer[3]} , " +
+                                "${mReadTempBuffer[4]} , " +
+                                "${mReadTempBuffer[5]} , " +
+                                "${mReadTempBuffer[7]} ," +
+                                "${mReadTempBuffer[8]} ," +
+                                " ${mReadTempBuffer[9]} , " +
+                                "${mReadTempBuffer[10]}")
 
                     // 送られてきたByteが0番目のByteがStartByteなら値を格納していく
-                    if(mReadTempBuffer[0] == START_BYTE || mReadTempBuffer[1] == START_BYTE ){
+                    if(mReadTempBuffer[0] == START_BYTE
+                        || mReadTempBuffer[1] == START_BYTE
+                    ){
                         loopCnt = 0
                         while (true){
                             // BufferSizeTestを超えている場合終了
@@ -534,7 +578,17 @@ class BluetoothFunction private constructor() {
                                     // hit
                                     0x01.toByte() -> {
                                         Log.d("Bluetoothhandle", "hit->")
-                                        Log.d("Bluetoothhandle","mTempBuffer ->${mReadBuffer[0]} , ${mReadBuffer[1]} , ${mReadBuffer[2]} , ${mReadBuffer[3]} , ${mReadBuffer[4]} , ${mReadBuffer[5]} , ${mReadBuffer[7]} ,${mReadBuffer[8]} , ${mReadBuffer[9]} , ${mReadBuffer[10]}")
+                                        Log.d("Bluetoothhandle","mTempBuffer ->" +
+                                                "${mReadBuffer[0]} , " +
+                                                "${mReadBuffer[1]} , " +
+                                                "${mReadBuffer[2]} , " +
+                                                "${mReadBuffer[3]} , " +
+                                                "${mReadBuffer[4]} , " +
+                                                "${mReadBuffer[5]} , " +
+                                                "${mReadBuffer[7]} ," +
+                                                "${mReadBuffer[8]} , " +
+                                                "${mReadBuffer[9]} , " +
+                                                "${mReadBuffer[10]}")
 
                                             hitByteArray.value = mReadBuffer
 
@@ -542,7 +596,17 @@ class BluetoothFunction private constructor() {
                                     // shoot
                                     0x02.toByte() -> {
                                         Log.d("Bluetoothhandle", "shoot->")
-                                        Log.d("Bluetoothhandle","mTempBuffer ->${mReadBuffer[0]} , ${mReadBuffer[1]} , ${mReadBuffer[2]} , ${mReadBuffer[3]} , ${mReadBuffer[4]} , ${mReadBuffer[5]} , ${mReadBuffer[7]} ,${mReadBuffer[8]} , ${mReadBuffer[9]} , ${mReadBuffer[10]}")
+                                        Log.d("Bluetoothhandle","mTempBuffer ->" +
+                                                "${mReadBuffer[0]} , " +
+                                                "${mReadBuffer[1]} ," +
+                                                "${mReadBuffer[2]} , " +
+                                                "${mReadBuffer[3]} , " +
+                                                "${mReadBuffer[4]} , " +
+                                                "${mReadBuffer[5]} , " +
+                                                "${mReadBuffer[7]} ," +
+                                                "${mReadBuffer[8]} , " +
+                                                "${mReadBuffer[9]} , " +
+                                                "${mReadBuffer[10]}")
                                     }
                                 }
                                 // END_BYTEの次がSTART_BYTEならまたループを始める

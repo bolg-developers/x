@@ -58,7 +58,9 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         // root view
         val decorView = window.decorView
-        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+        decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
 
         /** widget init **/
         val userId        : TextView     = findViewById(R.id.player_user_id)
@@ -79,7 +81,12 @@ class PlayerStandbyActivity : AppCompatActivity(){
                 .get(PlayerStandbyViewModel::class.java)
 
         /** SharedPreferences **/
-        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            getSharedPreferences(
+                "RoomDataSave",
+                Context.MODE_PRIVATE
+            )
+
         val editor: SharedPreferences.Editor? = data.edit()
         readyNum.text = data.getLong("player_ready_num",99L).toString()
 
@@ -128,7 +135,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** onClick **/
         ready.setOnClickListener {
             progress.visibility = ProgressBar.VISIBLE
-            playerStandbyViewModel.setReady(data.getString("token", "error").toString(), decorView)
+            playerStandbyViewModel
+                .setReady(
+                    data.getString("token", "error").toString(),
+                    decorView
+                )
         }
         // ペアリング
         playerPairing.setOnClickListener {
@@ -144,7 +155,12 @@ class PlayerStandbyActivity : AppCompatActivity(){
             }
             else{
                 BluetoothFunction.getInstance().connect()
-                playerStandbyViewModel.setReady(data.getString("token", "0:0")!!, decorView)
+                playerStandbyViewModel
+                    .setReady(
+                        data.getString("token", "0:0")!!,
+                        decorView
+                    )
+
                 ready.isEnabled = true
                 ready.setImageResource(R.drawable.bolg_ready_on_right)
                 progress.visibility = ProgressBar.INVISIBLE
@@ -153,12 +169,18 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         /** Observe kind **/
         // 準備完了処理
-        GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
+        GrpcTask
+            .getInstance(application)
+            .readyFlg
+            .observe(this, Observer {
             readyNum.text = data.getLong("player_ready_num",99L).toString()
         })
 
         // 入室リスト更新
-        GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList->
+        GrpcTask
+            .getInstance(application)
+            .userNameList
+            .observe(this, Observer { joinUserList->
             Log.d("PlayerActivity",joinUserList.toString())
 
                 val sampleList: MutableList<ListData> = mutableListOf()
@@ -180,9 +202,13 @@ class PlayerStandbyActivity : AppCompatActivity(){
             listFlg = true
         })
 
-        GrpcTask.getInstance(application).gameStart.observe(this, Observer {
+        GrpcTask
+            .getInstance(application)
+            .gameStart
+            .observe(this, Observer {
             if (gameStart) {
-                val intent = Intent(applicationContext, GamePlayActivity::class.java)
+                val intent =
+                    Intent(applicationContext, GamePlayActivity::class.java)
                 startActivity(intent)
             }
             gameStart = true
@@ -205,7 +231,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
     public override fun onRestart() {
         super.onRestart()
         Log.d("HostStandbyActivity", "onRestart")
-        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            getSharedPreferences(
+                "RoomDataSave",
+                Context.MODE_PRIVATE
+            )
         if(data.getBoolean("retry_state",false)){
             finish()
         }
@@ -214,8 +244,13 @@ class PlayerStandbyActivity : AppCompatActivity(){
         {
 //            player_pairing_btn.isEnabled = true
             if (null != BluetoothFunction.getInstance().mBluetoothService) {
-                BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-                BluetoothFunction.getInstance().mBluetoothService = null
+                BluetoothFunction
+                    .getInstance()
+                    .mBluetoothService!!
+                    .disconnectStart()
+                BluetoothFunction
+                    .getInstance()
+                    .mBluetoothService= null
             }
             player_ready_btn.isEnabled = false
             player_pairing_btn.isEnabled = true
@@ -280,7 +315,10 @@ class PlayerStandbyActivity : AppCompatActivity(){
         stamina3 = menu?.findItem(R.id.menu_item3)
 
         val data: SharedPreferences =
-            application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+            application.getSharedPreferences(
+                "RoomDataSave",
+                Context.MODE_PRIVATE
+            )
 
         if(data.getBoolean("staminaFirst", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaFirst")
@@ -306,7 +344,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            application.getSharedPreferences(
+                "RoomDataSave",
+                Context.MODE_PRIVATE
+            )
         val editor: SharedPreferences.Editor? = data.edit()
         when(item?.itemId) {
             R.id.menu_item1 -> {
@@ -332,7 +374,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
                 timer.start()
             }
             R.id.add_stamina -> {
-                Toast.makeText(applicationContext, "RoomID : " + data.getLong("room_id",0L).toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    "RoomID : " + data.getLong("room_id",0L).toString(),
+                    Toast.LENGTH_LONG
+                ).show()
 //                // メニューの再作成するように設定する
 //                editor?.putBoolean("staminaFirst", true)
 //                editor?.putBoolean("staminaSecond", true)
@@ -341,7 +387,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
 //                invalidateOptionsMenu()
 
                 GlobalScope.launch{
-                    val dialog = SweetAlertDialog(applicationContext, SweetAlertDialog.SUCCESS_TYPE)
+                    val dialog =
+                        SweetAlertDialog(
+                            applicationContext,
+                            SweetAlertDialog.SUCCESS_TYPE
+                        )
                     dialog.titleText = data.getLong("room_id",0L).toString()
                     dialog.cancelText = "×"
                     dialog.setCancelClickListener {

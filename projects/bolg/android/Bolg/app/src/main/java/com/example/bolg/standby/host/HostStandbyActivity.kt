@@ -40,8 +40,11 @@ import kotlinx.android.synthetic.main.activity_host_standby.*
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 @Suppress("UNREACHABLE_CODE")
-class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class HostStandbyActivity : AppCompatActivity(),
+    AdapterView.OnItemSelectedListener {
+
     private lateinit var hostStandbyViewModel: HostStandbyViewModel
+
     /** stamina  info init **/
     private lateinit var timer: CountDownTimer
     private var stamina1: MenuItem? = null
@@ -59,7 +62,8 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         val decorView: View= window.decorView
         // hide navigation bar, hide status bar
         decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
 
         /** widget init **/
         val userId: TextView = findViewById(R.id.host_user_id)
@@ -77,7 +81,11 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         val application: Application = requireNotNull(this).application
         val viewModelFactoryHost = HostStandbyViewModelFactory(application)
         hostStandbyViewModel =
-            ViewModelProviders.of(this, viewModelFactoryHost).get(HostStandbyViewModel::class.java)
+            ViewModelProviders.of(
+                this,
+                viewModelFactoryHost
+            )
+                .get(HostStandbyViewModel::class.java)
 
         /** SharedPreferences **/
         val data: SharedPreferences =
@@ -128,7 +136,11 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         )
 
         /** CountDownTimer init **/
-        timer = object : CountDownTimer(data.getLong("nowTimer", 0), 1000) {
+        timer =
+            object: CountDownTimer(
+                data.getLong("nowTimer", 0),
+                1000)
+            {
             override fun onTick(millisUntilFinished: Long) {
                 // "00:00:00"の方式で表示する。
                 host_toolbar.title = String.format(
@@ -157,7 +169,8 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             } else {
                 Log.d("button", "課金ボタン:ON")
             }
-            hostStandbyViewModel.kakinBulletState = !hostStandbyViewModel.kakinBulletState
+            hostStandbyViewModel.kakinBulletState =
+                !hostStandbyViewModel.kakinBulletState
         }
 
         // アイテムボタンON/OFF
@@ -181,7 +194,11 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                     start.isEnabled = true
                     start.setImageResource(R.drawable.bolg_start_on_right)
                     // ready request
-                    hostStandbyViewModel.setReady(data.getString("token", "0:0"), decorView)
+                    hostStandbyViewModel
+                        .setReady(
+                            data.getString("token", "0:0"),
+                            decorView
+                        )
                     hostPairing.isEnabled = false
                 }
             }
@@ -190,31 +207,51 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 start.isEnabled = true
                 start.setImageResource(R.drawable.bolg_start_on_right)
                 // ready request
-                hostStandbyViewModel.setReady(data.getString("token", "0:0"), decorView)
+                hostStandbyViewModel
+                    .setReady(
+                        data.getString("token", "0:0"),
+                        decorView
+                    )
                 hostPairing.isEnabled = false
             }
         }
 
         // ゲームスタート
         start.setOnClickListener {
-            hostStandbyViewModel.startGame(data.getString("token", "0:0"), decorView)
+            hostStandbyViewModel
+                .startGame(
+                    data.getString("token", "0:0"),
+                    decorView
+                )
         }
 
         /** observer kind **/
         // 入室者数処理
-        GrpcTask.getInstance(application).joinUserNum.observe(this, Observer { joinNum ->
+        GrpcTask
+            .getInstance(application)
+            .joinUserNum
+            .observe(this, Observer { joinNum ->
             Log.d("Host", "${joinNum}人が参加しています")
             joinMember.text = joinNum.toString()
         })
 
         // 準備完了処理
-        GrpcTask.getInstance(application).readyFlg.observe(this, Observer {
-            readyNum.text = data.getLong("player_ready_num", 99L).toString()
+        GrpcTask
+            .getInstance(application)
+            .readyFlg
+            .observe(this, Observer {
+            readyNum.text =
+                data.getLong(
+                    "player_ready_num",
+                    99L).toString()
             Log.d("player_ready_num", "observe")
         })
 
         // 入室リスト更新
-        GrpcTask.getInstance(application).userNameList.observe(this, Observer { joinUserList ->
+        GrpcTask
+            .getInstance(application)
+            .userNameList
+            .observe(this, Observer { joinUserList ->
             // List Update
             Log.d("RecyclerList", "observe: joinUserList -> $joinUserList")
             if (listFlg) {
@@ -239,7 +276,9 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         })
 
         // ゲーム開始
-        GrpcTask.getInstance(application).gameStart.observe(this, Observer {
+        GrpcTask
+            .getInstance(application)
+            .gameStart.observe(this, Observer {
             if (gameStart) {
                 val intent = Intent(applicationContext, GamePlayActivity::class.java)
                 startActivity(intent)
@@ -256,7 +295,12 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
      * 選択ItemをViewに反映させる
      * @author 長谷川　勇太
      * ********************************************************************** */
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+    override fun onItemSelected(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ) {
         val spinnerParent: Spinner = parent as Spinner
         val item: String = spinnerParent.selectedItem as String
         hostStandbyViewModel.updateGameRule(item)
@@ -287,7 +331,8 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     public override fun onRestart() {
         super.onRestart()
         Log.d("HostStandbyActivity", "onRestart")
-        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
 
         if(data.getBoolean("retry_state",false)){
             finish()
@@ -361,7 +406,10 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         stamina3 = menu?.findItem(R.id.menu_item3)
 
         val data: SharedPreferences =
-            application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+            application.getSharedPreferences(
+                "RoomDataSave",
+                Context.MODE_PRIVATE
+            )
 
         if(data.getBoolean("staminaFirst", true)){
             Log.d("MainActivity","onCreateOptionsMenu/staminaFirst")
@@ -386,7 +434,11 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            application.getSharedPreferences(
+                "RoomDataSave",
+                Context.MODE_PRIVATE
+            )
         val editor: SharedPreferences.Editor? = data.edit()
         when(item?.itemId) {
             R.id.menu_item1 -> {
@@ -406,7 +458,11 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
                 editor?.putBoolean("staminaThird", false)
             }
             R.id.add_stamina -> {
-                Toast.makeText(applicationContext, "RoomID : " + data.getLong("room_id",0L).toString(), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    "RoomID : " + data.getLong("room_id",0L).toString(),
+                    Toast.LENGTH_LONG)
+                    .show()
                 // メニューの再作成するように設定する
 //                editor?.putBoolean("staminaFirst", true)
 //                editor?.putBoolean("staminaSecond", true)

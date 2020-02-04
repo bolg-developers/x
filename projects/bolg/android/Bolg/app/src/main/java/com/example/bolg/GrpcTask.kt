@@ -71,7 +71,12 @@ class GrpcTask(application: Application)  {
     }
 
     /** SharedPreferenceのインスタンス生成 **/
-    val data: SharedPreferences = application.getSharedPreferences("RoomDataSave", android.content.Context.MODE_PRIVATE)
+    val data: SharedPreferences =
+        application.getSharedPreferences(
+            "RoomDataSave",
+            android.content.Context.MODE_PRIVATE
+        )
+
     private val editor: SharedPreferences.Editor? = data.edit()
 
     /** **********************************************************************
@@ -81,8 +86,17 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
      fun createAndJoinRoomTask(view: View){
-        val createAndJoinRoomReqMsg: CreateAndJoinRoomRequest = CreateAndJoinRoomRequest.newBuilder().setPlayerName("HAL").build()
-        message = RoomMessage.newBuilder().setCreateAndJoinRoomReq(createAndJoinRoomReqMsg).build()
+        val createAndJoinRoomReqMsg: CreateAndJoinRoomRequest =
+            CreateAndJoinRoomRequest
+                .newBuilder()
+                .setPlayerName("HAL")
+                .build()
+
+        message =
+            RoomMessage
+                .newBuilder()
+                .setCreateAndJoinRoomReq(createAndJoinRoomReqMsg)
+                .build()
         responseObserver(view)
         observer?.onNext(message)
     }
@@ -96,14 +110,21 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun joinRoomTask(roomId: Long,view: View){
-        val joinRoomReqMsg: JoinRoomRequest = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("NAGOYA").build()
-        Log.d("3Test",joinRoomReqMsg.toString())
-        Log.d("3Test",message.toString())
-        message = RoomMessage.newBuilder().setJoinRoomReq(joinRoomReqMsg).build()
-        Log.d("3Test",message.toString())
+        val joinRoomReqMsg: JoinRoomRequest =
+            JoinRoomRequest
+                .newBuilder()
+                .setRoomId(roomId)
+                .setPlayerName("TOKYO")
+                .build()
+
+        message =
+            RoomMessage
+                .newBuilder()
+                .setJoinRoomReq(joinRoomReqMsg)
+                .build()
+
         responseObserver(view)
         observer?.onNext(message)
-        Log.d("3Test",message.toString())
     }
 
     /** **********************************************************************
@@ -116,8 +137,18 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun startGame(token: String?, view: View?) {
-        val startGameReqMsg: StartGameRequest = StartGameRequest.newBuilder().setToken(token).build()
-        message = RoomMessage.newBuilder().setStartGameReq(startGameReqMsg).build()
+        val startGameReqMsg: StartGameRequest =
+            StartGameRequest
+                .newBuilder()
+                .setToken(token)
+                .build()
+
+        message =
+            RoomMessage
+                .newBuilder()
+                .setStartGameReq(startGameReqMsg)
+                .build()
+
         responseObserver(view)
         observer?.onNext(message)
     }
@@ -130,8 +161,19 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun updateWeapon(attack: Long, token: String?, view: View?) {
-        val updateWeaponReqMsg: UpdateWeaponRequest = UpdateWeaponRequest.newBuilder().setAttack(attack).setToken(token).build()
-        message = RoomMessage.newBuilder().setUpdateWeaponReq(updateWeaponReqMsg).build()
+        val updateWeaponReqMsg: UpdateWeaponRequest =
+            UpdateWeaponRequest
+                .newBuilder()
+                .setAttack(attack)
+                .setToken(token)
+                .build()
+
+        message =
+            RoomMessage
+                .newBuilder()
+                .setUpdateWeaponReq(updateWeaponReqMsg)
+                .build()
+
         responseObserver(view)
         observer?.onNext(message)
     }
@@ -143,8 +185,18 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun setReady(token: String?, view: View?){
-        val setReadyReqMsg: ReadyRequest = ReadyRequest.newBuilder().setToken(token).build()
-        message = RoomMessage.newBuilder().setReadyReq(setReadyReqMsg).build()
+        val setReadyReqMsg: ReadyRequest =
+            ReadyRequest
+                .newBuilder()
+                .setToken(token)
+                .build()
+
+        message =
+            RoomMessage
+                .newBuilder()
+                .setReadyReq(setReadyReqMsg)
+                .build()
+
         responseObserver(view)
         observer?.onNext(message)
         observer?.onCompleted()
@@ -159,13 +211,19 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun notifyReceivingTask(token: String?, playerId: Long, view: View?){
-        val notifyReceivingReqMsg: NotifyReceivingRequest = NotifyReceivingRequest
-            .newBuilder()
-            .setToken(token)
-            .setPlayerId(playerId)
-            .build()
+        val notifyReceivingReqMsg: NotifyReceivingRequest =
+            NotifyReceivingRequest
+                .newBuilder()
+                .setToken(token)
+                .setPlayerId(playerId)
+                .build()
 
-        message = RoomMessage.newBuilder().setNotifyReceivingReq(notifyReceivingReqMsg).build()
+        message =
+            RoomMessage
+                .newBuilder()
+                .setNotifyReceivingReq(notifyReceivingReqMsg)
+                .build()
+
         responseObserver(view)
         observer?.onNext(message)
     }
@@ -180,9 +238,19 @@ class GrpcTask(application: Application)  {
         observer = asyncStub.connect(object : StreamObserver<RoomMessage>{
             override fun onNext(value: RoomMessage) {
                 when(value.dataCase.number){
-                    1 -> { Log.d("GrpcTask", "joinCreate_and_join_room_req ->${value.createAndJoinRoomReq}") }
+                    1 -> {
+                        Log.d(
+                            "GrpcTask",
+                            "joinCreate_and_join_room_req ->" +
+                                    "${value.createAndJoinRoomReq}"
+                        )
+                    }
                     2 -> {    // create_and_join_room_resp
-                        Log.d("GrpcTask","create_and_join_room_resp -> ${value.createAndJoinRoomResp}")
+                        Log.d(
+                            "GrpcTask",
+                            "create_and_join_room_resp -> " +
+                                    "${value.createAndJoinRoomResp}"
+                        )
 
                         if(value.createAndJoinRoomResp.room.id != 0L) {
 
@@ -196,6 +264,7 @@ class GrpcTask(application: Application)  {
                                     num++
                                 }
                             }
+
                             editor?.putLong("player_ready_num", num)
                             editor?.apply()
                             Log.d("player_ready_num","準備完了人数${num}")
@@ -221,12 +290,21 @@ class GrpcTask(application: Application)  {
 
                             val intent = Intent(view?.context, HostStandbyActivity::class.java)
                             view?.context?.startActivity(intent)
+
                         }
                     }
-                    3 -> { Log.d("GrpcTask", "join_room_req  ->${value.joinRoomReq}") }
+                    3 -> {
+                        Log.d(
+                            "GrpcTask",
+                            "join_room_req  ->${value.joinRoomReq}"
+                        )
+                    }
                     4 -> {    // join_room_resp
-                        Log.d("3Test","join_room_resp -> ${value.joinRoomResp}")
-                        Log.d("GrpcTask","join_room_resp -> ${value.joinRoomResp}")
+                        Log.d(
+                            "GrpcTask",
+                            "join_room_resp -> ${value.joinRoomResp}"
+                        )
+
                         if(value.joinRoomResp.room.id != 0L) {
 
                             updateNormalPlayerInfo(value.joinRoomResp)
@@ -257,23 +335,39 @@ class GrpcTask(application: Application)  {
 
                                 delay(600)
 
-                                val intent = Intent(view?.context, PlayerStandbyActivity::class.java)
+                                val intent =
+                                    Intent(view?.context, PlayerStandbyActivity::class.java)
                                 view?.context?.startActivity(intent)
                             }
                         }
                     }
                     5 -> {    // join_room_msg
-                        Log.d("GrpcTask", "join_room_msg  ->${value.joinRoomMsg}")
-                        Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.name} が入室しました。")
-                        Log.d("GrpcTask", "player : ${value.joinRoomMsg.player.id} が入室しました。")
+                        Log.d(
+                            "GrpcTask",
+                            "join_room_msg  ->" +
+                                    "${value.joinRoomMsg}"
+                        )
+                        Log.d(
+                            "GrpcTask",
+                            "player : " +
+                                    "${value.joinRoomMsg.player.name} が入室しました。")
+                        Log.d(
+                            "GrpcTask",
+                            "player : " +
+                                    "${value.joinRoomMsg.player.id} が入室しました。")
+
                         uiScope.launch {
                             delay(100)
-                            Log.d("GrpcTask", "参加人数は${joinUserNum.value}人です")
+                            Log.d(
+                                "GrpcTask",
+                                "参加人数は${joinUserNum.value}人です"
+                            )
                             joinUserNum.value = joinUserNum.value?.plus(1)
-                            Log.d("GrpcTask", "参加人数は${joinUserNum.value}になりました")
+                            Log.d(
+                                "GrpcTask",
+                                "参加人数は${joinUserNum.value}になりました"
+                            )
 
-                            // List add observe
-                            // joinFlg.value = value.joinRoomMsg.player.name
                             val list = userNameList.value
                             Log.d("List","join_room_msg->" +
                                     "\n" +
@@ -292,34 +386,69 @@ class GrpcTask(application: Application)  {
                         }
 
                     }
-                    6 -> { Log.d("GrpcTask", "notify_receiving_req ->${value.joinRoomMsg}") }
+                    6 -> {
+                        Log.d(
+                            "GrpcTask",
+                            "notify_receiving_req ->" +
+                                    "${value.joinRoomMsg}"
+                        )
+                    }
                     7 -> {    // notify_receiving_msg
-                        Log.d("GrpcTask", "notify_receiving_msg ->${value.notifyReceivingMsg}")
+                        Log.d(
+                            "GrpcTask",
+                            "notify_receiving_msg ->" +
+                                    "${value.notifyReceivingMsg}"
+                        )
+
                         uiScope.launch {
                             delay(100)
-//                            Toast.makeText(view?.context, "ダメージをうけたプレイヤー（ID） : ${value.notifyReceivingMsg.player.name}(${value.notifyReceivingMsg.player.id})", Toast.LENGTH_SHORT).show()
                             hitName.value = value.notifyReceivingMsg.player.name
 
                             if (data.getLong("player_id",999) == value.notifyReceivingMsg.player.id) {
                                 hitFlg.value = value.notifyReceivingMsg.player.hp
                             }
                         }
-                        Log.d("GrpcTask", "ダメージをうけたプレイヤー : ${value.notifyReceivingMsg.player.name}")
-                        Log.d("GrpcTask", "ダメージをうけたプレイヤーid : ${value.notifyReceivingMsg.player.id}")
+
+                        Log.d(
+                            "GrpcTask",
+                            "ダメージをうけたプレイヤー : " +
+                                    "${value.notifyReceivingMsg.player.name}"
+                        )
+                        Log.d(
+                            "GrpcTask",
+                            "ダメージをうけたプレイヤーid :" +
+                                    " ${value.notifyReceivingMsg.player.id}"
+                        )
                     }
                     8 -> {    // survival_result_msg
-                        Log.d("GrpcTask", "survival_result_msg ->${value.survivalResultMsg}")
-                        Log.d("GrpcTask", "${value.survivalResultMsg.winner.name}が勝利")
-                        editor?.putLong("player_ready_num",value.survivalResultMsg.personalsCount.toLong())
+                        Log.d(
+                            "GrpcTask",
+                            "survival_result_msg ->" +
+                                    "${value.survivalResultMsg}"
+                        )
+                        Log.d(
+                            "GrpcTask",
+                            "${value.survivalResultMsg.winner.name}が勝利")
+
+                        editor?.putLong(
+                            "player_ready_num",
+                            value.survivalResultMsg.personalsCount.toLong())
                         editor?.apply()
+
                         uiScope.launch {
                             delay(100)
                             gameEndFlg.value = value
                         }
                     }
-                    9 -> { Log.d("GrpcTask", "start_game_req  ->${value.startGameReq}") }
+                    9 -> {
+                        Log.d("GrpcTask", "start_game_req  ->${value.startGameReq}")
+                    }
                     10 -> {    // start_game_msg
-                        Log.d("GrpcTask", "start_game_msg -> ${value.startGameMsg}")
+                        Log.d(
+                            "GrpcTask",
+                            "start_game_msg -> " +
+                                    "${value.startGameMsg}"
+                        )
                         Log.d("GrpcTask","げーむ開始")
 
                         // 部屋にいるすべてのプレイヤーが準備完了でゲームプレイ画面へ遷移する。
@@ -334,12 +463,28 @@ class GrpcTask(application: Application)  {
                             gameUserNameList.value = list
                         }
                     }
-                    11 -> { Log.d("GrpcTask", "update_weapon_req   ->${value.updateWeaponReq}") }
-                    12 -> { Log.d("GrpcTask", "update_weapon_resp -> 何もかえって来なくていい") }
-                    13 -> { Log.d("GrpcTask", "ready_req  ->${value.updateWeaponResp}") }
+                    11 -> {
+                        Log.d("GrpcTask", "update_weapon_req   ->${value.updateWeaponReq}")
+                    }
+
+                    12 -> {
+                        Log.d("GrpcTask", "update_weapon_resp -> 何もかえって来なくていい")
+                    }
+                    13 -> {
+                        Log.d("GrpcTask", "ready_req  ->${value.updateWeaponResp}")
+                    }
                     14 -> {    // ready_msg
-                        Log.d("GrpcTask", "ready_msg  -> ${value.readyMsg}")
-                        Log.d("GrpcTask", "playerID: ${value.readyMsg.playerId}が準備完了です")
+                        Log.d(
+                            "GrpcTask",
+                            "ready_msg  -> " +
+                                    "${value.readyMsg}"
+                        )
+                        Log.d(
+                            "GrpcTask",
+                            "playerID: " +
+                                    "${value.readyMsg.playerId}が準備完了です"
+                        )
+
                         // Testのため保存
                         editor?.putLong("test_player_id", value.readyMsg.playerId)
                         editor?.apply()
@@ -349,20 +494,27 @@ class GrpcTask(application: Application)  {
                             var tmp = data.getLong("player_ready_num",99)
                             editor?.putLong("player_ready_num",++tmp)
                             editor?.apply()
-                            Log.d("player_ready_num", "$tmp")
                             readyFlg.value = true
-                            Log.d("player_ready_num", "observe before")
                         }
                     }
                     15 -> {    // error
                         when (value.error.message) {
                             "game is already starting" -> { // すでにゲームが開始している
-                                val intent = Intent(view?.context, GamePlayActivity::class.java)
+                                val intent =
+                                    Intent(view?.context, GamePlayActivity::class.java)
                                 view?.context?.startActivity(intent)
-                                Log.d("GrpcTask", "ReadyMessage ->${value.error.message}")
+
+                                Log.d(
+                                    "GrpcTask",
+                                    "ReadyMessage ->" +
+                                            "${value.error.message}"
+                                )
                             }
                             else -> {
-                                Log.d("GrpcTask", "ReadyMessage -> ${value.error.message}")
+                                Log.d(
+                                    "GrpcTask", "ReadyMessage -> " +
+                                            "${value.error.message}"
+                                )
                             }
                         }
                     }
@@ -391,18 +543,49 @@ class GrpcTask(application: Application)  {
      * @param createAndJoinRoomResp
      * @author 長谷川　勇太
      * ********************************************************************** */
-    private fun updateOwnerPlayerInfo(createAndJoinRoomResp:CreateAndJoinRoomResponse){
+    private fun updateOwnerPlayerInfo(
+        createAndJoinRoomResp:CreateAndJoinRoomResponse
+    ){
         // Player Info Save
-        editor?.putLong("room_id", createAndJoinRoomResp.room.id)
-        editor?.putLong("player_id", createAndJoinRoomResp.room.getPlayers(0).id)
-        editor?.putLong("player_hp", createAndJoinRoomResp.room.getPlayers(0).hp)
-        editor?.putString("player_name", createAndJoinRoomResp.room.getPlayers(0).name)
-        editor?.putBoolean("player_ready", createAndJoinRoomResp.room.getPlayers(0).ready)
-        editor?.putLong("owner_id", createAndJoinRoomResp.room.ownerId)
-        editor?.putInt("game_rule", createAndJoinRoomResp.room.gameRule.number)
-        editor?.putBoolean("game_start", createAndJoinRoomResp.room.gameStart)
-        editor?.putString("token", createAndJoinRoomResp.token)
-        editor?.putBoolean("standby_state",true)
+        editor?.putLong(
+            "room_id",
+            createAndJoinRoomResp.room.id
+        )
+        editor?.putLong(
+            "player_id",
+            createAndJoinRoomResp.room.getPlayers(0).id
+        )
+        editor?.putLong(
+            "player_hp",
+            createAndJoinRoomResp.room.getPlayers(0).hp
+        )
+        editor?.putString(
+            "player_name",
+            createAndJoinRoomResp.room.getPlayers(0).name
+        )
+        editor?.putBoolean(
+            "player_ready",
+            createAndJoinRoomResp.room.getPlayers(0).ready
+        )
+        editor?.putLong(
+            "owner_id",
+            createAndJoinRoomResp.room.ownerId
+        )
+        editor?.putInt(
+            "game_rule",
+            createAndJoinRoomResp.room.gameRule.number
+        )
+        editor?.putBoolean(
+            "game_start",
+            createAndJoinRoomResp.room.gameStart
+        )
+        editor?.putString(
+            "token",
+            createAndJoinRoomResp.token
+        )
+        editor?.putBoolean(
+            "standby_state",
+            true)
     }
 
     /** **********************************************************************
@@ -412,16 +595,46 @@ class GrpcTask(application: Application)  {
      * ********************************************************************** */
     private fun updateNormalPlayerInfo(joinRoomResp:JoinRoomResponse){
         // Player Info Save
-        editor?.putLong("room_id", joinRoomResp.room.id)
-        editor?.putLong("owner_id", joinRoomResp.room.ownerId)
-        editor?.putInt("game_rule", joinRoomResp.room.gameRule.number)
-        editor?.putBoolean("game_start", joinRoomResp.room.gameStart)
-        editor?.putString("token", joinRoomResp.token)
-        editor?.putBoolean("standby_state",false)
-        editor?.putString("player_name", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).name)
-        editor?.putLong("player_id", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).id)
-        editor?.putLong("player_hp", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).hp)
-        editor?.putBoolean("player_ready", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).ready)
+        editor?.putLong(
+            "room_id",
+            joinRoomResp.room.id
+        )
+        editor?.putLong(
+            "owner_id",
+            joinRoomResp.room.ownerId
+        )
+        editor?.putInt(
+            "game_rule",
+            joinRoomResp.room.gameRule.number
+        )
+        editor?.putBoolean(
+            "game_start",
+            joinRoomResp.room.gameStart
+        )
+        editor?.putString(
+            "token",
+            joinRoomResp.token
+        )
+        editor?.putBoolean(
+            "standby_state",
+            false
+        )
+        editor?.putString(
+            "player_name",
+            joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).name
+        )
+        editor?.putLong(
+            "player_id",
+            joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).id
+        )
+        editor?.putLong(
+            "player_hp",
+            joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).hp
+        )
+        editor?.putBoolean(
+            "player_ready",
+            joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).ready
+        )
         editor?.apply()
 
     }

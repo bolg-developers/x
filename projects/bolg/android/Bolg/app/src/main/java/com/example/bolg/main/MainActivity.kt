@@ -52,16 +52,23 @@ class MainActivity : AppCompatActivity() {
 
         // hide navigation bar, hide status bar
         val decor: View = window.decorView
-        decor.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+        decor.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
 
         val application: Application =
             requireNotNull(this).application
 
         val viewModelFactory =
-            MainViewModelFactory(application,supportFragmentManager)
+            MainViewModelFactory(
+                application,
+                supportFragmentManager
+            )
 
         mainViewModel =
-            ViewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
+            ViewModelProviders
+                .of(this,viewModelFactory)
+                .get(MainViewModel::class.java)
 
         // CreateAndJoin1画面の表示
         mainViewModel.setCreateJoin()
@@ -173,7 +180,11 @@ class MainActivity : AppCompatActivity() {
                 timer.start()
             }
             R.id.add_stamina -> {
-                Toast.makeText(applicationContext, "Roomが作られていません", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    "Roomが作られていません",
+                    Toast.LENGTH_LONG)
+                    .show()
                 return true
             }
         }

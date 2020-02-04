@@ -12,7 +12,9 @@ import com.example.bolg.data.ListData
  * @param itemList SampleでListを追加している（多分消す）
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class StandbyRecyclerAdapter(private var itemList: List<ListData>) : RecyclerView.Adapter<StandbyRecyclerViewHolder>(){
+class StandbyRecyclerAdapter(
+    private var itemList: List<ListData>
+) : RecyclerView.Adapter<StandbyRecyclerViewHolder>(){
     /** **********************************************************************
      * onCreateViewHolder
      * @param parent
@@ -20,8 +22,17 @@ class StandbyRecyclerAdapter(private var itemList: List<ListData>) : RecyclerVie
      * @return StandbyRecyclerViewHolder(View)
      * @author 長谷川　勇太
      * ********************************************************************** */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StandbyRecyclerViewHolder {
-        val rowView = LayoutInflater.from(parent.context).inflate(R.layout.list_item,parent,false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): StandbyRecyclerViewHolder {
+        val rowView =
+            LayoutInflater
+                .from(parent.context)
+                .inflate(
+                    R.layout.list_item,
+                    parent,
+                    false
+                )
         return StandbyRecyclerViewHolder(rowView)
     }
 
@@ -31,7 +42,10 @@ class StandbyRecyclerAdapter(private var itemList: List<ListData>) : RecyclerVie
      * @param position
      * @author 長谷川　勇太
      * ********************************************************************** */
-    override fun onBindViewHolder(holder: StandbyRecyclerViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: StandbyRecyclerViewHolder,
+        position: Int
+    ) {
         holder.uname.text = itemList[position].uname
     }
 

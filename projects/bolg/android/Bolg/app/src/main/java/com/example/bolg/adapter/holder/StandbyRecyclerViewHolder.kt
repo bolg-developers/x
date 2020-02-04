@@ -10,6 +10,8 @@ import com.example.bolg.R
  * @param view : Listに表示するviewの設定
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class StandbyRecyclerViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+class StandbyRecyclerViewHolder (
+    view: View
+) : RecyclerView.ViewHolder(view) {
     val uname: TextView = view.findViewById(R.id.user_name)
 }

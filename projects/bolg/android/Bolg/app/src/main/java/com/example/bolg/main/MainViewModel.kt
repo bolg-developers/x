@@ -19,14 +19,12 @@ import kotlinx.coroutines.*
  * ・参加/部屋生成画面へ遷移
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class MainViewModel (application: Application,fragmentManager: FragmentManager): AndroidViewModel(application){
-
-    // titleViewTimer
-//    private var intentTimer = 0
+class MainViewModel (
+    application: Application,
+    fragmentManager: FragmentManager
+): AndroidViewModel(application){
 
     /** Coroutine定義 **/
-//    private var viewModelJob = Job()
-//    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // Fragmentの操作
     private val mFragmentManager: FragmentManager = fragmentManager
