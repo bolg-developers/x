@@ -21,10 +21,6 @@ func TestRoomDB(t *testing.T) {
 	err := db.Create(r)
 	require.NoError(t, err)
 
-	// create ng
-	err = db.Create(r)
-	require.Error(t, err)
-
 	// get ok
 	got, err := db.Get(id)
 	require.NoError(t, err)
