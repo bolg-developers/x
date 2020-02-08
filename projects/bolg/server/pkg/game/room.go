@@ -100,7 +100,7 @@ func (r *Room) ResetHP() {
 	}
 }
 
-func (r *Room) initPlayers() {
+func (r *Room) InitPlayers() {
 	for i := range r.Players {
 		r.Players[i].Hp = defaultHP
 		r.Players[i].Ready = false

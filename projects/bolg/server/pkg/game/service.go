@@ -96,7 +96,7 @@ func (svc *Service) handleCreateAndJoinRoomReq(
 		Data: &pb.RoomMessage_CreateAndJoinRoomResp{
 			CreateAndJoinRoomResp: &pb.CreateAndJoinRoomResponse{
 				Room:  r.ToProtoRoom(),
-				Token: createToken(r.ID, p.ID),
+				Token: CreateToken(r.ID, p.ID),
 			},
 		},
 	}
@@ -141,7 +141,7 @@ func (svc *Service) handleJoinRoomReq(
 		Data: &pb.RoomMessage_JoinRoomResp{
 			JoinRoomResp: &pb.JoinRoomResponse{
 				Room:  r.ToProtoRoom(),
-				Token: createToken(r.ID, p.ID),
+				Token: CreateToken(r.ID, p.ID),
 			},
 		},
 	}
@@ -167,7 +167,7 @@ func (svc *Service) handleUpdateWeaponReq(
 	stream pb.BolgService_ConnectServer,
 	in *pb.RoomMessage_UpdateWeaponReq,
 ) error {
-	rid, pid, err := parseFromToken(in.UpdateWeaponReq.Token)
+	rid, pid, err := ParseFromToken(in.UpdateWeaponReq.Token)
 	if errors.Is(err, ErrInvalidToken) {
 		return status.Error(codes.Unauthenticated, "token error")
 	}
@@ -213,7 +213,7 @@ func (svc *Service) handleReadyReq(
 	stream pb.BolgService_ConnectServer,
 	in *pb.RoomMessage_ReadyReq,
 ) error {
-	rid, pid, err := parseFromToken(in.ReadyReq.Token)
+	rid, pid, err := ParseFromToken(in.ReadyReq.Token)
 	if errors.Is(err, ErrInvalidToken) {
 		return status.Error(codes.Unauthenticated, "token error")
 	}
@@ -260,7 +260,7 @@ func (svc *Service) handleStartGameReq(
 	stream pb.BolgService_ConnectServer,
 	in *pb.RoomMessage_StartGameReq,
 ) error {
-	rid, pid, err := parseFromToken(in.StartGameReq.Token)
+	rid, pid, err := ParseFromToken(in.StartGameReq.Token)
 	if errors.Is(err, ErrInvalidToken) {
 		return status.Error(codes.Unauthenticated, "token error")
 	}
@@ -313,7 +313,7 @@ func (svc *Service) handleNotifyReceivingReq(
 	stream pb.BolgService_ConnectServer,
 	in *pb.RoomMessage_NotifyReceivingReq,
 ) error {
-	rid, pid, err := parseFromToken(in.NotifyReceivingReq.Token)
+	rid, pid, err := ParseFromToken(in.NotifyReceivingReq.Token)
 	if errors.Is(err, ErrInvalidToken) {
 		return status.Error(codes.Unauthenticated, "token error")
 	}
@@ -340,8 +340,8 @@ func (svc *Service) handleNotifyReceivingReq(
 	}
 
 	var killerName string
-	receiver.Hp = damage(sender.Power, receiver.Hp)
-	if isDead(receiver.Hp) {
+	receiver.Hp = Damage(sender.Power, receiver.Hp)
+	if IsDead(receiver.Hp) {
 		sender.KillCnt++
 		if err := r.UpdatePlayer(sender); err != nil {
 			return svc.internalError(fmt.Sprintf("Error handleNotifyReceivingReq roomdb.UpdatePlayer(sender): %s", err.Error()))
@@ -365,7 +365,7 @@ func (svc *Service) handleNotifyReceivingReq(
 		svc.Logger.Error(fmt.Sprintf("broadcast error(NotifyReceivingMsg): %+v", errs))
 	}
 
-	winner, done := survivalJudge(r.Players)
+	winner, done := SurvivalJudge(r.Players)
 	if !done {
 		return nil
 	}
@@ -375,7 +375,7 @@ func (svc *Service) handleNotifyReceivingReq(
 		Data: &pb.RoomMessage_SurvivalResultMsg{
 			SurvivalResultMsg: &pb.SurvivalResultMessage{
 				Winner:    winner.ToProtoPlayer(),
-				Personals: createSurvivalPersonalResults(r.Players),
+				Personals: CreateSurvivalPersonalResults(r.Players),
 			},
 		},
 	}
@@ -384,7 +384,7 @@ func (svc *Service) handleNotifyReceivingReq(
 	}
 
 	r.GameStart = false
-	r.initPlayers()
+	r.InitPlayers()
 	if err := svc.RoomDB.Update(r); err != nil {
 		return svc.internalError(fmt.Sprintf("Error handleNotifyReceivingReq roomdb.Update: %s", err.Error()))
 	}
