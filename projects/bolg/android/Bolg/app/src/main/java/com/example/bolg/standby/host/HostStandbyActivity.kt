@@ -52,16 +52,16 @@ class HostStandbyActivity : AppCompatActivity(),
     private var stamina3: MenuItem ? = null
     private var listFlg = false
     private var gameStart = false
-
+    private var decorView: View? =null
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host_standby)
 
         // root view
-        val decorView: View= window.decorView
+        decorView = window.decorView
         // hide navigation bar, hide status bar
-        decorView.systemUiVisibility =
+        decorView?.systemUiVisibility =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_IMMERSIVE
 
@@ -104,6 +104,12 @@ class HostStandbyActivity : AppCompatActivity(),
         userId.text = "${data.getString("player_name", "error")}"
         // List Update
         readyNum.text = data.getLong("player_ready_num", 99L).toString()
+
+        Toast.makeText(
+            applicationContext,
+            "RoomIDは" + data.getLong("room_id", 999).toString(),
+            Toast.LENGTH_LONG
+        ).show()
 
         /** Toolbar init **/
         setSupportActionBar(host_toolbar)
@@ -218,6 +224,10 @@ class HostStandbyActivity : AppCompatActivity(),
 
         // ゲームスタート
         start.setOnClickListener {
+            decorView?.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE
+
             hostStandbyViewModel
                 .startGame(
                     data.getString("token", "0:0"),
@@ -301,6 +311,10 @@ class HostStandbyActivity : AppCompatActivity(),
         position: Int,
         id: Long
     ) {
+        decorView?.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+
         val spinnerParent: Spinner = parent as Spinner
         val item: String = spinnerParent.selectedItem as String
         hostStandbyViewModel.updateGameRule(item)
@@ -312,6 +326,9 @@ class HostStandbyActivity : AppCompatActivity(),
      * @author 長谷川　勇太
      * ********************************************************************** */
     override fun onNothingSelected(parent: AdapterView<*>?) {
+        decorView?.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
     }
 
     /** **********************************************************************

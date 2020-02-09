@@ -51,14 +51,15 @@ class PlayerStandbyActivity : AppCompatActivity(){
     private var stamina3: MenuItem ? = null
     private var listFlg = false
 
+    var decorView: View? = null
     @SuppressLint("CommitPrefEdits", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_standby)
 
         // root view
-        val decorView = window.decorView
-        decorView.systemUiVisibility =
+         decorView = window.decorView
+        decorView?.systemUiVisibility =
             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_IMMERSIVE
 
@@ -94,6 +95,12 @@ class PlayerStandbyActivity : AppCompatActivity(){
         playerStandbyViewModel.updateWeapon(20L, data.getString("token", "0:0"),decorView)
 
         userId.text = "${data.getString("player_name", "no name")}"
+
+        Toast.makeText(
+            applicationContext,
+            "RoomIDは" + data.getLong("room_id", 999).toString(),
+            Toast.LENGTH_LONG
+        ).show()
 
         /** Toolbar init **/
         setSupportActionBar(player_toolbar)
@@ -230,6 +237,9 @@ class PlayerStandbyActivity : AppCompatActivity(){
      * ********************************************************************** */
     public override fun onRestart() {
         super.onRestart()
+        decorView?.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
         Log.d("HostStandbyActivity", "onRestart")
         val data: SharedPreferences =
             getSharedPreferences(
