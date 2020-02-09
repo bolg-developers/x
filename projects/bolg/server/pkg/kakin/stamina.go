@@ -20,10 +20,14 @@ type Stamina struct {
 }
 
 func (s *Stamina) ToProtoStamina() *pb.Stamina {
+	var rt int64
+	if !s.RecoveryTime.IsZero() {
+		rt = s.RecoveryTime.Unix()
+	}
 	return &pb.Stamina{
 		Count:        s.Count,
 		MaxCount:     s.MaxCount,
-		RecoveryTime: s.RecoveryTime.Unix(),
+		RecoveryTime: rt,
 	}
 }
 
