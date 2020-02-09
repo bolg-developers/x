@@ -496,7 +496,13 @@ func main() {
 	}
 	defer port.Close()
 
-	logger, _ := zap.NewProduction()
+	conf := zap.NewProductionConfig()
+	conf.OutputPaths = append(conf.OutputPaths, "./bolg.log")
+	conf.ErrorOutputPaths = append(conf.ErrorOutputPaths, "./bolg.log")
+	logger, err := conf.Build()
+	if err != nil {
+		panic(err)
+	}
 	defer logger.Sync() // flushes buffer, if any
 
 	accountDB := account.NewMemoryAccountDB()
