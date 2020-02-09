@@ -7,7 +7,8 @@ import (
 	"github.com/bolg-developers/x/projects/bolg/server/pb"
 )
 
-const (
+var (
+	now          = func() time.Time { return time.Now() }
 	recoveryTime = 1 * 60 * 60 * 2
 )
 
@@ -51,12 +52,12 @@ func (s *Stamina) Recovery() {
 }
 
 func (s *Stamina) calcRecoveryTime() time.Time {
-	return time.Now().Add(time.Duration(1*60*60*2) * time.Second)
+	return now().Add(time.Duration(1*60*60*2) * time.Second)
 }
 
 func (s *Stamina) countRecovery() int {
-	now := time.Now()
-	d := now.Sub(s.RecoveryTime).Seconds()
+	n := now()
+	d := n.Sub(s.RecoveryTime).Seconds()
 
 	if d < 0 {
 		return 0
@@ -67,10 +68,10 @@ func (s *Stamina) countRecovery() int {
 		return 1
 	}
 
-	mod := math.Mod(d, recoveryTime)
-	s.RecoveryTime = now.Add(time.Duration(mod) * time.Second)
+	mod := math.Mod(d, float64(recoveryTime))
+	s.RecoveryTime = n.Add(time.Duration(mod) * time.Second)
 
-	cnt := int(d / recoveryTime)
+	cnt := int(d / float64(recoveryTime))
 
 	return cnt
 }
