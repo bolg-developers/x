@@ -2,6 +2,7 @@ package com.example.bolg.main.createandJoin
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Vibrator
 import android.text.InputType
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.bolg.GrpcTask
+import com.example.bolg.standby.host.HostStandbyActivity
 import kotlinx.coroutines.*
 
 /** ----------------------------------------------------------------------
@@ -100,6 +102,9 @@ class CreateJoinViewModel (
         Log.d("createAndJoinRoomTask","fun create start")
         uiScope.launch {
             GrpcTask.getInstance(app).createAndJoinRoomTask(view)
+//            val intent = Intent(view.context, HostStandbyActivity::class.java)
+//            view.context?.startActivity(intent)
+//
         }
     }
 

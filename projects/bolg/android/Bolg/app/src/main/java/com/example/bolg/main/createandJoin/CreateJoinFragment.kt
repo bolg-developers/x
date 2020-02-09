@@ -18,6 +18,9 @@ import com.example.bolg.bluetooth.BluetoothFunction
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 class CreateJoinFragment : Fragment(){
+
+    var dialog: SweetAlertDialog? = null
+
     // Fragmentが初めてUIを描画する時にシステムが呼び出す
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,22 +64,27 @@ class CreateJoinFragment : Fragment(){
 
         // 部屋生成
         createBtn.setOnClickListener {
-            val dialog =
+            dialog =
                 SweetAlertDialog(
                     view.context,
                     SweetAlertDialog.SUCCESS_TYPE)
-            dialog.titleText = "本当に部屋を生成しますか？"
-            dialog.confirmText = "生成"
-            dialog.setConfirmClickListener {
+            dialog?.titleText = "本当に部屋を生成しますか？"
+            dialog?.confirmText = "生成"
+            dialog?.setConfirmClickListener {
                 createJoinViewModel.create(view)
             }
-            dialog.cancelText = "×"
-            dialog.setCancelClickListener {
-                dialog.setCancelClickListener(null)
+            dialog?.cancelText = "×"
+            dialog?.setCancelClickListener {
+                dialog?.setCancelClickListener(null)
             }
-            dialog.setCanceledOnTouchOutside(false)
-            dialog.show()
+            dialog?.setCanceledOnTouchOutside(false)
+            dialog?.show()
         }
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialog?.cancel()
     }
 }
