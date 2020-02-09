@@ -20,9 +20,8 @@ func TestStamina_Use(t *testing.T) {
 		RecoveryTime time.Time
 	}
 	type wants struct {
-		OK                bool
-		Count             int64
-		RecoveryTimeCheck bool
+		OK    bool
+		Count int64
 	}
 	tests := []struct {
 		name   string
@@ -37,9 +36,8 @@ func TestStamina_Use(t *testing.T) {
 				MaxCount: maxCount,
 			},
 			wants: wants{
-				OK:                false,
-				Count:             0,
-				RecoveryTimeCheck: false,
+				OK:    false,
+				Count: 0,
 			},
 		},
 		{
@@ -50,9 +48,8 @@ func TestStamina_Use(t *testing.T) {
 				MaxCount: maxCount,
 			},
 			wants: wants{
-				OK:                true,
-				Count:             2,
-				RecoveryTimeCheck: true,
+				OK:    true,
+				Count: 2,
 			},
 		},
 	}
@@ -67,9 +64,6 @@ func TestStamina_Use(t *testing.T) {
 			ok := s.Use()
 			assert.Equal(t, tt.wants.OK, ok)
 			assert.Equal(t, tt.wants.Count, s.Count)
-			if tt.wants.RecoveryTimeCheck {
-				assert.Equal(t, s.calcRecoveryTime(), s.RecoveryTime)
-			}
 		})
 	}
 }
@@ -146,10 +140,9 @@ func TestStamina_countRecovery(t *testing.T) {
 		RecoveryTime time.Time
 	}
 	tests := []struct {
-		name     string
-		fields   fields
-		want     int
-		wantTime time.Time
+		name   string
+		fields fields
+		want   int
 	}{
 		{
 			name: "before recovery time",
@@ -159,8 +152,7 @@ func TestStamina_countRecovery(t *testing.T) {
 				MaxCount:     maxCount,
 				RecoveryTime: time.Date(2020, 2, 9, 16, 0, 0, 0, time.Local),
 			},
-			want:     0,
-			wantTime: time.Date(2020, 2, 9, 16, 0, 0, 0, time.Local),
+			want: 0,
 		},
 		{
 			name: "just recovery time",
@@ -170,8 +162,7 @@ func TestStamina_countRecovery(t *testing.T) {
 				MaxCount:     maxCount,
 				RecoveryTime: time.Date(2020, 2, 9, 15, 0, 0, 0, time.Local),
 			},
-			want:     1,
-			wantTime: time.Time{},
+			want: 1,
 		},
 		{
 			name: "after recovery time(2.5 over)",
@@ -183,8 +174,7 @@ func TestStamina_countRecovery(t *testing.T) {
 				// +4h30min15sec10msec
 				RecoveryTime: time.Date(2020, 2, 9, 10, 29, 45, 0, time.Local),
 			},
-			want:     2,
-			wantTime: time.Date(2020, 2, 9, 15, 30, 15, 0, time.Local),
+			want: 3,
 		},
 	}
 	for _, tt := range tests {
@@ -197,7 +187,71 @@ func TestStamina_countRecovery(t *testing.T) {
 			}
 			got := s.countRecovery()
 			assert.Equal(t, tt.want, got)
-			assert.Equal(t, tt.wantTime, s.RecoveryTime)
+		})
+	}
+}
+
+func TestStamina_UpdateRecoveryTime(t *testing.T) {
+	const (
+		userID   = "fakeuser"
+		maxCount = 3
+	)
+	now = func() time.Time { return time.Date(2020, 2, 9, 15, 0, 0, 0, time.Local) }
+	recoveryTime = 1 * 60 * 60 * 2
+	type fields struct {
+		UserID       string
+		Count        int64
+		MaxCount     int64
+		RecoveryTime time.Time
+	}
+	tests := []struct {
+		name            string
+		fields          fields
+		wantRecoverTime time.Time
+	}{
+		{
+			name: "count max",
+			fields: fields{
+				UserID:       userID,
+				Count:        maxCount,
+				MaxCount:     maxCount,
+				RecoveryTime: time.Date(2020, 2, 9, 14, 0, 0, 0, time.Local),
+			},
+			wantRecoverTime: time.Time{},
+		},
+		{
+			name: "count not max and before recovery time",
+			fields: fields{
+				UserID:       userID,
+				Count:        1,
+				MaxCount:     maxCount,
+				RecoveryTime: time.Date(2020, 2, 9, 16, 0, 0, 0, time.Local),
+			},
+			wantRecoverTime: time.Date(2020, 2, 9, 16, 0, 0, 0, time.Local),
+		},
+		{
+			name: "count not max and after recovery time",
+			fields: fields{
+				UserID:   userID,
+				Count:    1,
+				MaxCount: maxCount,
+
+				// +4h30min15sec10msec
+				RecoveryTime: time.Date(2020, 2, 9, 10, 29, 45, 0, time.Local),
+			},
+			wantRecoverTime: time.Date(2020, 2, 9, 15, 30, 15, 0, time.Local),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := &Stamina{
+				UserID:       tt.fields.UserID,
+				Count:        tt.fields.Count,
+				MaxCount:     tt.fields.MaxCount,
+				RecoveryTime: tt.fields.RecoveryTime,
+			}
+			s.UpdateRecoveryTime()
+			assert.Equal(t, tt.wantRecoverTime, s.RecoveryTime)
 		})
 	}
 }

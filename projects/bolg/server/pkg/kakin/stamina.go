@@ -32,8 +32,6 @@ func (s *Stamina) Use() bool {
 		return false
 	}
 	s.Count--
-
-	s.RecoveryTime = s.calcRecoveryTime()
 	return true
 }
 
@@ -52,7 +50,7 @@ func (s *Stamina) Recovery() {
 }
 
 func (s *Stamina) calcRecoveryTime() time.Time {
-	return now().Add(time.Duration(1*60*60*2) * time.Second)
+	return now().Add(time.Duration(recoveryTime) * time.Second)
 }
 
 func (s *Stamina) countRecovery() int {
@@ -63,15 +61,25 @@ func (s *Stamina) countRecovery() int {
 		return 0
 	}
 
-	if d == 0 {
+	cnt := 1
+	cnt += int(d / float64(recoveryTime))
+
+	return cnt
+}
+
+func (s *Stamina) UpdateRecoveryTime() {
+	if s.Count == s.MaxCount {
 		s.RecoveryTime = time.Time{}
-		return 1
+		return
+	}
+
+	n := now()
+	d := n.Sub(s.RecoveryTime).Seconds()
+
+	if d < 0 {
+		return
 	}
 
 	mod := math.Mod(d, float64(recoveryTime))
 	s.RecoveryTime = n.Add(time.Duration(mod) * time.Second)
-
-	cnt := int(d / float64(recoveryTime))
-
-	return cnt
 }
