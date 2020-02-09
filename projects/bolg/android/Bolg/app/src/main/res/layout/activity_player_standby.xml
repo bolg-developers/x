@@ -19,7 +19,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/player_standby_recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="400dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
@@ -27,283 +27,211 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/frame_black"
         app:layoutManager="LinearLayoutManager"
-        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/player_select_table"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_toolbar" />
 
-<!--    <TextView-->
-<!--        android:id="@+id/join_num"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="参加人数"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/player_standby_recycler_view"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:textSize="20sp"-->
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/player_join_num"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="0"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/join_num"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/join_num"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:textSize="20sp"/>-->
-    <TableLayout
-        android:id="@+id/player_select_table"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@id/player_standby_recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintTop_toBottomOf="@+id/player_toolbar">
-
-        <TableRow
-            android:id="@+id/player_pairing_id_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp">
 
             <ImageButton
                 android:id="@+id/player_pairing_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
                 android:background="@null"
+                android:layout_marginTop="30dp"
+                android:text="@string/pairing"
                 app:srcCompat="@drawable/bolg_bluetooth_state"
-                android:text="@string/pairing" />
+                app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+                app:layout_constraintTop_toBottomOf="@+id/player_toolbar"
+                app:layout_constraintBottom_toTopOf="@+id/player_rule"
+                />
 
             <TextView
                 android:id="@+id/player_user_id"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="2"
-                android:textSize="25sp"
-                android:gravity="center"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/frame_black"
+                android:gravity="center"
+                android:text="UserID"
+                android:layout_marginTop="30dp"
                 android:textColor="@color/white"
-                android:text="@string/user_id" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/player_rule_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                android:textSize="50sp"
+                app:layout_constraintStart_toEndOf="@+id/player_pairing_btn"
+                app:layout_constraintTop_toBottomOf="@+id/player_toolbar"
+                />
 
             <TextView
                 android:id="@+id/player_rule"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="4"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="18sp"
-                android:layout_margin="2dp"
+                android:textSize="20sp"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/frame_black"
                 android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+                app:layout_constraintTop_toBottomOf="@+id/player_pairing_btn"
                 android:text="@string/survival" />
-        </TableRow>
 
-        <TableRow
-            android:id="@+id/host_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
+    <TextView
+        android:id="@+id/host_kakin_bullet_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:text="課金弾"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/player_kakin_bullet"
+        app:layout_constraintTop_toBottomOf="@+id/player_rule" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:gravity="bottom"
-                android:text="課金弾"
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/item_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:text="アイテム"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/player_item_btn"
+        app:layout_constraintTop_toBottomOf="@+id/player_rule"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:gravity="bottom"
-                android:text="アイテム"
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
+    <ImageButton
+        android:id="@+id/player_kakin_bullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:background="@null"
+        app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/host_kakin_bullet_txt"
+        app:srcCompat="@drawable/bolg_button_off_dark" />
 
-        </TableRow>
-        <TableRow
-            android:id="@+id/player_item_btn_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            >
+    <ImageButton
+        android:id="@+id/player_item_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginStart="50sp"
+        app:layout_constraintStart_toEndOf="@+id/player_kakin_bullet"
+        app:layout_constraintTop_toBottomOf="@+id/item_txt"
+        app:srcCompat="@drawable/bolg_button_off_dark" />
 
-            <ImageButton
-                android:id="@+id/host_kakin_bullet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_span="2"
-                android:background="@null"
-                app:srcCompat="@drawable/bolg_button_off_dark" />
+    <TextView
+        android:id="@+id/player_item1"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/player_kakin_bullet"
+        android:background="@drawable/frame_black"
+        android:gravity="center"
+        android:text="アイテム1"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="30sp"/>
 
-            <ImageButton
-                android:id="@+id/host_item_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:layout_margin="2dp"
-                android:background="@null"
-                app:srcCompat="@drawable/bolg_button_off_dark" />
+    <TextView
+        android:id="@+id/player_item2"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_black"
+        android:gravity="center"
+        android:text="アイテム2"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/player_item1"
+        app:layout_constraintTop_toBottomOf="@+id/player_kakin_bullet"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="30sp" />
 
-        </TableRow>
+    <TextView
+        android:id="@+id/player_kakin_bullet_txt"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_black"
+        android:gravity="center"
+        android:text="課金弾"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/player_item1"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="40sp" />
 
-        <TableRow
-            android:id="@+id/player_inventory_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp">
+    <TextView
+        android:id="@+id/player_kakin_bullet_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_black"
+        android:gravity="center"
+        android:text="0"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/player_kakin_bullet_txt"
+        app:layout_constraintTop_toBottomOf="@+id/player_item1"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="40sp" />
 
-            <TextView
-                android:id="@+id/player_item1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_span="2"
-                android:background="@drawable/frame_black"
-                android:gravity="center"
-                android:text="アイテム1"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp" />
+    <TextView
+        android:id="@+id/ready_txt"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/frame_black"
+        android:text="準備完了"
+        app:layout_constraintStart_toEndOf="@+id/player_kakin_bullet_count"
+        app:layout_constraintTop_toBottomOf="@+id/player_item1"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="40sp" />
+    <TextView
+        android:id="@+id/player_ready_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame_black"
+        android:text="0"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/ready_txt"
+        app:layout_constraintTop_toBottomOf="@+id/player_item1"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="40sp" />
 
-            <TextView
-                android:id="@+id/player_item2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_span="2"
-                android:background="@drawable/frame_black"
-                android:gravity="center"
-                android:text="アイテム2"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp" />
-        </TableRow>
+    <ImageButton
+        android:id="@+id/player_inventory_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/player_standby_recycler_view"
+        app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/player_kakin_bullet_txt"
+        app:srcCompat="@drawable/bolg_inventory_on_dark" />
 
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp">
+    <ImageButton
+        android:id="@+id/player_ready_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/player_standby_recycler_view"
+        app:layout_constraintStart_toEndOf="@+id/player_inventory_btn"
+        app:layout_constraintTop_toBottomOf="@+id/ready_txt"
+        app:srcCompat="@drawable/bolg_ready_state" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:background="@drawable/frame_black"
-                android:gravity="center"
-                android:text="課金弾"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/player_kakin_bullet_count"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:background="@drawable/frame_black"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_margin="2dp"
-                android:background="@drawable/frame_black"
-                android:layout_span="1"
-                android:text="準備完了"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="18sp" />
-            <TextView
-                android:id="@+id/player_ready_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:background="@drawable/frame_black"
-                android:text="0"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_span="1"
-                android:gravity="center"
-                android:textSize="20sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp">
-
-            <ImageButton
-                android:id="@+id/player_inventory_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:layout_margin="2dp"
-                android:background="@null"
-                app:srcCompat="@drawable/bolg_inventory_on_dark" />
-            <ImageButton
-                android:id="@+id/player_ready_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                android:layout_margin="2dp"
-                android:background="@null"
-                app:srcCompat="@drawable/bolg_ready_state" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/player_dummy_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:text="@string/dummy" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:text="@string/dummy" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:text="@string/dummy" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:text="@string/dummy" />
-        </TableRow>
-    </TableLayout>
 
     <ProgressBar
         android:id="@+id/player_progress"

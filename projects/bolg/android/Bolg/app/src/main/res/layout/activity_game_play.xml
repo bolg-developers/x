@@ -18,7 +18,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
-        android:layout_width="150dp"
+        android:layout_width="300dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
@@ -56,20 +56,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="60dp"
         android:text="@string/timer"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="@id/timer"
         app:layout_constraintTop_toTopOf="@id/timer" />
 
     <ImageView
         android:id="@+id/item1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintStart_toEndOf="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
         android:src="@drawable/bolg_item"
@@ -77,10 +77,10 @@
 
     <ImageView
         android:id="@+id/item2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintStart_toEndOf="@+id/item1"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
         android:src="@drawable/bolg_item"
@@ -90,26 +90,26 @@
         android:id="@+id/log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10sp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/item2"
-        app:layout_constraintTop_toBottomOf="@+id/timer"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/bolg_log"
-        android:text="@string/log"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
+        android:contentDescription="@string/todo"
         android:gravity="center"
-        android:contentDescription="@string/todo" />
+        android:text="@string/log"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/item2"
+        app:layout_constraintTop_toBottomOf="@+id/timer" />
 
     <ImageView
         android:id="@+id/hit_point_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop ="10dp"
+        android:layout_marginTop ="20dp"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toEndOf="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/item1"
-        android:src="@drawable/bolg_hit_point"
+        android:src="@drawable/bolg_hitpoint_blue"
         android:contentDescription="@string/todo"
         tools:ignore="RtlSymmetry" />
 
@@ -119,10 +119,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/hit_point_img"
         app:layout_constraintTop_toTopOf="@+id/hit_point_img"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginStart="110dp"
         android:text="@string/hit_point"
-        android:textSize="30sp"
+        android:textSize="50sp"
         android:textColor="@color/white" />
 
     <ImageView
@@ -143,9 +143,9 @@
         app:layout_constraintTop_toTopOf="@+id/bullet"
         android:text="∞"
         android:textColor="@color/white"
-        android:textSize="30sp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="100dp"
+        android:textSize="40sp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="150dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
