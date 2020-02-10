@@ -1,5 +1,4 @@
-// TODO: jwtに置き換える
-package bolg
+package game
 
 import (
 	"errors"
@@ -14,11 +13,11 @@ var (
 
 const mdKeyToken = "bolg-room-token"
 
-func createToken(roomID, playerID int64) string {
+func CreateToken(roomID, playerID int64) string {
 	return fmt.Sprintf("%d:%d", roomID, playerID)
 }
 
-func parseFromToken(token string) (int64, int64, error) {
+func ParseFromToken(token string) (int64, int64, error) {
 	strs := strings.Split(token, ":")
 	if len(strs) != 2 {
 		return 0, 0, ErrInvalidToken
