@@ -64,6 +64,11 @@ func (svc *Service) Connect(stream pb.BolgService_ConnectServer) error {
 			if err := svc.handleNotifyReceivingReq(stream, msg); err != nil {
 				return err
 			}
+		case *pb.RoomMessage_RecoverHpReq:
+			svc.logger.Info(fmt.Sprintf("Receive RecoverHpReq: %+v", msg.RecoverHpReq))
+			if err := svc.handleRecoverHpReq(stream, msg); err != nil {
+				return err
+			}
 		default:
 			return status.Error(codes.InvalidArgument, "invalid room message")
 		}
@@ -391,6 +396,51 @@ func (svc *Service) handleNotifyReceivingReq(
 	r.InitPlayers()
 	if err := svc.roomDB.Update(r); err != nil {
 		return svc.internalError(fmt.Sprintf("Error handleNotifyReceivingReq roomdb.Update: %s", err.Error()))
+	}
+
+	return nil
+}
+
+func (svc *Service) handleRecoverHpReq(
+	stream pb.BolgService_ConnectServer,
+	in *pb.RoomMessage_RecoverHpReq,
+) error {
+	rid, pid, err := game.ParseFromToken(in.RecoverHpReq.Token)
+	if errors.Is(err, game.ErrInvalidToken) {
+		return status.Error(codes.Unauthenticated, "token error")
+	}
+
+	r, err := svc.roomDB.Get(rid)
+	if err != nil {
+		if errors.Is(err, game.ErrRoomDBNotFound) {
+			return status.Error(codes.Unauthenticated, "invalid token")
+		}
+		return svc.internalError(fmt.Sprintf("Error handleReadyReq roomdb.Get: %s", err.Error()))
+	}
+
+	p, err := r.GetPlayer(pid)
+	if err != nil {
+		return status.Error(codes.Unauthenticated, "token error")
+	}
+	p.RecoverHP(in.RecoverHpReq.Hp)
+
+	if err := r.UpdatePlayer(p); err != nil {
+		return svc.internalError(fmt.Sprintf("Error handleReadyReq roomdb.UpdatePlayer: %s", err.Error()))
+	}
+
+	if err := svc.roomDB.Update(r); err != nil {
+		return svc.internalError(fmt.Sprintf("Error handleReadyReq roomdb.Update: %s", err.Error()))
+	}
+
+	out := &pb.RoomMessage{
+		Data: &pb.RoomMessage_RecoverHpRes{
+			RecoverHpRes: &pb.RecoverHPResponse{
+				Player: p.ToProtoPlayer(),
+			},
+		},
+	}
+	if errs := r.Broadcast(game.FilterNothing(), out); len(errs) != 0 {
+		svc.logger.Error(fmt.Sprintf("broadcast error(NotifyReceivingMsg): %+v", errs))
 	}
 
 	return nil
