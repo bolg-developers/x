@@ -202,5 +202,31 @@ public interface RoomMessageOrBuilder extends
    */
   org.bolg_developers.bolg.ErrorOrBuilder getErrorOrBuilder();
 
+  /**
+   * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+   */
+  boolean hasRecoverHpReq();
+  /**
+   * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+   */
+  org.bolg_developers.bolg.RecoverHPRequest getRecoverHpReq();
+  /**
+   * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+   */
+  org.bolg_developers.bolg.RecoverHPRequestOrBuilder getRecoverHpReqOrBuilder();
+
+  /**
+   * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+   */
+  boolean hasRecoverHpRes();
+  /**
+   * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+   */
+  org.bolg_developers.bolg.RecoverHPResponse getRecoverHpRes();
+  /**
+   * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+   */
+  org.bolg_developers.bolg.RecoverHPResponseOrBuilder getRecoverHpResOrBuilder();
+
   public org.bolg_developers.bolg.RoomMessage.DataCase getDataCase();
 }

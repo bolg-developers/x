@@ -37,6 +37,8 @@ message RoomMessage {
     ReadyRequest ready_req = 13;
     ReadyMessage ready_msg = 14;
     Error error = 15;
+    RecoverHPRequest recover_hp_req = 16;
+    RecoverHPResponse recover_hp_res = 17;
   }
 }
 
@@ -123,6 +125,16 @@ message ReadyRequest {
 message ReadyMessage {
   // player_idは準備完了したプレイヤーのIDです。
   int64 player_id = 1;
+}
+
+message RecoverHPRequest {
+  // hp は回復量を示します。
+  int64 hp = 1;
+  string token = 2;
+}
+
+message RecoverHPResponse {
+  Player player = 1;
 }
 
 message Error {

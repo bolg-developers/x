@@ -259,6 +259,34 @@ private static final long serialVersionUID = 0L;
             dataCase_ = 15;
             break;
           }
+          case 130: {
+            org.bolg_developers.bolg.RecoverHPRequest.Builder subBuilder = null;
+            if (dataCase_ == 16) {
+              subBuilder = ((org.bolg_developers.bolg.RecoverHPRequest) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.RecoverHPRequest.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.RecoverHPRequest) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 16;
+            break;
+          }
+          case 138: {
+            org.bolg_developers.bolg.RecoverHPResponse.Builder subBuilder = null;
+            if (dataCase_ == 17) {
+              subBuilder = ((org.bolg_developers.bolg.RecoverHPResponse) data_).toBuilder();
+            }
+            data_ =
+                input.readMessage(org.bolg_developers.bolg.RecoverHPResponse.parser(), extensionRegistry);
+            if (subBuilder != null) {
+              subBuilder.mergeFrom((org.bolg_developers.bolg.RecoverHPResponse) data_);
+              data_ = subBuilder.buildPartial();
+            }
+            dataCase_ = 17;
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -302,6 +330,8 @@ private static final long serialVersionUID = 0L;
     READY_REQ(13),
     READY_MSG(14),
     ERROR(15),
+    RECOVER_HP_REQ(16),
+    RECOVER_HP_RES(17),
     DATA_NOT_SET(0);
     private final int value;
     private DataCase(int value) {
@@ -332,6 +362,8 @@ private static final long serialVersionUID = 0L;
         case 13: return READY_REQ;
         case 14: return READY_MSG;
         case 15: return ERROR;
+        case 16: return RECOVER_HP_REQ;
+        case 17: return RECOVER_HP_RES;
         case 0: return DATA_NOT_SET;
         default: return null;
       }
@@ -737,6 +769,58 @@ private static final long serialVersionUID = 0L;
     return org.bolg_developers.bolg.Error.getDefaultInstance();
   }
 
+  public static final int RECOVER_HP_REQ_FIELD_NUMBER = 16;
+  /**
+   * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+   */
+  public boolean hasRecoverHpReq() {
+    return dataCase_ == 16;
+  }
+  /**
+   * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+   */
+  public org.bolg_developers.bolg.RecoverHPRequest getRecoverHpReq() {
+    if (dataCase_ == 16) {
+       return (org.bolg_developers.bolg.RecoverHPRequest) data_;
+    }
+    return org.bolg_developers.bolg.RecoverHPRequest.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+   */
+  public org.bolg_developers.bolg.RecoverHPRequestOrBuilder getRecoverHpReqOrBuilder() {
+    if (dataCase_ == 16) {
+       return (org.bolg_developers.bolg.RecoverHPRequest) data_;
+    }
+    return org.bolg_developers.bolg.RecoverHPRequest.getDefaultInstance();
+  }
+
+  public static final int RECOVER_HP_RES_FIELD_NUMBER = 17;
+  /**
+   * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+   */
+  public boolean hasRecoverHpRes() {
+    return dataCase_ == 17;
+  }
+  /**
+   * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+   */
+  public org.bolg_developers.bolg.RecoverHPResponse getRecoverHpRes() {
+    if (dataCase_ == 17) {
+       return (org.bolg_developers.bolg.RecoverHPResponse) data_;
+    }
+    return org.bolg_developers.bolg.RecoverHPResponse.getDefaultInstance();
+  }
+  /**
+   * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+   */
+  public org.bolg_developers.bolg.RecoverHPResponseOrBuilder getRecoverHpResOrBuilder() {
+    if (dataCase_ == 17) {
+       return (org.bolg_developers.bolg.RecoverHPResponse) data_;
+    }
+    return org.bolg_developers.bolg.RecoverHPResponse.getDefaultInstance();
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -793,6 +877,12 @@ private static final long serialVersionUID = 0L;
     }
     if (dataCase_ == 15) {
       output.writeMessage(15, (org.bolg_developers.bolg.Error) data_);
+    }
+    if (dataCase_ == 16) {
+      output.writeMessage(16, (org.bolg_developers.bolg.RecoverHPRequest) data_);
+    }
+    if (dataCase_ == 17) {
+      output.writeMessage(17, (org.bolg_developers.bolg.RecoverHPResponse) data_);
     }
     unknownFields.writeTo(output);
   }
@@ -861,6 +951,14 @@ private static final long serialVersionUID = 0L;
     if (dataCase_ == 15) {
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(15, (org.bolg_developers.bolg.Error) data_);
+    }
+    if (dataCase_ == 16) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(16, (org.bolg_developers.bolg.RecoverHPRequest) data_);
+    }
+    if (dataCase_ == 17) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(17, (org.bolg_developers.bolg.RecoverHPResponse) data_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -942,6 +1040,14 @@ private static final long serialVersionUID = 0L;
         result = result && getError()
             .equals(other.getError());
         break;
+      case 16:
+        result = result && getRecoverHpReq()
+            .equals(other.getRecoverHpReq());
+        break;
+      case 17:
+        result = result && getRecoverHpRes()
+            .equals(other.getRecoverHpRes());
+        break;
       case 0:
       default:
     }
@@ -1016,6 +1122,14 @@ private static final long serialVersionUID = 0L;
       case 15:
         hash = (37 * hash) + ERROR_FIELD_NUMBER;
         hash = (53 * hash) + getError().hashCode();
+        break;
+      case 16:
+        hash = (37 * hash) + RECOVER_HP_REQ_FIELD_NUMBER;
+        hash = (53 * hash) + getRecoverHpReq().hashCode();
+        break;
+      case 17:
+        hash = (37 * hash) + RECOVER_HP_RES_FIELD_NUMBER;
+        hash = (53 * hash) + getRecoverHpRes().hashCode();
         break;
       case 0:
       default:
@@ -1278,6 +1392,20 @@ private static final long serialVersionUID = 0L;
           result.data_ = errorBuilder_.build();
         }
       }
+      if (dataCase_ == 16) {
+        if (recoverHpReqBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = recoverHpReqBuilder_.build();
+        }
+      }
+      if (dataCase_ == 17) {
+        if (recoverHpResBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = recoverHpResBuilder_.build();
+        }
+      }
       result.dataCase_ = dataCase_;
       onBuilt();
       return result;
@@ -1379,6 +1507,14 @@ private static final long serialVersionUID = 0L;
         }
         case ERROR: {
           mergeError(other.getError());
+          break;
+        }
+        case RECOVER_HP_REQ: {
+          mergeRecoverHpReq(other.getRecoverHpReq());
+          break;
+        }
+        case RECOVER_HP_RES: {
+          mergeRecoverHpRes(other.getRecoverHpRes());
           break;
         }
         case DATA_NOT_SET: {
@@ -3465,6 +3601,278 @@ private static final long serialVersionUID = 0L;
       dataCase_ = 15;
       onChanged();;
       return errorBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.RecoverHPRequest, org.bolg_developers.bolg.RecoverHPRequest.Builder, org.bolg_developers.bolg.RecoverHPRequestOrBuilder> recoverHpReqBuilder_;
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public boolean hasRecoverHpReq() {
+      return dataCase_ == 16;
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public org.bolg_developers.bolg.RecoverHPRequest getRecoverHpReq() {
+      if (recoverHpReqBuilder_ == null) {
+        if (dataCase_ == 16) {
+          return (org.bolg_developers.bolg.RecoverHPRequest) data_;
+        }
+        return org.bolg_developers.bolg.RecoverHPRequest.getDefaultInstance();
+      } else {
+        if (dataCase_ == 16) {
+          return recoverHpReqBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.RecoverHPRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public Builder setRecoverHpReq(org.bolg_developers.bolg.RecoverHPRequest value) {
+      if (recoverHpReqBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        recoverHpReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 16;
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public Builder setRecoverHpReq(
+        org.bolg_developers.bolg.RecoverHPRequest.Builder builderForValue) {
+      if (recoverHpReqBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        recoverHpReqBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 16;
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public Builder mergeRecoverHpReq(org.bolg_developers.bolg.RecoverHPRequest value) {
+      if (recoverHpReqBuilder_ == null) {
+        if (dataCase_ == 16 &&
+            data_ != org.bolg_developers.bolg.RecoverHPRequest.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.RecoverHPRequest.newBuilder((org.bolg_developers.bolg.RecoverHPRequest) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 16) {
+          recoverHpReqBuilder_.mergeFrom(value);
+        }
+        recoverHpReqBuilder_.setMessage(value);
+      }
+      dataCase_ = 16;
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public Builder clearRecoverHpReq() {
+      if (recoverHpReqBuilder_ == null) {
+        if (dataCase_ == 16) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 16) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        recoverHpReqBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public org.bolg_developers.bolg.RecoverHPRequest.Builder getRecoverHpReqBuilder() {
+      return getRecoverHpReqFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    public org.bolg_developers.bolg.RecoverHPRequestOrBuilder getRecoverHpReqOrBuilder() {
+      if ((dataCase_ == 16) && (recoverHpReqBuilder_ != null)) {
+        return recoverHpReqBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 16) {
+          return (org.bolg_developers.bolg.RecoverHPRequest) data_;
+        }
+        return org.bolg_developers.bolg.RecoverHPRequest.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.RecoverHPRequest recover_hp_req = 16;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.RecoverHPRequest, org.bolg_developers.bolg.RecoverHPRequest.Builder, org.bolg_developers.bolg.RecoverHPRequestOrBuilder> 
+        getRecoverHpReqFieldBuilder() {
+      if (recoverHpReqBuilder_ == null) {
+        if (!(dataCase_ == 16)) {
+          data_ = org.bolg_developers.bolg.RecoverHPRequest.getDefaultInstance();
+        }
+        recoverHpReqBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.RecoverHPRequest, org.bolg_developers.bolg.RecoverHPRequest.Builder, org.bolg_developers.bolg.RecoverHPRequestOrBuilder>(
+                (org.bolg_developers.bolg.RecoverHPRequest) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 16;
+      onChanged();;
+      return recoverHpReqBuilder_;
+    }
+
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.RecoverHPResponse, org.bolg_developers.bolg.RecoverHPResponse.Builder, org.bolg_developers.bolg.RecoverHPResponseOrBuilder> recoverHpResBuilder_;
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public boolean hasRecoverHpRes() {
+      return dataCase_ == 17;
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public org.bolg_developers.bolg.RecoverHPResponse getRecoverHpRes() {
+      if (recoverHpResBuilder_ == null) {
+        if (dataCase_ == 17) {
+          return (org.bolg_developers.bolg.RecoverHPResponse) data_;
+        }
+        return org.bolg_developers.bolg.RecoverHPResponse.getDefaultInstance();
+      } else {
+        if (dataCase_ == 17) {
+          return recoverHpResBuilder_.getMessage();
+        }
+        return org.bolg_developers.bolg.RecoverHPResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public Builder setRecoverHpRes(org.bolg_developers.bolg.RecoverHPResponse value) {
+      if (recoverHpResBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        data_ = value;
+        onChanged();
+      } else {
+        recoverHpResBuilder_.setMessage(value);
+      }
+      dataCase_ = 17;
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public Builder setRecoverHpRes(
+        org.bolg_developers.bolg.RecoverHPResponse.Builder builderForValue) {
+      if (recoverHpResBuilder_ == null) {
+        data_ = builderForValue.build();
+        onChanged();
+      } else {
+        recoverHpResBuilder_.setMessage(builderForValue.build());
+      }
+      dataCase_ = 17;
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public Builder mergeRecoverHpRes(org.bolg_developers.bolg.RecoverHPResponse value) {
+      if (recoverHpResBuilder_ == null) {
+        if (dataCase_ == 17 &&
+            data_ != org.bolg_developers.bolg.RecoverHPResponse.getDefaultInstance()) {
+          data_ = org.bolg_developers.bolg.RecoverHPResponse.newBuilder((org.bolg_developers.bolg.RecoverHPResponse) data_)
+              .mergeFrom(value).buildPartial();
+        } else {
+          data_ = value;
+        }
+        onChanged();
+      } else {
+        if (dataCase_ == 17) {
+          recoverHpResBuilder_.mergeFrom(value);
+        }
+        recoverHpResBuilder_.setMessage(value);
+      }
+      dataCase_ = 17;
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public Builder clearRecoverHpRes() {
+      if (recoverHpResBuilder_ == null) {
+        if (dataCase_ == 17) {
+          dataCase_ = 0;
+          data_ = null;
+          onChanged();
+        }
+      } else {
+        if (dataCase_ == 17) {
+          dataCase_ = 0;
+          data_ = null;
+        }
+        recoverHpResBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public org.bolg_developers.bolg.RecoverHPResponse.Builder getRecoverHpResBuilder() {
+      return getRecoverHpResFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    public org.bolg_developers.bolg.RecoverHPResponseOrBuilder getRecoverHpResOrBuilder() {
+      if ((dataCase_ == 17) && (recoverHpResBuilder_ != null)) {
+        return recoverHpResBuilder_.getMessageOrBuilder();
+      } else {
+        if (dataCase_ == 17) {
+          return (org.bolg_developers.bolg.RecoverHPResponse) data_;
+        }
+        return org.bolg_developers.bolg.RecoverHPResponse.getDefaultInstance();
+      }
+    }
+    /**
+     * <code>.bolg.RecoverHPResponse recover_hp_res = 17;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilderV3<
+        org.bolg_developers.bolg.RecoverHPResponse, org.bolg_developers.bolg.RecoverHPResponse.Builder, org.bolg_developers.bolg.RecoverHPResponseOrBuilder> 
+        getRecoverHpResFieldBuilder() {
+      if (recoverHpResBuilder_ == null) {
+        if (!(dataCase_ == 17)) {
+          data_ = org.bolg_developers.bolg.RecoverHPResponse.getDefaultInstance();
+        }
+        recoverHpResBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            org.bolg_developers.bolg.RecoverHPResponse, org.bolg_developers.bolg.RecoverHPResponse.Builder, org.bolg_developers.bolg.RecoverHPResponseOrBuilder>(
+                (org.bolg_developers.bolg.RecoverHPResponse) data_,
+                getParentForChildren(),
+                isClean());
+        data_ = null;
+      }
+      dataCase_ = 17;
+      onChanged();;
+      return recoverHpResBuilder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

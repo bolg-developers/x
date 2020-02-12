@@ -118,6 +118,13 @@ type Player struct {
 	Stream  pb.BolgService_ConnectServer
 }
 
+func (p *Player) RecoverHP(amount int64) {
+	p.Hp += amount
+	if p.Hp > defaultHP {
+		p.Hp = defaultHP
+	}
+}
+
 func (p *Player) ToProtoPlayer() *pb.Player {
 	return &pb.Player{
 		Id:    p.ID,
