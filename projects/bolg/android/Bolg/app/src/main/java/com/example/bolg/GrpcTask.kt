@@ -423,6 +423,5 @@ class GrpcTask(application: Application)  {
         editor?.putLong("player_hp", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).hp)
         editor?.putBoolean("player_ready", joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).ready)
         editor?.apply()
-
     }
 }

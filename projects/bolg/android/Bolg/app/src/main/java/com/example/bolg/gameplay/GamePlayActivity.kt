@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.example.bolg.BoLG_Audio
 import com.example.bolg.GrpcTask
 import com.example.bolg.R
 import com.example.bolg.adapter.StandbyRecyclerAdapter
@@ -121,9 +122,12 @@ class GamePlayActivity : AppCompatActivity(){
             .getInstance()
             .shootByteArray
             .observe(this , Observer { readByte ->
-            Log.d("GamePlayActivity" , "Bluetooth read ByteArray")
-            // Bluetoothの値GamePlayViewModelへ送る
-            gamePlayViewModel.btShootRead(readByte)
+                Log.d("GamePlayActivity" , "Bluetooth read ByteArray")
+                // Bluetoothの値GamePlayViewModelへ送る
+                // ショット音を鳴らす
+                BoLG_Audio.getInstance().play(BoLG_Audio.AudioID.SHOT,0,1.0f)
+
+                gamePlayViewModel.btShootRead(readByte)
         })
 
         // Observe : 弾を被弾時に動く
@@ -133,6 +137,9 @@ class GamePlayActivity : AppCompatActivity(){
             .observe(this , Observer { readByte ->
             //  一回目はスルーする
             if(hitCnt != 0) {
+                // 被弾音を鳴らす
+                BoLG_Audio.getInstance().play(BoLG_Audio.AudioID.HIT,0,1.0f)
+
                 Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
                 // Bluetoothの値GamePlayViewModelへ送る
                 gamePlayViewModel.btHitRead(readByte, decorView)
