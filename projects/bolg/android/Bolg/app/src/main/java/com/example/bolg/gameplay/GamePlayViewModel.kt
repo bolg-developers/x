@@ -21,11 +21,13 @@ import kotlin.experimental.and
  * @param application : AndroidViewModelの引数に使用
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class GamePlayViewModel(application: Application) : AndroidViewModel(application){
+class GamePlayViewModel(
+    application: Application
+) : AndroidViewModel(application){
     companion object {
         // 定数
-        private const val START_BYTE: Byte  = 0xfe.toByte()  // Bluetoothのスタートバイト
-        private const val END_BYTE: Byte    = 0xff.toByte()  // Bluetoothのエンドバイト
+//        private const val START_BYTE: Byte  = 0xfe.toByte()  // Bluetoothのスタートバイト
+//        private const val END_BYTE: Byte    = 0xff.toByte()  // Bluetoothのエンドバイト
         private const val BT_BUFFER_SIZE: Int = 16           // Bluetoothのバッファーサイズ
         const val WINNER = "Winner"
         const val LOSER = "Loser"
@@ -33,21 +35,26 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
 
     private var mShootReadByte = ByteArray(BT_BUFFER_SIZE)  // 撃った時にReadした値を格納
     private var mHitReadByte = ByteArray(BT_BUFFER_SIZE)    // 撃たれた時にReadした値を格納
+    private val app: Application = application
 
-    private var mWriteByte = ByteArray(BT_BUFFER_SIZE)  // Bluetoothへ送る値を格納
-    private val app = application
+//    private var mWriteByte = ByteArray(BT_BUFFER_SIZE)  // Bluetoothへ送る値を格納
 
-    private var layoutManager: LinearLayoutManager? = null
-    private val sampleList: MutableList<ListData> = mutableListOf()
+//    private var layoutManager: LinearLayoutManager? = null
+//    private val sampleList: MutableList<ListData> = mutableListOf()
 
     /** Coroutine定義 **/
     // Job Set
     private var viewModelJob = Job()
     // Scope Set
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope =
+        CoroutineScope(Dispatchers.Main + viewModelJob)
 
     /** SharedPreferenceのインスタンス生成 **/
-    val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+    val data: SharedPreferences =
+        app.getSharedPreferences(
+            "RoomDataSave",
+            Context.MODE_PRIVATE
+        )
 
     /** **********************************************************************
      * btWriteByte
@@ -80,21 +87,51 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
     fun btHitRead(readByte: ByteArray, view: View){
         mHitReadByte = readByte
 
-        Log.d("GamePlayViewModel", "btHitRead:readByte[0]->${mHitReadByte[0]}")
-        Log.d("GamePlayViewModel", "btHitRead:readByte[1]->${mHitReadByte[1]}")
-        Log.d("GamePlayViewModel", "btHitRead:readByte[2]->${mHitReadByte[2]}")
-        Log.d("GamePlayViewModel", "btHitRead:readByte[3]->${mHitReadByte[3]}")
-        Log.d("GamePlayViewModel", "btHitRead:readByte[4]->${mHitReadByte[4]}")
-        Log.d("GamePlayViewModel", "btHitRead:readByte[5]->${mHitReadByte[5]}")
-        Log.d("GamePlayViewModel", "btHitRead:readByte[6]->${mHitReadByte[6]}")
+        Log.d(
+            "GamePlayViewModel",
+            "btHitRead:readByte[0]->" +
+                    "${mHitReadByte[0]}"
+        )
+        Log.d(
+            "GamePlayViewModel",
+            "btHitRead:readByte[1]->" +
+                    "${mHitReadByte[1]}"
+        )
+        Log.d(
+            "GamePlayViewModel",
+            "btHitRead:readByte[2]->" +
+                    "${mHitReadByte[2]}"
+        )
+        Log.d(
+            "GamePlayViewModel",
+            "btHitRead:readByte[3]->" +
+                    "${mHitReadByte[3]}"
+        )
+        Log.d(
+            "GamePlayViewModel",
+            "btHitRead:readByte[4]->" +
+                    "${mHitReadByte[4]}"
+        )
+        Log.d(
+            "GamePlayViewModel",
+            "btHitRead:readByte[5]->" +
+                    "${mHitReadByte[5]}"
+        )
+        Log.d(
+            "GamePlayViewModel",
+            "btHitRead:readByte[6]->" +
+                    "${mHitReadByte[6]}"
+        )
 
         // playerIDを抽出
         var playerId: Long = 0
         for (i in 2..5) {
             playerId = playerId shl 8
-            playerId = playerId or (mHitReadByte[i] and 0xFF.toByte()).toLong()
+            playerId = playerId or (
+                    mHitReadByte[i] and
+                            0xFF.toByte()
+                    ).toLong()
         }
-        Log.d("GamePlayViewModel", "btHitRead:playerId->${playerId}")
 
         if(playerId != data.getLong("player_id",999)) {
             // tokenの取得

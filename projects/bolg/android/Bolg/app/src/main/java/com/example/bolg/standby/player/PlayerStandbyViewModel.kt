@@ -24,19 +24,26 @@ import com.example.bolg.data.ListData
  * ・上記完了後、準備完了を押下し待機
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class PlayerStandbyViewModel(application: Application): AndroidViewModel(application){
+class PlayerStandbyViewModel(
+    application: Application
+): AndroidViewModel(application){
 
     /** Coroutine定義 **/
     // Job Set
-    private var viewModelJob = Job()
+    private var viewModelJob:Job = Job()
     // Scope Set
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope:CoroutineScope =
+        CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var layoutManager: LinearLayoutManager? = null
     private val sampleList: MutableList<ListData> = mutableListOf()
 
     private val app: Application = application
-    val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+    val data: SharedPreferences =
+        app.getSharedPreferences(
+            "RoomDataSave",
+            Context.MODE_PRIVATE
+        )
 
     /** LiveDataの設定 **/
     private val _gameState = MutableLiveData<Boolean>()
@@ -114,6 +121,9 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
         val adapter = StandbyRecyclerAdapter(sampleList)
         joinUser.adapter = adapter
         // 区切り線の表示
-        joinUser.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        joinUser.addItemDecoration(DividerItemDecoration(
+            context,
+            DividerItemDecoration.VERTICAL
+        ))
     }
 }

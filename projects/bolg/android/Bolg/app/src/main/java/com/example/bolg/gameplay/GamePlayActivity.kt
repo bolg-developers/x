@@ -170,8 +170,16 @@ class GamePlayActivity : AppCompatActivity(){
             if(data.getBoolean("end_game",false)) {
 
                 val resultString =
-                    result.survivalResultMsg.personalsOrBuilderList[0].playerName + " -> \n" + "KILL :  ${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回,　　　　　" +
-                            result.survivalResultMsg.personalsOrBuilderList[1].playerName + " -> \n" + "KILL :  ${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回"
+                    result
+                        .survivalResultMsg
+                        .personalsOrBuilderList[0]
+                        .playerName + " -> \n" + "KILL :  " +
+                            "${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回,　　　　　" +
+                            result
+                                .survivalResultMsg
+                                .personalsOrBuilderList[1]
+                                .playerName + " -> \n" + "KILL :  " +
+                            "${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回"
 
                 val dialog = SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
                     .setTitleText(winOfLose)
@@ -200,7 +208,9 @@ class GamePlayActivity : AppCompatActivity(){
         })
 
         // 被弾者通知
-        GrpcTask.getInstance(application).hitName.observe(this, Observer { name->
+        GrpcTask
+            .getInstance(application)
+            .hitName.observe(this, Observer { name->
             editor?.putBoolean("end_game",true)
             editor?.apply()
             if(hitNameFlg) {
@@ -209,7 +219,10 @@ class GamePlayActivity : AppCompatActivity(){
             hitNameFlg = true
         })
 
-        GrpcTask.getInstance(application).gameUserNameList.observe(this, Observer { joinUserList->
+        GrpcTask
+            .getInstance(application)
+            .gameUserNameList
+            .observe(this, Observer { joinUserList->
                 Log.d("GameList","来た->${joinUserList}")
                 val sampleList: MutableList<ListData> = mutableListOf()
                 for (i in 0 until joinUserList.size) {

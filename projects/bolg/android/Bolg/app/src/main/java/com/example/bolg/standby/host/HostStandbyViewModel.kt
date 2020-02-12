@@ -27,19 +27,26 @@ import com.example.bolg.data.ListData
  * ・HOSTが設定したゲームルールえをリアルタイムで表示 (未実装)
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class HostStandbyViewModel (application: Application): AndroidViewModel(application){
+class HostStandbyViewModel (
+    application: Application
+): AndroidViewModel(application){
 
     /** Coroutine init **/
     // job get
-    private var viewModelJob = Job()
+    private var viewModelJob: Job = Job()
     // scope get
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope:CoroutineScope =
+        CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private var layoutManager: LinearLayoutManager? = null
     private val sampleList: MutableList<ListData> = mutableListOf()
 
-    private val app = application
-    val data: SharedPreferences = app.getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+    private val app:Application = application
+    val data: SharedPreferences =
+        app.getSharedPreferences(
+            "RoomDataSave",
+            Context.MODE_PRIVATE
+        )
 
     // GameRule
     private val _gameRule = MutableLiveData<String>()
@@ -99,10 +106,16 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param view  View
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun updateWeapon(attack: Long, token: String?, view: View?) {
+    fun updateWeapon(
+        attack: Long,
+        token: String?,
+        view: View?
+    ) {
         uiScope.launch {
             delay(100)
-            GrpcTask.getInstance(app).updateWeapon(attack,token,view)
+            GrpcTask
+                .getInstance(app)
+                .updateWeapon(attack,token,view)
         }
     }
 
@@ -113,7 +126,12 @@ class HostStandbyViewModel (application: Application): AndroidViewModel(applicat
      * @param name
      * @author 長谷川　勇太
      * ********************************************************************** */
-    fun updateList(context: Context,joinUser:RecyclerView,name: String, genre: Int){
+    fun updateList(
+        context: Context,
+        joinUser:RecyclerView,
+        name: String,
+        genre: Int
+    ){
         // LayoutManagerの設定
         layoutManager = LinearLayoutManager(context)
         joinUser.layoutManager = layoutManager

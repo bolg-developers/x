@@ -2,6 +2,7 @@ package com.example.bolg.main.createandJoin
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Vibrator
 import android.text.InputType
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.bolg.GrpcTask
+import com.example.bolg.standby.host.HostStandbyActivity
 import kotlinx.coroutines.*
 
 /** ----------------------------------------------------------------------
@@ -22,13 +24,18 @@ import kotlinx.coroutines.*
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
 @Suppress("DEPRECATION")
-class CreateJoinViewModel (application: Application): AndroidViewModel(application){
+class CreateJoinViewModel (
+    application: Application
+): AndroidViewModel(application){
     private val app: Application = application
-    private val mVibrator =  app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private val mVibrator =
+        app.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     // Jobの定義
     private var viewModelJob = Job()
     // スコープの定義
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val uiScope =
+        CoroutineScope(
+            Dispatchers.Main + viewModelJob)
 
     /** **********************************************************************
      * joinDialog
@@ -54,7 +61,12 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
             .setContentText("Join")
             .setConfirmClickListener { sDialog ->
                 if(joinEdit.text.isEmpty()){
-                    Toast.makeText(view.context, "入力が空白です", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        view.context,
+                        "入力が空白です",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
                     mVibrator.vibrate(50)
                     sDialog.changeAlertType(SweetAlertDialog.WARNING_TYPE)
                 }
@@ -62,7 +74,15 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
                 else{
                     uiScope.launch {
                         Log.d("GrpcTask","JoinRequest")
-                        GrpcTask.getInstance(app).joinRoomTask(joinEdit.text.toString().toLong(), view)
+                        GrpcTask
+                            .getInstance(app)
+                            .joinRoomTask(
+                                joinEdit
+                                    .text
+                                    .toString()
+                                    .toLong(),
+                                view
+                            )
                         sDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
                         delay(900)
                         sDialog.cancel()
@@ -82,6 +102,9 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
         Log.d("createAndJoinRoomTask","fun create start")
         uiScope.launch {
             GrpcTask.getInstance(app).createAndJoinRoomTask(view)
+//            val intent = Intent(view.context, HostStandbyActivity::class.java)
+//            view.context?.startActivity(intent)
+//
         }
     }
 

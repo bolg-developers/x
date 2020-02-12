@@ -12,7 +12,9 @@ import com.example.bolg.main.MainViewModel
  * ViewModelのインスタンスの取得
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-class GamePlayViewModelFactory (private val application: Application): ViewModelProvider.Factory{
+class GamePlayViewModelFactory (
+    private val application: Application
+): ViewModelProvider.Factory{
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(GamePlayViewModel::class.java)) {
