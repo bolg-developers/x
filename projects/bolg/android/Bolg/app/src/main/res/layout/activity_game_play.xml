@@ -34,72 +34,83 @@
 
     <ImageView
         android:id="@+id/bullet_kind"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bolg_change_ammunition"
+        android:layout_margin="30dp"
         android:contentDescription="@string/todo"
-        android:layout_marginStart="10dp"
+        android:src="@drawable/bolg_change_ammunition"
         app:layout_constraintStart_toEndOf="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/game_toolbar" />
 
     <ImageView
         android:id="@+id/timer"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/bullet_kind"
-        app:layout_constraintTop_toBottomOf="@+id/game_toolbar"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/todo"
         android:src="@drawable/bolg_timer"
-        android:contentDescription="@string/todo" />
+        app:layout_constraintStart_toEndOf="@+id/bullet_kind"
+        app:layout_constraintTop_toBottomOf="@+id/game_toolbar" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/timer"
-        app:layout_constraintTop_toTopOf="@id/timer"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="25dp"
         android:text="@string/timer"
         android:textColor="@color/white"
-        android:textSize="30sp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp"
-        />
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/timer"
+        app:layout_constraintTop_toTopOf="@id/timer" />
 
     <ImageView
         android:id="@+id/item1"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
-        android:src="@drawable/bplg_item"
+        android:src="@drawable/bolg_item"
         android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/item2"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/item1"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
-        android:src="@drawable/bplg_item"
+        android:src="@drawable/bolg_item"
         android:contentDescription="@string/todo" />
 
-    <ImageView
+    <TextView
         android:id="@+id/log"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/item2"
         app:layout_constraintTop_toBottomOf="@+id/timer"
-        android:src="@drawable/bolg_log"
+        android:background="@drawable/bolg_log"
+        android:text="@string/log"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
         android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/hit_point_img"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop ="10dp"
+        android:layout_marginStart="30dp"
         app:layout_constraintStart_toEndOf="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/item1"
-        android:src="@drawable/bolg_hitpoint_blue"
+        android:src="@drawable/bolg_hit_point"
         android:contentDescription="@string/todo"
-        android:layout_marginStart="10dp"
         tools:ignore="RtlSymmetry" />
 
     <TextView
@@ -109,15 +120,17 @@
         app:layout_constraintStart_toStartOf="@+id/hit_point_img"
         app:layout_constraintTop_toTopOf="@+id/hit_point_img"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="80dp"
         android:text="@string/hit_point"
         android:textSize="30sp"
         android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/bullet"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop ="20dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toEndOf="@+id/hit_point_img"
         app:layout_constraintTop_toBottomOf="@+id/log"
         android:src="@drawable/bolg_bullet_nomal"
@@ -132,7 +145,7 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="100dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

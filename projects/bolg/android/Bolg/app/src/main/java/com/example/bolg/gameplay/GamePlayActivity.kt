@@ -1,25 +1,31 @@
 package com.example.bolg.gameplay
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.bolg.GrpcTask
 import com.example.bolg.R
+import com.example.bolg.adapter.StandbyRecyclerAdapter
 import com.example.bolg.bluetooth.BluetoothFunction
-import com.example.bolg.main.MainActivity
-import com.example.bolg.standby.host.HostStandbyActivity
-import com.example.bolg.standby.player.PlayerStandbyActivity
+import com.example.bolg.data.ListData
+import com.example.bolg.gameplay.GamePlayViewModel.Companion.LOSER
+import com.example.bolg.gameplay.GamePlayViewModel.Companion.WINNER
 import kotlinx.android.synthetic.main.activity_game_play.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -27,41 +33,63 @@ import java.nio.ByteBuffer
  * ゲームプレイ中画面
  * @author 長谷川　勇太
  * ---------------------------------------------------------------------- */
-@Suppress("NAME_SHADOWING", "UNREACHABLE_CODE")
+@Suppress("NAME_SHADOWING", "UNREACHABLE_CODE", "DEPRECATION")
 class GamePlayActivity : AppCompatActivity(){
+
+    @SuppressLint("SetTextI18n", "CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_play)
+        BluetoothFunction.getInstance().connect()
 
         var hitCnt = 0
+        var hitNameFlg = false
 
         // root view
-        val decorView = window.decorView
+        val decorView: View = window.decorView
         // hide navigation bar, hide status bar
-        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+        decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE
+        val mVibrator =  getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         val application: Application = requireNotNull(this).application
         val viewModelFactory = GamePlayViewModelFactory(application)
         val gamePlayViewModel:GamePlayViewModel =
-            ViewModelProviders.of(this,viewModelFactory).get(GamePlayViewModel::class.java)
+            ViewModelProviders.of(this,viewModelFactory)
+                .get(GamePlayViewModel::class.java)
 
         /** widget init **/
         val playerHp : TextView = findViewById(R.id.hp)
         val joinUser : RecyclerView = findViewById(R.id.list)
 
-        gamePlayViewModel.updateList(this,joinUser, "参加者")
-
         /** SharedPreferences **/
-        val data: SharedPreferences = getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val data: SharedPreferences =
+            getSharedPreferences("RoomDataSave", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor? = data.edit()
+
+        // gameEnd init
+        editor?.putBoolean("end_game",false)
+        editor?.apply()
+
+        // HP 初期値
         playerHp.text = 100.toString()
+
         /** Toolbar init **/
-        game_toolbar.title = data.getString("player_name","player_name_none") + data.getString("token","player_name_none")
+        game_toolbar.title =
+            data.getString("player_name","player_name_none") +
+            data.getString("token","player_name_none")
 
         // playerIdをByteArrayに変換する
-        val playerId = data.getLong("player_id",0)
-        val value: Int = playerId.toInt()
-        val bytes = ByteBuffer.allocate(4).putInt(value).array()
-        Log.d("createAndJoinRoomTask","mTempBuffer ->${bytes[0]} , ${bytes[1]} , ${bytes[2]} , ${bytes[3]} ")
+        val playerId = data.getLong("player_id",99).toInt()
+        Log.d("GamePlayActivity", playerId.toString())
+
+        val bytes = ByteBuffer.allocate(4).putInt(playerId).array()
+        Log.d("GamePlayActivity",
+            "mTempBuffer ->" +
+                    "${bytes[0]} , " +
+                    "${bytes[1]} , " +
+                    "${bytes[2]} , " +
+                    "${bytes[3]} ")
 
         // send byteArray create
         val integers = byteArrayOf(
@@ -73,21 +101,36 @@ class GamePlayActivity : AppCompatActivity(){
             bytes[3],
             0xff.toByte()    //  EndByte
         )
-        Log.d("createAndJoinRoomTask","mTempBuffer ->${integers[0]} , ${integers[1]} , ${integers[2]} , ${integers[3]}, ${integers[4]} , ${integers[5]} , ${integers[6]} ")
+
+        Log.d("GamePlayActivity",
+            "SENDBuffer ->" +
+                    "${integers[0]} , " +
+                    "${integers[1]} , " +
+                    "${integers[2]} , " +
+                    "${integers[3]}, " +
+                    "${integers[4]} , " +
+                    "${integers[5]} , " +
+                    "${integers[6]} ")
 
         if(!BluetoothFunction.getInstance().write(integers)){
             Log.d("createAndJoinRoomTask","writeError")
         }
 
         // Observe : 弾を撃った時に動く
-        BluetoothFunction.getInstance().shootByteArray.observe(this , Observer { readByte ->
+        BluetoothFunction
+            .getInstance()
+            .shootByteArray
+            .observe(this , Observer { readByte ->
             Log.d("GamePlayActivity" , "Bluetooth read ByteArray")
             // Bluetoothの値GamePlayViewModelへ送る
             gamePlayViewModel.btShootRead(readByte)
         })
 
         // Observe : 弾を被弾時に動く
-        BluetoothFunction.getInstance().hitByteArray.observe(this , Observer { readByte ->
+        BluetoothFunction
+            .getInstance()
+            .hitByteArray
+            .observe(this , Observer { readByte ->
             //  一回目はスルーする
             if(hitCnt != 0) {
                 Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
@@ -98,41 +141,91 @@ class GamePlayActivity : AppCompatActivity(){
 
         /** Observe kind **/
         // HP更新
-        GrpcTask.getInstance(application).hitFlg.observe(this, Observer { hp->
+        GrpcTask
+            .getInstance(application)
+            .hitFlg
+            .observe(this, Observer { hp->
             Log.d("GamePlayActivity" , "HP Update")
             if(hitCnt > 0) {
+                mVibrator.vibrate(100)
                 playerHp.text = hp.toString()
             }
             hitCnt++
         })
 
-        GrpcTask.getInstance(application).gameEndFlg.observe(this, Observer {result->
+        GrpcTask
+            .getInstance(application)
+            .gameEndFlg
+            .observe(this, Observer {result->
             Log.d("GamePlayActivity" , "game end")
-            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
-                .setTitle("リザルト")
-                .setMessage(
-                    "勝者 + \n" +
-                            result.survivalResultMsg.winner.name + "\n"
-                  + "参加者(死んだ回数) + \n" +
-                            result.survivalResultMsg.personalsOrBuilderList[0].playerName +
-                            " (${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回)" +
-                            result.survivalResultMsg.personalsOrBuilderList[1].playerName +
-                            " (${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回)"
-                )
-                .setPositiveButton("もう一度") { _, _ ->
-                     val intent:Intent = if(data.getBoolean("standby_state",true)){
-                         Intent(this, HostStandbyActivity::class.java)
-                     }else{
-                         Intent(this, PlayerStandbyActivity::class.java)
-                     }
-                    startActivity(intent)
-                }
-                .setNegativeButton("終了"){_, _ ->
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                }
-                .show()
+            val winnerName = result.survivalResultMsg.winner.name
+            var winOfLose = WINNER
+            var winOfLoseImg = R.drawable.ic_thumb_up_black_24dp
+
+            if(winnerName != data.getString("player_name","Error") ){
+                winOfLose = LOSER
+                winOfLoseImg = R.drawable.ic_thumb_down_black_24dp
+            }
+
+            if(data.getBoolean("end_game",false)) {
+
+                val resultString =
+                    result.survivalResultMsg.personalsOrBuilderList[0].playerName + " -> \n" + "KILL :  ${result.survivalResultMsg.personalsOrBuilderList[0].killCount}回,　　　　　" +
+                            result.survivalResultMsg.personalsOrBuilderList[1].playerName + " -> \n" + "KILL :  ${result.survivalResultMsg.personalsOrBuilderList[1].killCount}回"
+
+                val dialog = SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                    .setTitleText(winOfLose)
+                    .setCustomImage(winOfLoseImg)
+                    .setContentText(resultString)
+                    .setConfirmText("←")
+                    .setConfirmClickListener {
+                        Log.d("GAME","←")
+                        editor?.putBoolean("loop_state", true)
+                        editor?.putBoolean("retry_state", false)
+                        editor?.commit()
+                        finish()
+                    }
+                    .setCancelText("×")
+                    .setCancelClickListener {
+                        Log.d("GAME","×")
+                        editor?.putBoolean("loop_state", true)
+                        editor?.putBoolean("retry_state", true)
+                        editor?.commit()
+                        finish()
+                    }
+                dialog.setCanceledOnTouchOutside(false)
+                dialog.show()
+
+            }
         })
+
+        // 被弾者通知
+        GrpcTask.getInstance(application).hitName.observe(this, Observer { name->
+            editor?.putBoolean("end_game",true)
+            editor?.apply()
+            if(hitNameFlg) {
+                log.text = name + "が撃たれました！"
+            }
+            hitNameFlg = true
+        })
+
+        GrpcTask.getInstance(application).gameUserNameList.observe(this, Observer { joinUserList->
+                Log.d("GameList","来た->${joinUserList}")
+                val sampleList: MutableList<ListData> = mutableListOf()
+                for (i in 0 until joinUserList.size) {
+                    sampleList.add(ListData(joinUserList[i]))
+                }
+                val mAdapter = StandbyRecyclerAdapter(sampleList)
+                joinUser.adapter = mAdapter
+                // 区切り線の表示
+                joinUser.addItemDecoration(
+                    DividerItemDecoration(
+                        applicationContext,
+                        DividerItemDecoration.VERTICAL
+                    )
+                )
+        })
+
     }
     // ↓ここから下はBluetoothのconnect、disconnectをしているだけ
     /** **********************************************************************
@@ -153,7 +246,7 @@ class GamePlayActivity : AppCompatActivity(){
     public override fun onRestart() {
         super.onRestart()
         Log.d("HostStandbyActivity", "onRestart")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
     /** **********************************************************************
      * onResume
@@ -163,7 +256,7 @@ class GamePlayActivity : AppCompatActivity(){
     override fun onResume() {
         super.onResume()
         Log.d("HostStandbyActivity", "onResume")
-        BluetoothFunction.getInstance().connect()
+//        BluetoothFunction.getInstance().connect()
     }
     /** **********************************************************************
      * onPause
@@ -173,10 +266,10 @@ class GamePlayActivity : AppCompatActivity(){
     public override fun onPause() {
         super.onPause()  // Always call the superclass method first
         Log.d("HostStandbyActivity", "onPause")
-        if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
     /** **********************************************************************
      * onStop
@@ -186,10 +279,10 @@ class GamePlayActivity : AppCompatActivity(){
     public override fun onStop() {
         super.onStop()
         Log.d("HostStandbyActivity", "onStop")
-        if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
     /** **********************************************************************
      * onDestroy
@@ -199,9 +292,9 @@ class GamePlayActivity : AppCompatActivity(){
     override fun onDestroy() {
         super.onDestroy()
         Log.d("HostStandbyActivity", "onDestroy")
-        if (null != BluetoothFunction.getInstance().mBluetoothService) {
-            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
-            BluetoothFunction.getInstance().mBluetoothService = null
-        }
+//        if (null != BluetoothFunction.getInstance().mBluetoothService) {
+//            BluetoothFunction.getInstance().mBluetoothService!!.disconnectStart()
+//            BluetoothFunction.getInstance().mBluetoothService = null
+//        }
     }
 }

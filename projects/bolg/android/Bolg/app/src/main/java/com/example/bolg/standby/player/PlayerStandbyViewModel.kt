@@ -3,7 +3,6 @@ package com.example.bolg.standby.player
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -82,13 +81,7 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun pairing(view: View?): Boolean{
-
-        BluetoothFunction.getInstance().btPairing()
-
-        // 武器のセット
-        Log.d("createAndJoinRoomTask", "token ->" + data.getString("token", ""))
-        updateWeapon(20L, data.getString("token", "0:0"),view)
-
+        BluetoothFunction.getInstance().btPairing(view)
         return true
     }
 
@@ -99,7 +92,7 @@ class PlayerStandbyViewModel(application: Application): AndroidViewModel(applica
      * @param view   View
      * @author 長谷川　勇太
      * ********************************************************************** */
-    private fun updateWeapon(attack: Long, token: String?, view: View?) {
+    fun updateWeapon(attack: Long, token: String?, view: View?) {
         uiScope.launch {
             GrpcTask.getInstance(app).updateWeapon(attack,token,view)
         }
