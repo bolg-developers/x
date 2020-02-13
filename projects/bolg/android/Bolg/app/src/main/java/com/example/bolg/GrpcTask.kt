@@ -636,6 +636,5 @@ class GrpcTask(application: Application)  {
             joinRoomResp.room.getPlayers(joinRoomResp.room.playersCount-1).ready
         )
         editor?.apply()
-
     }
 }
