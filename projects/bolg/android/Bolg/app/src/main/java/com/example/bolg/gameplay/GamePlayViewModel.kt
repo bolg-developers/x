@@ -112,31 +112,15 @@ class GamePlayViewModel(application: Application) : AndroidViewModel(application
     }
 
     /** **********************************************************************
-     * updateList
-     * @param context Context
-     * @param joinUser
-     * @param name
+     * recovery
+     * HP(100)に対しての現状HPとの差分を回復
      * @author 長谷川　勇太
      * ********************************************************************** */
-//    fun updateList(context: Context,joinUser:RecyclerView,name: String, genre: Int){
-//        // LayoutManagerの設定
-//        layoutManager = LinearLayoutManager(context)
-//        joinUser.layoutManager = layoutManager
-//        // Adapterの設定
-//        Log.d("RecyclerList", "updateList->$sampleList")
-//        if(genre == 0) {
-//            if (sampleList.size > 0) {
-//                sampleList.removeAt(0)
-//                Log.d("RecyclerList", "remove")
-//                Log.d("RecyclerList", "updateList->$sampleList")
-//            }
-//        }
-//        sampleList.add(ListData(name))
-//        Log.d("RecyclerList", "updateList->$sampleList")
-//        val adapter = StandbyRecyclerAdapter(sampleList)
-//        joinUser.adapter = adapter
-//        // 区切り線の表示
-//        joinUser.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-//    }
+    fun recovery(hp: Long, token: String?, view: View){
+        uiScope.launch {
+            delay(200)
+            GrpcTask.getInstance(app).recoverHp(hp,token,view)
+        }
+    }
 
 }
