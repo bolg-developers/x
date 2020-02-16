@@ -392,7 +392,9 @@ class GrpcTask(application: Application)  {
                         Log.d("GrpcTask", "recover_hp_resp   ->${value.recoverHpRes}")
                         uiScope.launch {
                             delay(100)
-                            hitFlg.value = value.recoverHpRes.player.hp
+                            if (data.getString("player_name","error") == value.recoverHpRes.player.name) {
+                                hitFlg.value = value.recoverHpRes.player.hp
+                            }
                         }
                     }
                 }
