@@ -56,9 +56,9 @@ class CreateJoinViewModel (
             .setCustomView(joinEdit)
             .setCancelText("×")
             .setCancelClickListener {
-                it.setCancelClickListener(null)
+                it.cancel()
             }
-            .setContentText("Join")
+            .setConfirmText("〇")
             .setConfirmClickListener { sDialog ->
                 if(joinEdit.text.isEmpty()){
                     Toast.makeText(
@@ -100,12 +100,20 @@ class CreateJoinViewModel (
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
-        uiScope.launch {
-            GrpcTask.getInstance(app).createAndJoinRoomTask(view)
-//            val intent = Intent(view.context, HostStandbyActivity::class.java)
-//            view.context?.startActivity(intent)
-//
+        val dialog = SweetAlertDialog(view.context, SweetAlertDialog.SUCCESS_TYPE)
+        dialog.titleText = "本当に部屋を生成しますか？"
+        dialog.confirmText = "〇"
+        dialog.setConfirmClickListener {
+            uiScope.launch {
+                GrpcTask.getInstance(app).createAndJoinRoomTask(view)
+            }
         }
+        dialog.cancelText = "×"
+        dialog.setCancelClickListener {
+            it.cancel()
+        }
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
     }
 
 }

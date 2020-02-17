@@ -75,31 +75,31 @@
         android:src="@drawable/bolg_item"
         android:contentDescription="@string/todo" />
 
-    <ImageView
-        android:id="@+id/item2"
-        android:layout_width="150dp"
-        android:layout_height="80dp"
+    <ImageButton
+        android:id="@+id/test_hp_recovery_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="25dp"
         app:layout_constraintStart_toEndOf="@+id/item1"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
-        android:src="@drawable/bolg_item"
+        android:background="@drawable/bolg_item"
         android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/test_hp_recovery_btn"
+        app:layout_constraintTop_toBottomOf="@+id/timer"
         android:background="@drawable/bolg_log"
-        android:contentDescription="@string/todo"
-        android:gravity="center"
         android:text="@string/log"
-        android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/item2"
-        app:layout_constraintTop_toBottomOf="@+id/timer" />
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/hit_point_img"

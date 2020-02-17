@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.os.Vibrator
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,9 +26,6 @@ import com.example.bolg.data.ListData
 import com.example.bolg.gameplay.GamePlayViewModel.Companion.LOSER
 import com.example.bolg.gameplay.GamePlayViewModel.Companion.WINNER
 import kotlinx.android.synthetic.main.activity_game_play.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
 /** ----------------------------------------------------------------------
@@ -41,6 +40,7 @@ class GamePlayActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_play)
+
         BluetoothFunction.getInstance().connect()
 
         var hitCnt = 0
@@ -60,8 +60,9 @@ class GamePlayActivity : AppCompatActivity(){
                 .get(GamePlayViewModel::class.java)
 
         /** widget init **/
-        val playerHp : TextView = findViewById(R.id.hp)
-        val joinUser : RecyclerView = findViewById(R.id.list)
+        val playerHp   : TextView     = findViewById(R.id.hp)
+        val joinUser   : RecyclerView = findViewById(R.id.list)
+        val hpRecovery : ImageButton  = findViewById(R.id.test_hp_recovery_btn)
 
         /** SharedPreferences **/
         val data: SharedPreferences =
@@ -245,6 +246,14 @@ class GamePlayActivity : AppCompatActivity(){
                     )
                 )
         })
+
+        /** onClick processing **/
+        // HP（１００）からの現状のHPの回復
+        hpRecovery.setOnClickListener {
+            val token: String? = data.getString("token", "0:0")
+            gamePlayViewModel.recovery(100L,token,decorView)
+            Toast.makeText(applicationContext, "トーストメッセージ", Toast.LENGTH_LONG).show()
+        }
 
     }
     // ↓ここから下はBluetoothのconnect、disconnectをしているだけ

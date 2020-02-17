@@ -92,7 +92,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
         readyNum.text = data.getLong("player_ready_num",99L).toString()
 
         // 武器のセット
-        playerStandbyViewModel.updateWeapon(20L, data.getString("token", "0:0"),decorView)
+        playerStandbyViewModel.updateWeapon(
+            1L,
+            data.getString("token", "0:0"),
+            decorView
+        )
 
         userId.text = "${data.getString("player_name", "no name")}"
 

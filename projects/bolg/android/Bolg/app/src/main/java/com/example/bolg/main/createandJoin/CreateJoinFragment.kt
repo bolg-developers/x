@@ -64,21 +64,7 @@ class CreateJoinFragment : Fragment(){
 
         // 部屋生成
         createBtn.setOnClickListener {
-            dialog =
-                SweetAlertDialog(
-                    view.context,
-                    SweetAlertDialog.SUCCESS_TYPE)
-            dialog?.titleText = "本当に部屋を生成しますか？"
-            dialog?.confirmText = "生成"
-            dialog?.setConfirmClickListener {
-                createJoinViewModel.create(view)
-            }
-            dialog?.cancelText = "×"
-            dialog?.setCancelClickListener {
-                dialog?.setCancelClickListener(null)
-            }
-            dialog?.setCanceledOnTouchOutside(false)
-            dialog?.show()
+            createJoinViewModel.create(view)
         }
         return view
     }
