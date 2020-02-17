@@ -75,15 +75,15 @@
         android:src="@drawable/bolg_item"
         android:contentDescription="@string/todo" />
 
-    <ImageView
-        android:id="@+id/item2"
+    <ImageButton
+        android:id="@+id/test_hp_recovery_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/item1"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
-        android:src="@drawable/bolg_item"
+        android:background="@drawable/bolg_item"
         android:contentDescription="@string/todo" />
 
     <TextView
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10sp"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/item2"
+        app:layout_constraintStart_toEndOf="@+id/test_hp_recovery_btn"
         app:layout_constraintTop_toBottomOf="@+id/timer"
         android:background="@drawable/bolg_log"
         android:text="@string/log"

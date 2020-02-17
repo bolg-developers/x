@@ -49,9 +49,9 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
             .setCustomView(joinEdit)
             .setCancelText("×")
             .setCancelClickListener {
-                it.setCancelClickListener(null)
+                it.cancel()
             }
-            .setContentText("Join")
+            .setConfirmText("〇")
             .setConfirmClickListener { sDialog ->
                 if(joinEdit.text.isEmpty()){
                     Toast.makeText(view.context, "入力が空白です", Toast.LENGTH_LONG).show()
@@ -80,9 +80,20 @@ class CreateJoinViewModel (application: Application): AndroidViewModel(applicati
      * ********************************************************************** */
     fun create(view: View){
         Log.d("createAndJoinRoomTask","fun create start")
-        uiScope.launch {
-            GrpcTask.getInstance(app).createAndJoinRoomTask(view)
+        val dialog = SweetAlertDialog(view.context, SweetAlertDialog.SUCCESS_TYPE)
+        dialog.titleText = "本当に部屋を生成しますか？"
+        dialog.confirmText = "〇"
+        dialog.setConfirmClickListener {
+            uiScope.launch {
+                GrpcTask.getInstance(app).createAndJoinRoomTask(view)
+            }
         }
+        dialog.cancelText = "×"
+        dialog.setCancelClickListener {
+            it.cancel()
+        }
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.show()
     }
 
 }

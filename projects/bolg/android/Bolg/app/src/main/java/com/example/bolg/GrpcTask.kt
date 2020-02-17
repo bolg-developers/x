@@ -171,6 +171,25 @@ class GrpcTask(application: Application)  {
     }
 
     /** **********************************************************************
+     * recoverHp
+     * @param hp 回復するHP量
+     * @param token トークン
+     * 武器のセット
+     * @author 長谷川　勇太
+     * ********************************************************************** */
+    fun recoverHp(hp: Long, token: String?, view: View?) {
+        val recoverHpReqMsg: RecoverHPRequest =
+            RecoverHPRequest
+                .newBuilder()
+                .setHp(hp)
+                .setToken(token)
+                .build()
+        message = RoomMessage.newBuilder().setRecoverHpReq(recoverHpReqMsg).build()
+        responseObserver(view)
+        observer?.onNext(message)
+    }
+
+    /** **********************************************************************
      * responseObserver
      * @param view View
      * Requestに対してのResponseのハンドリング
@@ -363,6 +382,18 @@ class GrpcTask(application: Application)  {
                             }
                             else -> {
                                 Log.d("GrpcTask", "ReadyMessage -> ${value.error.message}")
+                            }
+                        }
+                    }
+
+                    16 -> { Log.d("GrpcTask", "recover_hp_req   ->${value.recoverHpReq}") }
+
+                    17 -> {
+                        Log.d("GrpcTask", "recover_hp_resp   ->${value.recoverHpRes}")
+                        uiScope.launch {
+                            delay(100)
+                            if (data.getString("player_name","error") == value.recoverHpRes.player.name) {
+                                hitFlg.value = value.recoverHpRes.player.hp
                             }
                         }
                     }
