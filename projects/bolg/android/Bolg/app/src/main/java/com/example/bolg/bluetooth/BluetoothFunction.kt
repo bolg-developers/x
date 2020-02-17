@@ -66,6 +66,8 @@ class BluetoothFunction private constructor() {
     // applicationContext取得用
     private val mGetContext = MyApplication
     var context: Context? = null
+    // Bluetoothが接続されてるかの可否
+    var mBluetoothEnable: MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
         // Bluetoothアダプタの取得
@@ -476,10 +478,12 @@ class BluetoothFunction private constructor() {
                     // 接続完了
                     BluetoothService.STATE_CONNECTED -> {
                         Log.d("Bluetoothhandle", "Connection complete")
+                        mBluetoothEnable.value = true
                     }
                     // 接続ロスト
                     BluetoothService.STATE_CONNECTION_LOST -> {
                         Log.d("Bluetoothhandle", "Lost connection")
+                        mBluetoothEnable.value = false
                     }
                     // 切断開始
                     BluetoothService.STATE_DISCONNECT_START -> {
@@ -488,6 +492,7 @@ class BluetoothFunction private constructor() {
                     // 切断完了
                     BluetoothService.STATE_DISCONNECTED -> {
                         Log.d("Bluetoothhandle", "Disconnection complete")
+                        mBluetoothEnable.value = false
                     }
                 }
 

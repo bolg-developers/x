@@ -74,11 +74,20 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp">
 
+            <ImageView
+                android:id="@+id/host_bluetooth_enable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="1"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_bluetooth_enable_dark"
+                android:text="@string/pairing" />
+
             <ImageButton
                 android:id="@+id/host_pairing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_span="2"
+                android:layout_span="1"
                 android:background="@null"
                 app:srcCompat="@drawable/bolg_bluetooth_state"
                 android:text="@string/pairing" />
