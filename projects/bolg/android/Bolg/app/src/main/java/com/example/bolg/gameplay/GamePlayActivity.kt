@@ -9,6 +9,7 @@ import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -63,6 +64,7 @@ class GamePlayActivity : AppCompatActivity(){
         val playerHp   : TextView     = findViewById(R.id.hp)
         val joinUser   : RecyclerView = findViewById(R.id.list)
         val hpRecovery : ImageButton  = findViewById(R.id.test_hp_recovery_btn)
+        val item1      : ImageView    = findViewById(R.id.item1)
 
         /** SharedPreferences **/
         val data: SharedPreferences =
@@ -144,6 +146,17 @@ class GamePlayActivity : AppCompatActivity(){
                 Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
                 // Bluetoothの値GamePlayViewModelへ送る
                 gamePlayViewModel.btHitRead(readByte, decorView)
+            }
+        })
+
+        // Bluetooth接続の可否
+        BluetoothFunction.getInstance().mBluetoothEnable.observe(this, Observer { BluetoothEnable ->
+            if (BluetoothEnable){
+                Log.d("BluetoothEnable_true", "observe")
+                item1.setImageResource(R.drawable.bolg_bluetooth_enable_light)
+            } else {
+                Log.d("BluetoothEnable_false", "observe")
+                item1.setImageResource(R.drawable.bolg_bluetooth_enable_dark)
             }
         })
 
