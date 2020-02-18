@@ -69,6 +69,7 @@ class HostStandbyActivity : AppCompatActivity(),
         val userId: TextView = findViewById(R.id.host_user_id)
         val joinMember: TextView = findViewById(R.id.host_join_num)
         val readyNum: TextView = findViewById(R.id.host_ready_txt)
+        val hostBluetoothEnable: ImageView = findViewById(R.id.host_bluetooth_enable)
         val hostPairing: ImageButton = findViewById(R.id.host_pairing)
         val billingAmmunition: ImageButton = findViewById(R.id.host_billing_ammunition_btn)
         val start: ImageButton = findViewById(R.id.host_start_btn)
@@ -196,29 +197,16 @@ class HostStandbyActivity : AppCompatActivity(),
                 Log.d("button", "progress:ON")
                 if (hostStandbyViewModel.pairing(decorView)) {
                     progress.visibility = ProgressBar.INVISIBLE
-                    Log.d("button", "progress:OFF")
-                    start.isEnabled = true
-                    start.setImageResource(R.drawable.bolg_start_on_right)
                     // ready request
-                    hostStandbyViewModel
-                        .setReady(
-                            data.getString("token", "0:0"),
-                            decorView
-                        )
-                    hostPairing.isEnabled = false
+                    hostStandbyViewModel.setReady(data.getString("token", "0:0"), decorView)
+                    //hostPairing.isEnabled = false
                 }
             }
             else{
                 BluetoothFunction.getInstance().connect()
-                start.isEnabled = true
-                start.setImageResource(R.drawable.bolg_start_on_right)
                 // ready request
-                hostStandbyViewModel
-                    .setReady(
-                        data.getString("token", "0:0"),
-                        decorView
-                    )
-                hostPairing.isEnabled = false
+                hostStandbyViewModel.setReady(data.getString("token", "0:0"), decorView)
+                //hostPairing.isEnabled = false
             }
         }
 
@@ -294,6 +282,21 @@ class HostStandbyActivity : AppCompatActivity(),
                 startActivity(intent)
             }
             gameStart = true
+        })
+
+        // Bluetooth接続の可否
+        BluetoothFunction.getInstance().mBluetoothEnable.observe(this, Observer { BluetoothEnable ->
+            if (BluetoothEnable){
+                Log.d("BluetoothEnable_true", "observe")
+                start.isEnabled = true
+                start.setImageResource(R.drawable.bolg_start_on_right)
+                hostBluetoothEnable.setImageResource(R.drawable.bolg_bluetooth_enable_light)
+            } else {
+                Log.d("BluetoothEnable_false", "observe")
+                start.isEnabled = false
+                start.setImageResource(R.drawable.bolg_start_on_dark)
+                hostBluetoothEnable.setImageResource(R.drawable.bolg_bluetooth_enable_dark)
+            }
         })
     }
     /** **********************************************************************

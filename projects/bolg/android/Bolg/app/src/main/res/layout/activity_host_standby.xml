@@ -64,7 +64,81 @@
         app:layout_constraintBottom_toTopOf="@+id/host_game_rule_spinner"
         app:layout_constraintStart_toEndOf="@+id/host_standby_recycler_view"
         app:layout_constraintTop_toBottomOf="@+id/host_toolbar"
+<<<<<<< HEAD
         app:srcCompat="@drawable/bolg_bluetooth_state" />
+=======
+        app:layout_constraintHorizontal_weight="2">
+
+        <TableRow
+            android:id="@+id/host_pairing_id_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp">
+
+            <ImageView
+                android:id="@+id/host_bluetooth_enable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="1"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_bluetooth_enable_dark"
+                android:text="@string/pairing" />
+
+            <ImageButton
+                android:id="@+id/host_pairing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="1"
+                android:background="@null"
+                app:srcCompat="@drawable/bolg_bluetooth_state"
+                android:text="@string/pairing" />
+
+            <TextView
+                android:id="@+id/host_user_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:gravity="center"
+                android:text="UserID"
+                android:textColor="@color/white"
+                android:background="@drawable/frame_black"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/host_spinner_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <Spinner
+                android:id="@+id/host_game_rule_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_span="4"
+                android:background="@drawable/frame_black" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/host_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:gravity="bottom"
+                android:text="@string/billingAmmunition"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+>>>>>>> 23692a249d881ecad37c83a3e33874303a3e14dd
 
     <TextView
         android:id="@+id/host_user_id"

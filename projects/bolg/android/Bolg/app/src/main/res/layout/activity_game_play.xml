@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="20dp" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="300dp"
@@ -72,7 +73,7 @@
         android:layout_marginTop="25dp"
         app:layout_constraintStart_toEndOf="@+id/list"
         app:layout_constraintTop_toBottomOf="@+id/bullet_kind"
-        android:src="@drawable/bolg_item"
+        android:src="@drawable/bolg_bluetooth_enable_dark"
         android:contentDescription="@string/todo" />
 
     <ImageButton

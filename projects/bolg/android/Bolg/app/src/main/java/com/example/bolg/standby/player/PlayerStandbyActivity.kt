@@ -66,6 +66,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
         /** widget init **/
         val userId        : TextView     = findViewById(R.id.player_user_id)
         val readyNum      : TextView     = findViewById(R.id.player_ready_text)
+        val playerBluetoothEnable: ImageView = findViewById(R.id.player_bluetooth_enable)
         val ready         : ImageButton  = findViewById(R.id.player_ready_btn)
         val playerPairing : ImageButton  = findViewById(R.id.player_pairing_btn)
         val progress      : ProgressBar  = findViewById(R.id.player_progress)
@@ -159,21 +160,11 @@ class PlayerStandbyActivity : AppCompatActivity(){
             if(!data.getBoolean("loop_state",false)) {
                 if (playerStandbyViewModel.pairing(decorView)) {
                     progress.visibility = ProgressBar.INVISIBLE
-                    Log.d("button", "progress:OFF")
-                    ready.isEnabled = true
-                    ready.setImageResource(R.drawable.bolg_ready_on_right)
                 }
             }
             else{
                 BluetoothFunction.getInstance().connect()
-                playerStandbyViewModel
-                    .setReady(
-                        data.getString("token", "0:0")!!,
-                        decorView
-                    )
-
-                ready.isEnabled = true
-                ready.setImageResource(R.drawable.bolg_ready_on_right)
+                playerStandbyViewModel.setReady(data.getString("token", "0:0")!!, decorView)
                 progress.visibility = ProgressBar.INVISIBLE
             }
         }
@@ -223,6 +214,21 @@ class PlayerStandbyActivity : AppCompatActivity(){
                 startActivity(intent)
             }
             gameStart = true
+        })
+
+        // Bluetooth接続の可否
+        BluetoothFunction.getInstance().mBluetoothEnable.observe(this, Observer { BluetoothEnable ->
+            if (BluetoothEnable){
+                Log.d("BluetoothEnable_true", "observe")
+                ready.isEnabled = true
+                ready.setImageResource(R.drawable.bolg_start_on_right)
+                playerBluetoothEnable.setImageResource(R.drawable.bolg_bluetooth_enable_light)
+            } else {
+                Log.d("BluetoothEnable_false", "observe")
+                ready.isEnabled = false
+                ready.setImageResource(R.drawable.bolg_start_on_dark)
+                playerBluetoothEnable.setImageResource(R.drawable.bolg_bluetooth_enable_dark)
+            }
         })
     }
     /** **********************************************************************
