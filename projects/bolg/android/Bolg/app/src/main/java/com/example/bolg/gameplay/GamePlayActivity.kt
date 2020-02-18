@@ -265,7 +265,7 @@ class GamePlayActivity : AppCompatActivity(){
         hpRecovery.setOnClickListener {
             val token: String? = data.getString("token", "0:0")
             gamePlayViewModel.recovery(100L,token,decorView)
-            Toast.makeText(applicationContext, "トーストメッセージ", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "回復しました。", Toast.LENGTH_LONG).show()
         }
 
     }
