@@ -105,7 +105,9 @@ class CreateJoinViewModel (
         dialog.confirmText = "〇"
         dialog.setConfirmClickListener {
             uiScope.launch {
+                delay(500)
                 GrpcTask.getInstance(app).createAndJoinRoomTask(view)
+                dialog.cancel()
             }
         }
         dialog.cancelText = "×"
