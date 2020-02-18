@@ -32,24 +32,28 @@
         app:layout_constraintTop_toBottomOf="@+id/player_toolbar" />
 
 
-<!--            <ImageView-->
-<!--                android:id="@+id/player_bluetooth_enable"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_span="1"-->
-<!--                android:background="@null"-->
-<!--                app:srcCompat="@drawable/bolg_bluetooth_enable_dark"-->
-<!--                android:text="@string/pairing" />-->
+            <ImageView
+                android:id="@+id/player_bluetooth_enable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+                app:layout_constraintTop_toBottomOf="@+id/player_toolbar"
+                app:layout_constraintBottom_toTopOf="@+id/player_rule"
+                app:srcCompat="@drawable/bolg_bluetooth_enable_dark"
+                android:text="@string/pairing" />
 
             <ImageButton
                 android:id="@+id/player_pairing_btn"
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:layout_marginTop="30dp"
+                android:layout_marginStart="10dp"
                 android:text="@string/pairing"
                 app:srcCompat="@drawable/bolg_bluetooth_state"
-                app:layout_constraintStart_toEndOf="@+id/player_standby_recycler_view"
+                app:layout_constraintStart_toEndOf="@+id/player_bluetooth_enable"
                 app:layout_constraintTop_toBottomOf="@+id/player_toolbar"
                 app:layout_constraintBottom_toTopOf="@+id/player_rule"
                 />

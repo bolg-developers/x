@@ -54,22 +54,27 @@
         app:layout_constraintStart_toEndOf="@+id/host_join_num_txt"
         android:layout_marginStart="30dp"
         android:textSize="30sp"/>
-<!--    <ImageView-->
-<!--        android:id="@+id/host_bluetooth_enable"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_span="1"-->
-<!--        android:background="@null"-->
-<!--        app:srcCompat="@drawable/bolg_bluetooth_enable_dark"-->
-<!--        android:text="@string/pairing" />-->
-    <ImageButton
-        android:id="@+id/host_pairing"
-        android:layout_width="250dp"
+    <ImageView
+        android:id="@+id/host_bluetooth_enable"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:text="@string/pairing"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/host_game_rule_spinner"
         app:layout_constraintStart_toEndOf="@+id/host_standby_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/host_toolbar"
+        app:srcCompat="@drawable/bolg_bluetooth_enable_dark"
+        android:text="@string/pairing" />
+
+    <ImageButton
+        android:id="@+id/host_pairing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_margin="10dp"
+        android:text="@string/pairing"
+        app:layout_constraintBottom_toTopOf="@+id/host_game_rule_spinner"
+        app:layout_constraintStart_toEndOf="@+id/host_bluetooth_enable"
         app:layout_constraintTop_toBottomOf="@+id/host_toolbar"
         app:srcCompat="@drawable/bolg_bluetooth_state" />
 
