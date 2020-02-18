@@ -32,25 +32,19 @@
         app:layout_constraintTop_toBottomOf="@+id/player_toolbar" />
 
 
-            <ImageView
-                android:id="@+id/player_bluetooth_enable"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="1"
-                android:background="@null"
-                app:srcCompat="@drawable/bolg_bluetooth_enable_dark"
-                android:text="@string/pairing" />
+<!--            <ImageView-->
+<!--                android:id="@+id/player_bluetooth_enable"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_span="1"-->
+<!--                android:background="@null"-->
+<!--                app:srcCompat="@drawable/bolg_bluetooth_enable_dark"-->
+<!--                android:text="@string/pairing" />-->
 
             <ImageButton
                 android:id="@+id/player_pairing_btn"
-<<<<<<< HEAD
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-=======
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_span="1"
->>>>>>> 23692a249d881ecad37c83a3e33874303a3e14dd
                 android:background="@null"
                 android:layout_marginTop="30dp"
                 android:text="@string/pairing"
