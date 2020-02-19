@@ -193,12 +193,12 @@ class PlayerStandbyActivity : AppCompatActivity(){
             if (BluetoothEnable){
                 Log.d("BluetoothEnable_true", "observe")
                 ready.isEnabled = true
-                ready.setImageResource(R.drawable.bolg_start_on_right)
+                ready.setImageResource(R.drawable.bolg_ready_on_right)
                 playerBluetoothEnable.setImageResource(R.drawable.bolg_bluetooth_enable_light)
             } else {
                 Log.d("BluetoothEnable_false", "observe")
                 ready.isEnabled = false
-                ready.setImageResource(R.drawable.bolg_start_on_dark)
+                ready.setImageResource(R.drawable.bolg_ready_on_dark)
                 playerBluetoothEnable.setImageResource(R.drawable.bolg_bluetooth_enable_dark)
             }
         })
