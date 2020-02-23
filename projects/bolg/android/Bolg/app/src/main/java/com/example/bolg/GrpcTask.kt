@@ -96,7 +96,7 @@ class GrpcTask(application: Application)  {
      * @author 長谷川　勇太
      * ********************************************************************** */
     fun joinRoomTask(roomId: Long,view: View){
-        val joinRoomReqMsg: JoinRoomRequest = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("NAGOYA").build()
+        val joinRoomReqMsg: JoinRoomRequest = JoinRoomRequest.newBuilder().setRoomId(roomId).setPlayerName("OSAKA").build()
         Log.d("3Test",joinRoomReqMsg.toString())
         Log.d("3Test",message.toString())
         message = RoomMessage.newBuilder().setJoinRoomReq(joinRoomReqMsg).build()
