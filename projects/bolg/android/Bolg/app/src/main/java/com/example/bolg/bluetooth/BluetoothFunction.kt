@@ -548,6 +548,9 @@ class BluetoothFunction private constructor() {
                                     0x02.toByte() -> {
                                         Log.d("Bluetoothhandle", "shoot->")
                                         Log.d("Bluetoothhandle","mTempBuffer ->${mReadBuffer[0]} , ${mReadBuffer[1]} , ${mReadBuffer[2]} , ${mReadBuffer[3]} , ${mReadBuffer[4]} , ${mReadBuffer[5]} , ${mReadBuffer[7]} ,${mReadBuffer[8]} , ${mReadBuffer[9]} , ${mReadBuffer[10]}")
+
+                                        shootByteArray.value = mReadBuffer
+
                                     }
                                 }
                                 // END_BYTEの次がSTART_BYTEならまたループを始める

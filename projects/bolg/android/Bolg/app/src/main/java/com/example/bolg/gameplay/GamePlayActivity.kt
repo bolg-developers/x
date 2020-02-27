@@ -125,12 +125,12 @@ class GamePlayActivity : AppCompatActivity(){
             .getInstance()
             .shootByteArray
             .observe(this , Observer { readByte ->
-                Log.d("GamePlayActivity" , "Bluetooth read ByteArray")
-                // Bluetoothの値GamePlayViewModelへ送る
-                // ショット音を鳴らす
-                BoLG_Audio.getInstance().play(BoLG_Audio.AudioID.SHOT,0,1.0f)
-
-                gamePlayViewModel.btShootRead(readByte)
+                if(hitCnt != 0) {
+                    // ショット音を鳴らす
+                    BoLG_Audio.getInstance().play(BoLG_Audio.AudioID.SHOT, 0, 2.0f)
+                    Log.d("GamePlayActivity", "Bluetooth read ByteArray")
+                    gamePlayViewModel.btShootRead(readByte)
+                }
         })
 
         // Observe : 弾を被弾時に動く
@@ -141,10 +141,8 @@ class GamePlayActivity : AppCompatActivity(){
             //  一回目はスルーする
             if(hitCnt != 0) {
                 // 被弾音を鳴らす
-                BoLG_Audio.getInstance().play(BoLG_Audio.AudioID.HIT,0,1.0f)
-
+                BoLG_Audio.getInstance().play(BoLG_Audio.AudioID.HIT,0,2.0f)
                 Log.d("GamePlayActivityHit", "Bluetooth read ByteArray")
-                // Bluetoothの値GamePlayViewModelへ送る
                 gamePlayViewModel.btHitRead(readByte, decorView)
             }
         })
