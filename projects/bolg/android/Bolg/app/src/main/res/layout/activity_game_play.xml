@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/timer"
         android:background="@drawable/bolg_log"
         android:text="@string/log"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textColor="@android:color/white"
         android:gravity="center"
         android:contentDescription="@string/todo" />
