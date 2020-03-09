@@ -86,7 +86,7 @@ class PlayerStandbyActivity : AppCompatActivity(){
 
         // 武器のセット
         playerStandbyViewModel.updateWeapon(
-            1L,
+            10L,
             data.getString("token", "0:0"),
             decorView
         )

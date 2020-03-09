@@ -89,7 +89,7 @@ class HostStandbyActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
         // 武器のセット
         hostStandbyViewModel
             .updateWeapon(
-                1L, // 攻撃力
+                10L, // 攻撃力
                 data.getString("token", "0:0"),
                 decorView)
 
